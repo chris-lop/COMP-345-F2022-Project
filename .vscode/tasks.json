@@ -9,6 +9,7 @@
                 "-g",
                 "${fileDirname}\\MainDriver.cpp",
                 "${fileDirname}\\CardsDriver.cpp",
+                "${fileDirname}\\Cards.cpp",
                 "-o",
                 "${fileDirname}\\Project.exe"
             ],
