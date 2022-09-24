@@ -4,7 +4,7 @@
 using std::cout, std::endl, std::string;
 
 void testCards() {
-    cout << "In testcards" << endl;
-    Card card("diplomacy");
-    card.play();
+    cout << "Testcards" << endl;
+    Deck* deck = new Deck();
+    cout << *deck;
 }
