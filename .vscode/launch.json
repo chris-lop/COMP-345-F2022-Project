@@ -9,19 +9,20 @@
             "name": "(Linux) C++ Launch Debug",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/Project.out",
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "launchCompleteCommand": "exec-run",
             "linux": {
                 "MIMode": "gdb",
                 "miDebuggerPath": "/usr/bin/gdb",
-                "preLaunchTask": "C/C++: (Linux) g++ build project"
+                "preLaunchTask": "C/C++: (Linux) g++ build project",
+                "program": "${workspaceFolder}/Project.out"
             },
             "windows": {
                 "MIMode": "gdb",
                 "miDebuggerPath": "C:\\msys64\\mingw64\\bin\\gdb.exe",
-                "preLaunchTask": "C/C++: (Windows) g++.exe build project"
+                "preLaunchTask": "C/C++: (Windows) g++.exe build project",
+                "program": "${workspaceFolder}/Project.exe"
             }
           }
     ]

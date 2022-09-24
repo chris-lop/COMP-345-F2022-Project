@@ -7,14 +7,14 @@
             "args": [
                 "-fdiagnostics-color=always",
                 "-g",
-                "${fileDirname}\\MainDriver.cpp",
-                "${fileDirname}\\CardsDriver.cpp",
-                "${fileDirname}\\Cards.cpp",
+                "${workspaceFolder}\\MainDriver.cpp",
+                "${workspaceFolder}\\CardsDriver.cpp",
+                "${workspaceFolder}\\Cards.cpp",
                 "-o",
-                "${fileDirname}\\Project.exe"
+                "${workspaceFolder}\\Project.exe"
             ],
             "options": {
-                "cwd": "${fileDirname}"
+                "cwd": "${workspaceFolder}"
             },
             "problemMatcher": [
                 "$gcc"
