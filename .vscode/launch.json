@@ -6,7 +6,7 @@
 
     "configurations": [
         {
-            "name": "(Linux) C++ Launch Debug",
+            "name": "C++ Launch Debug (Windows and Linux)",
             "type": "cppdbg",
             "request": "launch",
             "stopAtEntry": false,
