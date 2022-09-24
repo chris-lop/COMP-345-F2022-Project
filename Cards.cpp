@@ -9,8 +9,9 @@ using std::cout; using std::endl; using std::string; using std::vector;
  * Card class
  */
 
-void Card::play() {
-    cout << "In Card::play. Card type is " << type << " " << std::endl;
+void Card::play(Hand* hand, Deck* deck) {
+    cout << "In Card::play, " << *this << endl;
+    hand->returnToDeck(this, deck);
 }
 
 Card::Card(string type): type(type) {
@@ -18,6 +19,10 @@ Card::Card(string type): type(type) {
 
 std::ostream& operator<<(std::ostream& strm, const Card& card) {
     return strm << card.type << " card";
+}
+
+std::string Card::getType() {
+    return type;
 }
 
 /**
@@ -28,6 +33,11 @@ Card* Deck::draw() {
     Card* card = cards.back();
     cards.pop_back();
     return card;
+}
+
+void Deck::insert(Card* card) {
+    cards.push_back(card);
+    shuffle();
 }
 
 vector<string> types = {"bomb", "reinforcement", "blockade", "airlift", "diplomacy"};
@@ -80,13 +90,29 @@ const vector<Card*>& Hand::cardList() {
     return cards;
 }
 
+bool Hand::returnToDeck(Card* card, Deck* deck) {
+    vector<Card*>::iterator itr;
+    for (itr = cards.begin(); itr < cards.end(); itr++) {
+        if (*itr == card) {
+            deck->insert(*itr);
+            cards.erase(itr);
+            return true;
+        }
+    }
+    return false;
+}
+
 std::ostream& operator<<(std::ostream& strm, const Hand& hand) {
     strm << "Hand: ";
-    for (int i = 0; i < hand.cards.size(); i++) {
-        Card& cardRef = *(hand.cards[i]);
-        strm << cardRef;
-        if (i < hand.cards.size() - 1) {
-            strm << ", ";
+    if (hand.cards.size() == 0) {
+        strm << "[empty]";
+    } else {
+        for (int i = 0; i < hand.cards.size(); i++) {
+            Card& cardRef = *(hand.cards[i]);
+            strm << cardRef;
+            if (i < hand.cards.size() - 1) {
+                strm << ", ";
+            }
         }
     }
     return strm;

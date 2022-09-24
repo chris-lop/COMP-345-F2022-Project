@@ -14,13 +14,16 @@ class Card;
 // Class definitions
 class Card
 {
+public:
+    // Constructs the a card with the given type
+    Card(std::string type);
+    // Plays the card, removes it from the given hand, re-adds it to the deck
+    void play(Hand* hand, Deck* deck);
+    // Returns the Card's type
+    std::string getType();
 private:
     std::string type;
     friend std::ostream& operator<<(std::ostream& strm, const Card& card);
-    void play(Hand hand, Deck deck);
-public:
-    Card(std::string type);
-    void play();
 };
 
 
@@ -32,6 +35,8 @@ public:
     friend std::ostream& operator<<(std::ostream& strm, const Deck& deck);
     // Picks the top card of the shuffled deck and removed it from the deck
     Card* draw();
+    // Adds the given card to the list
+    void insert(Card* card);
 private:
     std::vector<Card*> cards;
     void shuffle();
@@ -43,7 +48,7 @@ public:
     Hand();
     void addCard(Card* card);
     const std::vector<Card*>& cardList();
-
+    bool returnToDeck(Card* card, Deck* deck);
     friend std::ostream& operator<<(std::ostream& strm, const Hand& deck);
 private:
     std::vector<Card*> cards;
