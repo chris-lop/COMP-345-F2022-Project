@@ -17,6 +17,9 @@ void Card::play(Hand* hand, Deck* deck) {
 Card::Card(string type): type(type) {
 }
 
+Card::Card(const Card& o):type(o.type) {
+}
+
 std::ostream& operator<<(std::ostream& strm, const Card& card) {
     return strm << card.type << " card";
 }
@@ -42,6 +45,7 @@ void Deck::insert(Card* card) {
 
 vector<string> types = {"bomb", "reinforcement", "blockade", "airlift", "diplomacy"};
 vector<int> numberOfEach = {3, 3, 3, 3, 3};
+
 Deck::Deck() {
     for (int i = 0; i < types.size(); i++) {
         for (int j = 0; j < numberOfEach[j]; j++) {
@@ -50,6 +54,19 @@ Deck::Deck() {
         }
     }
     shuffle();
+}
+
+Deck::Deck(const Deck& o) {
+    cards = vector<Card*>();
+    for (Card* c: o.cards) {
+        cards.push_back(new Card(*c));
+    }
+}
+
+Deck::~Deck() {
+    for (Card* c: cards) {
+        delete(c);
+    }
 }
 
 void Deck::shuffle() {

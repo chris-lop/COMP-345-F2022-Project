@@ -17,6 +17,7 @@ class Card
 public:
     // Constructs the a card with the given type
     Card(std::string type);
+    Card(const Card& o);
     // Plays the card, removes it from the given hand, re-adds it to the deck
     void play(Hand* hand, Deck* deck);
     // Returns the Card's type
@@ -31,6 +32,8 @@ class Deck {
 public:
     // Default constructor. Initializes the deck randomly
     Deck();
+    Deck(const Deck& o);
+    ~Deck();
     // Stream insertion operator friend
     friend std::ostream& operator<<(std::ostream& strm, const Deck& deck);
     // Picks the top card of the shuffled deck and removed it from the deck
