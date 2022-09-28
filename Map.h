@@ -1,56 +1,155 @@
 #include <string>
+using namespace std;
 
-// edges (paths between territories)
-struct edge
+// ----------------------- //
+// TEMPORARY PLAYER CLASS  //
+// ----------------------- //
+class Player
 {
-    int start_ver, end_ver, weight;
+        //--------------//
+        //  ATTRIBUTES  //
+        //--------------//
+
+        //Player name
+        string name;
+
+    public:
+        //----------------//
+        //  CONSTRUCTORS  //
+        //----------------//
+
+        //Default Constructor
+        Player();
+
+        //Destructor
+        ~Player();
+
+        //Assignment Operator        
+        Player& operator = (const Player&);
+
+        //-----------//
+        //  GETTERS  //
+        //-----------//
+        string getName();     
+        
+        //-----------//
+        //  SETTERS  //
+        //-----------//
+        void setName(string);
 };
 
-// nodes (territories)
+// ------------------ //
+//  TERRITORY CLASS   //
+// ------------------ //
 class Territory
 {
-    private:
-        int val;
-        Territory* next;
-        // Void pointer to continent
-        void *myContinent;
+        //--------------//
+        //  ATTRIBUTES  //
+        //--------------//
+
+        // Territory Name
+        string TerritoryName;
+
+        // Continent to which territory belongs to
+        string continent;
+
+        // Player to which territory belongs to
+        Player* territoryOwner;
+
+        //Amount of troops in a given territory
+        int armyAmount;
 
     public:
-        // Getters
-        int getVal();
+        //----------------//
+        //  CONSTRUCTORS  //
+        //----------------//
 
-        Territory* getNext();
+        // Default Constructor
+        Territory();
 
-        // Setters
-        void setVal(int aVal);
+        // Parameterized Constructor          
+        Territory(string, string, Player*, int);
 
-        void setNext(Territory* aTerritory);
+        // Copy Constructor              
+        Territory(const Territory*);
+
+        // Destructor
+        ~Territory();
+
+        // Assignment Operator
+        Territory& operator = (const Territory&);
+
+        //-----------//
+        //  GETTERS  //
+        //-----------//
+        string getTerritoryName();
+        string getContinent();
+        Player* getTerritoryOwner();
+        int getArmy();
+
+        //-----------//
+        //  SETTERS  //
+        //-----------//
+        void setTerritoryName(string);
+        void setContinent(string);
+        void setTerritoryOwner(Player*);
+        void setArmy(int);
+
+        // Prints Territory Info
+        void toString();
 };
 
-// Continents
-class Continent
-{
-    private:
-        std::string Name;
-        int NbTerritories;
-        Territory *TerritoryList[];
-};
-
-// Map class
+// ------------ //
+//  MAP CLASS   //
+// ------------ //
 class Map
 {
-    // number of nodes in the graph
-    int N;
+        //--------------//
+        //  ATTRIBUTES  //
+        //--------------//
 
-    // insertNode inserts new nodes into adjacency list from given graph
-    Territory* insertNode(int value, Territory* head);
+        //Adjancency Matrix
+        bool** adjMatrix;
 
+        // Variable for number of territories (nodes)   
+        int TerritoryNb;
+    
     public:
-    Territory **head;
+        //----------------//
+        //  CONSTRUCTORS  //
+        //----------------//
 
-    // Constructor
-    Map(edge edges[], int n, int N);
+        // Default Constructor
+        Map();
 
-    // Destructor
-    ~Map();
+        // Parameterized Constructor
+        Map(int);
+
+        // Copy Constructor        
+        Map(const Map*);
+
+        // Destructor
+        ~Map();
+
+        // Assignment Operator
+        Map& operator = (const Map&);
+
+        //---------------------//
+        //  OTHER OPERATIONS  //
+        //-------------------//
+
+        // Adds an edge between two territories
+        void addEdge(int, int);
+
+        // Removes an edge between two territories
+        void removeEdge(int, int);
+
+        // Prints Adjancency Matrix
+        void toString();
+
+        // Verifies...
+        // 1. the map is a connected graph
+        // 2. continents are connected subgraphs
+        // 3. each country belongs to one and only one continent
+        // void Validate();
 };
