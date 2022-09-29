@@ -14,19 +14,23 @@ void Card::play(Hand* hand, Deck* deck) {
     hand->returnToDeck(this, deck);
 }
 
+std::string Card::getType() {
+    return type;
+}
+
 Card::Card(string type): type(type) {
 }
 
 Card::Card(const Card& o):type(o.type) {
 }
 
+Card::~Card() {
+}
+
 std::ostream& operator<<(std::ostream& strm, const Card& card) {
     return strm << card.type << " card";
 }
 
-std::string Card::getType() {
-    return type;
-}
 
 /**
  * Deck class
@@ -133,4 +137,17 @@ std::ostream& operator<<(std::ostream& strm, const Hand& hand) {
         }
     }
     return strm;
+}
+
+Hand::Hand(const Hand& h) {
+    cards = vector<Card*>();
+    for (Card* c: h.cards) {
+        cards.push_back(new Card(*c));
+    }
+}
+
+Hand::~Hand() {
+    for (Card* c: cards) {
+        delete(c);
+    }
 }

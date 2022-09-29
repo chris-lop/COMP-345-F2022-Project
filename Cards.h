@@ -19,7 +19,9 @@ class Card
 public:
     // Constructs the a card with the given type
     Card(std::string type);
+    // Copy ctor and dtor
     Card(const Card& o);
+    ~Card();
     // Plays the card, removes it from the given hand, re-adds it to the deck
     void play(Hand* hand, Deck* deck);
     // Returns the Card's type
@@ -34,6 +36,7 @@ class Deck {
 public:
     // Default constructor. Initializes the deck randomly
     Deck();
+    // Copy constructor and destructor
     Deck(const Deck& o);
     ~Deck();
     // Stream insertion operator friend
@@ -51,6 +54,9 @@ private:
 class Hand {
 public:
     Hand();
+    Hand(const Hand& h);
+    ~Hand();
+
     void addCard(Card* card);
     const std::vector<Card*>& cardList();
     bool returnToDeck(Card* card, Deck* deck);
