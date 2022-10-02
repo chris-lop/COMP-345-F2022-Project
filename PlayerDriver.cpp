@@ -2,6 +2,7 @@
 #include <vector>
 #include "Player.h"
 
+
 void testPlayer() {
 
     /*  1.Assigning values to each vectors used as parameter in Player obj
@@ -34,6 +35,7 @@ void testPlayer() {
     * my_hand is a vector representing a list of pointers to each of the cards owned by the player
     *
     */
+
     Cardt* c1 = new Cardt("bomb");
     Cardt* c2 = new Cardt("reinforcement");
     Cardt* c3 = new Cardt("airlift");

@@ -1,4 +1,4 @@
-#include <iostream>
+#include <iostream> 
 #include "Player.h"
 
 /*
@@ -81,9 +81,19 @@ Player::Player() {
     this->hand = {};
     this->olst = {};
 }
-
+Player::~Player() {
+    for (Territoryt* t: trt) {
+        delete(t);
+    }
+    for (Cardt* c:hand) {
+        delete(c);
+    }
+    for (Ordert* o: olst) {
+        delete(o);
+    }
+}
 //Constructor with parameter
-Player::Player(std::string name, std::vector<Territoryt*> trt, std::vector <Cardt*> hand, std::vector <Ordert*> olst) {
+Player::Player(std::string name, std::vector<Territoryt*> trt, std::vector<Cardt*> hand, std::vector <Ordert*> olst) {
     this->name = name;
     this->trt = trt;
     this->hand = hand;
@@ -111,7 +121,8 @@ std::vector <Ordert*> Player::get_olst() {
         return this->olst;
 }
 
-//Player stream insertion
+//Player stream operators
+
 std::ostream& operator << (std::ostream& strm, const Player& p){
     strm << "This player is: " << p.name << std::endl;
     strm <<"Territoryt owned: ";
@@ -121,10 +132,11 @@ std::ostream& operator << (std::ostream& strm, const Player& p){
     strm << std::endl;
 
     strm << "Player's current hand of cards: ";
-    for (int i = 0; i < p.hand.size(); i++) {
-        strm << p.hand.at(i)->get_ctype() << "\t";
-    }
+        for (int i = 0; i < p.hand.size(); i++) {
+        strm << p.hand.at(i)->get_ctype() << "\t" ;
+    } 
     strm << std::endl;
+
     
     strm << "Player's current list of orders: ";
     for (int i = 0; i < p.olst.size(); i++) {
@@ -139,10 +151,12 @@ std::istream& operator >> (std::istream& in, Player& p){
     return in;
 }
 
+//setter
 void Player::set_Order(std::vector <Ordert*> newolst){
     this->olst = newolst;
 }
 
+//required methods for assignment 1
 void Player::toDefend() {
     
     std::cout << "The player " << this->get_name() << " must defend the following territories: ";
