@@ -168,7 +168,7 @@ public:
 
     std::vector<Territory> loadMap();
 
-    Map setUpMatrix(vector<Territory> territories);
+    Map * setUpMatrix(vector<Territory> territories);
 
     // Destructor
     ~MapLoader();

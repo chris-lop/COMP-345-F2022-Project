@@ -289,7 +289,7 @@ vector<Territory> MapLoader::loadMap()
     return territories;
 }
 
-Map MapLoader::setUpMatrix(vector<Territory> t)
+Map * MapLoader::setUpMatrix(vector<Territory> t)
 {
     Map *map = new Map(t.size());
     string line;
@@ -326,10 +326,7 @@ Map MapLoader::setUpMatrix(vector<Territory> t)
             }
         }
     }
-    // cout << t[0];
-    // cout << "\n\n\n";
-    // cout << territories[0].size();
-    // cout << "\n\n\n";
+
     for (int i = 0; i < territories.size(); i++)
     {
         for (int j = 0; j < territories[i].size(); j++)
@@ -357,7 +354,7 @@ Map MapLoader::setUpMatrix(vector<Territory> t)
             }
         }
     }
-    // }
+    
     return map;
 }
 

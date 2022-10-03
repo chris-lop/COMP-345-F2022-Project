@@ -62,14 +62,14 @@ int main()
     // test read of file
     MapLoader *mapLoader = new MapLoader();
     vector<Territory> x = mapLoader->loadMap();
-    Map map1 = mapLoader->setUpMatrix(x);
+    Map *map1 = mapLoader->setUpMatrix(x);
     // Map *map = &map1;
 
-    map1.toString();
+    map1->toString();
     // Destroy MapLoader
 
     // Destructors
-    //delete map1;
+    delete map1;
     delete t0;
     delete t1;
     delete t2;
