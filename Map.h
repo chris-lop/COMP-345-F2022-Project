@@ -1,4 +1,8 @@
 #include <string>
+#include <iostream>
+#include <fstream>
+#include <vector>
+
 using namespace std;
 
 // ----------------------- //
@@ -152,4 +156,20 @@ class Map
         // 2. continents are connected subgraphs
         // 3. each country belongs to one and only one continent
         // void Validate();
+};
+
+//  MAP Loader CLASS   //
+class MapLoader
+{
+public:
+
+    // Default Constructor
+    MapLoader();
+
+    std::vector<Territory> loadMap();
+
+    Map setUpMatrix(vector<Territory> territories);
+
+    // Destructor
+    ~MapLoader();
 };

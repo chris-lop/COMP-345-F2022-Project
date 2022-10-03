@@ -1,5 +1,8 @@
 #include "Map.h"
 #include <iostream>
+#include <string.h>
+#include <vector>
+
 using namespace std;
 
 // ------------------------------------- //
@@ -230,3 +233,137 @@ void Map::Validate()
     
 }
 */
+
+// Default constructor
+MapLoader::MapLoader()
+{
+    // this->Territories = vector<Territory>{};
+}
+
+vector<Territory> MapLoader::loadMap()
+{
+
+    // string contents;
+    string line;
+    vector<Territory> territories;
+    ifstream file("./3D.map");
+    ofstream cout("maploader_log.txt");
+
+    bool validCheck = false;
+    while (getline(file, line))
+    {
+        if (line.find("[Territories]") != std::string::npos)
+        {
+            validCheck = true;
+        }
+        if (validCheck == true)
+        {
+            vector<string> territory;
+
+            cout << "\n";
+            string delim = ",";
+
+            uint start = 0U;
+            int end = line.find(delim);
+            while (end != std::string::npos)
+            {
+                territory.push_back(line.substr(start, end - start));
+                cout << line.substr(start, end - start) << std::endl;
+                start = end + delim.length();
+                end = line.find(delim, start);
+            }
+            territory.push_back(line.substr(start, end));
+            cout << line.substr(start, end) << "\n";
+
+            if (territory.size() > 1)
+            {
+                Territory *t = new Territory(territory[0], territory[3], new Player(), 10);
+                territories.push_back(t);
+            }
+        } // else throw error
+    }
+    for (Territory i : territories)
+    {
+        i.toString();
+    }
+    return territories;
+}
+
+Map MapLoader::setUpMatrix(vector<Territory> t)
+{
+    Map *map = new Map(t.size());
+    string line;
+    vector<vector<string> > territories;
+    ifstream file("./3D.map");
+    // ofstream cout("maploader_log.txt");
+ 
+    bool validCheck = false;
+    while (getline(file, line))
+    {
+        if (line.find("[Territories]") != std::string::npos)
+        {
+            validCheck = true;
+        }
+        if (validCheck == true)
+        {
+            vector<string> territory;
+
+            string delim = ",";
+
+            uint start = 0U;
+            int end = line.find(delim);
+            while (end != std::string::npos)
+            {
+                territory.push_back(line.substr(start, end - start));
+                start = end + delim.length();
+                end = line.find(delim, start);
+            }
+            territory.push_back(line.substr(start, end));
+
+            if (territory.size() > 1)
+            {
+                territories.push_back(territory);
+            }
+        }
+    }
+    // cout << t[0];
+    // cout << "\n\n\n";
+    // cout << territories[0].size();
+    // cout << "\n\n\n";
+    for (int i = 0; i < territories.size(); i++)
+    {
+        for (int j = 0; j < territories[i].size(); j++)
+        {
+
+            cout << territories[i][j];
+        }
+        cout << "\n";
+    }
+    for (int i = 0; i < t.size(); i++)
+    {
+
+        if (territories[i][0] == t[i].getTerritoryName())
+        {
+            for (int j = 4; j < territories[i].size(); j++)
+            {
+
+                for (int x = 0; x < t.size(); x++)
+                {
+                    if (territories[i][j] == t[x].getTerritoryName())
+                    {
+                        map->addEdge(i, x);
+                    }
+                }
+            }
+        }
+    }
+    // }
+    return map;
+}
+
+// Destructor
+
+MapLoader::~MapLoader()
+{
+    // Territories.clear();
+}
