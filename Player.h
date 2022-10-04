@@ -69,8 +69,10 @@ public:
     //destructor
     ~Player();
 
-    //constructor with parameter
+    //constructor with all parameters
     Player(std::string name, std::vector<Territoryt*> trt, std::vector<Cardt*> hand, std::vector <Ordert*> olst);
+    //constructor with name parameter only
+    Player(std::string name);
     //copy constructor
     Player (const Player& p1);
 

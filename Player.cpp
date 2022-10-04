@@ -99,7 +99,12 @@ Player::Player(std::string name, std::vector<Territoryt*> trt, std::vector<Cardt
     this->hand = hand;
     this->olst = olst;
 }
-
+Player::Player(std::string name){
+    this->name = name;
+    this->trt={};
+    this->hand ={};
+    this->olst = {};
+}
 //Copy constructor
 Player :: Player(const Player& p1){
     this->name = p1.name;
@@ -125,7 +130,7 @@ std::vector <Ordert*> Player::get_olst() {
 
 std::ostream& operator << (std::ostream& strm, const Player& p){
     strm << "This player is: " << p.name << std::endl;
-    strm <<"Territoryt owned: ";
+    strm <<"Territory owned: ";
     for (int i = 0; i < p.trt.size(); i++) {
         strm << p.trt.at(i)->get_t() << "\t" ;
     } 
