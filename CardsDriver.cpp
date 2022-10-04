@@ -3,6 +3,8 @@
 
 using std::cout; using std::endl; using std::string;
 
+//#define BONUS_CARD_TEST
+
 void testCards() {
     cout << "### Test cards ###" << endl;
     Deck* deck = new Deck();
@@ -27,6 +29,26 @@ void testCards() {
     cout << "# State of the hand and deck: #" << endl;
     cout << *hand << endl;
     cout << *deck << endl;
+
+    #ifdef BONUS_CARD_TEST
+    cout << endl << "# Bonus: test operator= and copy ctor for Card #" << endl;
+    Card c1("test type");
+    Card c2 = c1;
+    Card c3(c1);
+    cout << "c1: " << c1 << " c2(assignment): " << c2 << " c3 (copy ctor): " << c3 << endl;
+
+    cout << endl << "# Bonus: test operator= and copy ctor for Deck #" << endl;
+    Deck d1({new Card("card1"), new Card("card2"), new Card("card3")});
+    Deck d2 = d1;
+    Deck d3(d1);
+    cout << "d1: " << d1 << endl << "d2(assignment): " << d2 << endl << "d3 (copy ctor): " << d3 << endl;
+    cout << "Now, I draw 1 card from d1 and d2 and two from d3" << endl;
+    d2.draw();
+    d3.draw();
+    d3.draw();
+    cout << "d1: " << d1 << endl << "d2(assignment): " << d2 << endl << "d3 (copy ctor): " << d3 << endl;
+    
+    #endif
 
     cout << endl << endl;
 }
