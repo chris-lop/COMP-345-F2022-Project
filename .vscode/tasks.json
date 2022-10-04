@@ -12,6 +12,8 @@
                 "${workspaceFolder}\\Cards.cpp",
                 "${workspaceFolder}\\Player.cpp",
                 "${workspaceFolder}\\PlayerDriver.cpp",
+                /*"${workspaceFolder}\\Map.cpp",
+                "${workspaceFolder}\\MapDriver.cpp",*/
                 "-o",
                 "${workspaceFolder}\\Project.exe"
             ],
