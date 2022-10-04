@@ -32,6 +32,11 @@ std::ostream& operator<<(std::ostream& strm, const Card& card) {
 }
 
 
+Card& Card::operator=(const Card &rightSide) {
+    type = rightSide.type;
+    return *this;
+}
+
 /**
  * Deck class
  */
@@ -58,6 +63,13 @@ Deck::Deck() {
         }
     }
     shuffle();
+}
+
+Deck::Deck(std::vector<Card*> newCards) {
+    cards = vector<Card*>();
+    for (Card* c: newCards) {
+        cards.push_back(new Card(*c));
+    }
 }
 
 Deck::Deck(const Deck& o) {
@@ -94,6 +106,14 @@ std::ostream& operator<<(std::ostream& strm, const Deck& deck) {
         }
     }
     return strm;
+}
+
+Deck& Deck::operator=(const Deck &rightSide) {
+    cards = vector<Card*>();
+    for (Card* c: rightSide.cards) {
+        cards.push_back(new Card(*c));
+    }
+    return *this;
 }
 
 /**

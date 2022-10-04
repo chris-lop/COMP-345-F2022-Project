@@ -22,6 +22,9 @@ public:
     // Copy ctor and dtor
     Card(const Card& o);
     ~Card();
+    // Assignment operator
+    Card& operator=(const Card &rightSide);
+
     // Plays the card, removes it from the given hand, re-adds it to the deck
     void play(Hand* hand, Deck* deck);
     // Returns the Card's type
@@ -36,9 +39,13 @@ class Deck {
 public:
     // Default constructor. Initializes the deck randomly
     Deck();
+    // Other constructor, copies the list into this object
+    Deck(std::vector<Card*> cards);
     // Copy constructor and destructor
     Deck(const Deck& o);
     ~Deck();
+    // operators
+    Deck& operator=(const Deck &rightSide);
     // Stream insertion operator friend
     friend std::ostream& operator<<(std::ostream& strm, const Deck& deck);
     // Picks the top card of the shuffled deck and removed it from the deck
