@@ -63,6 +63,7 @@ public:
     Hand();
     Hand(const Hand& h);
     ~Hand();
+    Hand& operator=(const Hand &rightSide);
 
     void addCard(Card* card);
     const std::vector<Card*>& cardList();

@@ -159,6 +159,14 @@ std::ostream& operator<<(std::ostream& strm, const Hand& hand) {
     return strm;
 }
 
+Hand& Hand::operator=(const Hand &rightSide) {
+    cards = vector<Card*>();
+    for (Card* c: rightSide.cards) {
+        cards.push_back(new Card(*c));
+    }
+    return *this;
+}
+
 Hand::Hand(const Hand& h) {
     cards = vector<Card*>();
     for (Card* c: h.cards) {

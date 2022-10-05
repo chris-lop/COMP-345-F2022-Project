@@ -47,6 +47,23 @@ void testCards() {
     d3.draw();
     d3.draw();
     cout << "d1: " << d1 << endl << "d2(assignment): " << d2 << endl << "d3 (copy ctor): " << d3 << endl;
+
+    cout << endl << "# Bonus: test operator= and copy ctor for Hand #" << endl;
+    Hand h1;
+    Deck d;
+    h1.addCard(new Card("card1"));
+    h1.addCard(new Card("card2"));
+    h1.addCard(new Card("card3"));
+    Hand h2(h1);
+    Hand h3 = h1;
+    cout << "h1: " << h1 << endl << "h2(assignment): " << h2 << endl << "h3 (copy ctor): " << h3 << endl;
+    cout << "Now, I draw 1 card from h1 and h2 and two from h3" << endl;
+    h1.returnToDeck(h1.cardList()[0], &d);
+    h2.returnToDeck(h2.cardList()[0], &d);
+    h3.returnToDeck(h3.cardList()[0], &d);
+    h3.returnToDeck(h3.cardList()[0], &d);
+
+    cout << "h1: " << h1 << endl << "h2(assignment): " << h2 << endl << "h3 (copy ctor): " << h3 << endl;
     
     #endif
 
