@@ -1,9 +1,8 @@
 #pragma once
 
-#include <string>
 #include <iostream>
 #include <cstdlib>
-#include <list>
+#include <vector>
 
 //Driver function
 void testOrdersLists();
@@ -29,18 +28,18 @@ public:
     ~OrdersList();
 
     //constructor with parameters
-    OrdersList(std::list<Order*> order);
+    OrdersList(std::vector<Order*> order);
 
     //copy constructor
     OrdersList(const OrdersList& o1);
 
-    void set_order(std::list<Order*> order);
-    list<Order*>& get_order();
+    void set_order(std::vector<Order*> order);
+    std::vector<Order*>& get_order();
     void addOrder(Order* order);
-    void remove(Order* order);
-    void move();
+    void remove(int* i);
+    void move(int* init, int* final);
 private:
-    std::list<Order*> order;
+    std::vector<Order*> order;
 
 };
 
@@ -50,15 +49,23 @@ public:
 
     ~Order();
 
-    Order(std::string description, string effect);
+    Order(std::string description, std::string effect);
 
     Order(const Order& o1);
+    
+    std::string getDescription();
+    void setDescription(std::string description);
+    std::string getEffect();
+    void setEffect(std::string effect);
+    bool getHasExecuted();
+    void setHasExecuted(bool hasExecuted);
 
     // Stream insertion operator friend
     friend std::ostream& operator<<(std::ostream&, const Order&);
+protected:
     std::string description;
     std::string effect;
-    bool hasExecuted = false;
+    bool hasExecuted;
     
 
 };
@@ -70,8 +77,10 @@ public:
     Deploy(const Deploy& d1);
     bool validate();
     void execute();
+    bool getValid();
+    void setValid(bool valid);
 private:
-    bool valid = true;
+    bool valid;
 };
 
 class Advance : public Order{
@@ -81,8 +90,10 @@ public:
     Advance(const Advance& ad1);
     bool validate();
     void execute();
+    bool getValid();
+    void setValid(bool valid);
 private:
-    bool valid = true;
+    bool valid;
 };
 
 class Bomb : public Order{
@@ -92,8 +103,10 @@ public:
     Bomb(const Bomb& b1);
     bool validate();
     void execute();
+    bool getValid();
+    void setValid(bool valid);
 private:
-    bool valid = true;
+    bool valid;
 };
 
 class Blockade : public Order{
@@ -103,19 +116,23 @@ public:
     Blockade(const Blockade& bl1);
     bool validate();
     void execute();
+    bool getValid();
+    void setValid(bool valid);
 private:
-    bool valid = true;
+    bool valid ;
 };
 
 class Airlift : public Order{
 public:
     Airlift();
     ~Airlift();
-    Airlift(const Advance& ai1);
+    Airlift(const Airlift& ai1);
     bool validate();
     void execute();
+    bool getValid();
+    void setValid(bool valid);
 private:
-    bool valid = true;
+    bool valid;
 };
 
 class Negotiate : public Order{
@@ -125,6 +142,8 @@ public:
     Negotiate(const Negotiate& n1);
     bool validate();
     void execute();
+    bool getValid();
+    void setValid(bool valid);
 private:
-    bool valid = true;
+    bool valid;
 };

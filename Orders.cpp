@@ -1,22 +1,21 @@
 #include <iostream> 
 #include "Orders.h"
-#include <iostream>
-#include <list>
 #include <ctime>
 
 using std::cout; 
 using std::endl; 
 using std::string; 
-using std::list;
+using std::vector;
 
 //OrdersList class
 
 OrdersList::OrdersList(){
-
+    std::vector<Order *> order;
+    this->order = order;
 }
 
-OrdersList::OrdersList(std::list<Order*> order){
-    set_order(order);
+OrdersList::OrdersList(std::vector<Order*> order){
+    this->order = order;
 }
 
 OrdersList::OrdersList(const OrdersList& ol1){
@@ -24,14 +23,17 @@ OrdersList::OrdersList(const OrdersList& ol1){
 }
 
 OrdersList::~OrdersList(){
- 
+    for (int i = 0; i < this->order.size(); i++)
+	{
+		delete this->order.at(i);
+	}
 }
 
-void OrdersList::set_order(std::list<Order*> order){
+void OrdersList::set_order(std::vector<Order*> order){
     this->order = order;
 }
 
-list<Order*>& OrdersList::get_order(){
+std::vector<Order*>& OrdersList::get_order(){
     return this->order;
 }
 
@@ -39,21 +41,36 @@ void OrdersList::addOrder(Order* order){
     this->order.push_back(order);
 }
 
-void OrdersList::remove(Order* order){
-    this->order.remove(order);
+void OrdersList::remove(int* i){
+    if(*i >= 0 || *i < order.size()){
+        this->order.erase(order.begin() + *i);
+     }
+    else{
+        cout << "ERROR: Index out of bounds";
+        return;
+    }
 }
 
-//------------------------
-void OrdersList::move(){
 
+void OrdersList::move(int* init, int* final){
+    if(*init >= 0 || *init < order.size() || *final >= 0 || *final < order.size()){
+        Order* tempOrder = order.at(*init);
+        order.erase(order.begin() + *init);
+        order.insert(order.begin() + *final, tempOrder);
+    }
+    else{
+        cout << "ERROR: Index out of bounds";
+        return;
+    }
 }
-//--------------------
+
 
 
 //Order class
 Order::Order(){
     description = "";
     effect = "";
+    hasExecuted = false;
 }
 
 Order::Order(std::string description, std::string effect){
@@ -68,6 +85,30 @@ Order::Order(const Order& o1){
 
 Order::~Order(){
 
+}
+
+std::string Order::getDescription(){
+    return this->description;
+}
+
+void Order::setDescription(std::string description){
+    this->description = description;
+}
+
+std::string Order::getEffect(){
+    return this->effect;
+}
+
+void Order::setEffect(std::string effect){
+    this->effect = effect;
+}
+
+bool Order::getHasExecuted(){
+    return this->hasExecuted;
+}
+
+void Order::setHasExecuted(bool hasExecuted){
+    this->hasExecuted = hasExecuted;
 }
 
 std::ostream& operator<<(std::ostream &strm, const Order &order){
@@ -85,6 +126,7 @@ std::ostream& operator<<(std::ostream &strm, const Order &order){
 
 Deploy::Deploy(){
     this->description = "Deply";
+    valid = true;
 }
 
 Deploy::~Deploy(){
@@ -114,10 +156,19 @@ void Deploy::execute(){
     }
 }
 
+bool Deploy::getValid(){
+    return this->valid;
+}
+
+void Deploy::setValid(bool valid){
+    this->valid = valid;
+}
+
 //class Advance
 
 Advance::Advance(){
     description = "Advance";
+    valid = true;
 }
 
 Advance::~Advance(){
@@ -147,10 +198,19 @@ void Advance::execute(){
     }
 }
 
+bool Advance::getValid(){
+    return this->valid;
+}
+
+void Advance::setValid(bool valid){
+    this->valid = valid;
+}
+
 //class Bomb
 
 Bomb::Bomb(){
     description = "Bomb";
+    valid = true;
 }
 
 Bomb::~Bomb(){
@@ -180,11 +240,20 @@ void Bomb::execute(){
     }
 }
 
+bool Bomb::getValid(){
+    return this->valid;
+}
+
+void Bomb::setValid(bool valid){
+    this->valid = valid;
+}
+
 
 //class Blockade
 
 Blockade::Blockade(){
     description = "Blockade";
+    valid = true;
 }
 
 Blockade::~Blockade(){
@@ -214,10 +283,19 @@ void Blockade::execute(){
     }
 }
 
+bool Blockade::getValid(){
+    return this->valid;
+}
+
+void Blockade::setValid(bool valid){
+    this->valid = valid;
+}
+
 //class Airlift
 
 Airlift::Airlift(){
     description = "Airlift";
+    valid = true;
 }
 
 Airlift::~Airlift(){
@@ -247,11 +325,20 @@ void Airlift::execute(){
     }
 }
 
+bool Airlift::getValid(){
+    return this->valid;
+}
+
+void Airlift::setValid(bool valid){
+    this->valid = valid;
+}
+
 
 //class Negotiate
 
 Negotiate::Negotiate(){
     description = "Negotiate";
+    valid = true;
 }
 
 Negotiate::~Negotiate(){
@@ -279,4 +366,12 @@ void Negotiate::execute(){
         this->hasExecuted = true;
         cout << "Negotiate is executing";
     }
+}
+
+bool Negotiate::getValid(){
+    return this->valid;
+}
+
+void Negotiate::setValid(bool valid){
+    this->valid = valid;
 }
