@@ -113,6 +113,8 @@ public:
 // ------------ //
 class Map
 {
+    
+    public:
         //--------------//
         //  ATTRIBUTES  //
         //--------------//
@@ -122,8 +124,8 @@ class Map
 
         // Variable for number of territories (nodes)   
         int TerritoryNb;
+        vector<Territory*> territories;
     
-    public:
         //----------------//
         //  CONSTRUCTORS  //
         //----------------//
@@ -177,7 +179,7 @@ public:
     MapLoader();
 
     // std::vector<Territory> loadMap();
-    std::vector<Territory *> loadMap(string);
+    Map* loadMap(string);
 
     // Map setUpMatrix(vector<Territory> territories);
 
