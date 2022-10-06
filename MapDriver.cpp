@@ -64,7 +64,7 @@ int main()
     MapLoader *ml = new MapLoader();
 
     auto graph = ml->loadMap("./3D.map");
-    for (auto i : graph)
+    for (auto i : graph->territories)
     {
         i->toString();
     }

@@ -263,7 +263,7 @@ MapLoader::MapLoader()
     // this->Territories = vector<Territory>{};
 }
 
-vector<Territory *> MapLoader::loadMap(string path)
+Map* MapLoader::loadMap(string path)
 {
 
     // string contents;
@@ -374,7 +374,9 @@ vector<Territory *> MapLoader::loadMap(string path)
         auto search = umapContinents.find(*(territory->TerritoryName));
         territory->continent = search->second;
     }
-    return territories;
+    Map *graph = new Map();
+    graph->territories = territories;
+    return graph;
 }
 
 // Destructor
