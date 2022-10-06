@@ -47,14 +47,15 @@ void Player::setName(string pname)
 // Default Constructor
 Territory::Territory()
 {
-    this->TerritoryName = "default territory";
-    this->continent = "default continent";
+    this->TerritoryName = new string("default territory");
+    this->continent = new string("default continent");
     this->territoryOwner = new Player();
-    this->armyAmount = 0;
+    this->armyAmount = new int(0);
+    this->AdjTerritories = vector<Territory *>{};
 }
 
 // Parameterized Constructor
-Territory::Territory(string name, string continent, Player* player, int army)
+Territory::Territory(string *name, string *continent, vector<Territory *> territories, Player *player, int *army)
 {
     this->TerritoryName = name;
     this->continent = continent;
@@ -63,16 +64,17 @@ Territory::Territory(string name, string continent, Player* player, int army)
 }
 
 // Copy Constructor
-Territory::Territory(const Territory* territory)
+Territory::Territory(const Territory *territory)
 {
     this->TerritoryName = territory->TerritoryName;
     this->continent = territory->continent;
     this->territoryOwner = territory->territoryOwner;
     this->armyAmount = territory->armyAmount;
+    this->AdjTerritories = territory->AdjTerritories;
 }
 
 // Assignment Operator
-Territory& Territory::operator=(const Territory& territory)
+Territory &Territory::operator=(const Territory &territory)
 {
     this->TerritoryName = territory.TerritoryName;
     this->continent = territory.continent;
@@ -88,49 +90,61 @@ Territory::~Territory()
 }
 
 // Getter for TerritoryName
-string Territory::getTerritoryName()
+string *Territory::getTerritoryName()
 {
     return TerritoryName;
 }
 
 // Setter for TerritoryName
-void Territory::setTerritoryName(string newName)
+void Territory::setTerritoryName(string *newName)
 {
     this->TerritoryName = newName;
 }
 
 // Getter for Continent
-string Territory::getContinent()
+string *Territory::getContinent()
 {
     return continent;
 }
 
 // Setter for Continent
-void Territory::setContinent(string newContinent)
+void Territory::setContinent(string *newContinent)
 {
     this->continent = newContinent;
 }
 
 // Getter for TerritoryOwner
-Player* Territory::getTerritoryOwner()
+Player *Territory::getTerritoryOwner()
 {
     return territoryOwner;
 }
 
 // Setter for TerritoryOwner
-void Territory::setTerritoryOwner(Player* newPlayer)
+void Territory::setTerritoryOwner(Player *newPlayer)
 {
     this->territoryOwner = newPlayer;
 }
 
+// Setter for ADJTerritories
+// void Territory::setAdjTerritories(vector<Territory *> territories)
+// {
+//     this->AdjTerritories = &territories;
+// }
+
 // Getter for Army
-int Territory::getArmy()
+// vector<Territory> Territory::getAdjTerritories()
+// {
+//     return AdjTerritories;
+// }
+
+// Getter for Army
+int *Territory::getArmy()
 {
     return armyAmount;
 }
 
 // Setter for Army
-void Territory::setArmy(int newAmount)
+void Territory::setArmy(int *newAmount)
 {
     this->armyAmount = newAmount;
 }
@@ -138,10 +152,19 @@ void Territory::setArmy(int newAmount)
 // Prints Territory Info
 void Territory::toString()
 {
-    cout << "Name: " << this->TerritoryName << " "
-    << "| Continent: " << this->continent << " "
-    << "| Owner: " << this->territoryOwner->getName() << " "
-    << "| Army: " << this->armyAmount << " " << endl;
+
+    cout << "Name: " << *(this->TerritoryName)
+         << "| Continent: " << *(this->continent) << " "
+         << "| Owner: " << this->territoryOwner->getName() << " "
+         << "| Army: " << *(this->armyAmount)
+         << "| Adjacent territories: " << endl;
+
+    for (auto i : this->AdjTerritories)
+    {
+        std::cout << " [" << *i->TerritoryName << "] ";
+    }
+    cout << "\n"
+         << endl;
 }
 
 // ------------------------ //
@@ -240,18 +263,35 @@ MapLoader::MapLoader()
     // this->Territories = vector<Territory>{};
 }
 
-vector<Territory> MapLoader::loadMap()
+vector<Territory *> MapLoader::loadMap(string path)
 {
 
     // string contents;
-    string line;
-    vector<Territory> territories;
-    ifstream file("./3D.map");
-    ofstream cout("maploader_log.txt");
+    unordered_map<string, string *> umapContinents;
 
+    string line;
+    vector<Territory *> territories;
+    ifstream file(path);
+    ofstream cout("maploader_log.txt");
+    // for filling adjacent territories in array
     bool validCheck = false;
     while (getline(file, line))
     {
+
+        try
+        {
+            // if file is empty return error
+            if (!file)
+            {
+                throw "Error invalid file: Empty file";
+            }
+        }
+        catch (string err)
+        {
+            std::cout << err;
+            // exit(1);
+        }
+
         if (line.find("[Territories]") != std::string::npos)
         {
             validCheck = true;
@@ -263,11 +303,11 @@ vector<Territory> MapLoader::loadMap()
             cout << "\n";
             string delim = ",";
 
-            uint start = 0U;
-            int end = line.find(delim);
+            auto start = 0U;
+            auto end = line.find(delim);
             while (end != std::string::npos)
             {
-                territory.push_back(line.substr(start, end - start));
+                territory.push_back((line.substr(start, end - start)));
                 cout << line.substr(start, end - start) << std::endl;
                 start = end + delim.length();
                 end = line.find(delim, start);
@@ -277,90 +317,68 @@ vector<Territory> MapLoader::loadMap()
 
             if (territory.size() > 1)
             {
-                Territory *t = new Territory(territory[0], territory[3], new Player(), 10);
-                territories.push_back(t);
-            }
-        } // else throw error
-    }
-    for (Territory i : territories)
-    {
-        i.toString();
-    }
-    return territories;
-}
+                umapContinents.insert(std::make_pair(territory[0], new string(territory[3])));
 
-Map * MapLoader::setUpMatrix(vector<Territory> t)
-{
-    Map *map = new Map(t.size());
-    string line;
-    vector<vector<string> > territories;
-    ifstream file("./3D.map");
-    // ofstream cout("maploader_log.txt");
- 
-    bool validCheck = false;
-    while (getline(file, line))
-    {
-        if (line.find("[Territories]") != std::string::npos)
-        {
-            validCheck = true;
-        }
-        if (validCheck == true)
-        {
-            vector<string> territory;
+                Territory *newTerritory = new Territory();
 
-            string delim = ",";
-
-            uint start = 0U;
-            int end = line.find(delim);
-            while (end != std::string::npos)
-            {
-                territory.push_back(line.substr(start, end - start));
-                start = end + delim.length();
-                end = line.find(delim, start);
-            }
-            territory.push_back(line.substr(start, end));
-
-            if (territory.size() > 1)
-            {
-                territories.push_back(territory);
-            }
-        }
-    }
-
-    for (int i = 0; i < territories.size(); i++)
-    {
-        for (int j = 0; j < territories[i].size(); j++)
-        {
-
-            cout << territories[i][j];
-        }
-        cout << "\n";
-    }
-    for (int i = 0; i < t.size(); i++)
-    {
-
-        if (territories[i][0] == t[i].getTerritoryName())
-        {
-            for (int j = 4; j < territories[i].size(); j++)
-            {
-
-                for (int x = 0; x < t.size(); x++)
+                auto search = umap.find(territory[0]);
+                if (search == umap.end())
                 {
-                    if (territories[i][j] == t[x].getTerritoryName())
+
+                    string *nameToPointer = new string(territory[0]);
+                    newTerritory->TerritoryName = nameToPointer;
+                    string *continentToPointer = new string(territory[3]);
+                    newTerritory->continent = continentToPointer;
+
+                    umap.insert(std::make_pair(territory[0], newTerritory));
+                    territories.push_back(newTerritory);
+                }
+                else
+                {
+                    newTerritory = search->second;
+                }
+
+                for (int i = 4; i < territory.size(); i++)
+                {
+                    // std::cout << territory[i];
+                    if (territory[i].find("\r") != string::npos)
                     {
-                        map->addEdge(i, x);
+                        // std::cout << territory[i].find("\r") << "\n";
+                        territory[i].erase(territory[i].find("\r"), 1);
+                    }
+
+                    search = umap.find(territory[i]);
+
+                    if (search == umap.end())
+                    {
+                        Territory *adj = new Territory();
+                        string *toPointer = new string(territory[i]);
+                        adj->TerritoryName = toPointer;
+
+                        umap.insert(std::make_pair(territory[i], adj));
+                        newTerritory->AdjTerritories.push_back(adj);
+                        territories.push_back(adj);
+                    }
+                    else
+                    {
+                        newTerritory->AdjTerritories.push_back(search->second);
                     }
                 }
             }
         }
     }
-    
-    return map;
+
+    // Set corresponding territories with their continents
+    for (auto territory : territories)
+    {
+        auto search = umapContinents.find(*(territory->TerritoryName));
+        territory->continent = search->second;
+    }
+    return territories;
 }
 
 // Destructor
 
 MapLoader::~MapLoader()
 {
-    // Territories.clear();
 }

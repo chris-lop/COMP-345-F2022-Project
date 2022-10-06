@@ -2,6 +2,7 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <unordered_map>
 
 using namespace std;
 
@@ -47,60 +48,64 @@ class Player
 // ------------------ //
 class Territory
 {
-        //--------------//
-        //  ATTRIBUTES  //
-        //--------------//
+public:
+    //--------------//
+    //  ATTRIBUTES  //
+    //--------------//
 
-        // Territory Name
-        string TerritoryName;
+    // Territory Name
+    string *TerritoryName;
+    // Adjacent territories
+    vector<Territory *> AdjTerritories;
 
-        // Continent to which territory belongs to
-        string continent;
+    // Continent to which territory belongs to
+    string *continent;
 
-        // Player to which territory belongs to
-        Player* territoryOwner;
+    // Player to which territory belongs to
+    Player *territoryOwner;
 
-        //Amount of troops in a given territory
-        int armyAmount;
+    // Amount of troops in a given territory
+    int *armyAmount;
 
-    public:
-        //----------------//
-        //  CONSTRUCTORS  //
-        //----------------//
+    //----------------//
+    //  CONSTRUCTORS  //
+    //----------------//
 
-        // Default Constructor
-        Territory();
+    // Default Constructor
+    Territory();
 
-        // Parameterized Constructor          
-        Territory(string, string, Player*, int);
+    // Parameterized Constructor
+    Territory(string *, string *, vector<Territory *>, Player *, int *);
 
-        // Copy Constructor              
-        Territory(const Territory*);
+    // Copy Constructor
+    Territory(const Territory *);
 
-        // Destructor
-        ~Territory();
+    // Destructor
+    ~Territory();
 
-        // Assignment Operator
-        Territory& operator = (const Territory&);
+    // Assignment Operator
+    Territory &operator=(const Territory &);
 
-        //-----------//
-        //  GETTERS  //
-        //-----------//
-        string getTerritoryName();
-        string getContinent();
-        Player* getTerritoryOwner();
-        int getArmy();
+    //-----------//
+    //  GETTERS  //
+    //-----------//
+    string *getTerritoryName();
+    string *getContinent();
+    Player *getTerritoryOwner();
+    int *getArmy();
+    vector<Territory *> getAdjTerritories();
 
-        //-----------//
-        //  SETTERS  //
-        //-----------//
-        void setTerritoryName(string);
-        void setContinent(string);
-        void setTerritoryOwner(Player*);
-        void setArmy(int);
+    //-----------//
+    //  SETTERS  //
+    //-----------//
+    void setTerritoryName(string *);
+    void setContinent(string *);
+    void setTerritoryOwner(Player *);
+    void setArmy(int *);
+    void setAdjTerritories(vector<Territory *>);
 
-        // Prints Territory Info
-        void toString();
+    // Prints Territory Info
+    void toString();
 };
 
 // ------------ //
@@ -162,13 +167,19 @@ class Map
 class MapLoader
 {
 public:
+    // Unordered Map used for graph initialization
+    unordered_map<string, Territory *> umap;
+
+    // Attributes
+    // vector<Territory> Territories;
 
     // Default Constructor
     MapLoader();
 
-    std::vector<Territory> loadMap();
+    // std::vector<Territory> loadMap();
+    std::vector<Territory *> loadMap(string);
 
-    Map * setUpMatrix(vector<Territory> territories);
+    // Map setUpMatrix(vector<Territory> territories);
 
     // Destructor
     ~MapLoader();
