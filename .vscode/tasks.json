@@ -2,16 +2,13 @@
     "tasks": [
         {
             "type": "cppbuild",
-            "label": "C/C++: (Windows) g++.exe build project",
+            "label": "C/C++: (Windows) g++.exe build map",
             "command": "g++.exe",
             "args": [
                 "-fdiagnostics-color=always",
                 "-g",
-                "${workspaceFolder}\\MainDriver.cpp",
-                "${workspaceFolder}\\CardsDriver.cpp",
-                "${workspaceFolder}\\Cards.cpp",
-                "${workspaceFolder}\\Player.cpp",
-                "${workspaceFolder}\\PlayerDriver.cpp",
+                "${workspaceFolder}\\MapDriver.cpp",
+                "${workspaceFolder}\\Map.cpp",
                 "-o",
                 "${workspaceFolder}\\Project.exe"
             ],

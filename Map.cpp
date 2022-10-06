@@ -305,6 +305,7 @@ Map* MapLoader::loadMap(string path)
 
             auto start = 0U;
             auto end = line.find(delim);
+            // Tokenize the territory line by commas into a vector<string>
             while (end != std::string::npos)
             {
                 territory.push_back((line.substr(start, end - start)));
