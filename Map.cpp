@@ -10,32 +10,32 @@ using namespace std;
 // ------------------------------------- //
 
 // Default Constructor
-Player::Player()
+PlayerT::PlayerT()
 {
     this->name = "Player x";
 }
 
 //Destructor
-Player::~Player()
+PlayerT::~PlayerT()
 {
 
 }
 
 //Assignment Operator
-Player& Player::operator=(const Player& player)
+PlayerT& PlayerT::operator=(const PlayerT& player)
 {
     this->name = player.name;
     return *this;
 }
 
 //Player Name Getter
-string Player::getName()
+string PlayerT::getName()
 {
     return this->name;
 }
 
 //Player Name Setter
-void Player::setName(string pname)
+void PlayerT::setName(string pname)
 {
     this->name = pname;
 }
@@ -49,13 +49,13 @@ Territory::Territory()
 {
     this->TerritoryName = new string("default territory");
     this->continent = new string("default continent");
-    this->territoryOwner = new Player();
+    this->territoryOwner = new PlayerT();
     this->armyAmount = new int(0);
     this->AdjTerritories = vector<Territory *>{};
 }
 
 // Parameterized Constructor
-Territory::Territory(string *name, string *continent, vector<Territory *> territories, Player *player, int *army)
+Territory::Territory(string *name, string *continent, vector<Territory *> territories, PlayerT *player, int *army)
 {
     this->TerritoryName = name;
     this->continent = continent;
@@ -114,13 +114,13 @@ void Territory::setContinent(string *newContinent)
 }
 
 // Getter for TerritoryOwner
-Player *Territory::getTerritoryOwner()
+PlayerT *Territory::getTerritoryOwner()
 {
     return territoryOwner;
 }
 
 // Setter for TerritoryOwner
-void Territory::setTerritoryOwner(Player *newPlayer)
+void Territory::setTerritoryOwner(PlayerT *newPlayer)
 {
     this->territoryOwner = newPlayer;
 }
@@ -265,8 +265,6 @@ MapLoader::MapLoader()
 
 Map* MapLoader::loadMap(string path)
 {
-
-    // string contents;
     unordered_map<string, string *> umapContinents;
 
     string line;
@@ -274,7 +272,6 @@ Map* MapLoader::loadMap(string path)
     ifstream file(path);
     ofstream cout("maploader_log.txt");
     // for filling adjacent territories in array
-    bool validCheck = false;
     while (getline(file, line))
     {
 
@@ -294,82 +291,89 @@ Map* MapLoader::loadMap(string path)
 
         if (line.find("[Territories]") != std::string::npos)
         {
-            validCheck = true;
-        }
-        if (validCheck == true)
-        {
-            vector<string> territory;
-
-            cout << "\n";
-            string delim = ",";
-
-            auto start = 0U;
-            auto end = line.find(delim);
-            // Tokenize the territory line by commas into a vector<string>
-            while (end != std::string::npos)
+            // Once [Territories] is found, the rest are all territory declarations
+            // So get lines until EOF
+            while (getline(file, line))
             {
-                territory.push_back((line.substr(start, end - start)));
-                cout << line.substr(start, end - start) << std::endl;
-                start = end + delim.length();
-                end = line.find(delim, start);
-            }
-            territory.push_back(line.substr(start, end));
-            cout << line.substr(start, end) << "\n";
+                vector<string> territory;
 
-            if (territory.size() > 1)
-            {
-                umapContinents.insert(std::make_pair(territory[0], new string(territory[3])));
+                cout << "\n";
+                string delim = ",";
 
-                Territory *newTerritory = new Territory();
+                auto start = 0U;
+                auto end = line.find(delim);
 
-                auto search = umap.find(territory[0]);
-                if (search == umap.end())
+                // Tokenize the territory line by commas into a vector<string>
+                while (end != std::string::npos)
                 {
-
-                    string *nameToPointer = new string(territory[0]);
-                    newTerritory->TerritoryName = nameToPointer;
-                    string *continentToPointer = new string(territory[3]);
-                    newTerritory->continent = continentToPointer;
-
-                    umap.insert(std::make_pair(territory[0], newTerritory));
-                    territories.push_back(newTerritory);
+                    territory.push_back((line.substr(start, end - start)));
+                    cout << line.substr(start, end - start) << std::endl;
+                    start = end + delim.length();
+                    end = line.find(delim, start);
                 }
-                else
+                territory.push_back(line.substr(start, end));
+                cout << line.substr(start, end) << "\n";
+
+                // If line contained a territory description, continue
+                if (territory.size() > 1)
                 {
-                    newTerritory = search->second;
-                }
+                    umapContinents.insert(std::make_pair(territory[0], new string(territory[3])));
 
-                for (int i = 4; i < territory.size(); i++)
-                {
-                    // std::cout << territory[i];
-                    if (territory[i].find("\r") != string::npos)
-                    {
-                        // std::cout << territory[i].find("\r") << "\n";
-                        territory[i].erase(territory[i].find("\r"), 1);
-                    }
+                    Territory *newTerritory = new Territory();
 
-                    search = umap.find(territory[i]);
-
+                    auto search = umap.find(territory[0]);
                     if (search == umap.end())
                     {
-                        Territory *adj = new Territory();
-                        string *toPointer = new string(territory[i]);
-                        adj->TerritoryName = toPointer;
+                        // If the territory isn't in the umap, add it to umap and the territories vector
+                        string *name = new string(territory[0]);
+                        newTerritory->TerritoryName = name;
+                        string *continent = new string(territory[3]);
+                        newTerritory->continent = continent;
 
-                        umap.insert(std::make_pair(territory[i], adj));
-                        newTerritory->AdjTerritories.push_back(adj);
-                        territories.push_back(adj);
+                        umap.insert(std::make_pair(territory[0], newTerritory));
+                        territories.push_back(newTerritory);
                     }
                     else
                     {
-                        newTerritory->AdjTerritories.push_back(search->second);
+                        // If the territory is already in the umap, grab a reference to it.
+                        newTerritory = search->second;
+                    }
+
+                    // Add the adjacencies
+                    for (int i = 4; i < territory.size(); i++)
+                    {
+                        // remove anything after a carriage return in the string
+                        if (territory[i].find("\r") != string::npos)
+                        {
+                            territory[i].erase(territory[i].find("\r"), 1);
+                        }
+                        // Find the adjacent territories in the map
+                        search = umap.find(territory[i]);
+
+                        if (search == umap.end())
+                        {
+                            // If the adjacent territory isn't already in the map, add it
+                            Territory *adj = new Territory();
+                            string *toPointer = new string(territory[i]);
+                            adj->TerritoryName = toPointer;
+
+                            umap.insert(std::make_pair(territory[i], adj));
+                            newTerritory->AdjTerritories.push_back(adj);
+                            territories.push_back(adj);
+                        }
+                        else
+                        {
+                            // If the adjacent territory is in the map, add it to the list
+                            // of adjacent territories
+                            newTerritory->AdjTerritories.push_back(search->second);
+                        }
                     }
                 }
             }
         }
     }
 
-    // Set corresponding territories with their continents
+    // Set each territory's continent
     for (auto territory : territories)
     {
         auto search = umapContinents.find(*(territory->TerritoryName));

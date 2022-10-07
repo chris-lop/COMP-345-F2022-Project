@@ -2,7 +2,7 @@
 #include <iostream>
 using namespace std;
 
-int main()
+void testLoadMaps()
 {
     // // Territories for testing
     // Territory *t0 = new Territory("Canada", "Americas", new Player(), 10);
@@ -68,6 +68,9 @@ int main()
     {
         i->toString();
     }
+
+    delete m;
+    delete ml;
 
     // Destructors
     // delete map1;
