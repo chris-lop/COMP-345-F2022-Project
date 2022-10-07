@@ -1,5 +1,6 @@
 #include <iostream>
 #include "Cards.h"
+#include "Orders.h"
 
 using std::cout; using std::endl; using std::string;
 
@@ -8,6 +9,7 @@ using std::cout; using std::endl; using std::string;
 void testCards() {
     cout << "### Test cards ###" << endl;
     Deck* deck = new Deck();
+    OrdersList* list = new OrdersList();
     cout << *deck << endl;
 
     Hand* hand = new Hand();
@@ -22,13 +24,14 @@ void testCards() {
     
     cout << "# Now, calling play() on each of the cards #" << endl;
     while (hand->cardList().size() > 0) {
-        hand->cardList().back()->play(hand, deck);
+        hand->cardList().back()->play(hand, deck, list);
     }
     cout << endl;
 
     cout << "# State of the hand and deck: #" << endl;
     cout << *hand << endl;
     cout << *deck << endl;
+    //cout << *list << endl;
 
     #ifdef BONUS_CARD_TEST
     cout << endl << "# Bonus: test operator= and copy ctor for Card #" << endl;
@@ -68,4 +71,5 @@ void testCards() {
     #endif
 
     cout << endl << endl;
+    delete deck, list, hand;
 }
