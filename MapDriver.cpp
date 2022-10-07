@@ -1,8 +1,8 @@
-#include "Map.cpp"
+#include "Map.h"
 #include <iostream>
 using namespace std;
 
-int main()
+void testLoadMaps()
 {
     // // Territories for testing
     // Territory *t0 = new Territory("Canada", "Americas", new Player(), 10);
@@ -66,8 +66,11 @@ int main()
     auto graph = ml->loadMap("./3D.map");
     for (auto i : graph->territories)
     {
-        i->toString();
+        cout << *i;
     }
+
+    delete m;
+    delete ml;
 
     // Destructors
     // delete map1;

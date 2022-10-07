@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Orders.h"
 #include <string>
 #include <vector>
 #include <iostream>
@@ -26,7 +27,7 @@ public:
     Card& operator=(const Card &rightSide);
 
     // Plays the card, removes it from the given hand, re-adds it to the deck
-    void play(Hand* hand, Deck* deck);
+    void play(Hand* hand, Deck* deck, OrdersList* list);
     // Returns the Card's type
     std::string getType();
 private:

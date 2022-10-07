@@ -6,10 +6,12 @@
 
 using namespace std;
 
+void testLoadMaps();
+
 // ----------------------- //
 // TEMPORARY PLAYER CLASS  //
 // ----------------------- //
-class Player
+class PlayerT
 {
         //--------------//
         //  ATTRIBUTES  //
@@ -24,13 +26,13 @@ class Player
         //----------------//
 
         //Default Constructor
-        Player();
+        PlayerT();
 
         //Destructor
-        ~Player();
+        ~PlayerT();
 
         //Assignment Operator        
-        Player& operator = (const Player&);
+        PlayerT& operator = (const PlayerT&);
 
         //-----------//
         //  GETTERS  //
@@ -62,7 +64,7 @@ public:
     string *continent;
 
     // Player to which territory belongs to
-    Player *territoryOwner;
+    PlayerT *territoryOwner;
 
     // Amount of troops in a given territory
     int *armyAmount;
@@ -75,7 +77,7 @@ public:
     Territory();
 
     // Parameterized Constructor
-    Territory(string *, string *, vector<Territory *>, Player *, int *);
+    Territory(string *, string *, vector<Territory *>, PlayerT *, int *);
 
     // Copy Constructor
     Territory(const Territory *);
@@ -91,7 +93,7 @@ public:
     //-----------//
     string *getTerritoryName();
     string *getContinent();
-    Player *getTerritoryOwner();
+    PlayerT *getTerritoryOwner();
     int *getArmy();
     vector<Territory *> getAdjTerritories();
 
@@ -100,12 +102,12 @@ public:
     //-----------//
     void setTerritoryName(string *);
     void setContinent(string *);
-    void setTerritoryOwner(Player *);
+    void setTerritoryOwner(PlayerT *);
     void setArmy(int *);
     void setAdjTerritories(vector<Territory *>);
 
-    // Prints Territory Info
-    void toString();
+    // Stream insertion operator
+    friend ostream& operator<<(ostream& strm, const Territory& territory);
 };
 
 // ------------ //

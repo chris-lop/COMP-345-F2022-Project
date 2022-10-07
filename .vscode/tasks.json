@@ -2,14 +2,18 @@
     "tasks": [
         {
             "type": "cppbuild",
-            "label": "C/C++: (Windows) g++.exe build project",
+            "label": "C/C++: (Windows) g++.exe build map",
             "command": "g++.exe",
             "args": [
                 "-fdiagnostics-color=always",
                 "-g",
-                "${workspaceFolder}\\MainDriver.cpp",
+                "${workspaceFolder}\\MapDriver.cpp",
+                "${workspaceFolder}\\Map.cpp",
                 "${workspaceFolder}\\CardsDriver.cpp",
                 "${workspaceFolder}\\Cards.cpp",
+                "${workspaceFolder}\\MainDriver.cpp",
+                "${workspaceFolder}\\Orders.cpp",
+                "${workspaceFolder}\\OrdersDriver.cpp",
                 "${workspaceFolder}\\Player.cpp",
                 "${workspaceFolder}\\PlayerDriver.cpp",
                 "-o",
@@ -34,7 +38,15 @@
             "args": [
                 "-fdiagnostics-color=always",
                 "-g",
-                "${workspaceFolder}/*.cpp",
+                "${workspaceFolder}/MapDriver.cpp",
+                "${workspaceFolder}/Map.cpp",
+                "${workspaceFolder}/CardsDriver.cpp",
+                "${workspaceFolder}/Cards.cpp",
+                "${workspaceFolder}/MainDriver.cpp",
+                "${workspaceFolder}/Orders.cpp",
+                "${workspaceFolder}/OrdersDriver.cpp",
+                "${workspaceFolder}/Player.cpp",
+                "${workspaceFolder}/PlayerDriver.cpp",
                 "-o",
                 "${workspaceFolder}/Project.out"
             ],

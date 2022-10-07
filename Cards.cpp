@@ -1,4 +1,5 @@
 #include "Cards.h"
+#include "Orders.h"
 #include <iostream>
 #include <vector>
 #include <ctime>
@@ -9,8 +10,24 @@ using std::cout; using std::endl; using std::string; using std::vector;
  * Card class
  */
 
-void Card::play(Hand* hand, Deck* deck) {
-    cout << "In Card::play, " << *this << endl;
+void Card::play(Hand* hand, Deck* deck, OrdersList* list) {
+    //"bomb", "reinforcement", "blockade", "airlift", "diplomacy"
+    Order* order = nullptr;
+    if (type == "bomb") {
+        order = new Bomb();
+    } else if (type == "reinforcement") {
+        cout << "Reinforcement card played, no order" << endl;
+    } else if (type == "blockade") {
+        order = new Blockade();
+    } else if (type == "airlift") {
+        order = new Airlift();
+    } else if (type == "diplomacy") {
+        order = new Negotiate();
+    }
+    if (order != nullptr) {
+        cout << "order: " << *order << endl;
+        list->addOrder(order);
+    }
     hand->returnToDeck(this, deck);
 }
 
