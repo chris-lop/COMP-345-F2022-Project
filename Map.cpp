@@ -40,6 +40,7 @@ void PlayerT::setName(string pname)
     this->name = pname;
 }
 
+
 // ------------------------------ //
 // TERRITORY CLASS IMPLEMENTATION //
 // ------------------------------ //
@@ -149,22 +150,20 @@ void Territory::setArmy(int *newAmount)
     this->armyAmount = newAmount;
 }
 
-// Prints Territory Info
-void Territory::toString()
-{
-
-    cout << "Name: " << *(this->TerritoryName)
-         << "| Continent: " << *(this->continent) << " "
-         << "| Owner: " << this->territoryOwner->getName() << " "
-         << "| Army: " << *(this->armyAmount)
+ostream& operator<<(ostream& strm, const Territory& territory) {
+        strm << "Name: " << *(territory.TerritoryName)
+         << "| Continent: " << *(territory.continent) << " "
+         << "| Owner: " << territory.territoryOwner->getName() << " "
+         << "| Army: " << *(territory.armyAmount)
          << "| Adjacent territories: " << endl;
 
-    for (auto i : this->AdjTerritories)
+    for (auto i : territory.AdjTerritories)
     {
-        std::cout << " [" << *i->TerritoryName << "] ";
+        strm << " [" << *i->TerritoryName << "] ";
     }
-    cout << "\n"
+    strm << "\n"
          << endl;
+    return strm;    
 }
 
 // ------------------------ //

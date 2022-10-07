@@ -66,7 +66,7 @@ void testLoadMaps()
     auto graph = ml->loadMap("./3D.map");
     for (auto i : graph->territories)
     {
-        i->toString();
+        cout << *i;
     }
 
     delete m;

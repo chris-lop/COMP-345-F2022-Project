@@ -106,8 +106,8 @@ public:
     void setArmy(int *);
     void setAdjTerritories(vector<Territory *>);
 
-    // Prints Territory Info
-    void toString();
+    // Stream insertion operator
+    friend ostream& operator<<(ostream& strm, const Territory& territory);
 };
 
 // ------------ //
