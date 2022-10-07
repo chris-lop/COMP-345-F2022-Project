@@ -1,49 +1,58 @@
 #include <iostream> 
+#include <algorithm>
 #include "Orders.h"
-#include <ctime>
 
 using std::cout; 
-using std::endl; 
 using std::string; 
 using std::vector;
 
 //OrdersList class
 
 OrdersList::OrdersList(){
-    std::vector<Order *> order;
-    this->order = order;
+    std::vector<Order *> orderList;
+    this->orderList = orderList;
 }
 
-OrdersList::OrdersList(std::vector<Order*> order){
-    this->order = order;
+OrdersList::OrdersList(std::vector<Order*> orderList){
+    this->orderList = orderList;
 }
 
 OrdersList::OrdersList(const OrdersList& ol1){
-    this->order = ol1.order;
+    this->orderList = ol1.orderList;
 }
 
 OrdersList::~OrdersList(){
-    for (int i = 0; i < this->order.size(); i++)
+    for (int i = 0; i < this->orderList.size(); i++)
 	{
-		delete this->order.at(i);
+		delete this->orderList.at(i);
 	}
 }
 
-void OrdersList::set_order(std::vector<Order*> order){
-    this->order = order;
+OrdersList& OrdersList::operator=(const OrdersList& ol) {
+	this->orderList = ol.orderList;
+	return *this;
 }
 
-std::vector<Order*>& OrdersList::get_order(){
-    return this->order;
+void OrdersList::setOrder(std::vector<Order*> order){
+    this->orderList = order;
+}
+
+std::vector<Order*>& OrdersList::getOrder(){
+    return this->orderList;
 }
 
 void OrdersList::addOrder(Order* order){
-    this->order.push_back(order);
+    this->orderList.push_back(order);
 }
 
-void OrdersList::remove(int* i){
-    if(*i >= 0 || *i < order.size()){
-        this->order.erase(order.begin() + *i);
+void OrdersList::remove(Order* order){
+    std::vector<Order*>::iterator x;
+    x = find(orderList.begin(), orderList.end(), order);
+    int x1 = distance(orderList.begin(), x);
+    int* i = &x1;
+    
+    if(*i >= 0 || *i < orderList.size()){
+        this->orderList.erase(orderList.begin() + *i);
      }
     else{
         cout << "ERROR: Index out of bounds";
@@ -52,11 +61,16 @@ void OrdersList::remove(int* i){
 }
 
 
-void OrdersList::move(int* init, int* final){
-    if(*init >= 0 || *init < order.size() || *final >= 0 || *final < order.size()){
-        Order* tempOrder = order.at(*init);
-        order.erase(order.begin() + *init);
-        order.insert(order.begin() + *final, tempOrder);
+void OrdersList::move(Order* order, int* index){
+    std::vector<Order*>::iterator x;
+    x = find(orderList.begin(), orderList.end(), order);
+    int x1 = distance(orderList.begin(), x);
+    int* i = &x1;
+
+    if(*i >= 0 || *i < orderList.size() || *index >= 0 || *index < orderList.size()){
+        Order* tempOrder = orderList.at(*i);
+        orderList.erase(orderList.begin() + *i);
+        orderList.insert(orderList.begin() + *index, tempOrder);
     }
     else{
         cout << "ERROR: Index out of bounds";
@@ -64,22 +78,41 @@ void OrdersList::move(int* init, int* final){
     }
 }
 
+int OrdersList::getIndex(Order * order){
+    std::vector<Order*>::iterator x;
+    x = find(orderList.begin(), orderList.end(), order);
+    return distance(orderList.begin(), x);
+}
+
+std::ostream& operator<<(std::ostream &strm, const OrdersList &ol){
+    strm << "Order List: ";
+    for (int i = 0; i < ol.orderList.size(); i++) {
+        Order& orderRef = *(ol.orderList[i]);
+        strm << orderRef;
+        if (i < ol.orderList.size() - 1) {
+            strm << ", ";
+        }
+    }
+    return strm;
+   
+}
+
 
 
 //Order class
 Order::Order(){
-    description = "";
+    type = "";
     effect = "";
     hasExecuted = false;
 }
 
-Order::Order(std::string description, std::string effect){
-    this->description = description;
+Order::Order(std::string type, std::string effect){
+    this->type = type;
     this ->effect = effect;
 }
 
 Order::Order(const Order& o1){
-    this->description = o1.description;
+    this->type = o1.type;
     this->effect = o1.effect;
 }
 
@@ -87,12 +120,18 @@ Order::~Order(){
 
 }
 
-std::string Order::getDescription(){
-    return this->description;
+Order& Order::operator=(const Order& o){
+	this->type = o.type;
+    this->effect = o.effect;
+	return *this;
 }
 
-void Order::setDescription(std::string description){
-    this->description = description;
+std::string Order::getType(){
+    return this->type;
+}
+
+void Order::setType(std::string type){
+    this->type = type;
 }
 
 std::string Order::getEffect(){
@@ -113,10 +152,10 @@ void Order::setHasExecuted(bool hasExecuted){
 
 std::ostream& operator<<(std::ostream &strm, const Order &order){
     if(!order.hasExecuted){
-        return strm << "Order(" << order.description << ")";
+        return strm << "Order(" << order.type << ")";
     }
     else{
-        return strm << "Order(" << order.description << "," << order.effect << ")";
+        return strm << "Order(" << order.type << "," << order.effect << ")";
     }
 }
 
@@ -125,7 +164,7 @@ std::ostream& operator<<(std::ostream &strm, const Order &order){
 //class Deploy
 
 Deploy::Deploy(){
-    this->description = "Deply";
+    this->type = "Deploy";
     valid = true;
 }
 
@@ -134,8 +173,22 @@ Deploy::~Deploy(){
 }
 
 Deploy::Deploy(const Deploy& d1){
-    this->description = d1.description;
+    this->type = d1.type;
     this->effect = d1.effect;
+}
+
+Deploy& Deploy::operator=(const Deploy& d1){
+	Order::operator=(d1);
+	return *this;
+}
+
+std::ostream& operator<<(std::ostream &strm, const Deploy &Deploy){
+    if(!Deploy.hasExecuted){
+        return strm << "Deploy(" << Deploy.type << ")";
+    }
+    else{
+        return strm << "Deploy(" << Deploy.type << "," << Deploy.effect << ")";
+    }
 }
 
 bool Deploy::validate(){
@@ -167,7 +220,7 @@ void Deploy::setValid(bool valid){
 //class Advance
 
 Advance::Advance(){
-    description = "Advance";
+    type = "Advance";
     valid = true;
 }
 
@@ -176,8 +229,22 @@ Advance::~Advance(){
 }
 
 Advance::Advance(const Advance& ad1){
-    this->description = ad1.description;
+    this->type = ad1.type;
     this->effect = ad1.effect;
+}
+
+Advance& Advance::operator=(const Advance& ad){
+	Advance::operator=(ad);
+	return *this;
+}
+
+std::ostream& operator<<(std::ostream &strm, const Advance &Advance){
+    if(!Advance.hasExecuted){
+        return strm << "Advance(" << Advance.type << ")";
+    }
+    else{
+        return strm << "Advance(" << Advance.type << "," << Advance.effect << ")";
+    }
 }
 
 bool Advance::validate(){
@@ -209,7 +276,7 @@ void Advance::setValid(bool valid){
 //class Bomb
 
 Bomb::Bomb(){
-    description = "Bomb";
+    type = "Bomb";
     valid = true;
 }
 
@@ -218,8 +285,22 @@ Bomb::~Bomb(){
 }
 
 Bomb::Bomb(const Bomb& b1){
-    this->description = b1.description;
+    this->type = b1.type;
     this->effect = b1.effect;
+}
+
+Bomb& Bomb::operator=(const Bomb& b){
+	Bomb::operator=(b);
+	return *this;
+}
+
+std::ostream& operator<<(std::ostream &strm, const Bomb &Bomb){
+    if(!Bomb.hasExecuted){
+        return strm << "Bomb(" << Bomb.type << ")";
+    }
+    else{
+        return strm << "Bomb(" << Bomb.type << "," << Bomb.effect << ")";
+    }
 }
 
 bool Bomb::validate(){
@@ -252,7 +333,7 @@ void Bomb::setValid(bool valid){
 //class Blockade
 
 Blockade::Blockade(){
-    description = "Blockade";
+    type = "Blockade";
     valid = true;
 }
 
@@ -261,8 +342,22 @@ Blockade::~Blockade(){
 }
 
 Blockade::Blockade(const Blockade& bl1){
-    this->description = bl1.description;
+    this->type = bl1.type;
     this->effect = bl1.effect;
+}
+
+Blockade& Blockade::operator=(const Blockade& bl){
+	Blockade::operator=(bl);
+	return *this;
+}
+
+std::ostream& operator<<(std::ostream &strm, const Blockade &Blockade){
+    if(!Blockade.hasExecuted){
+        return strm << "Blockade(" << Blockade.type << ")";
+    }
+    else{
+        return strm << "Blockade(" << Blockade.type << "," << Blockade.effect << ")";
+    }
 }
 
 bool Blockade::validate(){
@@ -294,7 +389,7 @@ void Blockade::setValid(bool valid){
 //class Airlift
 
 Airlift::Airlift(){
-    description = "Airlift";
+    type = "Airlift";
     valid = true;
 }
 
@@ -303,7 +398,7 @@ Airlift::~Airlift(){
 }
 
 Airlift::Airlift(const Airlift& ai1){
-    this->description = ai1.description;
+    this->type = ai1.type;
     this->effect = ai1.effect;
 }
 
@@ -315,6 +410,20 @@ bool Airlift::validate(){
     else{
         cout << "ERROR: This order is not valid";
         return false;
+    }
+}
+
+Airlift& Airlift::operator=(const Airlift& ai){
+	Airlift::operator=(ai);
+	return *this;
+}
+
+std::ostream& operator<<(std::ostream &strm, const Airlift &Airlift){
+    if(!Airlift.hasExecuted){
+        return strm << "Airlift(" << Airlift.type << ")";
+    }
+    else{
+        return strm << "Airlift(" << Airlift.type << "," << Airlift.effect << ")";
     }
 }
 
@@ -337,7 +446,7 @@ void Airlift::setValid(bool valid){
 //class Negotiate
 
 Negotiate::Negotiate(){
-    description = "Negotiate";
+    type = "Negotiate";
     valid = true;
 }
 
@@ -346,8 +455,22 @@ Negotiate::~Negotiate(){
 }
 
 Negotiate::Negotiate(const Negotiate& n1){
-    this->description = n1.description;
+    this->type = n1.type;
     this->effect = n1.effect;
+}
+
+Negotiate& Negotiate::operator=(const Negotiate& n){
+	Negotiate::operator=(n);
+	return *this;
+}
+
+std::ostream& operator<<(std::ostream &strm, const Negotiate &Negotiate){
+    if(!Negotiate.hasExecuted){
+        return strm << "Negotiate(" << Negotiate.type << ")";
+    }
+    else{
+        return strm << "Negotiate(" << Negotiate.type << "," << Negotiate.effect << ")";
+    }
 }
 
 bool Negotiate::validate(){
@@ -375,3 +498,4 @@ bool Negotiate::getValid(){
 void Negotiate::setValid(bool valid){
     this->valid = valid;
 }
+
