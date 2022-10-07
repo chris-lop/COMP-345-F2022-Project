@@ -16,7 +16,7 @@ void Card::play(Hand* hand, Deck* deck, OrdersList* list) {
     if (type == "bomb") {
         order = new Bomb();
     } else if (type == "reinforcement") {
-        order = new Advance();
+        cout << "Reinforcement card played, no order" << endl;
     } else if (type == "blockade") {
         order = new Blockade();
     } else if (type == "airlift") {
@@ -24,9 +24,10 @@ void Card::play(Hand* hand, Deck* deck, OrdersList* list) {
     } else if (type == "diplomacy") {
         order = new Negotiate();
     }
-    cout << "order: " << *order << endl;
-    list->addOrder(order);
-
+    if (order != nullptr) {
+        cout << "order: " << *order << endl;
+        list->addOrder(order);
+    }
     hand->returnToDeck(this, deck);
 }
 
