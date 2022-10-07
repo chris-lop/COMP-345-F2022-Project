@@ -5,6 +5,7 @@
 using std::cout; 
 using std::string; 
 using std::vector;
+using std::endl;
 
 //OrdersList class
 
@@ -53,27 +54,29 @@ void OrdersList::remove(Order* order){
     
     if(*i >= 0 || *i < orderList.size()){
         this->orderList.erase(orderList.begin() + *i);
-     }
+    }
     else{
-        cout << "ERROR: Index out of bounds";
+        cout << "ERROR: Index out of bounds" << endl;
         return;
     }
 }
 
 
 void OrdersList::move(Order* order, int* index){
-    std::vector<Order*>::iterator x;
-    x = find(orderList.begin(), orderList.end(), order);
-    int x1 = distance(orderList.begin(), x);
-    int* i = &x1;
+    if(*index >= 0 || *index < orderList.size()){
+        std::vector<Order*>::iterator x;
+        x = find(orderList.begin(), orderList.end(), order);
+        int x1 = distance(orderList.begin(), x);
+        int* i = &x1;
 
-    if(*i >= 0 || *i < orderList.size() || *index >= 0 || *index < orderList.size()){
-        Order* tempOrder = orderList.at(*i);
-        orderList.erase(orderList.begin() + *i);
-        orderList.insert(orderList.begin() + *index, tempOrder);
+        if(*i >= 0 || *i < orderList.size()){
+            Order* tempOrder = orderList.at(*i);
+            orderList.erase(orderList.begin() + *i);
+            orderList.insert(orderList.begin() + *index, tempOrder);
+        }
     }
     else{
-        cout << "ERROR: Index out of bounds";
+        cout << "ERROR: Index out of bounds" << endl;
         return;
     }
 }
@@ -193,11 +196,11 @@ std::ostream& operator<<(std::ostream &strm, const Deploy &Deploy){
 
 bool Deploy::validate(){
     if (valid){
-        cout << "This order is valid";
+        cout << "Deploy is valid" << endl;
         return true;
     }
     else{
-        cout << "ERROR: This order is not valid";
+        cout << "ERROR: Deploy is not valid" << endl;
         return false;
     }
 }
@@ -205,7 +208,12 @@ bool Deploy::validate(){
 void Deploy::execute(){
     if(validate()){
         this->hasExecuted = true;
-        cout << "Deploy is executing";
+        effect = "executed";
+        cout << "Deploy is executing" << endl;
+    }
+    else{
+        this->hasExecuted = false;
+        cout << "ERROR: Deploy cannot be executed" << endl;
     }
 }
 
@@ -249,11 +257,11 @@ std::ostream& operator<<(std::ostream &strm, const Advance &Advance){
 
 bool Advance::validate(){
     if (valid){
-        cout << "This order is valid";
+        cout << "Advance is valid" << endl;
         return true;
     }
     else{
-        cout << "ERROR: This order is not valid";
+        cout << "ERROR: Advance is not valid" << endl;
         return false;
     }
 }
@@ -261,7 +269,12 @@ bool Advance::validate(){
 void Advance::execute(){
     if(validate()){
         this->hasExecuted = true;
-        cout << "Advance is executing";
+        effect = "executed";
+        cout << "Advance is executing" << endl;
+    }
+    else{
+        this->hasExecuted = false;
+        cout << "ERROR: Advance cannot be executed" << endl;
     }
 }
 
@@ -305,11 +318,11 @@ std::ostream& operator<<(std::ostream &strm, const Bomb &Bomb){
 
 bool Bomb::validate(){
     if (valid){
-        cout << "This order is valid";
+        cout << "Bomb is valid" << endl;
         return true;
     }
     else{
-        cout << "ERROR: This order is not valid";
+        cout << "ERROR: Bomb is not valid" << endl;
         return false;
     }
 }
@@ -317,7 +330,12 @@ bool Bomb::validate(){
 void Bomb::execute(){
     if(validate()){
         this->hasExecuted = true;
-        cout << "Bomb is executing";
+        effect = "executed";
+        cout << "Bomb is executing" << endl;
+    }
+    else{
+        this->hasExecuted = false;
+        cout << "ERROR: Bomb cannot be executed" << endl;
     }
 }
 
@@ -362,11 +380,11 @@ std::ostream& operator<<(std::ostream &strm, const Blockade &Blockade){
 
 bool Blockade::validate(){
     if (valid){
-        cout << "This order is valid";
+        cout << "Blockade is valid" << endl;
         return true;
     }
     else{
-        cout << "ERROR: This order is not valid";
+        cout << "ERROR: Blockade is not valid" << endl;
         return false;
     }
 }
@@ -374,7 +392,12 @@ bool Blockade::validate(){
 void Blockade::execute(){
     if(validate()){
         this->hasExecuted = true;
-        cout << "Blockade is executing";
+        effect = "executed";
+        cout << "Blockade is executing" << endl;
+    }
+    else{
+        this->hasExecuted = false;
+        cout << "ERROR: Blockade cannot be executed" << endl;
     }
 }
 
@@ -404,11 +427,11 @@ Airlift::Airlift(const Airlift& ai1){
 
 bool Airlift::validate(){
     if (valid){
-        cout << "This order is valid";
+        cout << "Airlift is valid" << endl;
         return true;
     }
     else{
-        cout << "ERROR: This order is not valid";
+        cout << "ERROR: Airlift is not valid" << endl;
         return false;
     }
 }
@@ -430,7 +453,12 @@ std::ostream& operator<<(std::ostream &strm, const Airlift &Airlift){
 void Airlift::execute(){
     if(validate()){
         this->hasExecuted = true;
-        cout << "Airlift is executing";
+        effect = "executed";
+        cout << "Airlift is executing" << endl;
+    }
+    else{
+        this->hasExecuted = false;
+        cout << "ERROR: Airlift cannot be executed" << endl;
     }
 }
 
@@ -475,11 +503,11 @@ std::ostream& operator<<(std::ostream &strm, const Negotiate &Negotiate){
 
 bool Negotiate::validate(){
     if (valid){
-        cout << "This order is valid";
+        cout << "Negotiate is valid" << endl << endl;
         return true;
     }
     else{
-        cout << "ERROR: This order is not valid";
+        cout << "ERROR: Negotiate is not valid" << endl;
         return false;
     }
 }
@@ -487,7 +515,12 @@ bool Negotiate::validate(){
 void Negotiate::execute(){
     if(validate()){
         this->hasExecuted = true;
-        cout << "Negotiate is executing";
+        effect = "executed";
+        cout << "Negotiate is executing" << endl;
+    }
+    else{
+        this->hasExecuted = false;
+        cout << "ERROR: Negotiate cannot be executed" << endl;
     }
 }
 
