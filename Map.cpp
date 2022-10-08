@@ -273,13 +273,33 @@ Map* MapLoader::loadMap(string path)
     // for filling adjacent territories in array
     while (getline(file, line))
     {
-
+        bool check = false;
         try
         {
             // if file is empty return error
             if (!file)
             {
                 throw "Error invalid file: Empty file";
+            }
+            while (getline(file,line))
+            {
+                if(line.find("Continent")!=string::npos)
+                {
+                    check = true;
+                }
+                if (check = false)
+                {
+                    throw "Error invalid file: No continent";
+                }
+                if(line.find("[Territories]")!=string::npos)
+                {
+                    check = true;
+                }
+                if (check = false)
+                {
+                    throw "Error invalid file: No Territories";
+                }
+
             }
         }
         catch (string err)
