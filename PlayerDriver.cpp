@@ -68,9 +68,11 @@ void testPlayer() {
     Player* p = new Player("Player_random", my_trt, my_hand, my_olst);
 
     std::cout << *p;
-    std::cout << "Player's current hand of cards: " << *my_hand << std::endl;
+
+    //verifying that integration was done properly
+    Hand* testh = p->get_Phand();
+    std::cout << "Player's current hand of cards: " << *testh << std::endl;
   
- 
     
     /*3. Testing methods for Player class
     * 
@@ -97,7 +99,7 @@ void testPlayer() {
     std::cout << "\n \n # Calling issueOrder() # \n" << std::endl;
     p->issueOrder();
 
-    delete p;
+    delete p, d;
 
     std::cout << "\n \n### End of Player Test ### \n" << std::endl;
 }
