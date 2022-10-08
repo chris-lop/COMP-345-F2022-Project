@@ -12,8 +12,6 @@
                 "${workspaceFolder}\\CardsDriver.cpp",
                 "${workspaceFolder}\\Cards.cpp",
                 "${workspaceFolder}\\MainDriver.cpp",
-                "${workspaceFolder}\\Orders.cpp",
-                "${workspaceFolder}\\OrdersDriver.cpp",
                 "${workspaceFolder}\\Player.cpp",
                 "${workspaceFolder}\\PlayerDriver.cpp",
                 "${workspaceFolder}\\Orders.cpp",

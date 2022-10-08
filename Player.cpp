@@ -13,7 +13,7 @@ Territoryt::Territoryt() {
 }
 Territoryt::Territoryt(int t, int arr[2]){
     this->t = t;
-    set_adj(arr);
+    this->set_adj(arr);
 }
 
 void Territoryt::set_t(int t) {
@@ -30,7 +30,7 @@ int Territoryt::get_t() {
     return t;
 }
 
-std::vector <int> Territoryt::get_adj() {
+std::vector<int> Territoryt::get_adj() {
     return this->adj;
 }
 
@@ -51,6 +51,10 @@ void Ordert::set_type(std::string type) {
 
 std::string Ordert::get_type() {
     return this->type;
+}
+//copy constructor
+Ordert::Ordert (const Ordert& o1){
+    this->type = std::string(o1.type);
 }
 
 /*
@@ -79,6 +83,7 @@ Player::Player(std::string name, std::vector<Territoryt*> trt, Hand* h, std::vec
     this->h = h;
     this->olst = olst;
 }
+//Constructor with name parameter
 Player::Player(std::string name){
     this->name = name;
     this->trt={};
@@ -87,10 +92,28 @@ Player::Player(std::string name){
 }
 //Copy constructor
 Player :: Player(const Player& p1){
-    this->name = p1.name;
-    this->trt = p1.trt;
-    this->h = p1.h;
-    this->olst = p1.olst;
+    this->name = std::string(p1.name);
+
+    //copy the territory vector
+    std::vector<Territoryt*> vt;
+    for (Territoryt* t : p1.trt){
+        int arr[2];
+        arr[0] = t->get_adj().at(0);
+        arr[1] = t->get_adj().at(1);
+        Territoryt* t1 = new Territoryt(t->get_t(), arr); 
+        vt.push_back(t1);
+        }
+    this->trt = vt;
+
+    this->h = new Hand(*p1.h);
+
+    //copy the territory vector
+    std::vector<Ordert*> ot;
+    for(Ordert* o: p1.olst){
+        Ordert* o1 = new Ordert(o->get_type());
+        ot.push_back(o1);
+    }
+    this->olst = ot;
 }
 
 //Getter

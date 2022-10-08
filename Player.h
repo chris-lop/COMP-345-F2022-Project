@@ -19,11 +19,12 @@ private:
 public:
     Territoryt();
     Territoryt(int t, int arr[]);
+    Territoryt (const Territoryt& t1);
 
     void set_t(int t);
     void set_adj(int arr[]);
     int get_t();
-    std::vector <int> get_adj();
+    std::vector<int> get_adj();
 }; //end Territoryt
 
 /*
@@ -36,6 +37,7 @@ private:
 public:
     Ordert();
     Ordert(std::string type);
+    Ordert (const Ordert& o1);
 
     void set_type(std::string type);
     std::string get_type();

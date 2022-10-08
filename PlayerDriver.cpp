@@ -99,7 +99,8 @@ void testPlayer() {
     std::cout << "\n \n # Calling issueOrder() # \n" << std::endl;
     p->issueOrder();
 
-    delete p; delete d;
+    delete p; 
+    delete d;
 
     std::cout << "\n \n### End of Player Test ### \n" << std::endl;
 }
