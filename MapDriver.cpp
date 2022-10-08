@@ -27,6 +27,11 @@ void testLoadMaps()
     MapLoader *ml = new MapLoader();
 
     auto graph = ml->loadMap("./3D.map");
+    // CHECK for map validity
+    if (graph->territories.size() == 0) {
+        std::cerr << "### ERROR ###\nNo territories loaded from file\n";
+        return;
+    }
     for (auto i : graph->territories)
     {
         cout << *i;
