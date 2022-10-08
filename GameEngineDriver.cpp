@@ -71,6 +71,7 @@ while(command3=="addplayer"||(command3!="assigncountries"&&command3!="addplayer"
 //here we are trying to issue order
 do{//this loop assigns reinforcement
     if(command3=="assigncountries"||command6=="endexecorders")
+        cout<<"you are in the assign reinforcement phase now."<<endl;
 g->assign();
     do{ //this loop issues order
     cout<<"enter the command issueorder to issue an order, then when you are done enter the command endissueorders to move to the next phase."<<endl;
@@ -83,6 +84,7 @@ g->assign();
         {
             m=m+1;
             string type;
+            cout<<"you are in the phase issue orders now."<<endl;
             cout<<"enter your order"<<endl;
             cin>>type;
 
@@ -107,6 +109,7 @@ g->assign();
     if(command4=="endissueorders"&&m!=0)
     {
         do{ //this loop executes orders
+            cout<<"you are in the phase execute orders now."<<endl;
         cout<<"enter the command execorder to execute your orders, then enter the command win to move to the next phase or the command endexecorders to go back to assign reinforcement phase"<<endl;
             cin>>command5;
             if(command5!="execorder"&&command5!="endexecorders"&&command5!="win")
@@ -125,6 +128,7 @@ g->assign();
             {
                 do
                 {
+                    cout<<"you are in the phase win now."<<endl;
                 cout<<"enter the command play to restart or end to end the game."<<endl;
                 cin>>command11;
                 }
