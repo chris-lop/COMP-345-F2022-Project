@@ -177,7 +177,8 @@ public:
     // std::vector<Territory> loadMap();
     Map* loadMap(string);
 
-    // Map setUpMatrix(vector<Territory> territories);
+    // Map load continents
+    vector<Territory*> loadContinent();
 
     // Destructor
     ~MapLoader();
