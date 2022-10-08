@@ -6,8 +6,8 @@
 
 int main()
 {
-    testCards();
+    //testCards();
     testPlayer();
-    testLoadMaps();
-    testOrdersLists();
+    //testLoadMaps();
+    //testOrdersLists();
 }

@@ -85,7 +85,11 @@ void testPlayer() {
     
     std::cout << "\n \n # Calling toDefend() # \n\n Result should be: all territories but 7. \n 7 is the only territory for which this player owns all adjacent territories. \n" << std::endl;
     
-    p->toDefend();
+    std::vector <Territoryt*> defend_list = p->toDefend();
+    std::cout << "The player " << p->get_name() << " must defend the following territories: ";
+    for(Territoryt* tp: defend_list){
+        std::cout<< tp->get_t() << "\t";
+    }
 
     /*3.2 toAttack()
     * Calling function toDefend() to list all territories the player p can attack
@@ -94,7 +98,12 @@ void testPlayer() {
     */
 
     std::cout << "\n \n # Calling toAttack() # \n\n Result should be: 2, 5, 9, 10, 11, and 15. \n These are the adjacent territories currently not owned by the player. \n" << std::endl;
-    p->toAttack();
+    std::cout << "The player " << p->get_name() << " can attack the following territories: ";
+    std::vector <Territoryt*> attack_list = p->toAttack();
+    for(Territoryt* tp: attack_list){
+        std::cout<< tp->get_t() << "\t";
+    }
+
 
     std::cout << "\n \n # Calling issueOrder() # \n" << std::endl;
     p->issueOrder();
