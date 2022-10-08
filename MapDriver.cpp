@@ -37,7 +37,7 @@ void testLoadMaps()
     // 2. continents are connected subgraphs
     // 3. each country belongs to one and only one continent
     cout << "Now Verifying Map validity... \n";
-    
+
     // Create visited vector and mark all the territories as not visited
     vector<bool> visited;
     visited.resize(graph->territories.size(), false);
@@ -81,11 +81,11 @@ void testLoadMaps()
     // Else, the graph is NOT a connected graph.
     if (ctr == graph->territories.size())
     {
-        cout << "Map is a connected graph!";
+        cout << "Map is a connected graph!\n";
     }
     else
     {
-        cout << "Map is NOT a connected graph!";
+        cout << "Map is NOT a connected graph!\n";
     }
 
     // Calling Destructors

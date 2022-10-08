@@ -273,7 +273,7 @@ Map* MapLoader::loadMap(string path)
     ofstream cout("maploader_log.txt");
     // for filling adjacent territories in array
     bool check = false;
-        try
+        /*try
         {
             // if file is empty return error
             if (!file)
@@ -305,7 +305,7 @@ Map* MapLoader::loadMap(string path)
         {
             std::cout << err;
             // exit(1);
-        }
+        }*/
     while (getline(file, line))
     {
 
@@ -404,37 +404,6 @@ Map* MapLoader::loadMap(string path)
     return graph;
 }
 
-vector<Territory *> MapLoader::loadContinent(vector<Territory*> map,string path)
-{
-    string line;
-    ifstream file(path);
-    vector<string> continent;
-    bool check = false;
-    string delim = "=";
-    vector<Territory*> continents;
-    vector<vector<Territory*>> maps;
-     while (getline(file, line))
-     {
-        if (line.find("[Continents]") != std::string::npos&& check==false)
-        {
-            continent.push_back(line);
-        }
-        else if (line.find("[Territories]") != std::string::npos)
-        {
-            check=true;
-        }
-     }
-    for (auto i : map)
-    {
-        string *name = new string(continent[0]);
-        if (i->continent == name)
-        {
-            continents.push_back(i);
-        }
-    }
-    maps.push_back(continents);
-
-}
 // Destructor
 MapLoader::~MapLoader()
 {
