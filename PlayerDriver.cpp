@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include "Player.h"
+#include "Cards.h"
 
 
 void testPlayer() {
@@ -17,11 +18,12 @@ void testPlayer() {
     int arr2[] = { 7, 15 };
     int arr3[] = { 3, 8 };
     int arr4[] = { 11, 5 };
+    int arr5[] = { 9, 2 };
     Territoryt* t1 = new Territoryt(1, arr1);
     Territoryt* t2 = new Territoryt(3, arr2);
     Territoryt* t3 = new Territoryt(7, arr3);
     Territoryt* t4 = new Territoryt(8, arr4);
-    Territoryt* t5 = new Territoryt(13, arr1);
+    Territoryt* t5 = new Territoryt(13, arr5);
 
     std::vector<Territoryt*> my_trt;
     my_trt.push_back(t1);
@@ -30,23 +32,20 @@ void testPlayer() {
     my_trt.push_back(t4);
     my_trt.push_back(t5);
 
-    /*1.2 vector <Card*>
-    * Assigning random (string)values to different Card obj and create a vector<Card*> my_hand
-    * my_hand is a vector representing a list of pointers to each of the cards owned by the player
-    *
+    /*1.2 Hand
+    * Integrate classes in Cards.h to create a Hand to assign to the player
+    * Use of draw() and addCard() method to assign random cards
     */
 
-    Cardt* c1 = new Cardt("bomb");
-    Cardt* c2 = new Cardt("reinforcement");
-    Cardt* c3 = new Cardt("airlift");
+    Deck* d = new Deck();
+    Hand* my_hand= new Hand();
+    for (int i = 0; i < 3; i++) {
+        my_hand->addCard(d->draw());
+    }
+ 
 
-    std::vector<Cardt*> my_hand;
-    my_hand.push_back(c1);
-    my_hand.push_back(c2);
-    my_hand.push_back(c3);
-
-    /*1.3 vector <Order*>
-    * Assigning random (string)values to different Order obj and create a vector<Order*> my_olst
+    /*1.3 vector <Ordert*>
+    * Assigning random (string)values to different Ordert obj and create a vector<Ordert*> my_olst
     * my_olst is a vector representing a list of pointers to each of the order owned by the player
     *
     */
@@ -69,8 +68,11 @@ void testPlayer() {
     Player* p = new Player("Player_random", my_trt, my_hand, my_olst);
 
     std::cout << *p;
+
+    //verifying that integration was done properly
+    Hand* testh = p->get_Phand();
+    std::cout << "Player's current hand of cards: " << *testh << std::endl;
   
- 
     
     /*3. Testing methods for Player class
     * 
@@ -81,7 +83,7 @@ void testPlayer() {
     * For this test, 0 represents no adjacent territories (refer 1.1).
     */
     
-    std::cout << "\n \n # Calling toDefend() # \n" << std::endl;
+    std::cout << "\n \n # Calling toDefend() # \n\n Result should be: all territories but 7. \n 7 is the only territory for which this player owns all adjacent territories. \n" << std::endl;
     
     p->toDefend();
 
@@ -91,11 +93,13 @@ void testPlayer() {
     * For this test, 0 represents no adjacent territories (refer 1.1).
     */
 
-    std::cout << "\n \n # Calling toAttack() # \n" << std::endl;
+    std::cout << "\n \n # Calling toAttack() # \n\n Result should be: 2, 5, 9, 10, 11, and 15. \n These are the adjacent territories currently not owned by the player. \n" << std::endl;
     p->toAttack();
 
     std::cout << "\n \n # Calling issueOrder() # \n" << std::endl;
     p->issueOrder();
+
+    delete p, d;
 
     std::cout << "\n \n### End of Player Test ### \n" << std::endl;
 }

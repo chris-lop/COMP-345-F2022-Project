@@ -1,5 +1,7 @@
 #include <iostream> 
+#include <algorithm>
 #include "Player.h"
+#include "Cards.h"
 
 /*
 * Temporary Territoryt class
@@ -32,26 +34,6 @@ std::vector <int> Territoryt::get_adj() {
     return this->adj;
 }
 
-
-/*
-* Temporary Card class
-*/
-Cardt::Cardt() {
-    set_ctype("null");
-}
-
-Cardt::Cardt(std::string ctype) {
-    set_ctype(ctype);
-}
-
-void Cardt::set_ctype(std::string ctype) {
-    this->ctype = ctype;
-}
-
-std::string Cardt::get_ctype() {
-    return this->ctype;
-}
-
 /*
 * Temporary Order class
 */
@@ -78,38 +60,36 @@ std::string Ordert::get_type() {
 Player::Player() {
     this->name = "Null";
     this->trt = {};
-    this->hand = {};
+    this->h = {};
     this->olst = {};
 }
 Player::~Player() {
     for (Territoryt* t: trt) {
         delete(t);
     }
-    for (Cardt* c:hand) {
-        delete(c);
-    }
+    delete h;
     for (Ordert* o: olst) {
         delete(o);
     }
 }
 //Constructor with parameter
-Player::Player(std::string name, std::vector<Territoryt*> trt, std::vector<Cardt*> hand, std::vector <Ordert*> olst) {
+Player::Player(std::string name, std::vector<Territoryt*> trt, Hand* h, std::vector <Ordert*> olst) {
     this->name = name;
     this->trt = trt;
-    this->hand = hand;
+    this->h = h;
     this->olst = olst;
 }
 Player::Player(std::string name){
     this->name = name;
     this->trt={};
-    this->hand ={};
+    this->h ={};
     this->olst = {};
 }
 //Copy constructor
 Player :: Player(const Player& p1){
     this->name = p1.name;
     this->trt = p1.trt;
-    this->hand = p1.hand;
+    this->h = p1.h;
     this->olst = p1.olst;
 }
 
@@ -126,8 +106,11 @@ std::vector <Ordert*> Player::get_olst() {
         return this->olst;
 }
 
-//Player stream operators
+Hand* Player::get_Phand(){
+    return this->h;
+}
 
+//Player stream operators
 std::ostream& operator << (std::ostream& strm, const Player& p){
     strm << "This player is: " << p.name << std::endl;
     strm <<"Territory owned: ";
@@ -135,18 +118,11 @@ std::ostream& operator << (std::ostream& strm, const Player& p){
         strm << p.trt.at(i)->get_t() << "\t" ;
     } 
     strm << std::endl;
-
-    strm << "Player's current hand of cards: ";
-        for (int i = 0; i < p.hand.size(); i++) {
-        strm << p.hand.at(i)->get_ctype() << "\t" ;
-    } 
-    strm << std::endl;
-
-    
     strm << "Player's current list of orders: ";
     for (int i = 0; i < p.olst.size(); i++) {
         std::cout << p.olst.at(i)->get_type() << "\t";
     }
+    strm << std::endl;
     return strm;
 }
 
@@ -157,8 +133,14 @@ std::istream& operator >> (std::istream& in, Player& p){
 }
 
 //setter
-void Player::set_Order(std::vector <Ordert*> newolst){
+void Player::set_Pname(std::string name){
+    this->name = name;
+}
+void Player::set_Ordert(std::vector <Ordert*> newolst){
     this->olst = newolst;
+}
+void Player::set_Player_Hand(Hand* h){
+    this->h = h;
 }
 
 //required methods for assignment 1
@@ -244,7 +226,6 @@ void Player::toAttack(){
                     l1.push_back(this->get_trt().at(i)->get_adj().at(1));
                 }
             }
-
             else {continue;}
             
         }
@@ -256,7 +237,7 @@ void Player::toAttack(){
 
     for (int k = 0; k < l1.size(); k++){
         std::cout << l1.at(k) << "\t"; 
-    }
+    };
 
 }
 
@@ -275,11 +256,11 @@ void Player::issueOrder() {
     Ordert * o1 = new Ordert(order1);
     std::vector <Ordert*> newolst;
     for (int i=0; i <this->get_olst().size(); i++){
-        newolst.push_back(this->get_olst().at(1));
+        newolst.push_back(this->get_olst().at(i));
     }
     newolst.push_back(o1);
 
-    this->set_Order(newolst);
+    this->set_Ordert(newolst);
 
     std::cout << "The new list of order is: ";
         for (int i = 0; i < this->get_olst().size(); i++) {
