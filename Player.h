@@ -1,6 +1,6 @@
 #include <vector>
 #include <string>
-
+class Hand;
 #ifndef PLAYER_H
 #define PLAYER_H
 
@@ -27,20 +27,6 @@ public:
 }; //end Territoryt
 
 /*
-* Temporary Card class
-*/
-class Cardt {
-private:
-    std::string ctype;
-
-public:
-    Cardt();
-    Cardt(std::string ctype);
-    void set_ctype(std::string ctype);
-    std::string get_ctype();
-}; //end Cardt
-
-/*
 * Temporary Order class
 */
 class Ordert {
@@ -60,7 +46,7 @@ class Player {
 private:
     std::string name;
     std::vector <Territoryt*> trt;
-    std::vector<Cardt*> hand;
+    Hand* h;
     std::vector <Ordert*> olst;
 
 public:
@@ -70,7 +56,7 @@ public:
     ~Player();
 
     //constructor with all parameters
-    Player(std::string name, std::vector<Territoryt*> trt, std::vector<Cardt*> hand, std::vector <Ordert*> olst);
+    Player(std::string name, std::vector<Territoryt*> trt, Hand* h, std::vector <Ordert*> olst);
     //constructor with name parameter only
     Player(std::string name);
     //copy constructor
@@ -84,9 +70,12 @@ public:
     std::string get_name();
     std::vector <Territoryt*> get_trt();
     std::vector <Ordert*> get_olst();
-    
+    Hand* get_Phand();
+
     //setter functions
-    void set_Order(std::vector <Ordert*> olst);
+    void set_Pname(std::string name);
+    void set_Ordert(std::vector <Ordert*> olst);
+    void set_Player_Hand(Hand* h);
     
     void toDefend();
     void toAttack();
