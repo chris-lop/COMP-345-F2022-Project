@@ -61,15 +61,20 @@ private:
 
 class Hand {
 public:
+    // Constructors and destructors
     Hand();
     Hand(const Hand& h);
     ~Hand();
+    // Operators
     Hand& operator=(const Hand &rightSide);
-
-    void addCard(Card* card);
-    const std::vector<Card*>& cardList();
-    bool returnToDeck(Card* card, Deck* deck);
     friend std::ostream& operator<<(std::ostream& strm, const Hand& deck);
+
+    // Adds a card
+    void addCard(Card* card);
+    // Returns a card to the provided deck
+    bool returnToDeck(Card* card, Deck* deck);
+    // Returns a const reference to the card list
+    const std::vector<Card*>& cardList();
 private:
     std::vector<Card*> cards;
 };
