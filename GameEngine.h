@@ -1,74 +1,36 @@
-include <iostream>
+#pragma once
+
 #include<string>
-#include "GameEngine.h"
-#include"Player.h"
-using namespace std;
-GameEngine::GameEngine()
-{
-    number=0;
-}
-GameEngine::GameEngine(int number)
-{
-    this->number=number;
-}
-GameEngine::~GameEngine()
-{
-    
-}
- std::istream& operator >> (std::istream& in, GameEngine& g){
-    std::cout << "Enter number of players: ";
-    in >> g.number;
-    return in;
-}
+#include <iostream>
+#include "Player.h"
 
-std::ostream& operator<<(std::ostream &strm, const GameEngine &g){
-   strm<<"number of players is "<<g.number<<endl;
-}
+void testGameStates();
 
-void GameEngine::setNumber(int num)
+class GameEngine
 {
-    number=num;
-}
-int GameEngine::getNumber()
-{
-    return number;
-}
-//copy constructor
-GameEngine::GameEngine(const GameEngine& g1){
-    this->number=g1.number;
-}
+   
+    private:
+    int number;
+public:
+int getNumber();
+void setNumber(int num);
+//constructor and destructor
+GameEngine();
+~GameEngine();
+GameEngine(int number);
+  //copy constructor
+    GameEngine(const GameEngine& g1);
 
-void GameEngine::start()
-{
-cout<<"loading map..."<<endl;
-   //m.loadMap(); //assuming this is the method used to load a map
- cout<<"map loaded."<<endl;
-}
+    GameEngine& operator=(const GameEngine& ga);
+       //stream insertion operator
+    friend std::ostream& operator << (std::ostream& strm, const GameEngine& g);
+    friend std::istream& operator >> (std::istream& in, GameEngine& g);
 
-void GameEngine::loaded()
-{
-    cout<<"validating map..."<<endl;
-    // validateMap(); 
-    cout<<"map validated."<<endl;
-}
-
-void GameEngine::validated()
-{
-   string namee;
-   cout<<"enter the name of the player"<<endl;
-   cin>>namee;
-   Player* pl=new Player(namee);
-   cout << *pl;
-}
-void GameEngine::assign()
-{
-    cout<<"assigning reinforcement"<<endl;
-}
-void GameEngine::issue()
-{
-    
-}
-void GameEngine::execute()
-{
-    
-}
+  void start();
+   void loaded();
+   void validated();
+   void assign();
+   void issue();
+   void execute();
+   void win();
+};
