@@ -16,6 +16,10 @@
                 "${workspaceFolder}\\OrdersDriver.cpp",
                 "${workspaceFolder}\\Player.cpp",
                 "${workspaceFolder}\\PlayerDriver.cpp",
+                "${workspaceFolder}\\Orders.cpp",
+                "${workspaceFolder}\\OrdersDriver.cpp",
+                "${workspaceFolder}\\GameEngine.cpp",
+                "${workspaceFolder}\\GameEngineDriver.cpp",
                 "-o",
                 "${workspaceFolder}\\Project.exe"
             ],
@@ -47,6 +51,10 @@
                 "${workspaceFolder}/OrdersDriver.cpp",
                 "${workspaceFolder}/Player.cpp",
                 "${workspaceFolder}/PlayerDriver.cpp",
+                "${workspaceFolder}/Orders.cpp",
+                "${workspaceFolder}/OrdersDriver.cpp",
+                "${workspaceFolder}/GameEngine.cpp",
+                "${workspaceFolder}/GameEngineDriver.cpp",
                 "-o",
                 "${workspaceFolder}/Project.out"
             ],

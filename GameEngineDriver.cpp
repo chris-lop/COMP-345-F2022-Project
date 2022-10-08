@@ -1,5 +1,5 @@
-
 #include "GameEngine.h"
+#include "Orders.h"
 #include <iostream>
 #include <string>
 using namespace std;
@@ -52,11 +52,25 @@ g->assign();
         cin>>command4;
         if(command4=="issueorder")
         {
-            string ordert;
+            string type;
             cout<<"enter your order";
-            cin>>ordert;
-            Order* ord=new Order(ordert);
-            cout<<*ord;
+            cin>>type;
+
+            Order* order = nullptr;
+            if (type == "bomb") {
+                order = new Bomb();
+            } else if (type == "reinforcement") {
+                cout << "Reinforcement card played, no order" << endl;
+            } else if (type == "blockade") {
+                order = new Blockade();
+            } else if (type == "airlift") {
+                order = new Airlift();
+            } else if (type == "diplomacy") {
+                order = new Negotiate();
+            }
+            if (order != nullptr) {
+                cout<<*order;
+            }
         }
     }
     while(command4=="issueorder" || (command4!="issueorder"&&command4!="endissueorders"));

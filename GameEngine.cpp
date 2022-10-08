@@ -3,27 +3,7 @@
 #include "GameEngine.h"
 #include"Player.h"
 using namespace std;
- Order::Order()
- {
-     
- }
- 
- Order::Order(std::string order)
- {
-     this->order=order;
- }
- 
- //input
- std::istream& operator >> (std::istream& in, Order& ord){
-    std::cout << "Enter your order: ";
-    in >> ord.order;
-    return in;
-}
-//output
-std::ostream& operator << (std::ostream& strm, const Order& ord){
-    strm << "This order is: " << ord.order << std::endl;
-    return strm;
-}
+
 void GameEngine::start()
 {
 cout<<"loading map..."<<endl;
@@ -34,8 +14,8 @@ cout<<"loading map..."<<endl;
 void GameEngine::loaded()
 {
     cout<<"validating map..."<<endl;
-   // validateMap(); 
-   cout<<"map validated."<<endl;
+    // validateMap(); 
+    cout<<"map validated."<<endl;
 }
 
 void GameEngine::validated()
