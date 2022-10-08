@@ -4,9 +4,13 @@
 #include <string>
 using namespace std;
 void testGameStates()
-{  
+{ 
+std::cout << "\n### Test Game States ### \n" << std::endl; 
 GameEngine* g=new GameEngine();
-cout<<"enter the command to pass through states"<<endl;
+
+/*message to prompt user to enter the correct input*/
+string command_error= "***Wrong command entered. Try again.\nMake sure to enter the exact command to pass through states.***";
+cout<< "***Make sure to enter the exact command to pass through states.***"<<endl;
 std::string command;
 std::string command2;
 std::string command3;
@@ -19,21 +23,25 @@ int n=0;
 int m=0;
 int x=0;
 do{
-    cout<<"enter loadmap to start."<<endl;
+    cout<<"Starting Game Engine.\nYou are currently in start phase."<<endl;
+    cout<<"Enter loadmap to start the game."<<endl;
 do{
 cin>>command;
 if(command!="loadmap")
-cout<<"wrong command try again."<<endl;
+cout<<"Wrong command entered. Try again.\n"<< command_error <<endl;
 }
 while(command!="loadmap");
 g->start();
 //map loaded state and we are trying to load or validate map
+
+cout<<"***\nYou are currently in map loaded phase."<<endl;
+
 do
 {
-    cout<<"enter command loadmap to load the map or command validatemap to validate the map"<<endl;
+    cout<<"Enter loadmap to re-load a new map or validatemap to validate the current map."<<endl;
     cin>>command2;
     if(command2!="loadmap"&&command2!="validatemap")
-    cout<<"wrong command please try again"<<endl;
+    cout<< command_error <<endl;
     if(command2=="loadmap")
     g->start();
     if(command2=="validatemap")
