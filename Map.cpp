@@ -262,6 +262,13 @@ MapLoader::MapLoader()
     // this->Territories = vector<Territory>{};
 }
 
+/**
+ * @brief Loads a map from the specified file
+ * 
+ * @param path Path of file to load
+ * @return Map* A Map of the file. This is empty
+ * if some error occured while loading the map.
+ */
 Map* MapLoader::loadMap(string path)
 {
     
@@ -271,41 +278,46 @@ Map* MapLoader::loadMap(string path)
     vector<Territory *> territories;
     ifstream file(path);
     ofstream cout("maploader_log.txt");
-    // for filling adjacent territories in array
-    bool check = false;
-        /*try
+    try
+    {
+        // if file is empty return error
+        if (!file)
         {
-            // if file is empty return error
-            if (!file)
-            {
-                throw "Error invalid file: Empty file";
-            }
-            while (getline(file,line))
-            {
-                if(line.find("[Continents]")!=string::npos)
-                {
-                    check = true;
-                }
-                if (check = false)
-                {
-                    throw "Error invalid file: No continent";
-                }
-                if(line.find("[Territories]")!=string::npos)
-                {
-                    check = true;
-                }
-                if (check = false)
-                {
-                    throw "Error invalid file: No Territories";
-                }
-
-            }
+            throw "Error invalid file: Empty file";
         }
-        catch (string err)
+        // This loop checks that the file contains a [Continents] and [Territories] line
+        bool checkContinents = false, checkTerritories = false;
+        while (getline(file,line))
         {
-            std::cout << err;
-            // exit(1);
-        }*/
+            if(line.find("[Continents]")!=string::npos)
+            {
+                checkContinents = true;
+            }
+            if(line.find("[Territories]")!=string::npos)
+            {
+                checkTerritories = true;
+            }
+
+        }
+        if (checkContinents == false)
+        {
+            throw "Error invalid file: No continent";
+        }
+        if (checkTerritories == false)
+        {
+            throw "Error invalid file: No Territories";
+        }
+    }
+    catch (char const* err)
+    {
+        std::cerr << err << endl;
+        // Return an empty map on error
+        return new Map();
+        // exit(1);
+    }
+    // Close and re-open the file to load it again
+    file.close();
+    file.open(path);
     while (getline(file, line))
     {
 
