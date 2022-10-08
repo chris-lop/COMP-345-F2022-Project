@@ -71,5 +71,5 @@ void testCards() {
     #endif
 
     cout << endl << endl;
-    delete deck, list, hand;
+    delete deck; delete list; delete hand;
 }
