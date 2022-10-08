@@ -3,14 +3,12 @@
 #include <iostream>
 #include <string>
 using namespace std;
-void testGameStates()
+void testGameEngine()
 { 
 std::cout << "\n### Test Game States ### \n" << std::endl; 
 GameEngine* g=new GameEngine();
 
 /*message to prompt user to enter the correct input*/
-string command_error= "***Wrong command entered. Try again.\nMake sure to enter the exact command to pass through states.***";
-cout<< "***Make sure to enter the exact command to pass through states.***"<<endl;
 std::string command;
 std::string command2;
 std::string command3;
@@ -28,7 +26,7 @@ do{
 do{
 cin>>command;
 if(command!="loadmap")
-cout<<"Wrong command entered. Try again.\n"<< command_error <<endl;
+cout<<"Wrong command entered. Try again.\n"<<endl;
 }
 while(command!="loadmap");
 g->start();
@@ -41,7 +39,7 @@ do
     cout<<"Enter loadmap to re-load a new map or validatemap to validate the current map."<<endl;
     cin>>command2;
     if(command2!="loadmap"&&command2!="validatemap")
-    cout<< command_error <<endl;
+    cout<< "wrong command, please try again." <<endl;
     if(command2=="loadmap")
     g->start();
     if(command2=="validatemap")
@@ -61,7 +59,15 @@ while(command2=="loadmap"||(command2!="loadmap"&&command2!="validatemap"));
       cout<<"wrong command please try again"<<endl;
       if(command3=="addplayer")
       {
+    cout<<"you are in the addplayer phase now, please enter the number of players you want to add."<<endl;
+     int play;
+     cin>>play;
+     g->setNumber(play);
+     while(play>0)
+     {
       g->validated();
+      play--;
+     }
       n=n+1;
       }
       
