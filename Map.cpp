@@ -283,7 +283,7 @@ Map* MapLoader::loadMap(string path)
             }
             while (getline(file,line))
             {
-                if(line.find("Continent")!=string::npos)
+                if(line.find("[Continents]")!=string::npos)
                 {
                     check = true;
                 }
