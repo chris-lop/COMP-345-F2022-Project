@@ -34,6 +34,17 @@ std::vector<int> Territoryt::get_adj() {
     return this->adj;
 }
 
+//copy constructor
+Territoryt:: Territoryt (const Territoryt& t1){
+    this->t = int(t1.t);
+    std::vector<int> adjt;
+    for (int i: t1.adj){
+        adjt.push_back(i);
+    }
+    this->adj = adjt;
+}
+
+
 /*
 * Temporary Order class
 */
@@ -167,9 +178,9 @@ void Player::set_Player_Hand(Hand* h){
 }
 
 //required methods for assignment 1
-void Player::toDefend() {
+std::vector <Territoryt*> Player::toDefend() {
     
-    std::cout << "The player " << this->get_name() << " must defend the following territories: ";
+    std::vector <Territoryt*> result_defend; 
     
     for (int i = 0; i < this->get_trt().size(); i++) {
 
@@ -196,24 +207,29 @@ void Player::toDefend() {
             }
 
             if (found == true && found2 == true){
+                Territoryt* tempt1 = new Territoryt(*(this->get_trt().at(i)));
+                result_defend.push_back(tempt1);
                 continue;
             }
             else if(found == true && this->get_trt().at(i)->get_adj().at(1) == 0||found2 == true && this->get_trt().at(i)->get_adj().at(0) != 0){
-                std::cout << this->get_trt().at(i)->get_t() << "\t"; 
+                Territoryt* tempt = new Territoryt(*(this->get_trt().at(i)));
+                result_defend.push_back(tempt);
+                continue;
             }
-            else {
-                std::cout << this->get_trt().at(i)->get_t() << "\t"; 
+            else { 
+                 Territoryt* tempt2 = new Territoryt(*(this->get_trt().at(i)));
+                 result_defend.push_back(tempt2);
+                 continue;
             }
         }
-    
     }
+    return result_defend; 
 }
 
-void Player::toAttack(){
-    std::cout << "The player " << this->get_name() << " can attack the following territories: ";
-
-    std::vector <int> l1; 
+std::vector <Territoryt*> Player::toAttack(){
     
+    std::vector <Territoryt*> result_attack;
+
     for (int i = 0; i < this->get_trt().size(); i++) {
 
         if (this->get_trt().at(i)->get_adj().at(0) != 0 || this->get_trt().at(i)->get_adj().at(1) != 0){
@@ -229,7 +245,9 @@ void Player::toAttack(){
             }
             if (found == false){
                 if (this->get_trt().at(i)->get_adj().at(0) != 0){
-                    l1.push_back(this->get_trt().at(i)->get_adj().at(0));
+                    Territoryt* tempt3 = new Territoryt();
+                    tempt3->set_t(this->get_trt().at(i)->get_adj().at(0));
+                    result_attack.push_back(tempt3);
                 }
             }
             else {
@@ -246,7 +264,9 @@ void Player::toAttack(){
             }
             if (found == false){
                 if (this->get_trt().at(i)->get_adj().at(1) != 0){
-                    l1.push_back(this->get_trt().at(i)->get_adj().at(1));
+                    Territoryt* tempt4 = new Territoryt();
+                    tempt4->set_t(this->get_trt().at(i)->get_adj().at(1));
+                    result_attack.push_back(tempt4);
                 }
             }
             else {continue;}
@@ -257,10 +277,8 @@ void Player::toAttack(){
         else { continue; }
     
     }
-
-    for (int k = 0; k < l1.size(); k++){
-        std::cout << l1.at(k) << "\t"; 
-    };
+    
+    return result_attack;
 
 }
 

@@ -79,8 +79,8 @@ public:
     void set_Ordert(std::vector <Ordert*> olst);
     void set_Player_Hand(Hand* h);
     
-    void toDefend();
-    void toAttack();
+    std::vector <Territoryt*> toDefend();
+    std::vector <Territoryt*> toAttack();
     void issueOrder();
 };//end class Player
 
