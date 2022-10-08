@@ -75,11 +75,9 @@ void testOrdersLists(){
 
     cout << "\n\n### move() method ###" << endl;
     int index;
-    int* pIndex;
     cout << "Move order2 to position 5" << endl;
     index = 5;
-    pIndex = &index;
-    list->move(order2,pIndex);
+    list->move(order2,index);
     for (int i=0; i<list->getOrder().size(); ++i) {
         std::cout << *list->getOrder().at(i) << ' ';
     }
@@ -87,7 +85,7 @@ void testOrdersLists(){
     cout << "\nMove negotiate to position 1" << endl;
     index = 1;
 
-    list->move(negotiate,pIndex);
+    list->move(negotiate,index);
     for (int i=0; i<list->getOrder().size(); ++i) {
         std::cout << *list->getOrder().at(i) << ' ';
     }
@@ -108,3 +106,4 @@ void testOrdersLists(){
     }
 
 }
+

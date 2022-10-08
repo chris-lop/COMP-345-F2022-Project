@@ -1,3 +1,5 @@
+#pragma once
+
 #include <iostream>
 #include <vector>
 
@@ -36,7 +38,7 @@ public:
     std::vector<Order*>& getOrder();
     void addOrder(Order* order);
     void remove(Order* order);
-    void move(Order* order, int* index);
+    void move(Order* order, int index);
     int getIndex(Order* order);
     friend std::ostream& operator<<(std::ostream&, const OrdersList&);
 
@@ -49,6 +51,8 @@ private:
 class Order{
 public:
     Order();
+
+    Order(std::string type);
 
     ~Order();
 
@@ -67,7 +71,8 @@ public:
     void setHasExecuted(bool hasExecuted);
 
     // Stream insertion operator friend
-    friend std::ostream& operator<<(std::ostream&, const Order&);
+    friend std::istream& operator >> (std::istream& in, Order&);
+    friend std::ostream& operator << (std::ostream&, const Order&);
 protected:
     std::string type;
     std::string effect;

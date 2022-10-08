@@ -62,8 +62,8 @@ void OrdersList::remove(Order* order){
 }
 
 
-void OrdersList::move(Order* order, int* index){
-    if(*index >= 0 || *index < orderList.size()){
+void OrdersList::move(Order* order, int index){
+    if(index >= 0 || index < orderList.size()){
         std::vector<Order*>::iterator x;
         x = find(orderList.begin(), orderList.end(), order);
         int x1 = distance(orderList.begin(), x);
@@ -72,7 +72,7 @@ void OrdersList::move(Order* order, int* index){
         if(*i >= 0 || *i < orderList.size()){
             Order* tempOrder = orderList.at(*i);
             orderList.erase(orderList.begin() + *i);
-            orderList.insert(orderList.begin() + *index, tempOrder);
+            orderList.insert(orderList.begin() + index, tempOrder);
         }
     }
     else{
@@ -105,6 +105,12 @@ std::ostream& operator<<(std::ostream &strm, const OrdersList &ol){
 //Order class
 Order::Order(){
     type = "";
+    effect = "";
+    hasExecuted = false;
+}
+
+Order::Order(std::string type){
+    this->type = type;
     effect = "";
     hasExecuted = false;
 }
@@ -151,6 +157,13 @@ bool Order::getHasExecuted(){
 
 void Order::setHasExecuted(bool hasExecuted){
     this->hasExecuted = hasExecuted;
+}
+
+ //input
+ std::istream& operator >> (std::istream& in, Order& order){
+    std::cout << "Enter your order: ";
+    in >> order.type;
+    return in;
 }
 
 std::ostream& operator<<(std::ostream &strm, const Order &order){
