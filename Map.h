@@ -159,12 +159,6 @@ class Map
 
         // Prints Adjancency Matrix
         void toString();
-
-        // Verifies...
-        // 1. the map is a connected graph
-        // 2. continents are connected subgraphs
-        // 3. each country belongs to one and only one continent
-        // void Validate();
 };
 
 //  MAP Loader CLASS   //
