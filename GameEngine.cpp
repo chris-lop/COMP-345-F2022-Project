@@ -24,7 +24,7 @@ void GameEngine::validated()
    cout<<"enter the name of the player";
    cin>>namee;
    Player* pl=new Player(namee);
-   cout <<"This player is: "<< pl->get_name() << endl;
+   cout << "This player is: "<<pl->get_name()<<endl;
 }
 void GameEngine::assign()
 {
