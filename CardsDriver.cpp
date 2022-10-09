@@ -6,13 +6,18 @@ using std::cout; using std::endl; using std::string;
 
 
 void testCards() {
-    cout << "### Test cards ###" << endl;
+    cout << endl << endl << "### Test cards ###" << endl;
     Deck* deck = new Deck();
     OrdersList* list = new OrdersList();
-    cout << *deck << endl;
-
     Hand* hand = new Hand();
-    cout << endl << "# Creating hand, adding 5 cards #" << endl;
+    
+
+    cout << "# State of the hand, deck, and list of orders: #" << endl;
+    cout << *hand << endl;
+    cout << *deck << endl;
+    cout << *list << endl;
+
+    cout << endl << "# Calling draw() to get 5 cards #" << endl;
     cout << "These 5 cards should be removed from the deck and placed in the hand." << endl;
     cout << "# Adding cards: ";
     for (int i = 0; i < 5; i++) {
