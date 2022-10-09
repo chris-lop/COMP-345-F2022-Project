@@ -121,9 +121,6 @@ class Map
         //  ATTRIBUTES  //
         //--------------//
 
-        //Adjancency Matrix
-        bool** adjMatrix;
-
         // Variable for number of territories (nodes)   
         int TerritoryNb;
         vector<Territory*> territories;
@@ -147,18 +144,9 @@ class Map
         // Assignment Operator
         Map& operator = (const Map&);
 
-        //---------------------//
-        //  OTHER OPERATIONS  //
-        //-------------------//
+        // Validate method
+        void validate(vector<Territory *>);
 
-        // Adds an edge between two territories
-        void addEdge(int, int);
-
-        // Removes an edge between two territories
-        void removeEdge(int, int);
-
-        // Prints Adjancency Matrix
-        void toString();
 };
 
 //  MAP Loader CLASS   //
