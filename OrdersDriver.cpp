@@ -120,9 +120,8 @@ void testOrdersLists(){
         std::cout << *list->getOrder().at(i) << ' ';
     }
 
-    
-    delete order; delete order2; delete deploy2; delete deploy; delete advance; 
-    delete bomb; delete blockade; delete airlift; delete negotiate;
+    //delete all the orders objects
+    delete list;
 
 }
 
