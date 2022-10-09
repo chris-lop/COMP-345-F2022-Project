@@ -178,6 +178,8 @@ void Player::set_Player_Hand(Hand* h){
 }
 
 //required methods for assignment 1
+//toDefend() 
+//issue list of territories to be defended by the player based on the player owned territories
 std::vector <Territoryt*> Player::toDefend() {
     
     std::vector <Territoryt*> result_defend; 
@@ -226,6 +228,8 @@ std::vector <Territoryt*> Player::toDefend() {
     return result_defend; 
 }
 
+//toAttack()
+//issue list of territories that can be attacked by the player based on the player owned territories
 std::vector <Territoryt*> Player::toAttack(){
     
     std::vector <Territoryt*> result_attack;
@@ -282,6 +286,8 @@ std::vector <Territoryt*> Player::toAttack(){
 
 }
 
+//issueOrder()
+//add a new order input by user to the existing list
 void Player::issueOrder() {
     std::cout << "The player " << this->get_name() << "'s current list of order is: ";
     for (int i = 0; i < this->get_olst().size(); i++) {
