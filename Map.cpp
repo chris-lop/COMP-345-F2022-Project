@@ -591,4 +591,7 @@ Map* MapLoader::loadMap(string path)
 // Destructor
 MapLoader::~MapLoader()
 {
+    for(auto& i:umap){
+        delete i.second;
+    }
 }
