@@ -52,6 +52,7 @@ void GameEngine::addPlayers()
     cin>>name;
     Player* p=new Player(name);
     cout<<*p;
+    delete p;
 }
 void GameEngine::assignReinforcement()
 {
@@ -83,6 +84,7 @@ void GameEngine::issueOrders()
             if (order != nullptr) {
                 cout<<*order << endl;
             }
+        delete order;
     }
     while(type!="bomb"&&type!="blockade"&&type!="airlift"&&type!="negotiate"&&type!="deploy"&&type!="advance");
 }
