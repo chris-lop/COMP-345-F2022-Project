@@ -26,6 +26,7 @@ OrdersList::OrdersList(const OrdersList& ol1){
 
 //OrdersList destructor
 OrdersList::~OrdersList(){
+    //delete all the Order objects from the list
     for (int i = 0; i < this->orderList.size(); i++)
 	{
 		delete this->orderList.at(i);
@@ -55,11 +56,12 @@ void OrdersList::addOrder(Order* order){
 
 //Remove an order from the Order list
 void OrdersList::remove(Order* order){
+    //find the position of the order in the list
     std::vector<Order*>::iterator x;
     x = find(orderList.begin(), orderList.end(), order);
     int x1 = distance(orderList.begin(), x);
     int* i = &x1;
-    
+    //if the position is within the bounds, remove the order
     if(*i >= 0 || *i < orderList.size()){
         this->orderList.erase(orderList.begin() + *i);
     }
@@ -71,12 +73,14 @@ void OrdersList::remove(Order* order){
 
 //Move an Order to position "index" in the Order list
 void OrdersList::move(Order* order, int index){
+    //check if index is within the bounds of the list
     if(index >= 0 || index < orderList.size()){
+        //find the current position of the order
         std::vector<Order*>::iterator x;
         x = find(orderList.begin(), orderList.end(), order);
         int x1 = distance(orderList.begin(), x);
         int* i = &x1;
-
+        //if the position is within the bounds, move the order to index
         if(*i >= 0 || *i < orderList.size()){
             Order* tempOrder = orderList.at(*i);
             orderList.erase(orderList.begin() + *i);
@@ -247,6 +251,7 @@ bool Deploy::validate(){
 
 //execute order
 void Deploy::execute(){
+    //validate the order then execute
     if(validate()){
         this->hasExecuted = true;
         effect = "executed";
@@ -316,6 +321,7 @@ bool Advance::validate(){
 
 //execute order
 void Advance::execute(){
+    //validate the order then execute
     if(validate()){
         this->hasExecuted = true;
         effect = "executed";
@@ -385,6 +391,7 @@ bool Bomb::validate(){
 
 //execute order
 void Bomb::execute(){
+    //validate the order then execute
     if(validate()){
         this->hasExecuted = true;
         effect = "executed";
@@ -455,6 +462,7 @@ bool Blockade::validate(){
 
 //execute order
 void Blockade::execute(){
+    //validate the order then execute
     if(validate()){
         this->hasExecuted = true;
         effect = "executed";
@@ -524,6 +532,7 @@ std::ostream& operator<<(std::ostream &strm, const Airlift &Airlift){
 
 //execute order
 void Airlift::execute(){
+    //validate the order then execute
     if(validate()){
         this->hasExecuted = true;
         effect = "executed";
@@ -594,6 +603,7 @@ bool Negotiate::validate(){
 
 //execute order
 void Negotiate::execute(){
+    //validate the order then execute
     if(validate()){
         this->hasExecuted = true;
         effect = "executed";
