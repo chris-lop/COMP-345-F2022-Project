@@ -10,7 +10,6 @@ void testGameStates() {
     engine->startMessage();
     while (!engine->finished()) {
         string line;
-        //getline(cin, line);
         cin>>line;
         engine->handleInput(line);
     }
