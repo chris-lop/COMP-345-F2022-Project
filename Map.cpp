@@ -89,6 +89,12 @@ Territory &Territory::operator=(const Territory &territory)
 Territory::~Territory()
 {
     territoryOwner = NULL;
+
+    // Destroy adjacent territories vector
+    //for (Territory* aT : this->AdjTerritories)
+    //{
+    //    delete(aT);
+    //}
 }
 
 // Getter for TerritoryName
@@ -126,18 +132,6 @@ void Territory::setTerritoryOwner(PlayerT *newPlayer)
 {
     this->territoryOwner = newPlayer;
 }
-
-// Setter for ADJTerritories
-// void Territory::setAdjTerritories(vector<Territory *> territories)
-// {
-//     this->AdjTerritories = &territories;
-// }
-
-// Getter for Army
-// vector<Territory> Territory::getAdjTerritories()
-// {
-//     return AdjTerritories;
-// }
 
 // Getter for Army
 int *Territory::getArmy()
@@ -200,6 +194,11 @@ Map& Map::operator=(const Map& map)
 // Destructor
 Map::~Map()
 {
+    // Destroy territories vector
+    //for (Territory* t : this->territories)
+    //{
+    //    delete(t);
+    //}
 }
 
 int searchResult(std::vector<Territory *> tList, Territory t)
