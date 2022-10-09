@@ -18,6 +18,7 @@ public:
     friend std::istream& operator >> (std::istream& in, GameEngine& g);
     void setState(int state);
     int getState();
+    void testGameStates();
     void handleInput(std::string line);
     void loadMap();
     void validateMap();
