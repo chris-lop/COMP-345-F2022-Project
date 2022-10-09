@@ -37,10 +37,7 @@ int GameEngine::getState()
 {
     return state;
 }
-//copy constructor
-GameEngine::GameEngine(const GameEngine& g1){
-    this->state=g1.state;
-}
+
 
 void GameEngine::loadMap() {
     cout << "Loading map..." << endl;
