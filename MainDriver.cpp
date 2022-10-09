@@ -6,10 +6,15 @@
 #include "GameEngine.h"
 
 int main()
-{
+{   
+    //Part 1
     testLoadMaps();
+    //Part 2
     testPlayer();
+    //Part 3
     testOrdersLists();
+    //Part 4
     testCards();
+    //Part 5
     testGameStates();
 }

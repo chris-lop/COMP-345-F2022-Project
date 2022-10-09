@@ -209,8 +209,6 @@ std::vector <Territoryt*> Player::toDefend() {
             }
 
             if (found == true && found2 == true){
-                Territoryt* tempt1 = new Territoryt(*(this->get_trt().at(i)));
-                result_defend.push_back(tempt1);
                 continue;
             }
             else if(found == true && this->get_trt().at(i)->get_adj().at(1) == 0||found2 == true && this->get_trt().at(i)->get_adj().at(0) != 0){
