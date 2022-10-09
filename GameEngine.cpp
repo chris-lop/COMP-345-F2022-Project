@@ -24,7 +24,7 @@ GameEngine::~GameEngine()
 }
 
 std::ostream& operator<<(std::ostream &strm, const GameEngine &g){
-   strm<<"number of players is "<<g.number<<endl;
+   return strm<<"number of players is "<<g.number<<endl;
 }
 
 void GameEngine::setNumber(int num)
