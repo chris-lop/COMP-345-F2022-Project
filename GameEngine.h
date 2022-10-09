@@ -34,6 +34,8 @@ public:
     void win();
     void startMessage();
     bool finished();
-};
+}; //end of class GameEngine
+
+
 //free function
 void testGameStates();
