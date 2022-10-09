@@ -13,8 +13,11 @@ public:
     GameEngine();
    ~GameEngine();
    GameEngine& operator=(const GameEngine& ga);
+    
    friend std::ostream& operator << (std::ostream& strm, const GameEngine& g);
     friend std::istream& operator >> (std::istream& in, GameEngine& g);
+    void setState(int state);
+    int getState();
     void handleInput(std::string line);
     void loadMap();
     void validateMap();
