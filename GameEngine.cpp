@@ -1,5 +1,4 @@
 
-
 #include <iostream>
 #include<string>
 #include "GameEngine.h"
@@ -216,6 +215,9 @@ void GameEngine::handleInput(std::string line) {
             win();
             cout<<"you are now in the win state. valid input: end, play."<<endl;
             state=7;
+        }
+        else{
+            cout<<"invalid command. valid input: execorder, endexecorders, win."<<endl;
         }
         
     }
