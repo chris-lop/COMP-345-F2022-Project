@@ -19,10 +19,12 @@ OrdersList::OrdersList(std::vector<Order*> orderList){
     this->orderList = orderList;
 }
 
-//OrdersList copy constructor
+//OrdersList copy constructor copies the orders from the other list
 OrdersList::OrdersList(const OrdersList& ol1){
-    this->orderList = ol1.orderList;
-}
+    orderList = vector<Order*>();
+    for (Order* c: ol1.orderList) {
+        orderList.push_back(new Order(*c));
+    }}
 
 //OrdersList destructor
 OrdersList::~OrdersList(){
@@ -33,10 +35,13 @@ OrdersList::~OrdersList(){
 	}
 }
 
-//OrdersList assignment operator 
+//OrdersList assignment operator to copy the orders over
 OrdersList& OrdersList::operator=(const OrdersList& ol) {
-	this->orderList = ol.orderList;
-	return *this;
+	orderList = vector<Order*>();
+    for (Order* c: ol.orderList) {
+        orderList.push_back(new Order(*c));
+    }
+    return *this;
 }
 
 //Setter method for OrdersList 
