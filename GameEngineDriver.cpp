@@ -1,9 +1,11 @@
+
 #include "GameEngine.h"
 #include "Orders.h"
 #include <iostream>
 #include <string>
+#include<ctype.h>
 using namespace std;
-void testGameEngine()
+void testGameStates()
 { 
 std::cout << "\n### Test Game States ### \n" << std::endl; 
 GameEngine* g=new GameEngine();
@@ -60,8 +62,18 @@ while(command2=="loadmap"||(command2!="loadmap"&&command2!="validatemap"));
       if(command3=="addplayer")
       {
     cout<<"you are in the addplayer phase now, please enter the number of players you want to add."<<endl;
+    
      int play;
+     do{
+         if(!cin)
+         cout<<"you did not enter a digit, please enter a digit to proceed."<<endl;
+         // user didn't input a number
+    cin.clear(); // reset failbit
+    cin.ignore(); //skip bad input
      cin>>play;
+     }
+     while(!cin);
+     
      g->setNumber(play);
      while(play>0)
      {
@@ -70,7 +82,6 @@ while(command2=="loadmap"||(command2!="loadmap"&&command2!="validatemap"));
      }
       n=n+1;
       }
-      
 }
 while(command3=="addplayer"||(command3!="assigncountries"&&command3!="addplayer")||(command3=="assigncountries"&&n==0));
 
@@ -91,26 +102,32 @@ g->assign();
             m=m+1;
             string type;
             cout<<"you are in the phase issue orders now."<<endl;
+            do{
             cout<<"enter your order"<<endl;
             cin>>type;
-
+            if(type!="bomb"&&type!="blockade"&&type!="airlift"&&type!="negotiate"&&type!="advance"&&type!="deploy")
+            cout<<"you entered the wrong order, try again."<<endl;
+            }
+             while(type!="bomb"&&type!="blockade"&&type!="airlift"&&type!="negotiate"&&type!="advance"&&type!="deploy");
             Order* order = nullptr;
             if (type == "bomb") {
                 order = new Bomb();
-            } else if (type == "reinforcement") {
-                cout << "Reinforcement card played, no order" << endl;
             } else if (type == "blockade") {
                 order = new Blockade();
             } else if (type == "airlift") {
                 order = new Airlift();
-            } else if (type == "diplomacy") {
+            } else if (type == "negotiate") {
                 order = new Negotiate();
-            }
+            } else if (type == "deploy") {
+                order = new Deploy();
+            } else if (type == "advance") {
+                order = new Advance();
+            } 
             if (order != nullptr) {
-                cout<<*order;
+                cout<<*order << endl;
+            }
             }
         }
-    }
     while(command4=="issueorder" || (command4!="issueorder"&&command4!="endissueorders")||(command4=="endissueorders"&&m==0));
     if(command4=="endissueorders"&&m!=0)
     {
@@ -152,5 +169,6 @@ while(command5=="endexecorders");
 
 
 }while(command11=="play");
+
   
 }
