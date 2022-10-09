@@ -7,17 +7,21 @@
 using namespace std;
 
 
+//GameEngine class
 
 void GameEngine::startMessage() {
     cout << "Now in start state. Valid input: loadmap" << endl;
 }
 
+//constructor and destructor
 GameEngine::GameEngine(): state(0){
 }
 GameEngine::~GameEngine()
 {
     
 }
+
+//stream operators
  std::istream& operator >> (std::istream& in, GameEngine& g){
     std::cout << "Enter state: ";
     in >> g.state;
@@ -28,6 +32,7 @@ std::ostream& operator<<(std::ostream &strm, const GameEngine &g){
    return strm<<"current state is "<<g.state<<endl;
 }
 
+//setters and getters
 void GameEngine::setState(int st)
 {
     state=st;
