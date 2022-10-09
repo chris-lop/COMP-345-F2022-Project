@@ -17,23 +17,14 @@ class Negotiate;
 void testOrdersLists();
 
 
-//Class definition
+//OrdersList lass definition
 class OrdersList{
 public:
-    //default constructor
     OrdersList();
-
-    //destructor
     ~OrdersList();
-
-    //constructor with parameters
     OrdersList(std::vector<Order*> orderList);
-
-    //copy constructor
     OrdersList(const OrdersList& o1);
-
     OrdersList& operator=(const OrdersList& ol);
-
     void setOrder(std::vector<Order*> orderList);
     std::vector<Order*>& getOrder();
     void addOrder(Order* order);
@@ -48,29 +39,21 @@ private:
 
 };
 
+//Order lass definition
 class Order{
 public:
     Order();
-
     Order(std::string type);
-
     ~Order();
-
     Order(std::string description, std::string effect);
-
     Order(const Order& o1);
-
     Order& operator=(const Order& o);
-
-    
     std::string getType();
     void setType(std::string description);
     std::string getEffect();
     void setEffect(std::string effect);
     bool getHasExecuted();
     void setHasExecuted(bool hasExecuted);
-
-    // Stream insertion operator friend
     friend std::istream& operator >> (std::istream& in, Order&);
     friend std::ostream& operator << (std::ostream&, const Order&);
 protected:
@@ -81,6 +64,7 @@ protected:
 
 };
 
+//Deploy lass definition
 class Deploy : public Order{
 public:
     Deploy();
@@ -96,6 +80,7 @@ private:
     bool valid;
 };
 
+//Advance lass definition
 class Advance : public Order{
 public:
     Advance();
@@ -111,6 +96,7 @@ private:
     bool valid;
 };
 
+//Bomb lass definition
 class Bomb : public Order{
 public:
     Bomb();
@@ -126,6 +112,7 @@ private:
     bool valid;
 };
 
+//Blockade lass definition
 class Blockade : public Order{
 public:
     Blockade();
@@ -141,6 +128,7 @@ private:
     bool valid ;
 };
 
+//Airlift lass definition
 class Airlift : public Order{
 public:
     Airlift();
@@ -156,6 +144,7 @@ private:
     bool valid;
 };
 
+//Negotiate lass definition
 class Negotiate : public Order{
 public:
     Negotiate();

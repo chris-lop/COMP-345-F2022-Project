@@ -8,20 +8,23 @@ using std::vector;
 using std::endl;
 
 //OrdersList class
-
+//OrdersList default constructor
 OrdersList::OrdersList(){
     std::vector<Order *> orderList;
     this->orderList = orderList;
 }
 
+//OrdersList paramatrized constructor
 OrdersList::OrdersList(std::vector<Order*> orderList){
     this->orderList = orderList;
 }
 
+//OrdersList copy constructor
 OrdersList::OrdersList(const OrdersList& ol1){
     this->orderList = ol1.orderList;
 }
 
+//OrdersList destructor
 OrdersList::~OrdersList(){
     for (int i = 0; i < this->orderList.size(); i++)
 	{
@@ -29,23 +32,28 @@ OrdersList::~OrdersList(){
 	}
 }
 
+//OrdersList assignment operator 
 OrdersList& OrdersList::operator=(const OrdersList& ol) {
 	this->orderList = ol.orderList;
 	return *this;
 }
 
+//Setter method for OrdersList 
 void OrdersList::setOrder(std::vector<Order*> order){
     this->orderList = order;
 }
 
+//Getter method for OrdersList
 std::vector<Order*>& OrdersList::getOrder(){
     return this->orderList;
 }
 
+//Add an order to the Order list
 void OrdersList::addOrder(Order* order){
     this->orderList.push_back(order);
 }
 
+//Remove an order from the Order list
 void OrdersList::remove(Order* order){
     std::vector<Order*>::iterator x;
     x = find(orderList.begin(), orderList.end(), order);
@@ -61,7 +69,7 @@ void OrdersList::remove(Order* order){
     }
 }
 
-
+//Move an Order to position "index" in the Order list
 void OrdersList::move(Order* order, int index){
     if(index >= 0 || index < orderList.size()){
         std::vector<Order*>::iterator x;
@@ -81,12 +89,14 @@ void OrdersList::move(Order* order, int index){
     }
 }
 
+//Get the index of a given order
 int OrdersList::getIndex(Order * order){
     std::vector<Order*>::iterator x;
     x = find(orderList.begin(), orderList.end(), order);
     return distance(orderList.begin(), x);
 }
 
+//Output stream
 std::ostream& operator<<(std::ostream &strm, const OrdersList &ol){
     strm << "Order List: ";
     for (int i = 0; i < ol.orderList.size(); i++) {
@@ -103,69 +113,81 @@ std::ostream& operator<<(std::ostream &strm, const OrdersList &ol){
 
 
 //Order class
+//Order default constructor
 Order::Order(){
     type = "";
     effect = "";
     hasExecuted = false;
 }
 
+//Order paramatrized constructor
 Order::Order(std::string type){
     this->type = type;
     effect = "";
     hasExecuted = false;
 }
 
+//Order paramatrized constructor
 Order::Order(std::string type, std::string effect){
     this->type = type;
     this ->effect = effect;
 }
 
+//Order copy constructor
 Order::Order(const Order& o1){
     this->type = o1.type;
     this->effect = o1.effect;
 }
 
+//Order destructor
 Order::~Order(){
 
 }
 
+//Order assignment operator
 Order& Order::operator=(const Order& o){
 	this->type = o.type;
     this->effect = o.effect;
 	return *this;
 }
 
+//Getter for type
 std::string Order::getType(){
     return this->type;
 }
 
+//Setter for type
 void Order::setType(std::string type){
     this->type = type;
 }
 
+//Getter for effect
 std::string Order::getEffect(){
     return this->effect;
 }
 
+//setter for effect
 void Order::setEffect(std::string effect){
     this->effect = effect;
 }
 
+//getter for hasExecuted
 bool Order::getHasExecuted(){
     return this->hasExecuted;
 }
-
+//Setter for hasExecuted
 void Order::setHasExecuted(bool hasExecuted){
     this->hasExecuted = hasExecuted;
 }
 
- //input
+ //Order input stream
  std::istream& operator >> (std::istream& in, Order& order){
     std::cout << "Enter your order: ";
     in >> order.type;
     return in;
 }
 
+//Oorder output stream
 std::ostream& operator<<(std::ostream &strm, const Order &order){
     if(!order.hasExecuted){
         return strm << "Order(" << order.type << ")";
@@ -178,26 +200,30 @@ std::ostream& operator<<(std::ostream &strm, const Order &order){
 
 
 //class Deploy
-
+//Deploy default constructor
 Deploy::Deploy(){
     this->type = "Deploy";
     valid = true;
 }
 
+//Deploy destructor
 Deploy::~Deploy(){
 
 }
 
+//Deploy copy constructor
 Deploy::Deploy(const Deploy& d1){
     this->type = d1.type;
     this->effect = d1.effect;
 }
 
+//Deploy assignment operator
 Deploy& Deploy::operator=(const Deploy& d1){
 	Order::operator=(d1);
 	return *this;
 }
 
+//Deploy output stream
 std::ostream& operator<<(std::ostream &strm, const Deploy &Deploy){
     if(!Deploy.hasExecuted){
         return strm << "Deploy(" << Deploy.type << ")";
@@ -207,6 +233,7 @@ std::ostream& operator<<(std::ostream &strm, const Deploy &Deploy){
     }
 }
 
+//Validate if the order is valid
 bool Deploy::validate(){
     if (valid){
         cout << "Deploy is valid" << endl;
@@ -218,6 +245,7 @@ bool Deploy::validate(){
     }
 }
 
+//execute order
 void Deploy::execute(){
     if(validate()){
         this->hasExecuted = true;
@@ -230,35 +258,41 @@ void Deploy::execute(){
     }
 }
 
+//getter for valid
 bool Deploy::getValid(){
     return this->valid;
 }
 
+//setter for valid
 void Deploy::setValid(bool valid){
     this->valid = valid;
 }
 
 //class Advance
-
+//Advance default constructor
 Advance::Advance(){
     type = "Advance";
     valid = true;
 }
 
+//Advance destructor
 Advance::~Advance(){
 
 }
 
+//Advance copy constructor
 Advance::Advance(const Advance& ad1){
     this->type = ad1.type;
     this->effect = ad1.effect;
 }
 
+//Advance assignment operator
 Advance& Advance::operator=(const Advance& ad){
 	Advance::operator=(ad);
 	return *this;
 }
 
+//Advance output stream
 std::ostream& operator<<(std::ostream &strm, const Advance &Advance){
     if(!Advance.hasExecuted){
         return strm << "Advance(" << Advance.type << ")";
@@ -268,6 +302,7 @@ std::ostream& operator<<(std::ostream &strm, const Advance &Advance){
     }
 }
 
+//Validate if the order is valid
 bool Advance::validate(){
     if (valid){
         cout << "Advance is valid" << endl;
@@ -279,6 +314,7 @@ bool Advance::validate(){
     }
 }
 
+//execute order
 void Advance::execute(){
     if(validate()){
         this->hasExecuted = true;
@@ -291,35 +327,41 @@ void Advance::execute(){
     }
 }
 
+//getter for valid
 bool Advance::getValid(){
     return this->valid;
 }
 
+//setter for valid
 void Advance::setValid(bool valid){
     this->valid = valid;
 }
 
 //class Bomb
-
+//Bomb default constructor
 Bomb::Bomb(){
     type = "Bomb";
     valid = true;
 }
 
+//Bomb destructor
 Bomb::~Bomb(){
 
 }
 
+//Bomb copy constructor
 Bomb::Bomb(const Bomb& b1){
     this->type = b1.type;
     this->effect = b1.effect;
 }
 
+//Bomb assignment operator
 Bomb& Bomb::operator=(const Bomb& b){
 	Bomb::operator=(b);
 	return *this;
 }
 
+//Bomb output stream
 std::ostream& operator<<(std::ostream &strm, const Bomb &Bomb){
     if(!Bomb.hasExecuted){
         return strm << "Bomb(" << Bomb.type << ")";
@@ -329,6 +371,7 @@ std::ostream& operator<<(std::ostream &strm, const Bomb &Bomb){
     }
 }
 
+//Validate if the order is valid
 bool Bomb::validate(){
     if (valid){
         cout << "Bomb is valid" << endl;
@@ -340,6 +383,7 @@ bool Bomb::validate(){
     }
 }
 
+//execute order
 void Bomb::execute(){
     if(validate()){
         this->hasExecuted = true;
@@ -352,36 +396,42 @@ void Bomb::execute(){
     }
 }
 
+//getter for valid
 bool Bomb::getValid(){
     return this->valid;
 }
 
+//setter for valid
 void Bomb::setValid(bool valid){
     this->valid = valid;
 }
 
 
 //class Blockade
-
+//Blockade default constructor
 Blockade::Blockade(){
     type = "Blockade";
     valid = true;
 }
 
+//Blockade destructor
 Blockade::~Blockade(){
 
 }
 
+//Blockade copy constructor
 Blockade::Blockade(const Blockade& bl1){
     this->type = bl1.type;
     this->effect = bl1.effect;
 }
 
+//Blockade assignment operator
 Blockade& Blockade::operator=(const Blockade& bl){
 	Blockade::operator=(bl);
 	return *this;
 }
 
+//Blockade output stream
 std::ostream& operator<<(std::ostream &strm, const Blockade &Blockade){
     if(!Blockade.hasExecuted){
         return strm << "Blockade(" << Blockade.type << ")";
@@ -391,6 +441,7 @@ std::ostream& operator<<(std::ostream &strm, const Blockade &Blockade){
     }
 }
 
+//Validate if the order is valid
 bool Blockade::validate(){
     if (valid){
         cout << "Blockade is valid" << endl;
@@ -402,6 +453,7 @@ bool Blockade::validate(){
     }
 }
 
+//execute order
 void Blockade::execute(){
     if(validate()){
         this->hasExecuted = true;
@@ -414,30 +466,35 @@ void Blockade::execute(){
     }
 }
 
+//getter for valid
 bool Blockade::getValid(){
     return this->valid;
 }
 
+//setter for valid
 void Blockade::setValid(bool valid){
     this->valid = valid;
 }
 
 //class Airlift
-
+//Airlift default constructor
 Airlift::Airlift(){
     type = "Airlift";
     valid = true;
 }
 
+//Airlift destructor
 Airlift::~Airlift(){
 
 }
 
+//Airlift copy constructor
 Airlift::Airlift(const Airlift& ai1){
     this->type = ai1.type;
     this->effect = ai1.effect;
 }
 
+//Validate if the order is valid
 bool Airlift::validate(){
     if (valid){
         cout << "Airlift is valid" << endl;
@@ -449,11 +506,13 @@ bool Airlift::validate(){
     }
 }
 
+//Airlift assignment operator
 Airlift& Airlift::operator=(const Airlift& ai){
 	Airlift::operator=(ai);
 	return *this;
 }
 
+//Airlift output stream
 std::ostream& operator<<(std::ostream &strm, const Airlift &Airlift){
     if(!Airlift.hasExecuted){
         return strm << "Airlift(" << Airlift.type << ")";
@@ -463,6 +522,7 @@ std::ostream& operator<<(std::ostream &strm, const Airlift &Airlift){
     }
 }
 
+//execute order
 void Airlift::execute(){
     if(validate()){
         this->hasExecuted = true;
@@ -475,36 +535,42 @@ void Airlift::execute(){
     }
 }
 
+//getter for valid
 bool Airlift::getValid(){
     return this->valid;
 }
 
+//setter for valid
 void Airlift::setValid(bool valid){
     this->valid = valid;
 }
 
 
 //class Negotiate
-
+//Negotiate default constructor
 Negotiate::Negotiate(){
     type = "Negotiate";
     valid = true;
 }
 
+//Negotiate destructor
 Negotiate::~Negotiate(){
 
 }
 
+//Negotiate copy constructor
 Negotiate::Negotiate(const Negotiate& n1){
     this->type = n1.type;
     this->effect = n1.effect;
 }
 
+//Negotiate assignment operator
 Negotiate& Negotiate::operator=(const Negotiate& n){
 	Negotiate::operator=(n);
 	return *this;
 }
 
+//Negotiate output stream
 std::ostream& operator<<(std::ostream &strm, const Negotiate &Negotiate){
     if(!Negotiate.hasExecuted){
         return strm << "Negotiate(" << Negotiate.type << ")";
@@ -514,6 +580,7 @@ std::ostream& operator<<(std::ostream &strm, const Negotiate &Negotiate){
     }
 }
 
+//Validate if the order is valid
 bool Negotiate::validate(){
     if (valid){
         cout << "Negotiate is valid" << endl << endl;
@@ -525,6 +592,7 @@ bool Negotiate::validate(){
     }
 }
 
+//execute order
 void Negotiate::execute(){
     if(validate()){
         this->hasExecuted = true;
@@ -537,10 +605,12 @@ void Negotiate::execute(){
     }
 }
 
+//getter for valid
 bool Negotiate::getValid(){
     return this->valid;
 }
 
+//setter for valid
 void Negotiate::setValid(bool valid){
     this->valid = valid;
 }

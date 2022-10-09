@@ -5,7 +5,7 @@
 using std::cout;
 using std::endl;
 
-
+//Testing everything implemented in Orders.cpp
 void testOrdersLists(){
     cout <<"### Test Orders ###" << endl;
     Order *order = new Order();
@@ -105,7 +105,8 @@ void testOrdersLists(){
         std::cout << *list->getOrder().at(i) << ' ';
     }
 
-    delete list;
+    delete order; delete order2; delete deploy2; delete deploy; delete advance; 
+    delete bomb; delete blockade; delete airlift; delete negotiate;
 
 }
 
