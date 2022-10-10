@@ -92,7 +92,7 @@ void testPlayer() {
     }
 
     /*3.2 toAttack()
-    * Calling function toDefend() to list all territories the player p can attack
+    * Calling function toAttack() to list all territories the player p can attack
     * verify whether adjacent territories belongs to player p or not and print adjacent territories that don't belong to p
     * For this test, 0 represents no adjacent territories (refer 1.1).
     */
@@ -104,10 +104,14 @@ void testPlayer() {
         std::cout<< tp->get_t() << "\t";
     }
 
-
+    /*3.3 issueOrder()
+    * Calling function issueOrder() to add a new order to the existing list of orders owned by the player p
+    * 
+    */
     std::cout << "\n \n # Calling issueOrder() # \n" << std::endl;
     p->issueOrder();
 
+    //calling destructor on player and deck
     delete p; 
     delete d;
 
