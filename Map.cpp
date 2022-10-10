@@ -192,6 +192,7 @@ Map::~Map()
     //the map loader deletes territories
 }
 
+//search method to find index of the territory in the territory vector
 int searchResult(std::vector<Territory *> tList, Territory t)
 {
     int index = -1;
@@ -209,6 +210,7 @@ int searchResult(std::vector<Territory *> tList, Territory t)
     return index;
 }
 
+//validate  method to validate map
 void Map::validate(vector<Territory *> territories)
 {
     cout << "Now Verifying Map validity... \n";

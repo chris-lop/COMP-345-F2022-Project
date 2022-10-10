@@ -8,7 +8,7 @@ using namespace std;
 
 
 //GameEngine class
-
+//start message
 void GameEngine::startMessage() {
     cout << "Now in start state. Valid input: loadmap" << endl;
 }
@@ -39,6 +39,7 @@ void GameEngine::setState(int st)
 {
     state=st;
 }
+//getter for state
 int GameEngine::getState()
 {
     return state;
@@ -156,6 +157,7 @@ void GameEngine::handleInput(std::string line) {
             cout << "Invalid command. Valid command: addplayer" << endl;
         }
     }
+    //players added state
     else if(state==3){
         //state: players added
         //valid input: addplayer, assigncountries
@@ -179,6 +181,7 @@ void GameEngine::handleInput(std::string line) {
         cout<<"Invalid command. Valid commands: addplayer, assigncountries."<<endl;
     }
     else
+    //the issue orders state
     if(state==4){
         //state assign reinforcement
         //valid input: issueorder
@@ -192,6 +195,7 @@ void GameEngine::handleInput(std::string line) {
         cout<<"Invalid command. Valid command: issueorder. "<<endl;
     }
     else
+    //the issue orders state
     if(state==5){
         if(line=="issueorder")
         {
@@ -201,6 +205,7 @@ void GameEngine::handleInput(std::string line) {
             state=5;
         }
         else
+        //the execute orders state
         if(line=="endissueorders")
         {
             executeOrders();
@@ -215,6 +220,7 @@ void GameEngine::handleInput(std::string line) {
         }
     }
     else
+    //the execute orders state
     if(state==6){
         if(line=="execorder"){
             executeOrders();
@@ -223,6 +229,7 @@ void GameEngine::handleInput(std::string line) {
             
         }
         else
+        //assign reinforcement state
         if(line=="endexecorders"){
              assignReinforcement();
             cout<<"you are now in assign reinforcement state. Valid input: issueorder."<<endl;
@@ -230,6 +237,7 @@ void GameEngine::handleInput(std::string line) {
             state=4;
         }
         else
+        //the win state
         if(line=="win")
         {
             win();
@@ -242,6 +250,7 @@ void GameEngine::handleInput(std::string line) {
         
     }
     else
+    //pplay again or end the game
     if(state==7){
         if(line=="play")
         {

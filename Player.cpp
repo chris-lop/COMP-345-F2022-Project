@@ -12,6 +12,8 @@ Territoryt::Territoryt() {
     int arr[] = { 0,0 };
     set_adj(arr);
 }
+
+//paramatrized constructor
 Territoryt::Territoryt(int t, int arr[2]){
     this->t = t;
     this->set_adj(arr);
@@ -134,27 +136,32 @@ Player :: Player(const Player& p1){
     this->olst = ot;
 }
 
-//Getter
+//Getter for name
 std::string Player::get_name() {
         return this->name;
 }
+//Getter for trt
 std::vector <Territoryt*> Player::get_trt() {
         return this->trt;
 }   
+//Getter for olst
 std::vector <Ordert*> Player::get_olst() {
         return this->olst;
 }
+//Getter for hand
 Hand* Player::get_Phand(){
     return this->h;
 }
 
-//Setter
+//Setter for name
 void Player::set_Pname(std::string name){
     this->name = name;
 }
+//Setter for list
 void Player::set_Ordert(std::vector <Ordert*> newolst){
     this->olst = newolst;
 }
+//Setter for hand
 void Player::set_Player_Hand(Hand* h){
     this->h = h;
 }

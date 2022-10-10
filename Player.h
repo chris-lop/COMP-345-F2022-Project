@@ -95,8 +95,11 @@ public:
     void set_Player_Hand(Hand* h);
     
     //methods to implement for assignment 1
+    //issue a list of territories to be defended by the player based on the player owned territories
     std::vector <Territoryt*> toDefend();
+    //issue a list of territories that can be attacked by the player based on the player owned territories
     std::vector <Territoryt*> toAttack();
+    //add a new order input by user to the existing list
     void issueOrder();
 };//end class Player
 
