@@ -16,6 +16,8 @@ void GameEngine::startMessage() {
 //constructor and destructor
 GameEngine::GameEngine(): state(0){
 }
+
+//GameEngine destructor
 GameEngine::~GameEngine()
 {
     
