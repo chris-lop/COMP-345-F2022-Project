@@ -142,6 +142,7 @@ public:
     //setter for valid
     void setValid(bool valid);
 private:
+    //valid stores the information if the order is valid
     bool valid;
 };
 

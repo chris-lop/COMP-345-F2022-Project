@@ -90,11 +90,6 @@ Territory::~Territory()
 {
     territoryOwner = NULL;
 
-    // Destroy adjacent territories vector
-    //for (Territory* aT : this->AdjTerritories)
-    //{
-    //    delete(aT);
-    //}
 }
 
 // Getter for TerritoryName
@@ -194,11 +189,7 @@ Map& Map::operator=(const Map& map)
 // Destructor
 Map::~Map()
 {
-    // Destroy territories vector
-    //for (Territory* t : this->territories)
-    //{
-    //    delete(t);
-    //}
+    //the map loader deletes territories
 }
 
 int searchResult(std::vector<Territory *> tList, Territory t)
