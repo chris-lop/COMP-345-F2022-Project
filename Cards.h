@@ -61,12 +61,14 @@ private:
 
 class Hand {
 public:
-    // Constructors and destructors
+    // Constructors
     Hand();
     Hand(const Hand& h);
+    // Destructor
     ~Hand();
-    // Operators
+    // Assignment operator
     Hand& operator=(const Hand &rightSide);
+    // Stream insertion operator
     friend std::ostream& operator<<(std::ostream& strm, const Hand& deck);
 
     // Adds a card
@@ -76,5 +78,6 @@ public:
     // Returns a const reference to the card list
     const std::vector<Card*>& cardList();
 private:
+    // Collection of Cards the hand owns
     std::vector<Card*> cards;
 };

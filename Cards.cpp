@@ -35,24 +35,30 @@ void Card::play(Hand* hand, Deck* deck, OrdersList* list) {
     hand->returnToDeck(this, deck);
 }
 
+// Returns the type of the card
 std::string Card::getType() {
     return type;
 }
 
+// Card constructor, takes a type
 Card::Card(string type): type(type) {
 }
 
+// Copy constructor
 Card::Card(const Card& o):type(o.type) {
 }
 
+// Card destructor. Only member is a string, (manages its own memory)
+// so no manual deletes needed.
 Card::~Card() {
 }
 
+// Stream insertion operator
 std::ostream& operator<<(std::ostream& strm, const Card& card) {
     return strm << card.type << " card";
 }
 
-
+// Assignment operator for Card
 Card& Card::operator=(const Card &rightSide) {
     type = rightSide.type;
     return *this;
