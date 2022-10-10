@@ -23,16 +23,34 @@ public:
     void setState(int state);
     int getState();
     
-    
+    //takes commands as input and passes through states accordingly
     void handleInput(std::string line);
+    
+    //prints out map is loaded
     void loadMap();
+    
+    //prints out map is validated
     void validateMap();
+    
+    //takes player's name as an input and creates a player
     void addPlayers();
+    
+    //prints out reinforcement is aasigned
     void assignReinforcement();
+    
+    //takes order as input and creates an order
     void issueOrders();
+    
+    //prints out orders are executed
     void executeOrders();
+    
+    //prints out win
     void win();
+    
+    //prints out message at start of the game
     void startMessage();
+    
+    //boolean checks whether last state has been reached or not
     bool finished();
 }; //end of class GameEngine
 
