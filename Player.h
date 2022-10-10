@@ -13,16 +13,22 @@ class Hand;
 class Territoryt {
 
 private:
+    //territory
     int t;
+    //adjacent territories
     std::vector <int> adj;
 
 public:
+    //default constructor
     Territoryt();
+    //constructor with parameters
     Territoryt(int t, int arr[]);
+    //copy constructor
     Territoryt (const Territoryt& t1);
-
+    //setter
     void set_t(int t);
     void set_adj(int arr[]);
+    //getter
     int get_t();
     std::vector<int> get_adj();
 }; //end Territoryt
@@ -32,23 +38,32 @@ public:
 */
 class Ordert {
 private:
+    //Order type
     std::string type;
 
 public:
+    //default constructor
     Ordert();
+    //constructor with parameter
     Ordert(std::string type);
+    //copy constructor
     Ordert (const Ordert& o1);
-
+    //setter
     void set_type(std::string type);
+    //getter
     std::string get_type();
 };//end class Order 
 
 
 class Player {
 private:
+    //player name
     std::string name;
+    //list of territories owned by the player
     std::vector <Territoryt*> trt;
+    //hand of cards owned by the player
     Hand* h;
+    //list of orders by the player
     std::vector <Ordert*> olst;
 
 public:
@@ -79,6 +94,7 @@ public:
     void set_Ordert(std::vector <Ordert*> olst);
     void set_Player_Hand(Hand* h);
     
+    //methods to implement for assignment 1
     std::vector <Territoryt*> toDefend();
     std::vector <Territoryt*> toAttack();
     void issueOrder();
