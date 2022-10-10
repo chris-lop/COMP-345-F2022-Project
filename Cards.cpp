@@ -86,6 +86,7 @@ vector<string> types = {"bomb", "reinforcement", "blockade", "airlift", "diploma
 // The ctor uses this list to determine the number of cards of each type to add to the deck
 vector<int> numberOfEach = {3, 3, 3, 3, 3};
 
+// Deck constructor
 Deck::Deck() {
     // Loop over the types of cards and add to deck the correct number of times
     for (int i = 0; i < types.size(); i++) {
@@ -133,11 +134,14 @@ void Deck::shuffle() {
     }
 }
 
+// Stream insertion operator for Deck
 std::ostream& operator<<(std::ostream& strm, const Deck& deck) {
     strm << "Deck: ";
+    // Print out each Card
     for (int i = 0; i < deck.cards.size(); i++) {
         Card& cardRef = *(deck.cards[i]);
         strm << cardRef;
+        // Add commas after every Card except the last
         if (i < deck.cards.size() - 1) {
             strm << ", ";
         }
@@ -169,6 +173,7 @@ void Hand::addCard(Card* card) {
     cards.push_back(card);
 }
 
+// Returns a const reference to the cards the Hand holds
 const vector<Card*>& Hand::cardList() {
     return cards;
 }

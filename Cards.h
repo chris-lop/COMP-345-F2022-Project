@@ -10,18 +10,21 @@
 void testCards();
 
 // Class forward declarations
+
 class Deck;
 class Hand;
 class Card;
 
 // Class definitions
+
 class Card
 {
 public:
     // Constructs the a card with the given type
     Card(std::string type);
-    // Copy ctor and dtor
+    // Copy ctor
     Card(const Card& o);
+    // Destructor
     ~Card();
     // Assignment operator
     Card& operator=(const Card &rightSide);
@@ -31,7 +34,9 @@ public:
     // Returns the Card's type
     std::string getType();
 private:
+    // Card type
     std::string type;
+    // Stream insertion operator
     friend std::ostream& operator<<(std::ostream& strm, const Card& card);
 };
 
@@ -54,15 +59,18 @@ public:
     // Adds the given card to the list
     void insert(Card* card);
 private:
+    // Collection of cards
     std::vector<Card*> cards;
+    // Private helper method. Shuffles the cards.
     void shuffle();
 };
 
 
 class Hand {
 public:
-    // Constructors
+    // Constructor
     Hand();
+    // Copy contructor
     Hand(const Hand& h);
     // Destructor
     ~Hand();
