@@ -44,14 +44,17 @@ int GameEngine::getState()
     return state;
 }
 
-
+//loads the map
 void GameEngine::loadMap() {
     cout << "Loading map..." << endl;
 }
 
+//validates the map, prints out that the map got validated
 void GameEngine::validateMap() {
     cout << "Validating map..." << endl;
 }
+
+//takes player's name as input from the user and creates a player
 void GameEngine::addPlayers()
 {
     string name;
@@ -61,10 +64,14 @@ void GameEngine::addPlayers()
     cout<<*p;
     delete p;
 }
+
+//prints out assigning reinforcement
 void GameEngine::assignReinforcement()
 {
     cout<<"assigning reinforcements..."<<endl;
 }
+
+//takes user's input and creates an order depending on input
 void GameEngine::issueOrders()
 {
     string type;
@@ -95,16 +102,20 @@ void GameEngine::issueOrders()
     }
     while(type!="bomb"&&type!="blockade"&&type!="airlift"&&type!="negotiate"&&type!="deploy"&&type!="advance");
 }
+
+//executes orders, prints out executing orders
 void GameEngine::executeOrders()
 {
     cout<<"executing orders..."<<endl;
 }
 
+//prints out you win
 void GameEngine::win()
 {
     cout<<"you win."<<endl;
 }
 
+//moves through the states depending on the user's command which will be passed to the function as a parameter
 void GameEngine::handleInput(std::string line) {
     if (state == 0) {
         // State: start
@@ -250,6 +261,7 @@ void GameEngine::handleInput(std::string line) {
     }
 }
 
+//checks whether the final state has been reached or not
 bool GameEngine::finished() {
     return state == 8;
 }
