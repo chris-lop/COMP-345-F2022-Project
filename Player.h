@@ -66,6 +66,8 @@ private:
     Hand* h;
     //list of orders by the player
     std::vector <Ordert*> olst;
+    //number of army units owned
+    int army_unit;
 
 public:
     //default constructor
@@ -89,12 +91,14 @@ public:
     std::vector <Territory*> get_trt();
     std::vector <Ordert*> get_olst();
     Hand* get_Phand();
+    int get_armyUnit();
 
     //setter functions
     void set_Pname(std::string name);
     void set_Trt(std::vector<Territory*>trt);
     void set_Ordert(std::vector <Ordert*> olst);
     void set_Player_Hand(Hand* h);
+    void set_armyUnit(int army_unit);
     
     //methods to implement for assignment 1
     //issue a list of territories to be defended by the player based on the player owned territories

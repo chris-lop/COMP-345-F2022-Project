@@ -1,5 +1,6 @@
 #include <iostream> 
 #include <algorithm>
+#include <cmath>
 #include "Player.h"
 #include "Map.h"
 #include "Cards.h"
@@ -84,6 +85,7 @@ Player::Player() {
     this->trt = {};
     this->h = {};
     this->olst = {};
+    this->army_unit = 0;
 }
 //Constructor with name parameter
 Player::Player(std::string name){
@@ -91,6 +93,7 @@ Player::Player(std::string name){
     this->trt={};
     this->h ={};
     this->olst = {};
+    this->army_unit = 0;
 }
 //Constructor with parameter
 Player::Player(std::string name, std::vector<Territory*> trt, Hand* h, std::vector <Ordert*> olst) {
@@ -98,6 +101,10 @@ Player::Player(std::string name, std::vector<Territory*> trt, Hand* h, std::vect
     this->trt = trt;
     this->h = h;
     this->olst = olst;
+    if(std::floor(trt.size()/3) <= 3){
+        this->army_unit = 3;
+    }
+    else{this->army_unit = std::floor(trt.size()/3);}
 }
 
 //Destructor
@@ -148,6 +155,10 @@ std::vector <Ordert*> Player::get_olst() {
 Hand* Player::get_Phand(){
     return this->h;
 }
+//Getter for army_unit
+int Player::get_armyUnit(){
+    return this->army_unit;
+}
 
 //Setter for name
 void Player::set_Pname(std::string name){
@@ -157,15 +168,17 @@ void Player::set_Pname(std::string name){
 void Player::set_Trt(std::vector<Territory*> trt){
     this->trt = trt;
 }
-
 //Setter for olist
 void Player::set_Ordert(std::vector <Ordert*> newolst){
     this->olst = newolst;
 }
-
 //Setter for hand
 void Player::set_Player_Hand(Hand* h){
     this->h = h;
+}
+//Setter for army_unit
+void Player::set_armyUnit(int army_unit){
+    this->army_unit = army_unit;
 }
 
 //Player stream operators
@@ -179,6 +192,7 @@ std::ostream& operator << (std::ostream& strm, const Player& p){
         strm<<t;
     }
     strm << std::endl;
+    strm << "The number of army units owned: "<< p.army_unit <<std::endl;
     strm << "Player's current list of orders: ";
     for (int i = 0; i < p.olst.size(); i++) {
         std::cout << p.olst.at(i)->get_type() << "\t";
