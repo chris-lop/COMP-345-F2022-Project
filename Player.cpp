@@ -1,51 +1,52 @@
 #include <iostream> 
 #include <algorithm>
 #include "Player.h"
+#include "Map.h"
 #include "Cards.h"
 
 /*
 * Temporary Territoryt class
 */
 //constructors 
-Territoryt::Territoryt() {
-    this->t = 0;
-    int arr[] = { 0,0 };
-    set_adj(arr);
-}
+// Territoryt::Territoryt() {
+//     this->t = 0;
+//     int arr[] = { 0,0 };
+//     set_adj(arr);
+// }
 
-//paramatrized constructor
-Territoryt::Territoryt(int t, int arr[2]){
-    this->t = t;
-    this->set_adj(arr);
-}
+// //paramatrized constructor
+// Territoryt::Territoryt(int t, int arr[2]){
+//     this->t = t;
+//     this->set_adj(arr);
+// }
 
-//copy constructor
-Territoryt:: Territoryt (const Territoryt& t1){
-    this->t = int(t1.t);
-    std::vector<int> adjt;
-    for (int i: t1.adj){
-        adjt.push_back(i);
-    }
-    this->adj = adjt;
-}
+// //copy constructor
+// Territoryt:: Territoryt (const Territoryt& t1){
+//     this->t = int(t1.t);
+//     std::vector<int> adjt;
+//     for (int i: t1.adj){
+//         adjt.push_back(i);
+//     }
+//     this->adj = adjt;
+// }
 
-//setters
-void Territoryt::set_t(int t) {
-    this->t = t;
-}
-void Territoryt::set_adj(int arr[]){
-    for (int i = 0; i <2; i++){
-        this->adj.push_back(arr[i]);
-    }
-}
+// //setters
+// void Territoryt::set_t(int t) {
+//     this->t = t;
+// }
+// void Territoryt::set_adj(int arr[]){
+//     for (int i = 0; i <2; i++){
+//         this->adj.push_back(arr[i]);
+//     }
+// }
 
-//getter
-int Territoryt::get_t() {
-    return t;
-}
-std::vector<int> Territoryt::get_adj() {
-    return this->adj;
-}
+// //getter
+// int Territoryt::get_t() {
+//     return t;
+// }
+// std::vector<int> Territoryt::get_adj() {
+//     return this->adj;
+// }
 
 /*
 * Temporary Order class
@@ -92,7 +93,7 @@ Player::Player(std::string name){
     this->olst = {};
 }
 //Constructor with parameter
-Player::Player(std::string name, std::vector<Territoryt*> trt, Hand* h, std::vector <Ordert*> olst) {
+Player::Player(std::string name, std::vector<Territory*> trt, Hand* h, std::vector <Ordert*> olst) {
     this->name = name;
     this->trt = trt;
     this->h = h;
@@ -101,7 +102,7 @@ Player::Player(std::string name, std::vector<Territoryt*> trt, Hand* h, std::vec
 
 //Destructor
 Player::~Player() {
-    for (Territoryt* t: trt) {
+    for (Territory* t: trt) {
         delete(t);
     }
     delete h;
@@ -115,19 +116,14 @@ Player :: Player(const Player& p1){
     this->name = std::string(p1.name);
 
     //copy the territory vector
-    std::vector<Territoryt*> vt;
-    for (Territoryt* t : p1.trt){
-        int arr[2];
-        arr[0] = t->get_adj().at(0);
-        arr[1] = t->get_adj().at(1);
-        Territoryt* t1 = new Territoryt(t->get_t(), arr); 
-        vt.push_back(t1);
-        }
-    this->trt = vt;
+    for (Territory t: p1.trt){
+        Territory* t1 = new Territory(t);
+        this->trt.push_back(t1);
+    }
 
     this->h = new Hand(*p1.h);
 
-    //copy the territory vector
+    //copy the order vector
     std::vector<Ordert*> ot;
     for(Ordert* o: p1.olst){
         Ordert* o1 = new Ordert(o->get_type());
@@ -141,7 +137,7 @@ std::string Player::get_name() {
         return this->name;
 }
 //Getter for trt
-std::vector <Territoryt*> Player::get_trt() {
+std::vector <Territory*> Player::get_trt() {
         return this->trt;
 }   
 //Getter for olst
@@ -157,10 +153,16 @@ Hand* Player::get_Phand(){
 void Player::set_Pname(std::string name){
     this->name = name;
 }
-//Setter for list
+//Setter for territory list
+void Player::set_Trt(std::vector<Territory*> trt){
+    this->trt = trt;
+}
+
+//Setter for olist
 void Player::set_Ordert(std::vector <Ordert*> newolst){
     this->olst = newolst;
 }
+
 //Setter for hand
 void Player::set_Player_Hand(Hand* h){
     this->h = h;
@@ -169,10 +171,13 @@ void Player::set_Player_Hand(Hand* h){
 //Player stream operators
 std::ostream& operator << (std::ostream& strm, const Player& p){
     strm << "This player is: " << p.name << std::endl;
-    strm <<"Territory owned: ";
-    for (int i = 0; i < p.trt.size(); i++) {
-        strm << p.trt.at(i)->get_t() << "\t" ;
-    } 
+    strm <<"The list of territory owned: "<<std::endl;
+    // for (int i = 0; i < p.trt.size(); i++) {
+    //     strm << p.trt.at(i)->get_t() << "\t" ;
+    // } 
+    for (Territory* t: p.trt){
+        strm<<t;
+    }
     strm << std::endl;
     strm << "Player's current list of orders: ";
     for (int i = 0; i < p.olst.size(); i++) {
@@ -187,55 +192,56 @@ std::istream& operator >> (std::istream& in, Player& p){
     return in;
 }
 
-//required methods for assignment 1
+//method corrected from assignment 1
 //toDefend() 
 //issue a list of territories to be defended by the player based on the player owned territories
-std::vector <Territoryt*> Player::toDefend() {
+std::vector <Territory*> Player::toDefend() {
     
     //new vector of Territory to be returned as result
-    std::vector <Territoryt*> result_defend; 
-    
-    for (int i = 0; i < this->get_trt().size(); i++) {
+    std::vector <Territory*> result_defend; 
 
-        if (this->get_trt().at(i)->get_adj().at(0) != 0 || this->get_trt().at(i)->get_adj().at(1) != 0){
-            bool found = false;
-            bool found2 = false;
-
-            //verify if the first adjacent territory is owned by the player 
-            for (int j =0; j < this->get_trt().size(); j++){
-                int elmt = this->get_trt().at(j)->get_t();
-
-                if(this->get_trt().at(i)->get_adj().at(0) == elmt){
-                    found = true;
-                    break;
-                }  
-            }
-
-            //verify if the second adjacent territory is owned by the player 
-            for (int j =0; j < this->get_trt().size(); j++){
-                int elmt = this->get_trt().at(j)->get_t();
-
-                if(this->get_trt().at(i)->get_adj().at(1) == elmt){
-                    found2 = true;
-                    break;
-                }  
-            }
-
-            //if both adjacent territories belong to the player, then the territory does not need to be defended
-            if (found == true && found2 == true){
+    for (Territory* t : this->trt){
+        
+        //traverse the list of adjacent territories for each t 
+        for(Territory* t_adj: t->getAdjTerritories()){
+            //verify if each territory in the adjacent territories list is in the list of territories owned
+            
+            // //not sure if find() function will work, so another version of the method comparing only the names
+            // for(Territory* t_owned: this->trt){
+            //     if(t_owned->getTerritoryName() == t_adj->getTerritoryName()){
+            //         continue;
+            //     }
+            //     //if the adjacent territory is not owned by the player
+            //     else{
+            //         //if the territory to defend was already added, skip
+            //         for(Territory* t_result: result_defend){
+            //             if (t_result->getTerritoryName() == t_owned->getTerritoryName()){
+            //                 continue;
+            //             }
+            //             //if not, add to the result vector
+            //             else{
+            //                 result_defend.push_back(t_owned);
+            //                 break;
+            //             }
+            //         }  
+            //     }
+            // }
+            
+            
+            if ((std::find(trt.begin(), trt.end(), t_adj)) != trt.end()){
+                //The adjacent territory was found in the list of owned territories
+                //We don't need to defend the territory t
                 continue;
             }
-            //case where the territory to be defended has only one adjacent territory and it does not belong to the player
-            else if(found == true && this->get_trt().at(i)->get_adj().at(1) == 0||found2 == true && this->get_trt().at(i)->get_adj().at(0) != 0){
-                Territoryt* tempt = new Territoryt(*(this->get_trt().at(i)));
-                result_defend.push_back(tempt);
-                continue;
-            }
-            //case where either one of the adjacent territories do not belong to the player
-            else { 
-                 Territoryt* tempt2 = new Territoryt(*(this->get_trt().at(i)));
-                 result_defend.push_back(tempt2);
-                 continue;
+
+            //The adjacent territory was not found, thus, the territory t must be defended
+            else{
+                //if the territory to defend was already added, skip
+                if((std::find(result_defend.begin(),result_defend.end(), t)) != result_defend.end()){
+                    continue;
+                }
+                //if not, add to the result vector
+                else{result_defend.push_back(t);}
             }
         }
     }
@@ -244,64 +250,30 @@ std::vector <Territoryt*> Player::toDefend() {
 
 //toAttack()
 //issue a list of territories that can be attacked by the player based on the player owned territories
-std::vector <Territoryt*> Player::toAttack(){
+std::vector <Territory*> Player::toAttack(){
     //vector territory to be returned as result
-    std::vector <Territoryt*> result_attack;
+    std::vector <Territory*> result_attack;
+ 
+    for (Territory* t : this->trt){
+        //traverse the list of adjacent territories for each t 
+        for(Territory* t_adj: t->getAdjTerritories()){
 
-    for (int i = 0; i < this->get_trt().size(); i++) {
-
-        if (this->get_trt().at(i)->get_adj().at(0) != 0 || this->get_trt().at(i)->get_adj().at(1) != 0){
-            bool found = false;
-
-            //verify if the first adjacent territory is owned by the player 
-            for (int j =0; j < this->get_trt().size(); j++){
-                int elmt = this->get_trt().at(j)->get_t();
-
-                if(this->get_trt().at(i)->get_adj().at(0) == elmt){
-                    found = true;
+            for(Territory* t_owned: this->trt){
+                //the adjacent territory is owned by the player, so the player cannot attack
+                if(t_adj->getTerritoryName() == t_owned->getTerritoryName()){
+                    continue;
+                }
+                //the adjacent territory is not owned by the player, so the player can attack
+                else{
+                    result_attack.push_back(t_adj);
                     break;
-                }  
-            }
-            //if the first adjacent territory does not belong to the player, push the adjacent territory in the result vector
-            if (found == false){
-                if (this->get_trt().at(i)->get_adj().at(0) != 0){
-                    Territoryt* tempt3 = new Territoryt();
-                    tempt3->set_t(this->get_trt().at(i)->get_adj().at(0));
-                    result_attack.push_back(tempt3);
                 }
             }
-            //reset the variable to false since the adjacent territory is owned by the player
-            else {
-                found = false;
-            }
 
-            //verify if the second adjacent territory is owned by the player 
-            for (int j =0; j < this->get_trt().size(); j++){
-                int elmt = this->get_trt().at(j)->get_t();
-
-                if(this->get_trt().at(i)->get_adj().at(1) == elmt){
-                    found = true;
-                    break;
-                }  
-            }
-            //if the second adjacent territory does not belong to the player, push the adjacent territory in the result vector
-            if (found == false){
-                if (this->get_trt().at(i)->get_adj().at(1) != 0){
-                    Territoryt* tempt4 = new Territoryt();
-                    tempt4->set_t(this->get_trt().at(i)->get_adj().at(1));
-                    result_attack.push_back(tempt4);
-                }
-            }
-            else {continue;}
-            
         }
-        //If both adjacent territories are 0, the territory i does not have any adjacent territory, thus, continue the for-loop
-        else { continue; }
-    
     }
-    
-    return result_attack;
 
+    return result_attack;
 }
 
 //issueOrder()

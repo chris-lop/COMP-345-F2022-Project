@@ -1,5 +1,6 @@
 #include <vector>
 #include <string>
+class Territory;
 class Hand;
 #ifndef PLAYER_H
 #define PLAYER_H
@@ -10,28 +11,28 @@ class Hand;
 * An int represents a territory, and an array of int represents its adjacent territories.
 * A 0 value territory is an empty territory.
 */
-class Territoryt {
+// class Territoryt {
 
-private:
-    //territory
-    int t;
-    //adjacent territories
-    std::vector <int> adj;
+// private:
+//     //territory
+//     int t;
+//     //adjacent territories
+//     std::vector <int> adj;
 
-public:
-    //default constructor
-    Territoryt();
-    //constructor with parameters
-    Territoryt(int t, int arr[]);
-    //copy constructor
-    Territoryt (const Territoryt& t1);
-    //setter
-    void set_t(int t);
-    void set_adj(int arr[]);
-    //getter
-    int get_t();
-    std::vector<int> get_adj();
-}; //end Territoryt
+// public:
+//     //default constructor
+//     Territoryt();
+//     //constructor with parameters
+//     Territoryt(int t, int arr[]);
+//     //copy constructor
+//     Territoryt (const Territoryt& t1);
+//     //setter
+//     void set_t(int t);
+//     void set_adj(int arr[]);
+//     //getter
+//     int get_t();
+//     std::vector<int> get_adj();
+// }; //end Territoryt
 
 /*
 * Temporary Order class
@@ -60,7 +61,7 @@ private:
     //player name
     std::string name;
     //list of territories owned by the player
-    std::vector <Territoryt*> trt;
+    std::vector <Territory*> trt;
     //hand of cards owned by the player
     Hand* h;
     //list of orders by the player
@@ -73,7 +74,7 @@ public:
     ~Player();
 
     //constructor with all parameters
-    Player(std::string name, std::vector<Territoryt*> trt, Hand* h, std::vector <Ordert*> olst);
+    Player(std::string name, std::vector<Territory*> trt, Hand* h, std::vector <Ordert*> olst);
     //constructor with name parameter only
     Player(std::string name);
     //copy constructor
@@ -85,26 +86,27 @@ public:
 
     //getter functions
     std::string get_name();
-    std::vector <Territoryt*> get_trt();
+    std::vector <Territory*> get_trt();
     std::vector <Ordert*> get_olst();
     Hand* get_Phand();
 
     //setter functions
     void set_Pname(std::string name);
+    void set_Trt(std::vector<Territory*>trt);
     void set_Ordert(std::vector <Ordert*> olst);
     void set_Player_Hand(Hand* h);
     
     //methods to implement for assignment 1
     //issue a list of territories to be defended by the player based on the player owned territories
-    std::vector <Territoryt*> toDefend();
+    std::vector <Territory*> toDefend();
     //issue a list of territories that can be attacked by the player based on the player owned territories
-    std::vector <Territoryt*> toAttack();
+    std::vector <Territory*> toAttack();
     //add a new order input by user to the existing list
     void issueOrder();
 };//end class Player
 
 //free function testPlayer
-void testPlayer();
+// void testPlayer();
 
 
 #endif
