@@ -101,10 +101,7 @@ Player::Player(std::string name, std::vector<Territory*> trt, Hand* h, std::vect
     this->trt = trt;
     this->h = h;
     this->olst = olst;
-    if(std::floor(trt.size()/3) <= 3){
-        this->army_unit = 3;
-    }
-    else{this->army_unit = std::floor(trt.size()/3);}
+    this->army_unit = 0;
 }
 
 //Destructor

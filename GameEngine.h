@@ -2,6 +2,7 @@
 
 #include<string>
 #include <iostream>
+#include <vector>
 #include "Player.h"
 #pragma once
 #include <string>
@@ -52,8 +53,18 @@ public:
     
     //boolean checks whether last state has been reached or not
     bool finished();
+
+    //A2 functions
+    void mainGameLoop(std::vector <Player*> players);
+    void reinforcementPhase(std::vector <Player*> players);
+    void issueOrdersPhase(Player* p);
+    void executeOrdersPhase();
+
 }; //end of class GameEngine
 
 
 //free function
 void testGameStates();
+
+//A2 free function
+void testMainGameLoop();

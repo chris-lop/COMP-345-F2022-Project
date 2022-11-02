@@ -1,8 +1,11 @@
 
 #include <iostream>
 #include<string>
+#include<cmath>
+#include<vector>
 #include "GameEngine.h"
 #include"Player.h"
+#include"Map.h"
 #include "Orders.h"
 using namespace std;
 
@@ -275,5 +278,61 @@ bool GameEngine::finished() {
     return state == 8;
 }
 
+//A2 functions
+//reinforcementPhase(): provide each players with the appropriate army units number
+void GameEngine::reinforcementPhase(std::vector <Player*> players){
+    //For each player, # army units = (# territories owned)/3, and min 3 units
+    for (Player* p: players){
+        if(std::floor(p->get_trt().size()/3) <= 3){
+            p->set_armyUnit(3);
+        }
+        else{
+            p->set_armyUnit(std::floor(p->get_trt().size()/3));
+        }
+    }
+
+    //Country control bonus value
+   
+}
+
+//issueOrdersPhase(): each player issue orders
+void GameEngine::issueOrdersPhase(Player* p){
+    vector <Territory*> trt_attack = p->toAttack();
+    vector <Territory*> trt_defend = p->toDefend();
+    
+    //Notify player of the current list of territories to defend and to attack
+    std::cout<<"Issue orders for "<<p->get_name()<<std::endl;
+    std::cout<<"Player's territories to defend: "<<std::endl;
+    for (Territory* t: trt_defend){
+        std::cout<< t->getTerritoryName() <<" ";
+    }
+    std::cout<<std::endl;
+    std::cout<<"Player's territories to attack: "<<std::endl;
+    for (Territory* t: trt_attack){
+        std::cout<< t->getTerritoryName() <<" ";
+    }
+    std::cout<<std::endl;
+
+    //Issue deploy order
+    //If no more army units, proceed to issue other orders
+    //If player has more army units, proceed to issue deploy() or break out from order issue phase
+
+    //Orders following deploy()
+}
+
+//executeOrdersPhase(): execute the top order on the list of orders of each player 
+
+//mainGameLoop(): calling 3 phases
+void GameEngine::mainGameLoop(std::vector <Player*> players){
+    //Phase 1: Reinforcement
+    reinforcementPhase(players);
+
+    //Phase 2: issue Orders --> call issueOrdersPhase() in round-robin
+    for(Player* p: players){
+        issueOrdersPhase(p);
+    }
+    
+    //Phase 3: execute Orders --> call executeOrdersPhase() in round-robin
+}
 
 
