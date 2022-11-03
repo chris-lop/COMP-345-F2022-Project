@@ -3,6 +3,7 @@
 #include <fstream>
 #include <vector>
 #include <unordered_map>
+#include <map>
 
 using namespace std;
 
@@ -124,6 +125,7 @@ class Map
         // Variable for number of territories (nodes)   
         int TerritoryNb;
         vector<Territory*> territories;
+        map<string, int> continentsList;
     
         //----------------//
         //  CONSTRUCTORS  //
