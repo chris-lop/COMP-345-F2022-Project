@@ -9,12 +9,7 @@ using std::endl;
 void testOrdersLists(){
     //create different orders objects
     cout <<"### Test Orders ###" << endl;
-    Order *order = new Order();
-    cout << "Creating an Order object: " << *order << endl;
-
-    Order *order2 = new Order();
-    cout << "Creating an Order object: " << *order2 << endl;
-
+    
     Deploy *deploy = new Deploy();
     cout << "Creating a Deploy object: " << *deploy << endl;
 
@@ -42,8 +37,6 @@ void testOrdersLists(){
     //create an OrdersList object to store all the orders in
     OrdersList* list = new OrdersList();
     //Insert all the orders into the list
-    list->addOrder(order);    
-    list->addOrder(order2);
     list->addOrder(deploy);
     list->addOrder(deploy2);
     list->addOrder(advance);
@@ -84,9 +77,9 @@ void testOrdersLists(){
     cout << "\n\n### move() method ###" << endl;
     int index;
     //Move order2 to position 5
-    cout << "Move order2 to position 5" << endl;
+    cout << "Move bomb to position 5" << endl;
     index = 5;
-    list->move(order2,index);
+    list->move(bomb,index);
     //print the list
     for (int i=0; i<list->getOrder().size(); ++i) {
         std::cout << *list->getOrder().at(i) << ' ';
@@ -105,8 +98,8 @@ void testOrdersLists(){
 
     //remove order2 from the list
     cout << "\n\n### remove() method ###" << endl;
-    cout << "Remove order2" << endl;
-    list->remove(order2);
+    cout << "Remove bomb" << endl;
+    list->remove(bomb);
     //print the list
     for (int i=0; i<list->getOrder().size(); ++i) {
         std::cout << *list->getOrder().at(i) << ' ';

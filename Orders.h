@@ -81,8 +81,12 @@ public:
     void setHasExecuted(bool hasExecuted);
      //Order input stream
     friend std::istream& operator >> (std::istream& in, Order&);
-    //Oorder output stream
+    //Order output stream
     friend std::ostream& operator << (std::ostream&, const Order&);
+    // Pure virtual execute() method
+    virtual void execute() = 0;
+    // Pure virtual clone method, required for the copy constructor
+    virtual Order* clone() = 0;
 protected:
     //type is the order type (deploy, advance, bomb, airlift, negotiate, blockade)
     std::string type;
@@ -115,6 +119,8 @@ public:
     bool getValid();
     //setter for valid
     void setValid(bool valid);
+    // Clone method, required for the copy constructor
+    virtual Order* clone();
 private:
     //valid stores the information if the order is valid
     bool valid;
@@ -141,6 +147,8 @@ public:
     bool getValid();
     //setter for valid
     void setValid(bool valid);
+    // Clone method, required for the copy constructor
+    virtual Order* clone();
 private:
     //valid stores the information if the order is valid
     bool valid;
@@ -167,6 +175,8 @@ public:
     bool getValid();
     //setter for valid
     void setValid(bool valid);
+    // Clone method, required for the copy constructor
+    virtual Order* clone();
 private:
     //valid stores the information if the order is valid
     bool valid;
@@ -193,6 +203,8 @@ public:
     bool getValid();
     //setter for valid
     void setValid(bool valid);
+    // Clone method, required for the copy constructor
+    virtual Order* clone();
 private:
     //valid stores the information if the order is valid
     bool valid;
@@ -219,6 +231,8 @@ public:
     bool getValid();
     //setter for valid
     void setValid(bool valid);
+    // Clone method, required for the copy constructor
+    virtual Order* clone();
 private:
     //valid stores the information if the order is valid
     bool valid;
@@ -245,6 +259,8 @@ public:
     bool getValid();
     //setter for valid
     void setValid(bool valid);
+    // Clone method, required for the copy constructor
+    virtual Order* clone();
 private:
     //valid stores the information if the order is valid
     bool valid;

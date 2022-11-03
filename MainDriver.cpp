@@ -9,13 +9,13 @@
 int main()
 {   
     //Part 1: Map
-    testLoadMaps();
+    //testLoadMaps();
     //Part 2: Player
-    testPlayer();
+    //testPlayer();
     //Part 3: Orders List
     testOrdersLists();
     //Part 4: Cards
-    testCards();
+    //testCards();
     //Part 5: Game Engine
-    testGameStates();
+    //testGameStates();
 }

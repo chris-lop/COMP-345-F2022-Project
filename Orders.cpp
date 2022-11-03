@@ -23,7 +23,7 @@ OrdersList::OrdersList(std::vector<Order*> orderList){
 OrdersList::OrdersList(const OrdersList& ol1){
     orderList = vector<Order*>();
     for (Order* c: ol1.orderList) {
-        orderList.push_back(new Order(*c));
+        orderList.push_back(c->clone());
     }}
 
 //OrdersList destructor
@@ -39,7 +39,7 @@ OrdersList::~OrdersList(){
 OrdersList& OrdersList::operator=(const OrdersList& ol) {
 	orderList = vector<Order*>();
     for (Order* c: ol.orderList) {
-        orderList.push_back(new Order(*c));
+        orderList.push_back(c->clone());
     }
     return *this;
 }
@@ -278,6 +278,11 @@ void Deploy::setValid(bool valid){
     this->valid = valid;
 }
 
+//clone method
+Order* Deploy::clone(){
+    return new Deploy(*this);
+}
+
 //class Advance
 //Advance default constructor
 Advance::Advance(){
@@ -348,6 +353,11 @@ void Advance::setValid(bool valid){
     this->valid = valid;
 }
 
+//clone method
+Order* Advance::clone(){
+    return new Advance(*this);
+}
+
 //class Bomb
 //Bomb default constructor
 Bomb::Bomb(){
@@ -416,6 +426,11 @@ bool Bomb::getValid(){
 //setter for valid
 void Bomb::setValid(bool valid){
     this->valid = valid;
+}
+
+//clone method
+Order* Bomb::clone(){
+    return new Bomb(*this);
 }
 
 
@@ -489,6 +504,11 @@ void Blockade::setValid(bool valid){
     this->valid = valid;
 }
 
+//clone method
+Order* Blockade::clone(){
+    return new Blockade(*this);
+}
+
 //class Airlift
 //Airlift default constructor
 Airlift::Airlift(){
@@ -557,6 +577,11 @@ bool Airlift::getValid(){
 //setter for valid
 void Airlift::setValid(bool valid){
     this->valid = valid;
+}
+
+//clone method
+Order* Airlift::clone(){
+    return new Airlift(*this);
 }
 
 
@@ -628,5 +653,10 @@ bool Negotiate::getValid(){
 //setter for valid
 void Negotiate::setValid(bool valid){
     this->valid = valid;
+}
+
+//clone method
+Order* Negotiate::clone(){
+    return new Negotiate(*this);
 }
 
