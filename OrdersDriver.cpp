@@ -38,4 +38,11 @@ void testOrderExecution() {
     cout << "Advance 2 valid (from territory2 to territory 1, Marc moves 5 units): " << advT2->validate() << "\n";
     "# Verifying that advance order checks the number of units in source territory #\n";
     */
+
+   cout << "------- Testing Airlift Order -------\n";
+   Territory *t3 = new Territory(new string("t3"), new string("cont1"), vector<Territory*>{}, nullptr, new int(5));
+   
+
+   delete t1; delete t2; delete t3;
+   delete deployT1; delete deployT2; delete deployT1_units;
 }

@@ -225,12 +225,14 @@ Deploy::~Deploy(){
 
 }
 
+// TODO
 //Deploy copy constructor
 Deploy::Deploy(const Deploy& d1){
     this->type = d1.type;
     this->effect = d1.effect;
 }
 
+// TODO
 //Deploy assignment operator
 Deploy& Deploy::operator=(const Deploy& d1){
 	Order::operator=(d1);
@@ -584,7 +586,11 @@ Order* Blockade::clone(){
 //Airlift default constructor
 Airlift::Airlift(){
     type = "Airlift";
-    valid = true;
+}
+
+//Airlift paramaterized constructor
+Airlift::Airlift(Territory *source, Territory *target, Player *player, int numToMove):
+    source(source), target(target), player(player), numToMove(numToMove) {
 }
 
 //Airlift destructor
@@ -592,6 +598,7 @@ Airlift::~Airlift(){
 
 }
 
+// TODO
 //Airlift copy constructor
 Airlift::Airlift(const Airlift& ai1){
     this->type = ai1.type;
@@ -600,16 +607,25 @@ Airlift::Airlift(const Airlift& ai1){
 
 //Validate if the order is valid
 bool Airlift::validate(){
-    if (valid){
-        cout << "Airlift is valid" << endl;
-        return true;
-    }
-    else{
-        cout << "ERROR: Airlift is not valid" << endl;
-        return false;
-    }
+    vector<Territory*> playerTerritories = player->get_trt();
+    
+    // Check if source territory belongs to player
+    bool ownsSource = any_of(playerTerritories.begin(), playerTerritories.end(), [this](Territory *t){return t == this->source;});
+    bool ownsTarget = any_of(playerTerritories.begin(), playerTerritories.end(), [this](Territory *t){return t == this->target;});
+    bool enoughArmies = (*source->armyAmount) >= numToMove;
+    return ownsSource && ownsTarget && enoughArmies;
 }
 
+//execute order
+void Airlift::execute(){
+    if(validate()){
+        (*source->armyAmount) -= numToMove;
+        (*target->armyAmount) += numToMove;
+    }
+    
+}
+
+// TODO
 //Airlift assignment operator
 Airlift& Airlift::operator=(const Airlift& ai){
 	Airlift::operator=(ai);
@@ -618,36 +634,14 @@ Airlift& Airlift::operator=(const Airlift& ai){
 
 //Airlift output stream
 std::ostream& operator<<(std::ostream &strm, const Airlift &Airlift){
-    if(!Airlift.hasExecuted){
+    return strm << "Airlift order of " << Airlift.numToMove <<  " armies from territory "
+     << *Airlift.source << " to " << *Airlift.target << endl;
+    /*if(!Airlift.hasExecuted){
         return strm << "Airlift(" << Airlift.type << ")";
     }
     else{
         return strm << "Airlift(" << Airlift.type << "," << Airlift.effect << ")";
-    }
-}
-
-//execute order
-void Airlift::execute(){
-    //validate the order then execute
-    if(validate()){
-        this->hasExecuted = true;
-        effect = "executed";
-        cout << "Airlift is executing" << endl;
-    }
-    else{
-        this->hasExecuted = false;
-        cout << "ERROR: Airlift cannot be executed" << endl;
-    }
-}
-
-//getter for valid
-bool Airlift::getValid(){
-    return this->valid;
-}
-
-//setter for valid
-void Airlift::setValid(bool valid){
-    this->valid = valid;
+    }*/
 }
 
 //clone method

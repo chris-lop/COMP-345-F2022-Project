@@ -217,6 +217,8 @@ class Airlift : public Order{
 public:
     //Airlift default constructor
     Airlift();
+    //Airlift Paramaterized constructor
+    Airlift(Territory *source, Territory *target, Player *player, int numToMove);
     //Airlift destructor
     ~Airlift();
     //Airlift copy constructor
@@ -229,15 +231,12 @@ public:
     bool validate();
     //execute order
     void execute();
-    //getter for valid
-    bool getValid();
-    //setter for valid
-    void setValid(bool valid);
     // Clone method, required for the copy constructor
     virtual Order* clone();
 private:
-    //valid stores the information if the order is valid
-    bool valid;
+    Territory *source, *target;
+    Player *player;
+    int numToMove;
 };
 
 //Negotiate lass definition
