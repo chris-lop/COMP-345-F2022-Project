@@ -75,10 +75,12 @@ public:
     //destructor
     ~Player();
 
-    //constructor with all parameters
-    Player(std::string name, std::vector<Territory*> trt, Hand* h, std::vector <Ordert*> olst);
     //constructor with name parameter only
     Player(std::string name);
+    //constructor without reinforcement pool
+    Player(std::string name, std::vector<Territory*> trt, Hand* h, std::vector <Ordert*> olst);
+    //constructor with all parameters
+    Player(std::string name, std::vector<Territory*> trt, Hand* h, std::vector <Ordert*> olst, int army_unit);
     //copy constructor
     Player (const Player& p1);
 

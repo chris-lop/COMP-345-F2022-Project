@@ -55,8 +55,8 @@ public:
     bool finished();
 
     //A2 functions
-    void mainGameLoop(std::vector <Player*> players);
-    void reinforcementPhase(std::vector <Player*> players);
+    void mainGameLoop(std::vector <Player*> players, Map* graph);
+    void reinforcementPhase(std::vector <Player*> players, Map* graph);
     void issueOrdersPhase(Player* p);
     void executeOrdersPhase();
 

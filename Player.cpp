@@ -95,13 +95,21 @@ Player::Player(std::string name){
     this->olst = {};
     this->army_unit = 0;
 }
-//Constructor with parameter
+//Constructor without reinforcement pool
 Player::Player(std::string name, std::vector<Territory*> trt, Hand* h, std::vector <Ordert*> olst) {
     this->name = name;
     this->trt = trt;
     this->h = h;
     this->olst = olst;
     this->army_unit = 0;
+}
+//Constructor with all parameters
+Player::Player(std::string name, std::vector<Territory*> trt, Hand* h, std::vector <Ordert*> olst, int army_unit){
+    this->name = name;
+    this->trt = trt;
+    this->h = h;
+    this->olst = olst;
+    this->army_unit = army_unit;
 }
 
 //Destructor
