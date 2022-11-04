@@ -1,3 +1,5 @@
+#pragma once
+
 #include <vector>
 #include <string>
 class Territory;
@@ -5,34 +7,6 @@ class Hand;
 #ifndef PLAYER_H
 #define PLAYER_H
 
-
-/*
-* Temporary Territory class
-* An int represents a territory, and an array of int represents its adjacent territories.
-* A 0 value territory is an empty territory.
-*/
-// class Territoryt {
-
-// private:
-//     //territory
-//     int t;
-//     //adjacent territories
-//     std::vector <int> adj;
-
-// public:
-//     //default constructor
-//     Territoryt();
-//     //constructor with parameters
-//     Territoryt(int t, int arr[]);
-//     //copy constructor
-//     Territoryt (const Territoryt& t1);
-//     //setter
-//     void set_t(int t);
-//     void set_adj(int arr[]);
-//     //getter
-//     int get_t();
-//     std::vector<int> get_adj();
-// }; //end Territoryt
 
 /*
 * Temporary Order class

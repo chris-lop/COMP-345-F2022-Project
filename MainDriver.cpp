@@ -13,7 +13,7 @@ int main()
     //Part 2: Player
     //testPlayer();
     //Part 3: Orders List
-    testOrdersLists();
+    testOrderExecution();
     //Part 4: Cards
     //testCards();
     //Part 5: Game Engine

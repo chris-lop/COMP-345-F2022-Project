@@ -2,6 +2,8 @@
 
 #include <iostream>
 #include <vector>
+#include "Map.h"
+#include "Player.h"
 
 //Class forward declations
 class OrdersList;
@@ -13,9 +15,9 @@ class Blockade;
 class Airlift;
 class Negotiate;
 
-//Driver function
+//Driver functions
 void testOrdersLists();
-
+void testOrderExecution();
 
 //OrdersList lass definition
 class OrdersList{
@@ -101,8 +103,10 @@ protected:
 //Deploy lass definition
 class Deploy : public Order{
 public:
-    //Deploy default constructor
+    //Default ctor
     Deploy();
+    //Deploy constructor
+    Deploy(Territory *target, Player *player, int numberUnits);
     //Deploy destructor
     ~Deploy();
     //Deploy copy constructor
@@ -115,15 +119,12 @@ public:
     bool validate();
     //execute order
     void execute();
-    //getter for valid
-    bool getValid();
-    //setter for valid
-    void setValid(bool valid);
     // Clone method, required for the copy constructor
     virtual Order* clone();
 private:
-    //valid stores the information if the order is valid
-    bool valid;
+    Territory *target;
+    Player *player;
+    int numberUnits;
 };
 
 //Advance lass definition

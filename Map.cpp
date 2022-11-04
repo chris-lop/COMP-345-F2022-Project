@@ -1,45 +1,11 @@
 #include "Map.h"
+#include "Player.h"
 #include <iostream>
 #include <string.h>
 #include <vector>
 #include <list>
 #include <map>
 using namespace std;
-
-// ------------------------------------- //
-// TEMPORARY PLAYER CLASS IMPLEMENTATION //
-// ------------------------------------- //
-
-// Default Constructor
-PlayerT::PlayerT()
-{
-    this->name = "Player x";
-}
-
-//Destructor
-PlayerT::~PlayerT()
-{
-
-}
-
-//Assignment Operator
-PlayerT& PlayerT::operator=(const PlayerT& player)
-{
-    this->name = player.name;
-    return *this;
-}
-
-//Player Name Getter
-string PlayerT::getName()
-{
-    return this->name;
-}
-
-//Player Name Setter
-void PlayerT::setName(string pname)
-{
-    this->name = pname;
-}
 
 
 // ------------------------------ //
@@ -51,16 +17,17 @@ Territory::Territory()
 {
     this->TerritoryName = new string("default territory");
     this->continent = new string("default continent");
-    this->territoryOwner = new PlayerT();
+    this->territoryOwner = new Player();
     this->armyAmount = new int(0);
     this->AdjTerritories = vector<Territory *>{};
 }
 
 // Parameterized Constructor
-Territory::Territory(string *name, string *continent, vector<Territory *> territories, PlayerT *player, int *army)
+Territory::Territory(string *name, string *continent, vector<Territory *> territories, Player *player, int *army)
 {
     this->TerritoryName = name;
     this->continent = continent;
+    this->AdjTerritories = territories;
     this->territoryOwner = player;
     this->armyAmount = army;
 }
@@ -117,13 +84,13 @@ void Territory::setContinent(string *newContinent)
 }
 
 // Getter for TerritoryOwner
-PlayerT *Territory::getTerritoryOwner()
+Player *Territory::getTerritoryOwner()
 {
     return territoryOwner;
 }
 
 // Setter for TerritoryOwner
-void Territory::setTerritoryOwner(PlayerT *newPlayer)
+void Territory::setTerritoryOwner(Player *newPlayer)
 {
     this->territoryOwner = newPlayer;
 }
@@ -140,11 +107,19 @@ void Territory::setArmy(int *newAmount)
     this->armyAmount = newAmount;
 }
 
+vector<Territory *> Territory::getAdjTerritories() {
+    return AdjTerritories;
+}
+
+void Territory::setAdjTerritories(vector<Territory *> newAdjacent) {
+    AdjTerritories = newAdjacent;
+}
+
 // operator<<
 ostream& operator<<(ostream& strm, const Territory& territory) {
         strm << "Name: " << *(territory.TerritoryName)
          << "| Continent: " << *(territory.continent) << " "
-         << "| Owner: " << territory.territoryOwner->getName() << " "
+         << "| Owner: " << territory.territoryOwner->get_name() << " "
          << "| Army: " << *(territory.armyAmount)
          << "| Adjacent territories: " << endl;
 

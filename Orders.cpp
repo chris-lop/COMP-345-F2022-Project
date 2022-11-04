@@ -1,6 +1,8 @@
 #include <iostream> 
 #include <algorithm>
 #include "Orders.h"
+#include "Map.h"
+#include "Player.h"
 
 using std::cout; 
 using std::string; 
@@ -210,9 +212,12 @@ std::ostream& operator<<(std::ostream &strm, const Order &order){
 
 //class Deploy
 //Deploy default constructor
-Deploy::Deploy(){
+Deploy::Deploy(): target(nullptr), player(nullptr), numberUnits(0) {
     this->type = "Deploy";
-    valid = true;
+}
+
+Deploy::Deploy(Territory *target, Player *player, int numberUnits): 
+    target(target), player(player), numberUnits(numberUnits) {
 }
 
 //Deploy destructor
@@ -244,14 +249,10 @@ std::ostream& operator<<(std::ostream &strm, const Deploy &Deploy){
 
 //Validate if the order is valid
 bool Deploy::validate(){
-    if (valid){
-        cout << "Deploy is valid" << endl;
-        return true;
-    }
-    else{
-        cout << "ERROR: Deploy is not valid" << endl;
-        return false;
-    }
+    vector<Territory*> trt = player->get_trt();
+    bool ownsTerritory = any_of(trt.begin(), trt.end(), [this](Territory *t){return t == this->target;});
+    bool haveEnoughUnits = player->get_armyUnit() >= numberUnits;
+    return ownsTerritory && haveEnoughUnits;
 }
 
 //execute order
@@ -260,22 +261,15 @@ void Deploy::execute(){
     if(validate()){
         this->hasExecuted = true;
         effect = "executed";
-        cout << "Deploy is executing" << endl;
+        int * targetArmies = target->armyAmount;
+        // Increment the amount of target armies
+        (*targetArmies)++; 
+        cout << "Deploy has executed" << endl;
     }
     else{
         this->hasExecuted = false;
         cout << "ERROR: Deploy cannot be executed" << endl;
     }
-}
-
-//getter for valid
-bool Deploy::getValid(){
-    return this->valid;
-}
-
-//setter for valid
-void Deploy::setValid(bool valid){
-    this->valid = valid;
 }
 
 //clone method
