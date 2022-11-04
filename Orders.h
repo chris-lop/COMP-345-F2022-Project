@@ -132,6 +132,8 @@ class Advance : public Order{
 public:
     //Advance default constructor
     Advance();
+    //Advance constructor
+    Advance(Territory *source, Territory *target, Player *player, int numberUnits);
     //Advance destructor
     ~Advance();
     //Advance copy constructor
@@ -144,15 +146,14 @@ public:
     bool validate();
     //execute order
     void execute();
-    //getter for valid
-    bool getValid();
-    //setter for valid
-    void setValid(bool valid);
     // Clone method, required for the copy constructor
     virtual Order* clone();
 private:
     //valid stores the information if the order is valid
-    bool valid;
+    Territory *source;
+    Territory *target;
+    Player *player;
+    int numberUnits;
 };
 
 //Bomb lass definition

@@ -279,9 +279,12 @@ Order* Deploy::clone(){
 
 //class Advance
 //Advance default constructor
-Advance::Advance(){
+Advance::Advance(): target(nullptr), source(nullptr), player(nullptr), numberUnits(0) {
     type = "Advance";
-    valid = true;
+}
+
+Advance::Advance(Territory *source, Territory *target, Player *player, int numberUnits): 
+    source(source), target(target), player(player), numberUnits(numberUnits) {
 }
 
 //Advance destructor
@@ -312,39 +315,113 @@ std::ostream& operator<<(std::ostream &strm, const Advance &Advance){
 }
 
 //Validate if the order is valid
-bool Advance::validate(){
-    if (valid){
-        cout << "Advance is valid" << endl;
-        return true;
+bool Advance::validate()
+{
+    // Get territories owned by player and save them into playerTerritories vector
+    vector<Territory*> playerTerritories = player->get_trt();
+    
+    // Check if source territory belongs to player
+    bool ownsSource = any_of(playerTerritories.begin(), playerTerritories.end(), [this](Territory *t){return t == this->source;});
+    
+    // Check if target territory is adjacent to source
+    bool isTargetAdjacent = false;
+
+    for (auto i : source->AdjTerritories)
+    {
+        if (i==target)
+        {
+            isTargetAdjacent = true;
+            break;
+        }
     }
-    else{
-        cout << "ERROR: Advance is not valid" << endl;
-        return false;
-    }
+
+    // Check if source territory possesses enough troops for request
+    bool enoughTroops = this->numberUnits <= *source->armyAmount;
+
+    return ownsSource && isTargetAdjacent && enoughTroops;
 }
 
 //execute order
 void Advance::execute(){
     //validate the order then execute
-    if(validate()){
+    if(validate())
+    {
         this->hasExecuted = true;
         effect = "executed";
-        cout << "Advance is executing" << endl;
+
+        // Save number of units sent to separate variable
+        int attackerNb = this->numberUnits;
+
+        // Get territories owned by player and save them into playerTerritories vector
+        vector<Territory*> playerTerritories = player->get_trt();
+        
+        // Check if source territory belongs to player
+        bool ownsSource = any_of(playerTerritories.begin(), playerTerritories.end(), [this](Territory *t){return t == this->source;});
+        
+        // Check if target territory belongs to player
+        bool ownsTarget = any_of(playerTerritories.begin(), playerTerritories.end(), [this](Territory *t){return t == this->target;});
+
+        // If player owns source and target, move units
+        if (ownsSource && ownsTarget)
+        {
+            // Increment target territory with army amount
+            target->armyAmount = target->armyAmount+this->numberUnits;
+
+            // Decrement source territory with army amount
+            source->armyAmount = source->armyAmount-this->numberUnits;
+        }
+        // If player does not own target, attack target
+        else
+        {
+            // While attacker or defender doesn't have 0 units...
+            while (attackerNb!=0 || this->target->armyAmount!=0)
+            {
+                // Counters to keep track of losses
+                int attackerLosses = 0;
+                int defenderLosses = 0;
+
+                // For every attacking unit, increment defenders loss with probability
+                for (int i = 0; i < attackerNb; i++)
+                {
+                    bool kill = (rand() % 100) < 60;
+                    if (kill)
+                    {
+                        defenderLosses++;
+                    }
+                }
+
+                // For every defending unit, increment attackers loss with probability
+                for (int i = 0; i < *target->armyAmount; i++)
+                {
+                    bool kill = (rand() % 100) < 70;
+                    if (kill)
+                    {
+                        attackerLosses++;
+                    }
+                }
+
+                // Decrement source army and target territory army with their losses
+                attackerNb = attackerNb - attackerLosses;
+                this->target->armyAmount = this->target->armyAmount - defenderLosses;
+
+                // Check for negative values and set them to zero for attacker and defender
+                if (attackerNb < 0)
+                {
+                    attackerNb = 0;
+                }
+
+                if (*this->target->armyAmount < 0)
+                {
+                    this->target->armyAmount = 0;
+                }
+            }
+        }
+        cout << "Deploy has executed" << endl;
     }
     else{
         this->hasExecuted = false;
         cout << "ERROR: Advance cannot be executed" << endl;
     }
-}
-
-//getter for valid
-bool Advance::getValid(){
-    return this->valid;
-}
-
-//setter for valid
-void Advance::setValid(bool valid){
-    this->valid = valid;
 }
 
 //clone method
