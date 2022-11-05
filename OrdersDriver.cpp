@@ -18,19 +18,21 @@ void testOrderExecution() {
     
     cout << "########## TESTING ORDER EXECUTION ##########" <<"\n";
     cout << "Territory 1: " << *t1 << " Territory 2: " << *t2 << " Player: " << *p <<"\n";
-    Deploy *deployT1 = new Deploy(t1, p, 5);
-    Deploy *deployT2 = new Deploy(t2, p, 5);
+    Deploy *deployT1 = new Deploy(t1, p, 1);
+    Deploy *deployT2 = new Deploy(t2, p, 1);
     //cout << "deployT1: " << *deployT1 << " deployT2: " << *deployT2 << "\n";
     cout << "------- Testing Deploy Order -------" <<"\n";
     cout << "# Verifying that deploy order checks ownership #\n";
-    cout << "Deploy 1 valid (for territory1, move 5 units): " << deployT1->validate() << "\n";
-    cout << "Deploy 2 valid (for territory2, move 5 units): " << deployT2->validate() << "\n";
+    cout << "Deploy 1 valid (for territory1, move 1 unit): " << deployT1->validate() << "\n";
+    cout << "Deploy 2 valid (for territory2, move 1 unit): " << deployT2->validate() << "\n";
+
+    cout << "# See the effect string #" << endl;
     deployT1->execute();
-    cout << "Deploy 1 effect: " << deployT1->getEffect() << endl;
+    cout << "Deploy 1 has executed, effect: " << deployT1->getEffect() << endl;
+
     cout << "# Verifying that deploy order checks the number of units in reinforcement pool #\n";
     Deploy *deployT1_units = new Deploy(t1, p, 10);
     cout << "Deploy 1 valid (for territory1, move 10 units): " << deployT1_units->validate() << "\n";
-    
     /*
     cout << "------- Testing Advance Order -------" <<"\n";
     Advance *advT1 = new Advance(t1, t2, p, 5);
@@ -46,14 +48,20 @@ void testOrderExecution() {
    vector<Territory*> playerTerritories = p->get_trt();
    playerTerritories.push_back(t3);
    p->set_Trt(playerTerritories);
-   Airlift *a1 = new Airlift(t1, t2, p, 5);
-   Airlift *a2 = new Airlift(t1, t3, p, 5);
+   Airlift *a1 = new Airlift(t1, t2, p, 1);
+   Airlift *a2 = new Airlift(t1, t3, p, 1);
    cout << "Territory 3: " << *t3 << endl /*<< "a1: " << *a1 << " a2: " << *a2 << endl*/;
    cout << "# Verifying that airlift validate checks the ownership of territories #" << endl;
-   cout << "Airlift 1 valid (t1->t2 5 units): " << a1->validate() << endl;
-   cout << "Airlift 2 valid (t1->t3 5 units): " << a2->validate() << endl;
+   cout << "Airlift 1 valid (t1->t2 1 unit): " << a1->validate() << endl;
+   cout << "Airlift 2 valid (t1->t3 1 unit): " << a2->validate() << endl;
+   
+   cout << "# See the effect string #" << endl;
+   a2->execute();
+   cout << "a2 has executed, effect:" << a2->getEffect() << endl;
    Airlift *a3 = new Airlift(t1, t3, p, 10);
    // cout << "a3: " << *a3 << endl;
+
+
    cout << "# Verifying that airlift validate checks number of armies #" << endl;
    cout << "Airlift 3 valid (t1->t3 10 units): " << a3->validate() << endl;
 

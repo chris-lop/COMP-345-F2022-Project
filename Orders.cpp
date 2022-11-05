@@ -262,7 +262,7 @@ void Deploy::execute(){
     //validate the order then execute
     if(validate()){
         this->hasExecuted = true;
-        effect.append("Executed Deploy order, adding ").append(std::to_string(numberUnits)).append(" to the territory ").append(*(target->getTerritoryName()));
+        effect.append("Executed Deploy order, adding ").append(std::to_string(numberUnits)).append(" units to the territory ").append(*(target->getTerritoryName()));
         // Increment the amount of target armies
         int *targetArmies = target->armyAmount;
         (*targetArmies) += numberUnits;
@@ -620,6 +620,9 @@ void Airlift::execute(){
     if(validate()){
         (*source->armyAmount) -= numToMove;
         (*target->armyAmount) += numToMove;
+        effect.append("Executed Airlift order, moving ").append(to_string(numToMove))
+                .append(" units from ").append(*source->getTerritoryName()).append(" to ")
+                .append(*target->getTerritoryName());
     }
     
 }
