@@ -1,4 +1,6 @@
 #include <iostream>
+#include <vector>
+#include <algorithm>
 #include "Player.h"
 #include "Cards.h"
 #include "Map.h"
@@ -11,7 +13,7 @@ int main()
     //Part 1: Map
     testLoadMaps();
     //Part 2: Player
-    testPlayer();
+    // testPlayer();
     //Part 3: Orders List
     testOrdersLists();
     //Part 4: Cards

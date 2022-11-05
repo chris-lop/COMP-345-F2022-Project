@@ -140,6 +140,16 @@ void Territory::setArmy(int *newAmount)
     this->armyAmount = newAmount;
 }
 
+//Getter for adjacent Territories
+vector<Territory *> Territory::getAdjTerritories() {
+    return AdjTerritories;
+}
+
+//Setter for adjacent Territories
+void Territory::setAdjTerritories(vector<Territory *> newAdjacent) {
+    AdjTerritories = newAdjacent;
+}
+
 // operator<<
 ostream& operator<<(ostream& strm, const Territory& territory) {
         strm << "Name: " << *(territory.TerritoryName)

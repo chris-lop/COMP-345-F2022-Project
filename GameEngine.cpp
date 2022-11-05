@@ -312,7 +312,7 @@ void GameEngine::reinforcementPhase(std::vector <Player*> players, Map* graph){
     //read the game map to store continent information
     for(int i=0; i<continent_bonus.size(); i++){
         for (Territory* t: graph->territories){
-            string new_c =*t->getContinent();
+            string new_c =*(t->getContinent());
             if(new_c==continents[i]){
                 t_continents[i].push_back(t);
             }
@@ -324,20 +324,21 @@ void GameEngine::reinforcementPhase(std::vector <Player*> players, Map* graph){
         for(int i=0; i<continent_bonus.size(); i++){
             int increment = 0;
             for(Territory* vt: t_continents[i]){
-                if (find(p->get_trt().begin(), p->get_trt().end(), vt) != p->get_trt().end()) {
-                    continue;
-                    increment+=1;
+                vector<Territory*> own_trt = p->get_trt();
+                if (find(own_trt.begin(), own_trt.end(), vt) != own_trt.end()) {
+                    increment = increment+1;
                 }
-                //breaks the for-loop as soon as a territory of the given continent is not found
+                //don't increment if a territory of the given continent is not found
                 else{
-                    break;
+                    continue;
                 }
             }
             //if player owns all territories of a given continent
             if(increment==t_continents[i].size()){
                 //find the bonus value corresponding to the continent
                 auto it = continent_bonus.find(continents[i]);
-                p->set_armyUnit(p->get_armyUnit()+it->second);
+                int bonus = it->second;
+                p->set_armyUnit(p->get_armyUnit()+bonus);
             }
             //else, continue the verification with the next continent
             else{
@@ -345,6 +346,10 @@ void GameEngine::reinforcementPhase(std::vector <Player*> players, Map* graph){
             }
         }
     }    
+
+    for(Player* p: players){
+        std::cout<<"Player "<< p->get_name() << "'s total army units: "<<p->get_armyUnit()<<std::endl;
+    }
 }
 
 //issueOrdersPhase(): each player issue orders

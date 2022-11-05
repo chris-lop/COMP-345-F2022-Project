@@ -4,6 +4,7 @@
 #include <iostream>
 #include <vector>
 #include "Player.h"
+#include "Map.h"
 #pragma once
 #include <string>
 

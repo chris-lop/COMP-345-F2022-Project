@@ -190,13 +190,11 @@ void Player::set_armyUnit(int army_unit){
 std::ostream& operator << (std::ostream& strm, const Player& p){
     strm << "This player is: " << p.name << std::endl;
     strm <<"The list of territory owned: "<<std::endl;
-    // for (int i = 0; i < p.trt.size(); i++) {
-    //     strm << p.trt.at(i)->get_t() << "\t" ;
-    // } 
+
     for (Territory* t: p.trt){
-        strm<<t;
+        strm<< *(t->getTerritoryName())<<"\t";
     }
-    strm << std::endl;
+    strm << "\n";
     strm << "The number of army units owned: "<< p.army_unit <<std::endl;
     strm << "Player's current list of orders: ";
     for (int i = 0; i < p.olst.size(); i++) {
@@ -225,28 +223,6 @@ std::vector <Territory*> Player::toDefend() {
         for(Territory* t_adj: t->getAdjTerritories()){
             //verify if each territory in the adjacent territories list is in the list of territories owned
             
-            // //not sure if find() function will work, so another version of the method comparing only the names
-            // for(Territory* t_owned: this->trt){
-            //     if(t_owned->getTerritoryName() == t_adj->getTerritoryName()){
-            //         continue;
-            //     }
-            //     //if the adjacent territory is not owned by the player
-            //     else{
-            //         //if the territory to defend was already added, skip
-            //         for(Territory* t_result: result_defend){
-            //             if (t_result->getTerritoryName() == t_owned->getTerritoryName()){
-            //                 continue;
-            //             }
-            //             //if not, add to the result vector
-            //             else{
-            //                 result_defend.push_back(t_owned);
-            //                 break;
-            //             }
-            //         }  
-            //     }
-            // }
-            
-            
             if ((std::find(trt.begin(), trt.end(), t_adj)) != trt.end()){
                 //The adjacent territory was found in the list of owned territories
                 //We don't need to defend the territory t
@@ -274,19 +250,23 @@ std::vector <Territory*> Player::toAttack(){
     std::vector <Territory*> result_attack;
  
     for (Territory* t : this->trt){
-        //traverse the list of adjacent territories for each t 
+        //traverse the list of adjacent territories for each territory t
         for(Territory* t_adj: t->getAdjTerritories()){
 
-            for(Territory* t_owned: this->trt){
-                //the adjacent territory is owned by the player, so the player cannot attack
-                if(t_adj->getTerritoryName() == t_owned->getTerritoryName()){
+            if ((std::find(trt.begin(), trt.end(), t_adj)) != trt.end()){
+                //The adjacent territory was found in the list of owned territories
+                //We don't need to attack the territory t
+                continue;
+            }
+
+            //The adjacent territory was not found in owned territories, thus, the territory t_adj can be attacked
+            else{
+                //if the territory to attack was already added, skip
+                if((std::find(result_attack.begin(),result_attack.end(), t_adj)) != result_attack.end()){
                     continue;
                 }
-                //the adjacent territory is not owned by the player, so the player can attack
-                else{
-                    result_attack.push_back(t_adj);
-                    break;
-                }
+                //if not, add to the result vector
+                else{result_attack.push_back(t_adj);}
             }
 
         }
