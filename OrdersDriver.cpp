@@ -25,6 +25,8 @@ void testOrderExecution() {
     cout << "# Verifying that deploy order checks ownership #\n";
     cout << "Deploy 1 valid (for territory1, move 5 units): " << deployT1->validate() << "\n";
     cout << "Deploy 2 valid (for territory2, move 5 units): " << deployT2->validate() << "\n";
+    deployT1->execute();
+    cout << "Deploy 1 effect: " << deployT1->getEffect() << endl;
     cout << "# Verifying that deploy order checks the number of units in reinforcement pool #\n";
     Deploy *deployT1_units = new Deploy(t1, p, 10);
     cout << "Deploy 1 valid (for territory1, move 10 units): " << deployT1_units->validate() << "\n";

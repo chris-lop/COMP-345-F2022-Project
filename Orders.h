@@ -96,8 +96,6 @@ protected:
     std::string effect;
     //hasExecuted checks if the order has executed yet
     bool hasExecuted;
-    
-
 };
 
 //Deploy lass definition

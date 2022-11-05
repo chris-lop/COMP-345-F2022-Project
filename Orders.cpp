@@ -212,12 +212,12 @@ std::ostream& operator<<(std::ostream &strm, const Order &order){
 
 //class Deploy
 //Deploy default constructor
-Deploy::Deploy(): target(nullptr), player(nullptr), numberUnits(0) {
+Deploy::Deploy(): Order("Deploy"), target(nullptr), player(nullptr), numberUnits(0) {
     this->type = "Deploy";
 }
 
 Deploy::Deploy(Territory *target, Player *player, int numberUnits): 
-    target(target), player(player), numberUnits(numberUnits) {
+    Order("Deploy"), target(target), player(player), numberUnits(numberUnits) {
 }
 
 //Deploy destructor
@@ -262,11 +262,11 @@ void Deploy::execute(){
     //validate the order then execute
     if(validate()){
         this->hasExecuted = true;
-        effect = "executed";
-        int * targetArmies = target->armyAmount;
+        effect.append("Executed Deploy order, adding ").append(std::to_string(numberUnits)).append(" to the territory ").append(*(target->getTerritoryName()));
         // Increment the amount of target armies
-        (*targetArmies)++; 
-        cout << "Deploy has executed" << endl;
+        int *targetArmies = target->armyAmount;
+        (*targetArmies) += numberUnits;
+        
     }
     else{
         this->hasExecuted = false;
@@ -590,7 +590,7 @@ Airlift::Airlift(){
 
 //Airlift paramaterized constructor
 Airlift::Airlift(Territory *source, Territory *target, Player *player, int numToMove):
-    source(source), target(target), player(player), numToMove(numToMove) {
+    Order("Airlift"), source(source), target(target), player(player), numToMove(numToMove) {
 }
 
 //Airlift destructor
