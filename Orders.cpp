@@ -612,7 +612,7 @@ bool Airlift::validate(){
     // Check if source territory belongs to player
     bool ownsSource = any_of(playerTerritories.begin(), playerTerritories.end(), [this](Territory *t){return t == this->source;});
     bool ownsTarget = any_of(playerTerritories.begin(), playerTerritories.end(), [this](Territory *t){return t == this->target;});
-    bool enoughArmies = (*source->armyAmount) >= numToMove;
+    bool enoughArmies = *(source->armyAmount) >= numToMove;
     return ownsSource && ownsTarget && enoughArmies;
 }
 
@@ -635,7 +635,7 @@ Airlift& Airlift::operator=(const Airlift& ai){
 //Airlift output stream
 std::ostream& operator<<(std::ostream &strm, const Airlift &Airlift){
     return strm << "Airlift order of " << Airlift.numToMove <<  " armies from territory "
-     << *Airlift.source << " to " << *Airlift.target << endl;
+     << *Airlift.source << " to " << *Airlift.target;
     /*if(!Airlift.hasExecuted){
         return strm << "Airlift(" << Airlift.type << ")";
     }

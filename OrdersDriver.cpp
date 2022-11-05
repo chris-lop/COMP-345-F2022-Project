@@ -40,9 +40,23 @@ void testOrderExecution() {
     */
 
    cout << "------- Testing Airlift Order -------\n";
-   Territory *t3 = new Territory(new string("t3"), new string("cont1"), vector<Territory*>{}, nullptr, new int(5));
-   
+   Territory *t3 = new Territory(new string("t3"), new string("cont1"), vector<Territory*>{t2}, p, new int(5));
+   vector<Territory*> playerTerritories = p->get_trt();
+   playerTerritories.push_back(t3);
+   p->set_Trt(playerTerritories);
+   Airlift *a1 = new Airlift(t1, t2, p, 5);
+   Airlift *a2 = new Airlift(t1, t3, p, 5);
+   cout << "Territory 3: " << *t3 << endl /*<< "a1: " << *a1 << " a2: " << *a2 << endl*/;
+   cout << "# Verifying that airlift validate checks the ownership of territories #" << endl;
+   cout << "Airlift 1 valid (t1->t2 5 units): " << a1->validate() << endl;
+   cout << "Airlift 2 valid (t1->t3 5 units): " << a2->validate() << endl;
+   Airlift *a3 = new Airlift(t1, t3, p, 10);
+   // cout << "a3: " << *a3 << endl;
+   cout << "# Verifying that airlift validate checks number of armies #" << endl;
+   cout << "Airlift 3 valid (t1->t3 10 units): " << a3->validate() << endl;
+
 
    delete t1; delete t2; delete t3;
+   delete a1; delete a2; delete a3;
    delete deployT1; delete deployT2; delete deployT1_units;
 }
