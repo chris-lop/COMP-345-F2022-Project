@@ -64,7 +64,7 @@ public:
     //Order destructor
     ~Order();
     //Order paramatrized constructor
-    Order(std::string description, std::string effect);
+    Order(std::string type, std::string effect);
     //Order copy constructor
     Order(const Order& o1);
     //Order assignment operator

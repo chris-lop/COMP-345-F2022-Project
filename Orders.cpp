@@ -225,17 +225,17 @@ Deploy::~Deploy(){
 
 }
 
-// TODO
 //Deploy copy constructor
-Deploy::Deploy(const Deploy& d1){
-    this->type = d1.type;
-    this->effect = d1.effect;
+Deploy::Deploy(const Deploy& d1):
+    Order(d1.type, d1.effect), target(d1.target), player(player), numberUnits(d1.numberUnits) {
 }
 
-// TODO
 //Deploy assignment operator
 Deploy& Deploy::operator=(const Deploy& d1){
 	Order::operator=(d1);
+    this->target = d1.target;
+    this->player = d1.player;
+    this->numberUnits = d1.numberUnits;
 	return *this;
 }
 
@@ -598,11 +598,10 @@ Airlift::~Airlift(){
 
 }
 
-// TODO
 //Airlift copy constructor
-Airlift::Airlift(const Airlift& ai1){
-    this->type = ai1.type;
-    this->effect = ai1.effect;
+Airlift::Airlift(const Airlift& ai1): 
+    Order(ai1.type, ai1.effect), source(ai1.source), target(ai1.target), 
+    player(ai1.player), numToMove(ai1.numToMove) {
 }
 
 //Validate if the order is valid
@@ -629,6 +628,10 @@ void Airlift::execute(){
 //Airlift assignment operator
 Airlift& Airlift::operator=(const Airlift& ai){
 	Airlift::operator=(ai);
+    this->source = ai.source;
+    this->target = ai.target;
+    this->player = ai.player;
+    this->numToMove = ai.numToMove;
 	return *this;
 }
 
