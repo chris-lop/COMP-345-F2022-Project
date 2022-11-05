@@ -433,9 +433,12 @@ Order* Advance::clone(){
 
 //class Bomb
 //Bomb default constructor
-Bomb::Bomb(){
-    type = "Bomb";
-    valid = true;
+Bomb::Bomb(): Order("Bomb"), target(nullptr), player(nullptr) {
+    this->type = "Bomb";
+}
+
+Bomb::Bomb(Territory *target, Player *player): 
+    Order("Bomb"), target(target), player(player) {
 }
 
 //Bomb destructor
@@ -466,15 +469,30 @@ std::ostream& operator<<(std::ostream &strm, const Bomb &Bomb){
 }
 
 //Validate if the order is valid
-bool Bomb::validate(){
-    if (valid){
-        cout << "Bomb is valid" << endl;
-        return true;
+bool Bomb::validate()
+{
+    // Save player territories into vector
+    vector<Territory*> playerTerritories = player->get_trt();
+
+    // Check if target territory belongs to player
+    bool ownsTarget = any_of(playerTerritories.begin(), playerTerritories.end(), [this](Territory *t){return t == this->target;});
+
+    // Check if target territory is adjacent to source
+    bool isTargetAdjacent = false;
+
+    for (auto i : playerTerritories)
+    {
+        for (auto j : i->AdjTerritories)
+        {
+            if (j==target)
+            {
+                isTargetAdjacent = true;
+                goto DONE;
+            }
+        }
     }
-    else{
-        cout << "ERROR: Bomb is not valid" << endl;
-        return false;
-    }
+
+    DONE: return !ownsTarget&&isTargetAdjacent;
 }
 
 //execute order
@@ -483,22 +501,16 @@ void Bomb::execute(){
     if(validate()){
         this->hasExecuted = true;
         effect = "executed";
-        cout << "Bomb is executing" << endl;
+
+        // Remove half of the army units from target territory
+        *(this->target->armyAmount) = *(this->target->armyAmount)/2;
+
+        cout << "Bomb has executed" << endl;
     }
     else{
         this->hasExecuted = false;
         cout << "ERROR: Bomb cannot be executed" << endl;
     }
-}
-
-//getter for valid
-bool Bomb::getValid(){
-    return this->valid;
-}
-
-//setter for valid
-void Bomb::setValid(bool valid){
-    this->valid = valid;
 }
 
 //clone method
@@ -624,7 +636,6 @@ void Airlift::execute(){
                 .append(" units from ").append(*source->getTerritoryName()).append(" to ")
                 .append(*target->getTerritoryName());
     }
-    
 }
 
 // TODO

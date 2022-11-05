@@ -33,6 +33,7 @@ void testOrderExecution() {
     cout << "# Verifying that deploy order checks the number of units in reinforcement pool #\n";
     Deploy *deployT1_units = new Deploy(t1, p, 10);
     cout << "Deploy 1 valid (for territory1, move 10 units): " << deployT1_units->validate() << "\n";
+    
     /*
     cout << "------- Testing Advance Order -------" <<"\n";
     Advance *advT1 = new Advance(t1, t2, p, 5);
@@ -64,6 +65,15 @@ void testOrderExecution() {
 
    cout << "# Verifying that airlift validate checks number of armies #" << endl;
    cout << "Airlift 3 valid (t1->t3 10 units): " << a3->validate() << endl;
+
+   /*
+    cout << "------- Testing Bomb Order -------" <<"\n";
+    Bomb *bmbT1 = new Advance(t1, p);
+    Bomb *bmbT2 = new Advance(t2, p);
+    cout << "# Verifying that bomb order checks ownership of target territory #\n";
+    cout << "Bomb 1 valid (Marc bombs t1): " << bmbT1->validate() << "\n";
+    cout << "Bomb 2 valid (Marc bombs t2): " << bmbT2->validate() << "\n";
+    */
 
 
    delete t1; delete t2; delete t3;

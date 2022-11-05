@@ -147,7 +147,6 @@ public:
     // Clone method, required for the copy constructor
     virtual Order* clone();
 private:
-    //valid stores the information if the order is valid
     Territory *source;
     Territory *target;
     Player *player;
@@ -159,6 +158,8 @@ class Bomb : public Order{
 public:
     //Bomb default constructor
     Bomb();
+    //Bomb constructor
+    Bomb(Territory *target, Player *player);
     //Bomb destructor
     ~Bomb();
     //Bomb copy constructor
@@ -171,15 +172,11 @@ public:
     bool validate();
     //execute order
     void execute();
-    //getter for valid
-    bool getValid();
-    //setter for valid
-    void setValid(bool valid);
     // Clone method, required for the copy constructor
     virtual Order* clone();
 private:
-    //valid stores the information if the order is valid
-    bool valid;
+    Territory *target;
+    Player *player;
 };
 
 //Blockade lass definition
