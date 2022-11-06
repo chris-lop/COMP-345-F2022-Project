@@ -209,9 +209,9 @@ void Player::issueOrder() {
     std::cout << std::endl;
 
     //adding the input order to the existing list and return the new list
-    Order *o1 = new Order(order1);
-    this->get_olst()->addOrder(o1);
-    std::cout << "The new list of order is: ";
-    std::cout << *(this->get_olst()) << std::endl;
+    // Order *o1 = new Order(order1);
+    // this->get_olst()->addOrder(o1);
+    // std::cout << "The new list of order is: ";
+    // std::cout << *(this->get_olst()) << std::endl;
 
 }

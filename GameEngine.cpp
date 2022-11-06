@@ -1,4 +1,3 @@
-
 #include <iostream>
 #include<string>
 #include<cmath>
@@ -417,5 +416,3 @@ void GameEngine::mainGameLoop(std::vector <Player*> players, Map* graph){
     
     //Phase 3: execute Orders --> call executeOrdersPhase() in round-robin
 }
-
-
