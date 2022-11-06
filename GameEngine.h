@@ -58,7 +58,7 @@ public:
     //A2 functions
     void mainGameLoop(std::vector <Player*> players, Map* graph);
     void reinforcementPhase(std::vector <Player*> players, Map* graph);
-    void issueOrdersPhase(Player* p);
+    void issueOrdersPhase(std::vector<Player*> players);
     void executeOrdersPhase();
 
 }; //end of class GameEngine

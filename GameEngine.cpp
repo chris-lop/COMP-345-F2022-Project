@@ -353,7 +353,9 @@ void GameEngine::reinforcementPhase(std::vector <Player*> players, Map* graph){
 }
 
 //issueOrdersPhase(): each player issue orders
-void GameEngine::issueOrdersPhase(Player* p){
+void GameEngine::issueOrdersPhase(std::vector <Player*> players){
+    
+    for (Player* p: players){
     vector <Territory*> trt_attack = p->toAttack();
     vector <Territory*> trt_defend = p->toDefend();
     
@@ -361,20 +363,45 @@ void GameEngine::issueOrdersPhase(Player* p){
     std::cout<<"Issue orders for "<<p->get_name()<<std::endl;
     std::cout<<"Player's territories to defend: "<<std::endl;
     for (Territory* t: trt_defend){
-        std::cout<< t->getTerritoryName() <<" ";
+        std::cout<< *(t->getTerritoryName()) <<" ";
     }
     std::cout<<std::endl;
     std::cout<<"Player's territories to attack: "<<std::endl;
     for (Territory* t: trt_attack){
-        std::cout<< t->getTerritoryName() <<" ";
+        std::cout<< *(t->getTerritoryName()) <<" ";
     }
     std::cout<<std::endl;
 
     //Issue deploy order
     //If no more army units, proceed to issue other orders
     //If player has more army units, proceed to issue deploy() or break out from order issue phase
+    bool issue = true;
+    while(issue){
+        p->issueOrder();
+        bool yn = true;
+        while(yn){
+            std:: string answer;
+            std::cout<< "Add more order? (Y/N)"<<std::endl;
+            std::cin>>answer;
+            if(answer=="Y"){
+                issue=true;
+                yn = true;
+                p->issueOrder();
+            }
+            else if(answer=="N")
+            {
+               issue=false;
+               yn = false;
+            }
+            else{
+                std::cout<<"Please enter the correct answer."<<std::endl;
+                yn = true;
+            }
+        }
+    }
 
     //Orders following deploy()
+    }
 }
 
 //executeOrdersPhase(): execute the top order on the list of orders of each player 
@@ -386,9 +413,7 @@ void GameEngine::mainGameLoop(std::vector <Player*> players, Map* graph){
     reinforcementPhase(players, graph);
 
     //Phase 2: issue Orders --> call issueOrdersPhase() in round-robin
-    for(Player* p: players){
-        issueOrdersPhase(p);
-    }
+    issueOrdersPhase(players);
     
     //Phase 3: execute Orders --> call executeOrdersPhase() in round-robin
 }

@@ -24,7 +24,8 @@ OrdersList::OrdersList(const OrdersList& ol1){
     orderList = vector<Order*>();
     for (Order* c: ol1.orderList) {
         orderList.push_back(new Order(*c));
-    }}
+    }
+}
 
 //OrdersList destructor
 OrdersList::~OrdersList(){
@@ -196,7 +197,7 @@ void Order::setHasExecuted(bool hasExecuted){
     return in;
 }
 
-//Oorder output stream
+//Order output stream
 std::ostream& operator<<(std::ostream &strm, const Order &order){
     if(!order.hasExecuted){
         return strm << "Order(" << order.type << ")";

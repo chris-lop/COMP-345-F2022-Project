@@ -1,60 +1,10 @@
 #include <vector>
 #include <string>
+#include "Orders.h"
 class Territory;
 class Hand;
 #ifndef PLAYER_H
 #define PLAYER_H
-
-
-/*
-* Temporary Territory class
-* An int represents a territory, and an array of int represents its adjacent territories.
-* A 0 value territory is an empty territory.
-*/
-// class Territoryt {
-
-// private:
-//     //territory
-//     int t;
-//     //adjacent territories
-//     std::vector <int> adj;
-
-// public:
-//     //default constructor
-//     Territoryt();
-//     //constructor with parameters
-//     Territoryt(int t, int arr[]);
-//     //copy constructor
-//     Territoryt (const Territoryt& t1);
-//     //setter
-//     void set_t(int t);
-//     void set_adj(int arr[]);
-//     //getter
-//     int get_t();
-//     std::vector<int> get_adj();
-// }; //end Territoryt
-
-/*
-* Temporary Order class
-*/
-class Ordert {
-private:
-    //Order type
-    std::string type;
-
-public:
-    //default constructor
-    Ordert();
-    //constructor with parameter
-    Ordert(std::string type);
-    //copy constructor
-    Ordert (const Ordert& o1);
-    //setter
-    void set_type(std::string type);
-    //getter
-    std::string get_type();
-};//end class Order 
-
 
 class Player {
 private:
@@ -65,7 +15,7 @@ private:
     //hand of cards owned by the player
     Hand* h;
     //list of orders by the player
-    std::vector <Ordert*> olst;
+    OrdersList* olst;
     //number of army units owned
     int army_unit;
 
@@ -78,9 +28,9 @@ public:
     //constructor with name parameter only
     Player(std::string name);
     //constructor without reinforcement pool
-    Player(std::string name, std::vector<Territory*> trt, Hand* h, std::vector <Ordert*> olst);
+    Player(std::string name, std::vector<Territory*> trt, Hand* h, OrdersList* olst);
     //constructor with all parameters
-    Player(std::string name, std::vector<Territory*> trt, Hand* h, std::vector <Ordert*> olst, int army_unit);
+    Player(std::string name, std::vector<Territory*> trt, Hand* h, OrdersList* olst, int army_unit);
     //copy constructor
     Player (const Player& p1);
 
@@ -91,14 +41,14 @@ public:
     //getter functions
     std::string get_name();
     std::vector <Territory*> get_trt();
-    std::vector <Ordert*> get_olst();
+    OrdersList* get_olst();
     Hand* get_Phand();
     int get_armyUnit();
 
     //setter functions
     void set_Pname(std::string name);
     void set_Trt(std::vector<Territory*>trt);
-    void set_Ordert(std::vector <Ordert*> olst);
+    void set_Olst(OrdersList* olst);
     void set_Player_Hand(Hand* h);
     void set_armyUnit(int army_unit);
     
