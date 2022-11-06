@@ -1,80 +1,10 @@
 #include <iostream> 
 #include <algorithm>
 #include <cmath>
-#include "Player.h"
+#include "Orders.h"
 #include "Map.h"
 #include "Cards.h"
-
-/*
-* Temporary Territoryt class
-*/
-//constructors 
-// Territoryt::Territoryt() {
-//     this->t = 0;
-//     int arr[] = { 0,0 };
-//     set_adj(arr);
-// }
-
-// //paramatrized constructor
-// Territoryt::Territoryt(int t, int arr[2]){
-//     this->t = t;
-//     this->set_adj(arr);
-// }
-
-// //copy constructor
-// Territoryt:: Territoryt (const Territoryt& t1){
-//     this->t = int(t1.t);
-//     std::vector<int> adjt;
-//     for (int i: t1.adj){
-//         adjt.push_back(i);
-//     }
-//     this->adj = adjt;
-// }
-
-// //setters
-// void Territoryt::set_t(int t) {
-//     this->t = t;
-// }
-// void Territoryt::set_adj(int arr[]){
-//     for (int i = 0; i <2; i++){
-//         this->adj.push_back(arr[i]);
-//     }
-// }
-
-// //getter
-// int Territoryt::get_t() {
-//     return t;
-// }
-// std::vector<int> Territoryt::get_adj() {
-//     return this->adj;
-// }
-
-/*
-* Temporary Order class
-*/
-//constructor
-Ordert::Ordert() {
-    set_type("null");
-}
-Ordert::Ordert(std::string type) {
-    this->type = type;
-}
-
-//copy constructor
-Ordert::Ordert (const Ordert& o1){
-    this->type = std::string(o1.type);
-}
-
-//setter
-void Ordert::set_type(std::string type) {
-    this->type = type;
-}
-
-//getter
-std::string Ordert::get_type() {
-    return this->type;
-}
-
+#include "Player.h"
 
 /*
 * Player class
@@ -83,25 +13,33 @@ std::string Ordert::get_type() {
 Player::Player() {
     this->name = "Null";
     this->trt = {};
-    this->h = {};
-    this->olst = {};
+    this->h = new Hand();
+    this->olst = new OrdersList();
     this->army_unit = 0;
 }
 //Constructor with name parameter
 Player::Player(std::string name){
     this->name = name;
     this->trt={};
-    this->h ={};
-    this->olst = {};
+    this->h = new Hand();
+    this->olst = new OrdersList();
     this->army_unit = 0;
 }
-//Constructor with parameter
-Player::Player(std::string name, std::vector<Territory*> trt, Hand* h, std::vector <Ordert*> olst) {
+//Constructor without reinforcement pool
+Player::Player(std::string name, std::vector<Territory*> trt, Hand* h, OrdersList* olst) {
     this->name = name;
     this->trt = trt;
     this->h = h;
     this->olst = olst;
     this->army_unit = 0;
+}
+//Constructor with all parameters
+Player::Player(std::string name, std::vector<Territory*> trt, Hand* h, OrdersList* olst, int army_unit){
+    this->name = name;
+    this->trt = trt;
+    this->h = h;
+    this->olst = olst;
+    this->army_unit = army_unit;
 }
 
 //Destructor
@@ -110,9 +48,7 @@ Player::~Player() {
         delete(t);
     }
     delete h;
-    for (Ordert* o: olst) {
-        delete(o);
-    }
+    delete olst;
 }
 
 //Copy constructor
@@ -126,14 +62,7 @@ Player :: Player(const Player& p1){
     }
 
     this->h = new Hand(*p1.h);
-
-    //copy the order vector
-    std::vector<Ordert*> ot;
-    for(Ordert* o: p1.olst){
-        Ordert* o1 = new Ordert(o->get_type());
-        ot.push_back(o1);
-    }
-    this->olst = ot;
+    this->olst = new OrdersList(*p1.olst);
 }
 
 //Getter for name
@@ -145,7 +74,7 @@ std::vector <Territory*> Player::get_trt() {
         return this->trt;
 }   
 //Getter for olst
-std::vector <Ordert*> Player::get_olst() {
+OrdersList* Player::get_olst() {
         return this->olst;
 }
 //Getter for hand
@@ -165,8 +94,8 @@ void Player::set_Pname(std::string name){
 void Player::set_Trt(std::vector<Territory*> trt){
     this->trt = trt;
 }
-//Setter for olist
-void Player::set_Ordert(std::vector <Ordert*> newolst){
+//Setter for order list
+void Player::set_Olst(OrdersList* newolst){
     this->olst = newolst;
 }
 //Setter for hand
@@ -182,18 +111,15 @@ void Player::set_armyUnit(int army_unit){
 std::ostream& operator << (std::ostream& strm, const Player& p){
     strm << "This player is: " << p.name << std::endl;
     strm <<"The list of territory owned: "<<std::endl;
-    // for (int i = 0; i < p.trt.size(); i++) {
-    //     strm << p.trt.at(i)->get_t() << "\t" ;
-    // } 
+
     for (Territory* t: p.trt){
-        strm<<t;
+        string t_name = *(t->getTerritoryName());
+        strm<< t_name<<"\t";
     }
-    strm << std::endl;
+    strm << "\n";
     strm << "The number of army units owned: "<< p.army_unit <<std::endl;
     strm << "Player's current list of orders: ";
-    for (int i = 0; i < p.olst.size(); i++) {
-        std::cout << p.olst.at(i)->get_type() << "\t";
-    }
+    strm << p.olst;
     strm << std::endl;
     return strm;
 }
@@ -216,28 +142,6 @@ std::vector <Territory*> Player::toDefend() {
         //traverse the list of adjacent territories for each t 
         for(Territory* t_adj: t->getAdjTerritories()){
             //verify if each territory in the adjacent territories list is in the list of territories owned
-            
-            // //not sure if find() function will work, so another version of the method comparing only the names
-            // for(Territory* t_owned: this->trt){
-            //     if(t_owned->getTerritoryName() == t_adj->getTerritoryName()){
-            //         continue;
-            //     }
-            //     //if the adjacent territory is not owned by the player
-            //     else{
-            //         //if the territory to defend was already added, skip
-            //         for(Territory* t_result: result_defend){
-            //             if (t_result->getTerritoryName() == t_owned->getTerritoryName()){
-            //                 continue;
-            //             }
-            //             //if not, add to the result vector
-            //             else{
-            //                 result_defend.push_back(t_owned);
-            //                 break;
-            //             }
-            //         }  
-            //     }
-            // }
-            
             
             if ((std::find(trt.begin(), trt.end(), t_adj)) != trt.end()){
                 //The adjacent territory was found in the list of owned territories
@@ -266,19 +170,23 @@ std::vector <Territory*> Player::toAttack(){
     std::vector <Territory*> result_attack;
  
     for (Territory* t : this->trt){
-        //traverse the list of adjacent territories for each t 
+        //traverse the list of adjacent territories for each territory t
         for(Territory* t_adj: t->getAdjTerritories()){
 
-            for(Territory* t_owned: this->trt){
-                //the adjacent territory is owned by the player, so the player cannot attack
-                if(t_adj->getTerritoryName() == t_owned->getTerritoryName()){
+            if ((std::find(trt.begin(), trt.end(), t_adj)) != trt.end()){
+                //The adjacent territory was found in the list of owned territories
+                //We don't need to attack the territory t
+                continue;
+            }
+
+            //The adjacent territory was not found in owned territories, thus, the territory t_adj can be attacked
+            else{
+                //if the territory to attack was already added, skip
+                if((std::find(result_attack.begin(),result_attack.end(), t_adj)) != result_attack.end()){
                     continue;
                 }
-                //the adjacent territory is not owned by the player, so the player can attack
-                else{
-                    result_attack.push_back(t_adj);
-                    break;
-                }
+                //if not, add to the result vector
+                else{result_attack.push_back(t_adj);}
             }
 
         }
@@ -291,9 +199,7 @@ std::vector <Territory*> Player::toAttack(){
 //add a new order input by user to the existing list
 void Player::issueOrder() {
     std::cout << "The player " << this->get_name() << "'s current list of order is: ";
-    for (int i = 0; i < this->get_olst().size(); i++) {
-        std::cout << this->get_olst().at(i)->get_type() << "\t";
-    }
+    std::cout<< *(this->get_olst());
     std::cout<<std::endl;
 
     //prompt user to input order
@@ -303,17 +209,9 @@ void Player::issueOrder() {
     std::cout << std::endl;
 
     //adding the input order to the existing list and return the new list
-    Ordert * o1 = new Ordert(order1);
-    std::vector <Ordert*> newolst;
-    for (int i=0; i <this->get_olst().size(); i++){
-        newolst.push_back(this->get_olst().at(i));
-    }
-    newolst.push_back(o1);
-
-    this->set_Ordert(newolst);
-
+    Order *o1 = new Order(order1);
+    this->get_olst()->addOrder(o1);
     std::cout << "The new list of order is: ";
-        for (int i = 0; i < this->get_olst().size(); i++) {
-        std::cout << this->get_olst().at(i)->get_type() << "\t";
-    }
+    std::cout << *(this->get_olst()) << std::endl;
+
 }

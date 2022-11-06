@@ -198,7 +198,7 @@ void Order::setHasExecuted(bool hasExecuted){
     return in;
 }
 
-//Oorder output stream
+//Order output stream
 std::ostream& operator<<(std::ostream &strm, const Order &order){
     if(!order.hasExecuted){
         return strm << "Order(" << order.type << ")";

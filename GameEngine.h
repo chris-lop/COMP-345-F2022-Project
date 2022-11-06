@@ -4,7 +4,7 @@
 #include <iostream>
 #include <vector>
 #include "Player.h"
-#pragma once
+#include "Map.h"
 #include <string>
 
 class GameEngine {
@@ -55,9 +55,9 @@ public:
     bool finished();
 
     //A2 functions
-    void mainGameLoop(std::vector <Player*> players);
-    void reinforcementPhase(std::vector <Player*> players);
-    void issueOrdersPhase(Player* p);
+    void mainGameLoop(std::vector <Player*> players, Map* graph);
+    void reinforcementPhase(std::vector <Player*> players, Map* graph);
+    void issueOrdersPhase(std::vector<Player*> players);
     void executeOrdersPhase();
 
 }; //end of class GameEngine

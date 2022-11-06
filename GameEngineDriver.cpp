@@ -19,3 +19,7 @@ void testGameStates() {
    
 }
 
+void testMainGameLoop(){
+    //Need implementation
+}
+
