@@ -19,5 +19,8 @@ int main()
     //Part 4: Cards
     testCards();
     //Part 5: Game Engine
-    testGameStates();    
+    testGameStates();
+
+    //A2 Part 3
+    testMainGameLoop();
 }
