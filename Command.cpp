@@ -6,17 +6,19 @@ using std::vector;
 using std::string;
 
 
-//constructors
+//default constructor
 Command::Command(){
    
     this->command={};
     this->effect={};
 }
 
+//parametrized constructor
 Command::Command(std::vector<string*>command, std::vector<string*> effect){
     this->command=command;
     this->effect=effect;
 }
+
 
 //destructor
 Command::~Command(){
@@ -29,15 +31,14 @@ for(string* c:command){
 
 }
 
-//stream operators
 
-
-
+//output stream operator
 std::ostream& operator<<(std::ostream &strm, const Command &c){
  strm<<"the saved effects are:"<<std::endl;
-   for (string* e: c.effect){
-        strm<<e;
+   for(string* s:c.effect){
+        strm<<*(s)<<endl;
     }
+   
     return strm;
 
 }
