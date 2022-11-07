@@ -263,9 +263,11 @@ void Deploy::execute(){
     if(validate()){
         this->hasExecuted = true;
         effect.append("Executed Deploy order, adding ").append(std::to_string(numberUnits)).append(" units to the territory ").append(*(target->getTerritoryName()));
-        // Increment the amount of target armies
+        // Increment the amount of army units in the target
         int *targetArmies = target->armyAmount;
         (*targetArmies) += numberUnits;
+        // Decrement the amount of army units the player has
+        player->set_armyUnit(player->get_armyUnit() - numberUnits);
         
     }
     else{
@@ -669,9 +671,12 @@ Order* Airlift::clone(){
 
 //class Negotiate
 //Negotiate default constructor
-Negotiate::Negotiate(){
-    type = "Negotiate";
-    valid = true;
+Negotiate::Negotiate(): Order("negotiate") {
+}
+
+// Negotiate paramaterized constructor
+Negotiate::Negotiate(Player *source, Player *target):
+    Order("Negotiate"), source(source), target(target) {
 }
 
 //Negotiate destructor
@@ -679,12 +684,14 @@ Negotiate::~Negotiate(){
 
 }
 
+// TODO
 //Negotiate copy constructor
-Negotiate::Negotiate(const Negotiate& n1){
+Negotiate::Negotiate(const Negotiate& n1): Order(n1.type), source(source), {
     this->type = n1.type;
     this->effect = n1.effect;
 }
 
+// TODO
 //Negotiate assignment operator
 Negotiate& Negotiate::operator=(const Negotiate& n){
 	Negotiate::operator=(n);
@@ -702,39 +709,20 @@ std::ostream& operator<<(std::ostream &strm, const Negotiate &Negotiate){
 }
 
 //Validate if the order is valid
-bool Negotiate::validate(){
-    if (valid){
-        cout << "Negotiate is valid" << endl << endl;
-        return true;
-    }
-    else{
-        cout << "ERROR: Negotiate is not valid" << endl;
-        return false;
-    }
+bool Negotiate::validate() {
+    // The order is valid as long as the two 
+    // players it's between are different
+    return source != target;
 }
 
 //execute order
 void Negotiate::execute(){
     //validate the order then execute
     if(validate()){
-        this->hasExecuted = true;
-        effect = "executed";
-        cout << "Negotiate is executing" << endl;
+        effect.append("Negotiation between ").append(source->get_name()).append(" and ").append(target->get_name());
+        source->addNegotiatedPlayer(target);
+        target->addNegotiatedPlayer(source);
     }
-    else{
-        this->hasExecuted = false;
-        cout << "ERROR: Negotiate cannot be executed" << endl;
-    }
-}
-
-//getter for valid
-bool Negotiate::getValid(){
-    return this->valid;
-}
-
-//setter for valid
-void Negotiate::setValid(bool valid){
-    this->valid = valid;
 }
 
 //clone method

@@ -104,8 +104,17 @@ void Player::set_Player_Hand(Hand* h){
     this->h = h;
 }
 //Setter for army_unit
+// ALSO: clears the list of negotiated players,
+// since it's the start of a turn
 void Player::set_armyUnit(int army_unit){
     this->army_unit = army_unit;
+    if (army_unit > this->army_unit) {
+        negotiatedPlayers.clear();
+    }
+}
+
+void Player::addNegotiatedPlayer(Player *p) {
+    negotiatedPlayers.push_back(p);
 }
 
 //Player stream operators

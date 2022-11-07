@@ -19,6 +19,11 @@ private:
     OrdersList* olst;
     //number of army units owned
     int army_unit;
+    // List of players this player has a negotiation with
+    // (and cannot attack for the remainder of the turn)
+    // Reset when army units added to the reinforcement
+    // pool, at the start of the turn
+    vector<Player*> negotiatedPlayers;
 
 public:
     //default constructor
@@ -60,6 +65,10 @@ public:
     std::vector <Territory*> toAttack();
     //add a new order input by user to the existing list
     void issueOrder();
+
+    // Other methods
+    // Adds player to the list of negotiated players
+    void addNegotiatedPlayer(Player *p);
 };//end class Player
 
 //free function testPlayer
