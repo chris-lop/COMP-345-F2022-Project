@@ -8,7 +8,7 @@ using std::string;
 //constructor
 CommandProcessor::CommandProcessor(){
     state="start";
-    this->c={};
+    c=new Command();
     done=false;
 }
 
