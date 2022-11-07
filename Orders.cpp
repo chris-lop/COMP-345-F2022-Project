@@ -1,5 +1,6 @@
 #include <iostream> 
 #include <algorithm>
+#include <vector>
 #include "Orders.h"
 #include "Map.h"
 #include "Player.h"
@@ -686,9 +687,7 @@ Negotiate::~Negotiate(){
 
 // TODO
 //Negotiate copy constructor
-Negotiate::Negotiate(const Negotiate& n1): Order(n1.type), source(source), {
-    this->type = n1.type;
-    this->effect = n1.effect;
+Negotiate::Negotiate(const Negotiate& n1): Order(n1.type), source(source), target(target) {
 }
 
 // TODO

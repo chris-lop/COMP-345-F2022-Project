@@ -23,7 +23,7 @@ private:
     // (and cannot attack for the remainder of the turn)
     // Reset when army units added to the reinforcement
     // pool, at the start of the turn
-    vector<Player*> negotiatedPlayers;
+    std::vector<Player*> negotiatedPlayers;
 
 public:
     //default constructor

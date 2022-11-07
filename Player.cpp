@@ -6,6 +6,8 @@
 #include "Cards.h"
 #include "Player.h"
 
+using std::vector;
+
 /*
 * Player class
 */
