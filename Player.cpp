@@ -22,18 +22,19 @@ Player::Player(std::string name){
     this->name = name;
     this->trt={};
     this->h = new Hand();
-    this->olst = new OrdersList();
+    // this->olst = new OrdersList();
     this->army_unit = 0;
 }
 //Constructor without reinforcement pool
+
 Player::Player(std::string name, std::vector<Territory*> trt, Hand* h, OrdersList* olst) {
     this->name = name;
     this->trt = trt;
     this->h = h;
-    this->olst = olst;
+    // this->olst = olst;
     this->army_unit = 0;
 }
-//Constructor with all parameters
+//Constructor with all parameters 
 Player::Player(std::string name, std::vector<Territory*> trt, Hand* h, OrdersList* olst, int army_unit){
     this->name = name;
     this->trt = trt;
@@ -48,7 +49,7 @@ Player::~Player() {
         delete(t);
     }
     delete h;
-    delete olst;
+    // delete olst;
 }
 
 //Copy constructor
@@ -119,7 +120,7 @@ std::ostream& operator << (std::ostream& strm, const Player& p){
     strm << "\n";
     strm << "The number of army units owned: "<< p.army_unit <<std::endl;
     strm << "Player's current list of orders: ";
-    strm << p.olst;
+    // strm << p.olst;
     strm << std::endl;
     return strm;
 }

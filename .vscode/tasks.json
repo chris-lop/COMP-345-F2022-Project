@@ -7,17 +7,17 @@
             "args": [
                 "-fdiagnostics-color=always",
                 "-g",
-                /*"${workspaceFolder}\\MapDriver.cpp",*/
+                // /*"${workspaceFolder}\\MapDriver.cpp",*/
                 "${workspaceFolder}\\Map.cpp",
-                /*"${workspaceFolder}\\CardsDriver.cpp",*/
+                // /*"${workspaceFolder}\\CardsDriver.cpp",*/
                 "${workspaceFolder}\\Cards.cpp",
                 "${workspaceFolder}\\MainDriver.cpp",
                 "${workspaceFolder}\\Player.cpp",
                 // "${workspaceFolder}\\PlayerDriver.cpp",
                 "${workspaceFolder}\\Orders.cpp",
                 "${workspaceFolder}\\OrdersDriver.cpp",
-                /*"${workspaceFolder}\\GameEngine.cpp",
-                "${workspaceFolder}\\GameEngineDriver.cpp",*/
+                "${workspaceFolder}\\GameEngine.cpp",
+                "${workspaceFolder}\\GameEngineDriver.cpp",
                 "-o",
                 "${workspaceFolder}\\Project.exe"
             ],

@@ -3,7 +3,7 @@
 
 #include <vector>
 #include <string>
-#include "Orders.h"
+class OrdersList;
 class Territory;
 class Hand;
 

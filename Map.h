@@ -1,51 +1,16 @@
+#pragma once
 #include <string>
 #include <iostream>
 #include <fstream>
 #include <vector>
 #include <unordered_map>
 #include <map>
-#pragma once
+#include "Player.h"
+
 
 using namespace std;
 
 void testLoadMaps();
-
-// ----------------------- //
-// TEMPORARY PLAYER CLASS  //
-// ----------------------- //
-class PlayerT
-{
-        //--------------//
-        //  ATTRIBUTES  //
-        //--------------//
-
-        //Player name
-        string name;
-
-    public:
-        //----------------//
-        //  CONSTRUCTORS  //
-        //----------------//
-
-        //Default Constructor
-        PlayerT();
-
-        //Destructor
-        ~PlayerT();
-
-        //Assignment Operator        
-        PlayerT& operator = (const PlayerT&);
-
-        //-----------//
-        //  GETTERS  //
-        //-----------//
-        string getName();     
-        
-        //-----------//
-        //  SETTERS  //
-        //-----------//
-        void setName(string);
-};
 
 // ------------------ //
 //  TERRITORY CLASS   //
@@ -66,7 +31,7 @@ public:
     string *continent;
 
     // Player to which territory belongs to
-    PlayerT *territoryOwner;
+    Player* territoryOwner;
 
     // Amount of troops in a given territory
     int *armyAmount;
@@ -79,7 +44,7 @@ public:
     Territory();
 
     // Parameterized Constructor
-    Territory(string *, string *, vector<Territory *>, PlayerT *, int *);
+    Territory(string *, string *, vector<Territory *>, Player *, int *);
 
     // Copy Constructor
     Territory(const Territory *);
@@ -95,7 +60,7 @@ public:
     //-----------//
     string *getTerritoryName();
     string *getContinent();
-    PlayerT *getTerritoryOwner();
+    Player *getTerritoryOwner();
     int *getArmy();
     vector<Territory *> getAdjTerritories();
 
@@ -104,7 +69,7 @@ public:
     //-----------//
     void setTerritoryName(string *);
     void setContinent(string *);
-    void setTerritoryOwner(PlayerT *);
+    void setTerritoryOwner(Player *);
     void setArmy(int *);
     void setAdjTerritories(vector<Territory *>);
 
