@@ -7,6 +7,7 @@
 #include <map>
 #include "Player.h"
 
+class Player;
 
 using namespace std;
 

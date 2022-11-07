@@ -15,6 +15,9 @@ class Blockade;
 class Airlift;
 class Negotiate;
 
+class Territory;
+class Player;
+
 //Driver functions
 void testOrdersLists();
 void testOrderExecution();
