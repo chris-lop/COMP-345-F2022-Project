@@ -207,21 +207,19 @@ std::vector <Territory*> Player::toAttack(){
 
 //issueOrder()
 //add a new order input by user to the existing list
-void Player::issueOrder() {
+void Player::issueOrder(Order* o) {
     std::cout << "The player " << this->get_name() << "'s current list of order is: ";
     std::cout<< *(this->get_olst());
     std::cout<<std::endl;
 
-    //prompt user to input order
-    std::string order1;
-    std::cout <<"Enter order to be added: " ;
-    std::cin >> order1;
-    std::cout << std::endl;
+    // //prompt user to input order
+    // std::string order1;
+    // std::cout <<"Enter order to be added: " ;
+    // std::cin >> order1;
+    // std::cout << std::endl;
 
     //adding the input order to the existing list and return the new list
-    // Order *o1 = new Order(order1);
-    // this->get_olst()->addOrder(o1);
-    // std::cout << "The new list of order is: ";
-    // std::cout << *(this->get_olst()) << std::endl;
-
+    this->get_olst()->addOrder(o);
+    std::cout << "The new list of order is: ";
+    std::cout << *(this->get_olst()) << std::endl;
 }

@@ -76,16 +76,15 @@ void GameEngine::assignReinforcement()
 }
 
 //takes user's input and creates an order depending on input
-void GameEngine::issueOrders()
+Order* GameEngine::issueOrders()
 {
     string type;
+    Order* order = nullptr;
     do{
-    
     cout<<"enter your order."<<endl;
     cin>>type;
     if(type!="bomb"&&type!="blockade"&&type!="airlift"&&type!="negotiate"&&type!="deploy"&&type!="advance")
     cout<<"invalid type. valid types: bomb, bloackade, airlift, negotiate, deploy, advance."<<endl;
-     Order* order = nullptr;
             if (type == "bomb") {
                 order = new Bomb();
             } else if (type == "blockade") {
@@ -105,6 +104,8 @@ void GameEngine::issueOrders()
         delete order;
     }
     while(type!="bomb"&&type!="blockade"&&type!="airlift"&&type!="negotiate"&&type!="deploy"&&type!="advance");
+
+    return order;
 }
 
 //executes orders, prints out executing orders
@@ -280,17 +281,17 @@ bool GameEngine::finished() {
 
 //A2 functions
 //reinforcementPhase(): provide each players with the appropriate army units number
-void GameEngine::reinforcementPhase(std::vector <Player*> players, Map* graph){
+void GameEngine::reinforcementPhase(Player* p, Map* graph){
     //For each player, # army units = (# territories owned)/3, and min. 3 units
-    for (Player* p: players){
-        if(std::floor(p->get_trt().size()/3) <= 3){
-            p->set_armyUnit(p->get_armyUnit()+3);
-        }
-        else{
-            int additional_unit = std::floor(p->get_trt().size()/3);
-            p->set_armyUnit(p->get_armyUnit()+additional_unit);
-        }
+   
+    if(std::floor(p->get_trt().size()/3) <= 3){
+        p->set_armyUnit(p->get_armyUnit()+3);
     }
+    else{
+        int additional_unit = std::floor(p->get_trt().size()/3);
+        p->set_armyUnit(p->get_armyUnit()+additional_unit);
+    }
+
 
     //Country control bonus value
     //continentsList = map STL with <continent_name, bonus_value>
@@ -319,42 +320,39 @@ void GameEngine::reinforcementPhase(std::vector <Player*> players, Map* graph){
     }
 
     //verify if each player owns all territories of a continent
-    for(Player* p: players){
-        for(int i=0; i<continent_bonus.size(); i++){
-            int increment = 0;
-            for(Territory* vt: t_continents[i]){
-                vector<Territory*> own_trt = p->get_trt();
-                if (find(own_trt.begin(), own_trt.end(), vt) != own_trt.end()) {
-                    increment = increment+1;
-                }
-                //don't increment if a territory of the given continent is not found
-                else{
-                    continue;
-                }
+    for(int i=0; i<continent_bonus.size(); i++){
+        int increment = 0;
+        for(Territory* vt: t_continents[i]){
+            vector<Territory*> own_trt = p->get_trt();
+            if (find(own_trt.begin(), own_trt.end(), vt) != own_trt.end()) {
+                increment = increment+1;
             }
-            //if player owns all territories of a given continent
-            if(increment==t_continents[i].size()){
-                //find the bonus value corresponding to the continent
-                auto it = continent_bonus.find(continents[i]);
-                int bonus = it->second;
-                p->set_armyUnit(p->get_armyUnit()+bonus);
-            }
-            //else, continue the verification with the next continent
+            //don't increment if a territory of the given continent is not found
             else{
                 continue;
             }
         }
+        
+        //if player owns all territories of a given continent
+        if(increment==t_continents[i].size()){
+            //find the bonus value corresponding to the continent
+            auto it = continent_bonus.find(continents[i]);
+            int bonus = it->second;
+            p->set_armyUnit(p->get_armyUnit()+bonus);
+        }
+        //else, continue the verification with the next continent
+        else{
+            continue;
+        }
     }    
 
-    for(Player* p: players){
-        std::cout<<"Player "<< p->get_name() << "'s total army units: "<<p->get_armyUnit()<<std::endl;
-    }
+    std::cout<<"Player "<< p->get_name() << "'s total army units: "<<p->get_armyUnit()<<std::endl;
+
 }
 
 //issueOrdersPhase(): each player issue orders
-void GameEngine::issueOrdersPhase(std::vector <Player*> players){
+void GameEngine::issueOrdersPhase(Player* p){
     
-    for (Player* p: players){
     vector <Territory*> trt_attack = p->toAttack();
     vector <Territory*> trt_defend = p->toDefend();
     
@@ -372,11 +370,43 @@ void GameEngine::issueOrdersPhase(std::vector <Player*> players){
     std::cout<<std::endl;
 
     //Issue deploy order
-    //If no more army units, proceed to issue other orders
-    //If player has more army units, proceed to issue deploy() or break out from order issue phase
+    bool deploy = true;
     bool issue = true;
+    int i_count = 0;
+    while(deploy){
+        if(p->get_armyUnit() > 0){
+            std:: string answer;
+            std::cout<< "Issue Deploy order? (Y/N)"<<std::endl;
+            std::cin>>answer;
+            if(answer=="Y"){
+                int army;
+                std::cout<<"Deploying army units to "<<trt_defend.at(i_count)->getTerritoryName()<<std::endl;
+                std::cout<<"Number of army units to deploy: ";
+                std::cin>>army;
+                Deploy* d = new Deploy(trt_defend.at(i_count), trt_defend.at(i_count)->getTerritoryOwner(), army);
+                p->issueOrder(d);
+                i_count+=1;
+            }
+            else if(answer=="N"){
+                std::cout<<"You cannot issue other orders if you don't deploy all army units."<<endl;
+                std::cout<<"Moving on to the next player."<<endl;
+                deploy = false;
+                issue = false;
+            }
+            else{
+                std::cout<<"Please enter the correct answer."<<std::endl;  
+            }
+        }
+        //player does not have any more army units
+        else{
+            std::cout<<"You don't have any more army units to deploy."<<endl;
+            deploy = false;
+        }
+    }
+    
+    //If no more army units, proceed to issue other orders
+    //If player has army units left undeployed, then this while loop will be skipped
     while(issue){
-        p->issueOrder();
         bool yn = true;
         while(yn){
             std:: string answer;
@@ -385,7 +415,10 @@ void GameEngine::issueOrdersPhase(std::vector <Player*> players){
             if(answer=="Y"){
                 issue=true;
                 yn = true;
-                p->issueOrder();
+                //TODO
+                //issueOrders() need following corrections: remove deploy() as option, use the correct constructor for each order type
+                Order* o = issueOrders(); //issueOrders() of GameEngine class to prompt user to select orders
+                p->issueOrder(o);
             }
             else if(answer=="N")
             {
@@ -398,21 +431,55 @@ void GameEngine::issueOrdersPhase(std::vector <Player*> players){
             }
         }
     }
-
-    //Orders following deploy()
-    }
 }
 
+//TODO
 //executeOrdersPhase(): execute the top order on the list of orders of each player 
+void executeOrdersPhase(){
+
+}
 
 //mainGameLoop(): calling 3 phases
-void GameEngine::mainGameLoop(std::vector <Player*> players, Map* graph){
+bool GameEngine::mainGameLoop(std::vector <Player*> players, Map* graph){
+    bool finished = false;
+    int num_trt = graph->territories.size();
+    bool winner = false;
+    string winPlayer;
 
-    //Phase 1: Reinforcement
-    reinforcementPhase(players, graph);
+    //verify if any player owns all territories
+    for (Player* p: players){
+        //player owns all territories of the map
+        if(p->get_trt().size() == num_trt){
+            winner = true;
+            winPlayer = p->get_name();
+            break;
+        }
+        //player does not own all territories of the map
+        else{
+            continue;
+        }
+    }
 
-    //Phase 2: issue Orders --> call issueOrdersPhase() in round-robin
-    issueOrdersPhase(players);
-    
-    //Phase 3: execute Orders --> call executeOrdersPhase() in round-robin
+    if(winner){
+        std::cout<<"Player "<<winPlayer<<" conquered all territories of the map and won the game.";
+        finished = true;
+    }
+
+    else{
+        
+        //Phase 1: Reinforcement --> call reinforcementPhase() in round-robin
+        for (Player* p : players){
+            assignReinforcement();
+            reinforcementPhase(p, graph);
+        }
+        
+        //Phase 2: issue Orders --> call issueOrdersPhase() in round-robin
+        for (Player* p : players){
+            issueOrdersPhase(p);
+        }
+
+        //Phase 3: execute Orders --> call executeOrdersPhase() in round-robin
+    }
+
+    return finished;   
 }

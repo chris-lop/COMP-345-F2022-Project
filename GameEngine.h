@@ -6,6 +6,7 @@
 #include "Player.h"
 #include "Map.h"
 #include <string>
+class Order;
 
 class GameEngine {
 private:
@@ -40,7 +41,7 @@ public:
     void assignReinforcement();
     
     //takes order as input and creates an order
-    void issueOrders();
+    Order* issueOrders();
     
     //prints out orders are executed
     void executeOrders();
@@ -55,9 +56,9 @@ public:
     bool finished();
 
     //A2 functions
-    void mainGameLoop(std::vector <Player*> players, Map* graph);
-    void reinforcementPhase(std::vector <Player*> players, Map* graph);
-    void issueOrdersPhase(std::vector<Player*> players);
+    bool mainGameLoop(std::vector <Player*> players, Map* graph);
+    void reinforcementPhase(Player* player, Map* graph);
+    void issueOrdersPhase(Player* player);
     void executeOrdersPhase();
 
 }; //end of class GameEngine
