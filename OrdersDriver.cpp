@@ -103,14 +103,20 @@ void testOrderExecution() {
    other->set_armyUnit(other->get_armyUnit() + 3);
    cout << "bomb1->validate(): " << bomb1->validate() << endl;
    
-   
-
+   cout << "#### Checking Negotiate valid() method ####\n";
+   Negotiate *n2 = new Negotiate(p, p);
+   Negotiate *n3 = new Negotiate(p, other);
+   cout << "Seeing that a negotiate order from a player to themselves is invalid\n";
+   cout << "n2->validate(): " << n2->validate() << endl;
+   cout << "Seeing that a negotiate order b/w two different players is valid\n";
+   cout << "n3->validate(): " << n3->validate() << endl;
    
    
 
 
    delete t1; delete t2; delete t3;
    delete a1; delete a2; delete a3;
-   delete n1; delete advance1;
+   delete n1; delete advance1; delete bomb1;
+   delete n2; delete n3;
    delete deployT1; delete deployT2; delete deployT1_units;
 }
