@@ -1,5 +1,6 @@
 #include <iostream>
-
+#ifndef COMMAND_H
+#define COMMAND_H
 #include <vector>
 #include<string>
 using std::vector;
@@ -26,3 +27,4 @@ public:
  
 
 };
+#endif
