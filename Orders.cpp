@@ -110,14 +110,19 @@ int OrdersList::getIndex(Order * order){
 
 //Output stream
 std::ostream& operator<<(std::ostream &strm, const OrdersList &ol){
-    strm << "Order List: ";
-    for (int i = 0; i < ol.orderList.size(); i++) {
-        Order& orderRef = *(ol.orderList[i]);
-        strm << orderRef;
-        if (i < ol.orderList.size() - 1) {
-            strm << ", ";
-        }
+    // strm << "Order List: ";
+    // for (int i = 0; i < ol.orderList.size(); i++) {
+    //     // Order& orderRef = *(ol.orderList.at(i));
+    //     strm << *(ol->getOrder().at(i));
+    //     if (i < ol.orderList.size() - 1) {
+    //         strm << ", ";
+    //     }
+    // }
+    strm<<"{";
+    for(Order* o: ol.orderList){
+        strm<<*o<<" ";
     }
+    strm<<"}";
     return strm;
    
 }

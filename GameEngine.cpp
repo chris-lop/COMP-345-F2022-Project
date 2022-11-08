@@ -283,7 +283,6 @@ bool GameEngine::finished() {
 //reinforcementPhase(): provide each players with the appropriate army units number
 void GameEngine::reinforcementPhase(Player* p, Map* graph){
     //For each player, # army units = (# territories owned)/3, and min. 3 units
-   
     if(std::floor(p->get_trt().size()/3) <= 3){
         p->set_armyUnit(p->get_armyUnit()+3);
     }
@@ -294,7 +293,7 @@ void GameEngine::reinforcementPhase(Player* p, Map* graph){
 
 
     //Country control bonus value
-    //continentsList = map STL with <continent_name, bonus_value>
+    //continentsList: map STL with <continent_name, bonus_value>
     map<string, int> continent_bonus = graph->continentsList;
 
     //vector string to store the continent names
@@ -380,7 +379,7 @@ void GameEngine::issueOrdersPhase(Player* p){
             std::cin>>answer;
             if(answer=="Y"){
                 int army;
-                std::cout<<"Deploying army units to "<<trt_defend.at(i_count)->getTerritoryName()<<std::endl;
+                std::cout<<"Deploying army units to "<<*(trt_defend.at(i_count)->getTerritoryName())<<std::endl;
                 std::cout<<"Number of army units to deploy: ";
                 std::cin>>army;
                 Deploy* d = new Deploy(trt_defend.at(i_count), trt_defend.at(i_count)->getTerritoryOwner(), army);
@@ -389,7 +388,7 @@ void GameEngine::issueOrdersPhase(Player* p){
             }
             else if(answer=="N"){
                 std::cout<<"You cannot issue other orders if you don't deploy all army units."<<endl;
-                std::cout<<"Moving on to the next player."<<endl;
+                std::cout<<"Moving on to the next player.\n"<<endl;
                 deploy = false;
                 issue = false;
             }
@@ -461,23 +460,27 @@ bool GameEngine::mainGameLoop(std::vector <Player*> players, Map* graph){
     }
 
     if(winner){
-        std::cout<<"Player "<<winPlayer<<" conquered all territories of the map and won the game.";
+        std::cout<<"Player "<<winPlayer<<" conquered all territories of the map and won the game."<<std::endl;
         finished = true;
     }
 
     else{
         
         //Phase 1: Reinforcement --> call reinforcementPhase() in round-robin
+        assignReinforcement();
         for (Player* p : players){
-            assignReinforcement();
+            std::cout<<"Current turn: "<<p->get_name()<<std::endl;
             reinforcementPhase(p, graph);
         }
         
         //Phase 2: issue Orders --> call issueOrdersPhase() in round-robin
+        std::cout<<"issueing orders..."<<std::endl;
         for (Player* p : players){
+            std::cout<<"Current turn: "<<p->get_name()<<std::endl;
             issueOrdersPhase(p);
         }
-
+        //to test if everything's working
+        finished=true;
         //Phase 3: execute Orders --> call executeOrdersPhase() in round-robin
     }
 
