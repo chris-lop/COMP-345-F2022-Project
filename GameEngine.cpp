@@ -582,16 +582,12 @@ void GameEngine::startupPhase()
     vector<char *> nameOfMaps;
     char buffer[1000];
     char *answer = getcwd(buffer, sizeof(buffer));
-    string s_cwd;
-    if (answer)
-    {
-        s_cwd = answer;
-    }
+
     char *path = new char[std::strlen(answer) + std::strlen("/maps") + 1];
     std::strcat(path, answer);
     std::strcat(path, "/maps");
 
-    std::cout << path << "TEST" << endl;
+    std::cout << path << endl;
 
     if ((dir = opendir(path)) != nullptr)
     {
@@ -614,10 +610,7 @@ void GameEngine::startupPhase()
     int count = 0;
     for (auto file : nameOfMaps)
     {
-        // if (count == 0 || count == 1)
-        // {
-        //     continue;
-        // }
+
         cout << count << ": " << file << "\n";
         count++;
     }
@@ -631,7 +624,7 @@ void GameEngine::startupPhase()
         mapSelector = 0;
         cout << "Enter the number that corresponds to the map you want to play on" << endl;
         cin >> mapSelector;
-        if (mapSelector > nameOfMaps.size() || mapSelector < 0)
+        if (mapSelector > nameOfMaps.size() - 1 || mapSelector < 0)
         {
             cout << "Invalid map" << endl;
             continue;
@@ -640,7 +633,7 @@ void GameEngine::startupPhase()
     }
     char mapPath[1000] = "./maps/";
     strcat(mapPath, nameOfMaps[mapSelector]);
-    cout << mapPath << "TEST";
+    cout << mapPath << endl;
 
     Map *m = new Map();
     Map *gameMap = new Map();
@@ -654,7 +647,7 @@ void GameEngine::startupPhase()
     int players = 0;
     while (true)
     {
-        int players;
+        // fix infinite loop
         cout << "Enter the number of players that will play the game [2-6]" << endl;
         cin >> players;
         if (players < 2 || players > 6)
@@ -668,8 +661,8 @@ void GameEngine::startupPhase()
     Deck *deck = new Deck();
 
     // creating the players and adding them to the player vector
-    vector<Player *> playersMap;
-    for (int i = 0; i <= players; i++)
+    std::vector<Player *> playersMap;
+    for (int i = 0; i < players; i++)
     {
         cout << "Enter player " << i << "'s name" << endl;
         string name;
@@ -686,14 +679,14 @@ void GameEngine::startupPhase()
         }
 
         p->set_Player_Hand(hand);
-        playersMap[i] = p;
+        playersMap.push_back(p);
     }
 
     // fairly distribute players and give 50 initial army units
     count = 0;
     for (auto terr : gameMap->territories)
     {
-        if (count == players - 1)
+        if (count == players)
         {
             count = 0;
         }
@@ -705,5 +698,25 @@ void GameEngine::startupPhase()
         terr->territoryOwner = playersMap[count];
 
         count++;
+    }
+    int range = 0;
+    for (auto i : playersMap)
+    {
+        std::cout << "Player " << range << ' ';
+        std::cout << "Name: " << ' ';
+        std::cout << i->get_name() << ' ';
+        std::cout << "ArmyUnit: " << ' ';
+        std::cout << i->get_armyUnit() << ' ';
+        std::cout << *i->get_Phand() << '\n';
+        std::cout << "Territories: " << '\n';
+        std::cout << "{" << '\n';
+        auto territories = i->get_trt();
+        for (auto x : territories)
+        {
+            std::cout << *x << ',';
+        }
+        std::cout << "}" << '\n'
+                  << endl;
+        range++;
     }
 }
