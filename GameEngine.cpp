@@ -714,7 +714,9 @@ void GameEngine::startupPhase()
 
         count++;
     }
+    // randomize the players
     std::shuffle(playersMap.begin(), playersMap.end(), std::random_device());
+
     int range = 0;
     // printing the players
     for (auto i : playersMap)
