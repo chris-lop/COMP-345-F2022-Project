@@ -658,10 +658,9 @@ void Airlift::execute(){
     }
 }
 
-// TODO
 //Airlift assignment operator
 Airlift& Airlift::operator=(const Airlift& ai){
-	Airlift::operator=(ai);
+	Order::operator=(ai);
     this->source = ai.source;
     this->target = ai.target;
     this->player = ai.player;
@@ -702,15 +701,15 @@ Negotiate::~Negotiate(){
 
 }
 
-// TODO
 //Negotiate copy constructor
 Negotiate::Negotiate(const Negotiate& n1): Order(n1.type), source(source), target(target) {
 }
 
-// TODO
 //Negotiate assignment operator
 Negotiate& Negotiate::operator=(const Negotiate& n){
-	Negotiate::operator=(n);
+	Order::operator=(n);
+    source = n.source;
+    target = n.target;
 	return *this;
 }
 
