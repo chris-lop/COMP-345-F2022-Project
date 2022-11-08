@@ -340,10 +340,18 @@ bool Advance::validate()
         }
     }
 
+    bool negotiationBlocks = false;
+    // Check to see if a negotiate order is blocking advance (which might be an attack)
+    if (player != target->getTerritoryOwner()) {
+        // If the target is not player-owned, this is an attack: check for negotiation
+        Player *enemy = target->getTerritoryOwner();
+        negotiationBlocks = enemy->hasNegotiationWith(player);
+    }
+
     // Check if source territory possesses enough troops for request
     bool enoughTroops = this->numberUnits <= *source->armyAmount;
 
-    return ownsSource && isTargetAdjacent && enoughTroops;
+    return ownsSource && isTargetAdjacent && enoughTroops && !negotiationBlocks;
 }
 
 //execute order
@@ -477,6 +485,10 @@ bool Bomb::validate()
     // Save player territories into vector
     vector<Territory*> playerTerritories = player->get_trt();
 
+    // Check if the enemy has a negotiation that would block the bombing
+    Player *enemy = target->getTerritoryOwner();
+    bool negotiationBlocks = enemy->hasNegotiationWith(player);
+
     // Check if target territory belongs to player
     bool ownsTarget = any_of(playerTerritories.begin(), playerTerritories.end(), [this](Territory *t){return t == this->target;});
 
@@ -495,7 +507,7 @@ bool Bomb::validate()
         }
     }
 
-    DONE: return !ownsTarget&&isTargetAdjacent;
+    DONE: return !ownsTarget&&isTargetAdjacent && !negotiationBlocks;
 }
 
 //execute order

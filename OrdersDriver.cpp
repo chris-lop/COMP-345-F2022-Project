@@ -76,10 +76,25 @@ void testOrderExecution() {
     */
 
 
+   cout << "------- Testing negotiate order -------\n";
+   Advance *advance1 = new Advance(t1, t2, p, 1);
+   cout << "Checking that advance order between territories owned by player 1 and player 2 is valid\n";
+   cout << "advance1->validate(): " << advance1->validate() << endl;
+   Negotiate *n1 = new Negotiate(p, other);
+   n1->execute();
+   cout << "# Checking that negotiation blocks an advance order #\n";
+   cout << "Now, a negotiation has been created betweent the players\n";
+   cout << "advance1->validate(): " << advance1->validate() << endl;
+   cout << "# Checking that a new turn starting stops the negotiation #\n";
+   p->set_armyUnit(p->get_armyUnit() + 3);
+   other->set_armyUnit(other->get_armyUnit() + 3);
+   cout << "advance1->validate(): " << advance1->validate() << endl;
+   
    
 
 
    delete t1; delete t2; delete t3;
    delete a1; delete a2; delete a3;
+   delete n1; delete advance1;
    delete deployT1; delete deployT2; delete deployT1_units;
 }

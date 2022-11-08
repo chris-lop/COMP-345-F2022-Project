@@ -89,6 +89,11 @@ int Player::get_armyUnit(){
     return this->army_unit;
 }
 
+// Checks if this player has a negotiation with the other
+bool Player::hasNegotiationWith(Player *o) {
+    return any_of(negotiatedPlayers.begin(), negotiatedPlayers.end(), [o](Player* p) {return p == o;});
+}
+
 //Setter for name
 void Player::set_Pname(std::string name){
     this->name = name;
@@ -109,10 +114,10 @@ void Player::set_Player_Hand(Hand* h){
 // ALSO: clears the list of negotiated players,
 // since it's the start of a turn
 void Player::set_armyUnit(int army_unit){
-    this->army_unit = army_unit;
     if (army_unit > this->army_unit) {
         negotiatedPlayers.clear();
     }
+    this->army_unit = army_unit;
 }
 
 void Player::addNegotiatedPlayer(Player *p) {
