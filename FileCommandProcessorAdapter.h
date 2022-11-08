@@ -10,6 +10,7 @@
 
 class FileCommandProcessorAdapter: public CommandProcessor{
    private:
+    string f_name;
    FileLineReader* f;
    void readCommand();
     public:
@@ -17,7 +18,9 @@ class FileCommandProcessorAdapter: public CommandProcessor{
     FileCommandProcessorAdapter();
     //destructor
     ~FileCommandProcessorAdapter();
-    
+   
+   //setter
+     void set_f_name(string name);
     
     
 };
