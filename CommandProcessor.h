@@ -1,5 +1,8 @@
 
+
 #include "Command.h"
+#ifndef COMMANDPROCESSOR_H
+#define COMMANDPROCESSOR_H
 #include <iostream>
 #include <string>
 #include <vector>
@@ -8,20 +11,18 @@ class CommandProcessor{
 private:
     Command* c;
     string state;
-    void readCommand();
+    //declared virtual so that inheritance applies to it
+    virtual void readCommand();
     bool done;
 
 public:
+vector<string*> getCommand();
 void start();
 void startMessage();
     void playegame(string line);
     bool validate(string command);
     void saveCommand(string command);
-    vector<string*> getCommand();
-    
-    //constructor
     CommandProcessor();
-    
-    //destructor
-    ~CommandProcessor();
+    virtual ~CommandProcessor();
 };
+#endif
