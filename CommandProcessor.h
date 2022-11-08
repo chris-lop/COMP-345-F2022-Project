@@ -17,6 +17,11 @@ void startMessage();
     void playegame(string line);
     bool validate(string command);
     void saveCommand(string command);
+    vector<string*> getCommand();
+    
+    //constructor
     CommandProcessor();
+    
+    //destructor
     ~CommandProcessor();
 };
