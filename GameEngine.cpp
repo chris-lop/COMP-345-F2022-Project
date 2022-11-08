@@ -700,6 +700,7 @@ void GameEngine::startupPhase()
         count++;
     }
     int range = 0;
+    // printing the players
     for (auto i : playersMap)
     {
         std::cout << "Player " << range << ' ';
@@ -719,4 +720,5 @@ void GameEngine::startupPhase()
                   << endl;
         range++;
     }
+    mainGameLoop(playersMap, gameMap);
 }
