@@ -624,6 +624,13 @@ void GameEngine::startupPhase()
         mapSelector = 0;
         cout << "Enter the number that corresponds to the map you want to play on" << endl;
         cin >> mapSelector;
+        if (cin.fail())
+        {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Invalid map" << endl;
+            continue;
+        }
         if (mapSelector > nameOfMaps.size() - 1 || mapSelector < 0)
         {
             cout << "Invalid map" << endl;
@@ -650,6 +657,13 @@ void GameEngine::startupPhase()
         // fix infinite loop
         cout << "Enter the number of players that will play the game [2-6]" << endl;
         cin >> players;
+        if (cin.fail())
+        {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Invalid Number" << endl;
+            continue;
+        }
         if (players < 2 || players > 6)
         {
             cout << "Invalid number of players" << endl;

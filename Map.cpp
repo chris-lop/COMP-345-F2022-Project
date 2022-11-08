@@ -466,30 +466,30 @@ Map *MapLoader::loadMap(string path)
         if (line.find("[Continents]") != std::string::npos)
         {
             // Iterate through Continent declarations and add them to continent vector until Territories section is found while (getline(file, line))
-            {
-                // Territories section is found, break out of loop
-                if (line.find("[Territories]") != std::string::npos)
-                {
-                    break;
-                }
+            // {
+            //     // Territories section is found, break out of loop
+            //     if (line.find("[Territories]") != std::string::npos)
+            //     {
+            //         break;
+            //     }
 
-                // If line is empty, skip it
-                if (line.length() == 0)
-                {
-                    continue;
-                }
-                // Parsing continents into two variables (continentName & bonusValue)
-                string continentDelimiter = "=";
-                string continentName = line.substr(0, line.find(continentDelimiter));
-                string x = line.substr(line.find(continentDelimiter) + 1, line.length());
-                int bonusValue = stoi(line.substr(line.find(continentDelimiter) + 1, line.length()));
+            //     // If line is empty, skip it
+            //     if (line.length() == 0)
+            //     {
+            //         continue;
+            //     }
+            //     // Parsing continents into two variables (continentName & bonusValue)
+            //     string continentDelimiter = "=";
+            //     string continentName = line.substr(0, line.find(continentDelimiter));
+            //     string x = line.substr(line.find(continentDelimiter) + 1, line.length());
+            //     int bonusValue = stoi(line.substr(line.find(continentDelimiter) + 1, line.length()));
 
-                std::cout << "CONTINENT PARSING" << std::endl;
-                std::cout << continentName << " " << bonusValue << std::endl;
+            //     std::cout << "CONTINENT PARSING" << std::endl;
+            //     std::cout << continentName << " " << bonusValue << std::endl;
 
-                // Add value to its corresponding continent in map
-                continentsList.insert({continentName, bonusValue});
-            }
+            //     // Add value to its corresponding continent in map
+            //     continentsList.insert({continentName, bonusValue});
+            // }
         }
         if (line.find("[Territories]") != std::string::npos)
         {
