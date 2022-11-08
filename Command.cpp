@@ -1,207 +1,51 @@
 
-
-#include "CommandProcessor.h"
+#include "Command.h"
+#include <string>
 #include <iostream>
-#include <vector>
-#include<string>
+using namespace std;
 using std::vector;
 using std::string;
 
-//constructor
-CommandProcessor::CommandProcessor(){
-    state="start";
-    c=new Command();
-    done=false;
+
+//constructors
+Command::Command(){
+   
+    this->command={};
+    this->effect={};
+}
+
+Command::Command(std::vector<string*>command, std::vector<string*> effect){
+    this->command=command;
+    this->effect=effect;
 }
 
 //destructor
-CommandProcessor::~CommandProcessor(){
-    delete c;
+Command::~Command(){
+for(string* s:effect){
+delete(s);
 }
-
-//validates the command entered by the user to the vector of strings 
-//if command is incorrect then saves the effect to the vector of effects
-bool CommandProcessor::validate(string command){
-
-    if(state=="start")
-    {
-        if(command=="loadmap")
-            return true;
-        else
-            c->effect.push_back(new string("invalid command, the valid command is loadmap."));
-        return false;
-    }
-    else
-    if(state=="maploaded")
-    {
-        if(command=="loadmap")
-            return true;
-        else
-        if(command=="validatemap")
-            return true;
-        else
-            c->effect.push_back(new string("invalid command, valid commands are loadmap or validatemap."));
-        return false;
-    }
-    else
-    if(state=="mapvalidated"){
-        if(command=="addplayer")
-            return true;
-        else
-            c->effect.push_back(new string("invalid command, the valid command is addplayer."));
-        return false;
-    }
-    else
-    if(state=="playersadded"){
-        if(command=="addplayer")
-            return true;
-       
-        if(command=="gamestart")
-            return true;
-       else
-        c->effect.push_back(new string("invalid command, valid commands are addplayer or gamestart."));
-        return false;
-    }
-    else
-    if(state=="win")
-    {
-        if(command=="quit")
-            return true;
-        else
-        if(command=="replay")
-            return true;
-        else
-            c->effect.push_back(new string("invalid command, valid commands are quit or replay."));
-        return false;
-    }
-    else
-        return false;
+for(string* c:command){
+    delete(c);
 }
-
-//this method saves the command to the vector
-void CommandProcessor::saveCommand(string command){
-
-    c->command.push_back(new string(command));
 
 }
 
 
-void CommandProcessor::playegame(string line)
-{
-    if (state == "start") {
-        // State: start
-        // valid inputs: loadmap
-        if (line == "loadmap") {
-            //loadMap();
-            cout << "Now in map loaded state. Valid input: loadmap, validatemap" << endl;
-            state = "maploaded";
-        } else {
-            cout << "Invalid command. Valid commands: loadmap" << endl;
-        }
-    } else if (state == "maploaded") {
-        // State: map loaded
-        // Valid inputs: loadmap, validatemap
-        if (line == "loadmap") {
-            //loadMap();
-            cout << "Now in map loaded state. Valid input: loadmap, validatemap" << endl;
-            state = "maploaded";
-        } else if (line == "validatemap") {
-            //validateMap();
-            cout << "Map now validated, you are in validated state. Valid input: addplayer" << endl;
-            state = "mapvalidated";
-        }
-        else{
-            cout<<"Invalid command. Valid commands: loadmap, validatemap."<<endl;
-        }
-    } else if (state == "mapvalidated") {
-        // State: map validated
-        // Valid input: addplayer
-        if (line == "addplayer") {
-            // addPlayers();
-            cout<<"you are now in players added state. Valid input: addplayer, gamestart."<<endl;
-
-            state = "playersadded";
-
-        }
-        else {
-            cout << "Invalid command. Valid command: addplayer." << endl;
-        }
+//stream operators
+std::ostream& operator<<(std::ostream &strm, const Command &c){
+ strm<<"the saved effects are:"<<std::endl;
+   for(string* s:c.effect){
+        strm<<*(s)<<endl;
     }
-        //players added state
-    else if(state=="playersadded"){
-        //state: players added
-        //valid input: addplayer, assigncountries
-        if(line=="addplayer")
-        {
-            //addPlayers();
-            cout<<"you are now in players added state. Valid input: addplayer, gamestart."<<endl;
-
-            state = "playersadded";
-        }
-        else
-        if(line=="gamestart")
-        {
-            //assignReinforcement();
-            cout<<"starting the game... Valid input: replay, quit."<<endl;
-
-            //here game should be played automatically
-            //then jump to state win
-            state="win";
-
-        }
-        else
-            cout<<"Invalid command. Valid commands: addplayer, gamestart."<<endl;
-    }
-    else
-    
-    if(state=="win"){
-       
-        if(line=="replay"){
-
-startMessage();
-            state="start";
-        }
-        else
-        if(line=="quit")
-        {
-            cout<<"game ended."<<endl;
-            done=true;
-        }
-        else
-            cout<<"invalid command, valid commands are replay, quit."<<endl;
-
-
-    }
-}
-
-//reads the user's input, saves and validates it 
-void CommandProcessor:: readCommand(){
-    bool valid;
-    string yourCommand;
-    cin>>yourCommand;
-    saveCommand(yourCommand);
-  valid= validate(yourCommand);
-    {
-        //pass the input to this method in order for it to be handled
-        playegame(yourCommand);
-    }
-
-
-}
-
-//keeps on reading user's commands till the game is finished
-void CommandProcessor::start(){
-    startMessage();
-    while(done==false)
-    {
-        readCommand();
-    }
-  
    
+    return strm;
+
 }
 
-//prints out the start message
-void CommandProcessor::startMessage()
-{
-     cout << "Now in start state. Valid input: loadmap" << endl;
+
+
+//saves effect of the command to the vector of strings
+void Command::saveEffect(string eff){
+
+    effect.push_back(new string(eff));
 }
