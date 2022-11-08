@@ -8,6 +8,7 @@
 #include <unistd.h>
 #include <cstring>
 #include <dirent.h>
+#include <random>
 #include "GameEngine.h"
 #include "Player.h"
 #include "Map.h"
@@ -713,6 +714,7 @@ void GameEngine::startupPhase()
 
         count++;
     }
+    std::shuffle(playersMap.begin(), playersMap.end(), std::random_device());
     int range = 0;
     // printing the players
     for (auto i : playersMap)
