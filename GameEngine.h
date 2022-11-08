@@ -11,20 +11,32 @@ class Order;
 class GameEngine {
 private:
     int state;
+    Map* gameMap;
+    vector <Player*> gamePlayers;
+    vector <Player*> removedPlayers;
+
 public:
     //constructor
     GameEngine();
+    GameEngine(Map* gameMap, vector<Player*> gamePlayers);
     //destructor
    ~GameEngine();
   
     //stream operators
-   friend std::ostream& operator << (std::ostream& strm, const GameEngine& g);
+    friend std::ostream& operator << (std::ostream& strm, const GameEngine& g);
     friend std::istream& operator >> (std::istream& in, GameEngine& g);
     
-    //setters and getters
+    //setters
     void setState(int state);
-    int getState();
+    void setMap(Map* gameMap);
+    void setPlayers(vector <Player*> gamePlayers);
     
+    //getters
+    int getState();
+    Map* getMap();
+    vector<Player*> getPlayers();
+    vector<Player*> getRemovedPlayers();
+
     //takes commands as input and passes through states accordingly
     void handleInput(std::string line);
     

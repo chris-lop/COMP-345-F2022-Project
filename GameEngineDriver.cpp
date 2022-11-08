@@ -59,7 +59,7 @@ void testMainGameLoop(){
     for (Territory* t: p2_trt){
         std::cout << *(t->getTerritoryName)() << "\t";
     }
-    std::cout<<"\n\nStarting Main Game Loop \n";
+    std::cout<<"\n\n##Starting Main Game Loop##\n";
     
     bool finished = false;
     while(!finished){

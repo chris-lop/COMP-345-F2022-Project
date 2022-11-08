@@ -16,14 +16,32 @@ void GameEngine::startMessage() {
     cout << "Now in start state. Valid input: loadmap" << endl;
 }
 
-//constructor and destructor
+//Default Constructor
 GameEngine::GameEngine(): state(0){
+    this->state=0;
+    this->gameMap = new Map();
+    this->gamePlayers = {};
+    this->removedPlayers = {};
+}
+
+GameEngine::GameEngine(Map* gameMap, vector <Player*> gamePlayers){
+    this->state = 0;
+    this->gameMap = gameMap;
+    this->gamePlayers = gamePlayers;
+    this->removedPlayers = {};
 }
 
 //GameEngine destructor
 GameEngine::~GameEngine()
 {
-    
+    delete gameMap;
+    for(Player* p: gamePlayers){
+        delete p;
+    }
+
+    for(Player* p: removedPlayers){
+        delete p;
+    }
 }
 
 //stream operators
@@ -37,16 +55,38 @@ std::ostream& operator<<(std::ostream &strm, const GameEngine &g){
    return strm<<"current state is "<<g.state<<endl;
 }
 
-//setters and getters
+//setters
 void GameEngine::setState(int st)
 {
-    state=st;
+    this->state=st;
 }
-//getter for state
+
+void GameEngine::setMap(Map* gameMap){
+    this->gameMap = gameMap;
+}
+
+void GameEngine::setPlayers(vector <Player*> gamePlayers){
+    this->gamePlayers = gamePlayers;
+}
+
+//getters
 int GameEngine::getState()
 {
     return state;
 }
+
+Map* GameEngine::getMap(){
+    return this->gameMap;
+}
+
+vector <Player*> GameEngine::getPlayers(){
+    return this->gamePlayers;
+}
+
+vector <Player*> GameEngine::getRemovedPlayers(){
+    return this->removedPlayers;
+}
+
 
 //loads the map
 void GameEngine::loadMap() {
@@ -384,21 +424,21 @@ void GameEngine::issueOrdersPhase(Player* p){
                 std::cin>>army;
                 Deploy* d = new Deploy(trt_defend.at(i_count), trt_defend.at(i_count)->getTerritoryOwner(), army);
                 p->issueOrder(d);
+                p->set_armyUnit(p->get_armyUnit()-army);
                 i_count+=1;
             }
             else if(answer=="N"){
-                std::cout<<"You cannot issue other orders if you don't deploy all army units."<<endl;
-                std::cout<<"Moving on to the next player.\n"<<endl;
+                std::cout<<"You cannot issue other orders if you don't deploy all army units.\n"<<endl;
                 deploy = false;
                 issue = false;
             }
             else{
-                std::cout<<"Please enter the correct answer."<<std::endl;  
+                std::cout<<"!ERROR!***Please enter the correct answer.***"<<std::endl;  
             }
         }
         //player does not have any more army units
         else{
-            std::cout<<"You don't have any more army units to deploy."<<endl;
+            std::cout<<"You don't have any more army units to deploy. \n"<<endl;
             deploy = false;
         }
     }
@@ -425,7 +465,7 @@ void GameEngine::issueOrdersPhase(Player* p){
                yn = false;
             }
             else{
-                std::cout<<"Please enter the correct answer."<<std::endl;
+                std::cout<<"!ERROR!***Please enter the correct answer.***"<<std::endl;
                 yn = true;
             }
         }
@@ -467,14 +507,15 @@ bool GameEngine::mainGameLoop(std::vector <Player*> players, Map* graph){
     else{
         
         //Phase 1: Reinforcement --> call reinforcementPhase() in round-robin
+        std::cout<<"#";
         assignReinforcement();
         for (Player* p : players){
-            std::cout<<"Current turn: "<<p->get_name()<<std::endl;
+            std::cout<<"\nCurrent turn: "<<p->get_name()<<std::endl;
             reinforcementPhase(p, graph);
         }
         
         //Phase 2: issue Orders --> call issueOrdersPhase() in round-robin
-        std::cout<<"issueing orders..."<<std::endl;
+        std::cout<<"\n#issueing orders..."<<std::endl;
         for (Player* p : players){
             std::cout<<"Current turn: "<<p->get_name()<<std::endl;
             issueOrdersPhase(p);
