@@ -644,9 +644,6 @@ void GameEngine::startupPhase()
         strcat(mapPath, nameOfMaps[mapSelector]);
         cout << mapPath << endl;
 
-        // Map *m = new Map();
-        // Map *gameMap = new Map();
-        // MapLoader *loader = new MapLoader();
         gameMap = loader->loadMap(mapPath);
 
         if (!m->validate(gameMap->territories))
@@ -657,8 +654,6 @@ void GameEngine::startupPhase()
                  << endl;
             continue;
         }
-        // Validate the map
-        // m->validate(gameMap->territories);
         break;
     }
 
