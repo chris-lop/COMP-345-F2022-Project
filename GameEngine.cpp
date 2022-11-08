@@ -606,22 +606,25 @@ void GameEngine::startupPhase()
     else
     {
         perror("opendir");
-        // return EXIT_FAILURE;
     }
-    int count = 0;
-    for (auto file : nameOfMaps)
-    {
 
-        cout << count << ": " << file << "\n";
-        count++;
-    }
-    cout << endl;
+    int count = 0;
 
     // Allow user to chose map to play on
     int mapSelector;
-
+    Map *m = new Map();
+    Map *gameMap = new Map();
+    MapLoader *loader = new MapLoader();
     while (true)
     {
+        int nbr = 0;
+        for (auto file : nameOfMaps)
+        {
+
+            cout << nbr << ": " << file << "\n";
+            nbr++;
+        }
+        cout << endl;
         mapSelector = 0;
         cout << "Enter the number that corresponds to the map you want to play on" << endl;
         cin >> mapSelector;
@@ -629,27 +632,35 @@ void GameEngine::startupPhase()
         {
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            cout << "Invalid map" << endl;
+            cout << "Map does not exists" << endl;
             continue;
         }
         if (mapSelector > nameOfMaps.size() - 1 || mapSelector < 0)
         {
-            cout << "Invalid map" << endl;
+            cout << "Map does not exists" << endl;
             continue;
         }
+        char mapPath[1000] = "./maps/";
+        strcat(mapPath, nameOfMaps[mapSelector]);
+        cout << mapPath << endl;
+
+        // Map *m = new Map();
+        // Map *gameMap = new Map();
+        // MapLoader *loader = new MapLoader();
+        gameMap = loader->loadMap(mapPath);
+
+        if (!m->validate(gameMap->territories))
+        {
+            cout << " \nInvalid map \n"
+                 << endl;
+            cout << "Please make another choice \n"
+                 << endl;
+            continue;
+        }
+        // Validate the map
+        // m->validate(gameMap->territories);
         break;
     }
-    char mapPath[1000] = "./maps/";
-    strcat(mapPath, nameOfMaps[mapSelector]);
-    cout << mapPath << endl;
-
-    Map *m = new Map();
-    Map *gameMap = new Map();
-    MapLoader *loader = new MapLoader();
-    gameMap = loader->loadMap(mapPath);
-
-    // Validate the map
-    m->validate(gameMap->territories);
 
     // add players
     int players = 0;

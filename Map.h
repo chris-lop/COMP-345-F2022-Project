@@ -32,7 +32,7 @@ public:
     string *continent;
 
     // Player to which territory belongs to
-    Player* territoryOwner;
+    Player *territoryOwner;
 
     // Amount of troops in a given territory
     int *armyAmount;
@@ -75,7 +75,7 @@ public:
     void setAdjTerritories(vector<Territory *>);
 
     // Stream insertion operator
-    friend ostream& operator<<(ostream& strm, const Territory& territory);
+    friend ostream &operator<<(ostream &strm, const Territory &territory);
 };
 
 // ------------ //
@@ -83,39 +83,38 @@ public:
 // ------------ //
 class Map
 {
-    
-    public:
-        //--------------//
-        //  ATTRIBUTES  //
-        //--------------//
 
-        // Variable for number of territories (nodes)   
-        int TerritoryNb;
-        vector<Territory*> territories;
-        map<string, int> continentsList;
-    
-        //----------------//
-        //  CONSTRUCTORS  //
-        //----------------//
+public:
+    //--------------//
+    //  ATTRIBUTES  //
+    //--------------//
 
-        // Default Constructor
-        Map();
+    // Variable for number of territories (nodes)
+    int TerritoryNb;
+    vector<Territory *> territories;
+    map<string, int> continentsList;
 
-        // Parameterized Constructor
-        Map(int);
+    //----------------//
+    //  CONSTRUCTORS  //
+    //----------------//
 
-        // Copy Constructor        
-        Map(const Map*);
+    // Default Constructor
+    Map();
 
-        // Destructor
-        ~Map();
+    // Parameterized Constructor
+    Map(int);
 
-        // Assignment Operator
-        Map& operator = (const Map&);
+    // Copy Constructor
+    Map(const Map *);
 
-        // Validate method
-        void validate(vector<Territory *>);
+    // Destructor
+    ~Map();
 
+    // Assignment Operator
+    Map &operator=(const Map &);
+
+    // Validate method
+    bool validate(vector<Territory *>);
 };
 
 //  MAP Loader CLASS   //
@@ -132,7 +131,7 @@ public:
     MapLoader();
 
     // std::vector<Territory> loadMap();
-    Map* loadMap(string);
+    Map *loadMap(string);
 
     // Destructor
     ~MapLoader();

@@ -189,8 +189,9 @@ int searchResult(std::vector<Territory *> tList, Territory t)
 }
 
 // validate  method to validate map
-void Map::validate(vector<Territory *> territories)
+bool Map::validate(vector<Territory *> territories)
 {
+    bool valide = true;
     cout << "Now Verifying Map validity... \n";
 
     //----------------------------//
@@ -245,6 +246,7 @@ void Map::validate(vector<Territory *> territories)
     }
     else
     {
+        valide = false;
         cout << "Map is NOT a connected graph!\n";
     }
 
@@ -353,6 +355,7 @@ void Map::validate(vector<Territory *> territories)
         }
         else
         {
+            valide = false;
             cout << "Continent " << currentContinent << " is NOT a connected subgraph!\n";
         }
     }
@@ -395,8 +398,10 @@ void Map::validate(vector<Territory *> territories)
     }
     else
     {
+        valide = false;
         cout << "Each territory DOES NOT belong to one and only one continent! \n";
     }
+    return valide;
 }
 
 // Default constructor
