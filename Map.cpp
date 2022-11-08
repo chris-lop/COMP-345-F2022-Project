@@ -48,6 +48,7 @@ Territory &Territory::operator=(const Territory &territory)
     this->continent = territory.continent;
     this->territoryOwner = territory.territoryOwner;
     this->armyAmount = territory.armyAmount;
+    this->AdjTerritories = territory.AdjTerritories;
     return *this;
 }
 

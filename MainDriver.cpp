@@ -12,15 +12,17 @@ int main()
 {   
     //Part 1: Map
     //testLoadMaps();
-    //Part 2: Player
-    // testPlayer();
+
+    //removed testPlayer() from A1 and commented out all test functions from A1- HL 
+
     //Part 3: Orders List
-    testOrderExecution();
+    // testOrderExecution();
     //Part 4: Cards
     //testCards();
     //Part 5: Game Engine
-    testGameStates();
+    // testGameStates();
 
     //A2 Part 3
     testMainGameLoop();
+
 }
