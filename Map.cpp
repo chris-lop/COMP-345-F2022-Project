@@ -403,6 +403,15 @@ MapLoader::MapLoader()
     // this->Territories = vector<Territory>{};
 }
 
+// Remove trailing '\r' in a string, if it
+// exists
+void remove_r(string& s) {
+    size_t r_pos = s.find_last_of('\r');
+    if (r_pos != string::npos) {
+        s.erase(r_pos);
+    }
+}
+
 /**
  * @brief Loads a map from the specified file
  * 
@@ -431,11 +440,11 @@ Map* MapLoader::loadMap(string path)
         bool checkContinents = false, checkTerritories = false;
         while (getline(file,line))
         {
-            if(line.find("[Continents]")!=string::npos)
+            if (line.find("[Continents]")!=string::npos)
             {
                 checkContinents = true;
             }
-            if(line.find("[Territories]")!=string::npos)
+            if (line.find("[Territories]")!=string::npos)
             {
                 checkTerritories = true;
             }
@@ -462,11 +471,17 @@ Map* MapLoader::loadMap(string path)
     file.open(path);
     while (getline(file, line))
     {
+        // Remove trailing \r
+        remove_r(line);
+
         if (line.find("[Continents]") != std::string::npos)
         {
             // Iterate through Continent declarations and add them to continent vector until Territories section is found
             while (getline(file, line))
             {   
+                // Remove trailing \r
+                remove_r(line);
+
                 // Territories section is found, break out of loop
                 if (line.find("[Territories]") != std::string::npos)
                 {
@@ -497,7 +512,10 @@ Map* MapLoader::loadMap(string path)
             // So get lines until EOF
             while (getline(file, line))
             {
-                vector<string> territory;
+                // Remove trailing \r
+                remove_r(line);
+                
+		vector<string> territory;
 
                 cout << "\n";
                 string delim = ",";
