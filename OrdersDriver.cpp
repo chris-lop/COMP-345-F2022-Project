@@ -95,14 +95,24 @@ void testOrderExecution() {
    cout << "# Verifying that airlift validate checks number of armies #" << endl;
    cout << "Airlift 3 valid (t1->t3 10 units): " << a3->validate() << endl;
 
-   /*
+   
     cout << "------- Testing Bomb Order -------" <<"\n";
-    Bomb *bmbT1 = new Advance(t1, p);
-    Bomb *bmbT2 = new Advance(t2, p);
+    Bomb *bmbT1 = new Bomb(territory1, player1);
+    Bomb *bmbT2 = new Bomb(territory4, player1);
+    Bomb *bmbT3 = new Bomb(territory1, player2);
+
     cout << "# Verifying that bomb order checks ownership of target territory #\n";
-    cout << "Bomb 1 valid (Marc bombs t1): " << bmbT1->validate() << "\n";
-    cout << "Bomb 2 valid (Marc bombs t2): " << bmbT2->validate() << "\n";
-    */
+    cout << "Bomb 1 valid (Chris bombs territory1): " << bmbT1->validate() << "\n";
+    cout << "Bomb 2 valid (Chris bombs territory4): " << bmbT2->validate() << "\n";
+
+    cout << "# Verifying that bomb order checks adjacency of territories #\n";
+    cout << "Bomb 3 (Marc bombs territory1): " << bmbT3->validate() << "\n";
+    
+    cout << "# Executing a valid bomb order #\n";
+    bmbT2->execute();
+
+    cout << "Current State of territories after execution of bomb order on Territory4:" << endl;
+    cout << "Territory 1: " << *territory1 << " Territory 2: " << *territory2 << " Territory 3: " << *territory3 << " Territory 4: " << *territory4 <<  "\n";
 
 
    cout << "------- Testing negotiate order -------\n";
