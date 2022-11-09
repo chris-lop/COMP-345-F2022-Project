@@ -22,6 +22,10 @@ void startMessage();
 //getters
 Command* get_c();
 bool getvalid();
+string get_state();
+    
+//setter
+    void set_state(string line);
 
     void playegame(string line);
     string validate(string command);
