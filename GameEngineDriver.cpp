@@ -22,11 +22,12 @@ using std::cin; using std::cout; using std::string; using std::endl;
 // }
 
 void testMainGameLoop(){
-    //TODO
-    //Need implementation
+
     std::cout<<"###"<<std::endl;
     std::cout<<"Part 3: Testing Main Game Loop"<<std::endl;
     std::cout<<"###\n"<<std::endl;
+
+    //Prepare game play
     GameEngine* gameEngine = new GameEngine();
     MapLoader* loader = new MapLoader();
     Map* gameMap = loader->loadMap("./3D.map");
@@ -54,10 +55,12 @@ void testMainGameLoop(){
     vector <Territory*> p2_trt;
     for(int i=0; i<3; i++){
         Territory* t = gameMap->territories.at(i);
+        t -> setTerritoryOwner(p1);
         p1_trt.push_back(t);
     }
     for(int i=5; i<gameMap->territories.size(); i++){
         Territory* t = gameMap->territories.at(i);
+        t -> setTerritoryOwner(p2);
         p2_trt.push_back(t);
     }
     p1->set_Trt(p1_trt);

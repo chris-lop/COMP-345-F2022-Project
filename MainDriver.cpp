@@ -23,7 +23,7 @@ int main()
     // testGameStates();
 
     //A2 Part 3 
-    //testMainGameLoop();
+    testMainGameLoop();
 
 }
 

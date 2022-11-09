@@ -506,7 +506,7 @@ void GameEngine::issueOrdersPhase(vector<Player*> players){
     
 }
 
-//TODO
+//To TEST
 //executeOrdersPhase(): execute the top order on the list of orders of each player 
 bool GameEngine::executeOrdersPhase(){
     bool winner = false;
@@ -519,11 +519,11 @@ bool GameEngine::executeOrdersPhase(){
 
             //if the order list is empty
             if(this->getPlayers().at(i)->get_olst()->getOrder().size() == 0){
-                std::cout<<"Player has no more order to execute.\nSkiping turn.\n";
+                std::cout<<"Player has no more order to execute.\nSkiping turn.\n\n";
             }
             //if the order list is not empty, execute the first order
             else{
-                std::cout<<"Executing next order in the order list";
+                std::cout<<"Executing next order in the order list...\n";
                 this->getPlayers().at(i)->get_olst()->getOrder().at(0)->execute();
                 //once the order is executed, remove from the list
                 std::cout<<"Order executed and removed from the player's order list.\n\n";
@@ -570,7 +570,7 @@ bool GameEngine::executeOrdersPhase(){
     }//end of while
 
 
-    
+    //let the main game loop know if there is a winner
     return winner;
 
 }
@@ -618,7 +618,7 @@ bool GameEngine::mainGameLoop(std::vector <Player*> players, Map* graph){
         std::cout<<"\n<<<issue order phase complete>>>\n";
 
         //Phase 3: execute Orders --> call executeOrdersPhase() in round-robin
-        // executeOrders();
+        finished = executeOrdersPhase();
 
         //to test if everything's working
         //TO REMOVE when Phase 3 is complete to test the loop
