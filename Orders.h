@@ -187,6 +187,8 @@ class Blockade : public Order{
 public:
     //Blockade default constructor
     Blockade();
+    //Blockade parameterized constructor
+    Blockade(Territory *target, Player *player);
     //Blockade destructor
     ~Blockade();
     //Blockade copy constructor
@@ -199,15 +201,11 @@ public:
     bool validate();
     //execute order
     void execute();
-    //getter for valid
-    bool getValid();
-    //setter for valid
-    void setValid(bool valid);
     // Clone method, required for the copy constructor
     virtual Order* clone();
 private:
-    //valid stores the information if the order is valid
-    bool valid;
+    Territory *target;
+    Player *player;
 };
 
 //Airlift lass definition

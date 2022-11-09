@@ -114,6 +114,20 @@ void testOrderExecution() {
     cout << "Current State of territories after execution of bomb order on Territory4:" << endl;
     cout << "Territory 1: " << *territory1 << " Territory 2: " << *territory2 << " Territory 3: " << *territory3 << " Territory 4: " << *territory4 <<  "\n";
 
+    cout << "------- Testing Blockade Order -------" <<"\n";
+    Blockade *blockade1 = new Blockade(territory3, player2);
+    Blockade *blockade2 = new Blockade(territory3, player1);
+
+    cout << "# Verifying that blockade order checks ownership of target territory #\n";
+    cout << "Blockade 1 validation (Marc blockades territory3): " << blockade1->validate() << "\n";
+    cout << "Blockade 2 validation (Chris blockades territory3): " << blockade2->validate() << "\n";
+    
+    cout << "# Executing a valid Blockade order #\n";
+    blockade2->execute();
+
+    cout << "Current State of territories after execution of Blockade order on Territory3:" << endl;
+    cout << "Territory 1: " << *territory1 << " Territory 2: " << *territory2 << " Territory 3: " << *territory3 << " Territory 4: " << *territory4 <<  "\n";
+
 
    cout << "------- Testing negotiate order -------\n";
    cout << "#### Checking Negotiate with Advance ####\n";

@@ -592,7 +592,12 @@ Order* Bomb::clone(){
 //Blockade default constructor
 Blockade::Blockade(){
     type = "Blockade";
-    valid = true;
+
+}
+
+//Blockade paramaterized constructor
+Blockade::Blockade(Territory *target, Player *player):
+    Order("Blockade"), target(target), player(player) {
 }
 
 //Blockade destructor
@@ -624,14 +629,13 @@ std::ostream& operator<<(std::ostream &strm, const Blockade &Blockade){
 
 //Validate if the order is valid
 bool Blockade::validate(){
-    if (valid){
-        cout << "Blockade is valid" << endl;
-        return true;
-    }
-    else{
-        cout << "ERROR: Blockade is not valid" << endl;
-        return false;
-    }
+    // Save player territories into vector
+    vector<Territory*> playerTerritories = player->get_trt();
+    
+    // Check if target territory belongs to player
+    bool ownsTarget = any_of(playerTerritories.begin(), playerTerritories.end(), [this](Territory *t){return t == this->target;});
+
+    return ownsTarget;
 }
 
 //execute order
@@ -640,22 +644,35 @@ void Blockade::execute(){
     if(validate()){
         this->hasExecuted = true;
         effect = "executed";
-        cout << "Blockade is executing" << endl;
+
+        // Double units in territory
+        *(this->target->armyAmount) = *(this->target->armyAmount)*2;
+        
+        // Save territory vector of player
+        vector<Territory*> playerTerritories = this->player->get_trt();
+
+        // Remove blockaded territory from player's territory vector
+        for (auto it = playerTerritories.begin(); it != playerTerritories.end(); ++it)
+        {
+            Territory *aTerritory = *it;
+            // If both point to the same territory, remove it from territory list
+            if(aTerritory == this->target)
+            {
+                playerTerritories.erase(it);
+                break;
+            }
+        }
+
+        // Change owned territories of player
+        this->player->set_Trt(playerTerritories);
+
+        // Change ownership of territory
+        this->target->setTerritoryOwner(new Player("Neutral Player", {this->target}, nullptr, {}));
     }
     else{
         this->hasExecuted = false;
         cout << "ERROR: Blockade cannot be executed" << endl;
     }
-}
-
-//getter for valid
-bool Blockade::getValid(){
-    return this->valid;
-}
-
-//setter for valid
-void Blockade::setValid(bool valid){
-    this->valid = valid;
 }
 
 //clone method
