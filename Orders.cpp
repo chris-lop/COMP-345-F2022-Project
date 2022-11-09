@@ -303,14 +303,17 @@ Advance::~Advance(){
 }
 
 //Advance copy constructor
-Advance::Advance(const Advance& ad1){
-    this->type = ad1.type;
-    this->effect = ad1.effect;
+Advance::Advance(const Advance& ad1):
+    Order(ad1.type, ad1.effect), source(ad1.source), target(ad1.target), player(player), numberUnits(ad1.numberUnits){
 }
 
 //Advance assignment operator
 Advance& Advance::operator=(const Advance& ad){
 	Advance::operator=(ad);
+    this->source = ad.source;
+    this->target = ad.target;
+    this->player = ad.player;
+    this->numberUnits = ad.numberUnits;
 	return *this;
 }
 
@@ -512,14 +515,15 @@ Bomb::~Bomb(){
 }
 
 //Bomb copy constructor
-Bomb::Bomb(const Bomb& b1){
-    this->type = b1.type;
-    this->effect = b1.effect;
+Bomb::Bomb(const Bomb& b1):
+    Order(b1.type, b1.effect), target(b1.target), player(player) {
 }
 
 //Bomb assignment operator
 Bomb& Bomb::operator=(const Bomb& b){
 	Bomb::operator=(b);
+    this->target = b.target;
+    this->player = b.player;
 	return *this;
 }
 
@@ -606,14 +610,15 @@ Blockade::~Blockade(){
 }
 
 //Blockade copy constructor
-Blockade::Blockade(const Blockade& bl1){
-    this->type = bl1.type;
-    this->effect = bl1.effect;
+Blockade::Blockade(const Blockade& bl1):
+    Order(bl1.type, bl1.effect), target(bl1.target), player(bl1.player) {
 }
 
 //Blockade assignment operator
 Blockade& Blockade::operator=(const Blockade& bl){
 	Blockade::operator=(bl);
+    this->target = bl.target;
+    this->player = bl.player;
 	return *this;
 }
 
