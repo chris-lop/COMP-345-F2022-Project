@@ -559,15 +559,15 @@ bool GameEngine::mainGameLoop(std::vector<Player *> players, Map *graph)
     return finished;
 }
 
-void GameEngine::freeCharPtrVectr(vector<char *> v)
-{
-    for (auto p : v)
-    {
-        cout << "hello" << endl;
-        delete p;
-    }
-    v.clear();
-}
+// void GameEngine::freeCharPtrVectr(vector<char *> v)
+// {
+//     for (auto p : v)
+//     {
+//         cout << "hello" << endl;
+//         delete p;
+//     }
+//     v.clear();
+// }
 
 vector<char *> GameEngine::directory()
 {
@@ -649,7 +649,7 @@ void GameEngine::startupPhase(CommandProcessor *cp)
             if (truemap == false)
             {
                 cout << "\nInvalid Map name \n";
-                        }
+            }
             cout << "\n";
         }
         else if (command == "validatemap")
