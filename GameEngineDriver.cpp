@@ -1,6 +1,7 @@
 
 
 #include "GameEngine.h"
+#include "CommandProcessor.h"
 #include <iostream>
 #include <string>
 using namespace std;
@@ -32,5 +33,6 @@ using namespace std;
 void testGameEngine()
 {
     GameEngine *engine = new GameEngine();
-    engine->startupPhase();
+    CommandProcessor *cp = new CommandProcessor();
+    engine->startupPhase(cp);
 }

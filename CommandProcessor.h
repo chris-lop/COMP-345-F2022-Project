@@ -7,19 +7,20 @@
 #include <string>
 #include <vector>
 using namespace std;
-class CommandProcessor{
+class CommandProcessor
+{
 private:
-    Command* c;
+    Command *c;
     string state;
-    //declared virtual so that inheritance applies to it
+    // declared virtual so that inheritance applies to it
     virtual void readCommand();
     bool done;
 
 public:
-vector<string*> getCommand();
-void start();
-void startMessage();
-    void playegame(string line);
+    vector<string *> getCommand();
+    void start();
+    void startMessage();
+    bool playegame(string line);
     bool validate(string command);
     void saveCommand(string command);
     CommandProcessor();

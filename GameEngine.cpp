@@ -6,6 +6,7 @@
 #include <vector>
 #include <algorithm>
 #include <unistd.h>
+#include <sstream>
 #include <cstring>
 #include <dirent.h>
 #include <random>
@@ -14,6 +15,8 @@
 #include "Map.h"
 #include "Cards.h"
 #include "Orders.h"
+#include "CommandProcessor.h"
+
 using namespace std;
 
 // GameEngine class
@@ -556,28 +559,8 @@ bool GameEngine::mainGameLoop(std::vector<Player *> players, Map *graph)
     return finished;
 }
 
-void GameEngine::startupPhase()
+vector<char *> GameEngine::directory()
 {
-    while (true)
-    {
-        char input[100];
-        cout << "Would you like to start the Game? [y/n] " << endl;
-        cin >> input;
-        if (strcmp(input, "y") == 0)
-        {
-            cout << "Here is a list of map you can choose from" << endl;
-            break;
-        }
-        else if (strcmp(input, "n") == 0)
-        {
-            cout << "You have exited" << endl;
-            exit(0);
-        }
-        else
-        {
-            cout << "Invalid Command" << endl;
-        }
-    }
     DIR *dir;
     struct dirent *diread;
     vector<char *> nameOfMaps;
@@ -587,8 +570,6 @@ void GameEngine::startupPhase()
     char *path = new char[std::strlen(answer) + std::strlen("/maps") + 1];
     std::strcat(path, answer);
     std::strcat(path, "/maps");
-
-    std::cout << path << endl;
 
     if ((dir = opendir(path)) != nullptr)
     {
@@ -607,107 +588,140 @@ void GameEngine::startupPhase()
     {
         perror("opendir");
     }
+    return nameOfMaps;
+}
+void GameEngine::startupPhase(CommandProcessor *cp)
+{
 
-    int count = 0;
+    vector<char *> nameOfMaps;
 
-    // Allow user to chose map to play on
-    int mapSelector;
+    cout << "**********THE GAME HAS STARTED********** \n"
+         << endl;
+    cout << "Enter the the following command to load a mad (loadmap <filename>): ";
+    string command;
     Map *m = new Map();
     Map *gameMap = new Map();
     MapLoader *loader = new MapLoader();
+    char nameMapSaver[1000] = "";
     while (true)
     {
+        nameOfMaps = directory();
+        char mapPath[1000] = "./maps/";
+        bool truemap = true;
+        cout << "\nHere is a list of maps you can choose from\n";
         int nbr = 0;
         for (auto file : nameOfMaps)
         {
-
             cout << nbr << ": " << file << "\n";
             nbr++;
         }
-        cout << endl;
-        mapSelector = 0;
-        cout << "Enter the number that corresponds to the map you want to play on" << endl;
-        cin >> mapSelector;
-        if (cin.fail())
+        getline(cin, command);
+        cout << "\n";
+        if (command.find("loadmap") != std::string::npos)
         {
-            cin.clear();
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            cout << "Map does not exists" << endl;
-            continue;
+            nameMapSaver[0] = 0;
+            cout << nameMapSaver << "HELLO" << endl;
+            cp->saveCommand(command);
+            for (auto name : nameOfMaps)
+            {
+                if (command.find(name) != std::string::npos)
+                {
+                    cp->playegame(command);
+                    strcat(mapPath, name);
+                    strcat(nameMapSaver, name);
+                    truemap = true;
+                    break;
+                }
+                else
+                {
+                    truemap = false;
+                }
+            }
+            if (truemap == false)
+            {
+                cout << "\nInvalid Map name \n";
+            }
+            cout << "\n";
         }
-        if (mapSelector > nameOfMaps.size() - 1 || mapSelector < 0)
+        else if (command == "validatemap")
         {
-            cout << "Map does not exists" << endl;
-            continue;
+            cp->saveCommand(command);
+            strcat(mapPath, nameMapSaver);
+            std::cout << nameMapSaver << "WHATT\n"
+                      << endl;
+            std::cout << mapPath << "WHATT\n"
+                      << endl;
+            gameMap = loader->loadMap(mapPath);
+            if (!m->validate(gameMap->territories))
+            {
+                cout << " \nInvalid map \n"
+                     << endl;
+                command = "";
+                cout << "\nValid commands: loadmap\n " << endl;
+            }
+            else
+            {
+                // check for segmentation fault for sencond mapvalidity
+                cout << "\n";
+                cp->playegame(command);
+                cp->saveCommand(command);
+                command = "";
+                break;
+            }
         }
-        char mapPath[1000] = "./maps/";
-        strcat(mapPath, nameOfMaps[mapSelector]);
-        cout << mapPath << endl;
-
-        gameMap = loader->loadMap(mapPath);
-
-        if (!m->validate(gameMap->territories))
+        else
         {
-            cout << " \nInvalid map \n"
-                 << endl;
-            cout << "Please make another choice \n"
-                 << endl;
-            continue;
+            cp->playegame(command);
         }
-        break;
     }
-
-    // add players
-    int players = 0;
+    std::shuffle(gameMap->territories.begin(), gameMap->territories.end(), std::random_device());
+    std::vector<Player *> playersMap;
     while (true)
     {
-        // fix infinite loop
-        cout << "Enter the number of players that will play the game [2-6]" << endl;
-        cin >> players;
-        if (cin.fail())
+        cout << "\nEnter the next command \n"
+             << endl;
+        getline(cin, command);
+        Deck *deck = new Deck();
+        if (command.find("addplayer") != std::string::npos)
         {
-            cin.clear();
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            cout << "Invalid Number" << endl;
-            continue;
+            cp->playegame(command);
+            cp->saveCommand(command);
+            string nameOfPlayer;
+
+            std::stringstream ss(command);
+            std::istream_iterator<std::string> begin(ss);
+            std::istream_iterator<std::string> end;
+            std::vector<std::string> tokens(begin, end);
+            Player *p = new Player(tokens[1]);
+            cout << tokens[1] << "TOKEN";
+            p->set_armyUnit(50);
+            Hand *hand = new Hand();
+            for (int i = 0; i < 2; i++)
+            {
+                Card *card = deck->draw();
+                hand->addCard(card);
+            }
+            p->set_Player_Hand(hand);
+            playersMap.push_back(p);
         }
-        if (players < 2 || players > 6)
+        else if (command == "gamestart")
         {
-            cout << "Invalid number of players" << endl;
-            continue;
+            cp->saveCommand(command);
+            command = "";
+            break;
         }
-        break;
+        else
+        {
+            command = "";
+            cp->playegame(command);
+        }
     }
-    // creating deck to assign it all to players
-    Deck *deck = new Deck();
-
-    // creating the players and adding them to the player vector
-    std::vector<Player *> playersMap;
-    for (int i = 0; i < players; i++)
-    {
-        cout << "Enter player " << i << "'s name" << endl;
-        string name;
-        cin >> name;
-        Player *p = new Player(name);
-        p->set_armyUnit(50);
-
-        // setting 2 cards per player
-        Hand *hand = new Hand();
-        for (int i = 0; i < 2; i++)
-        {
-            Card *card = deck->draw();
-            hand->addCard(card);
-        }
-
-        p->set_Player_Hand(hand);
-        playersMap.push_back(p);
-    }
-
-    // fairly distribute players and give 50 initial army units
-    count = 0;
+    int count = 0;
+    std::cout << playersMap.size() << endl;
+    std::cout << gameMap->territories.size() << endl;
     for (auto terr : gameMap->territories)
     {
-        if (count == players)
+        if (count == playersMap.size())
         {
             count = 0;
         }
@@ -720,11 +734,9 @@ void GameEngine::startupPhase()
 
         count++;
     }
-    // randomize the players
     std::shuffle(playersMap.begin(), playersMap.end(), std::random_device());
-
-    int range = 0;
     // printing the players
+    int range = 0;
     for (auto i : playersMap)
     {
         std::cout << "Player " << range << ' ';
@@ -744,5 +756,4 @@ void GameEngine::startupPhase()
                   << endl;
         range++;
     }
-    mainGameLoop(playersMap, gameMap);
 }

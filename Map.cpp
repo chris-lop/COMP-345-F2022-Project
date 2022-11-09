@@ -579,7 +579,7 @@ Map *MapLoader::loadMap(string path)
             }
         }
     }
-
+    file.close();
     // Set each territory's continent
     for (auto territory : territories)
     {

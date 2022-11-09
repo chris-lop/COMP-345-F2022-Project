@@ -5,6 +5,7 @@
 #include <vector>
 #include "Player.h"
 #include "Map.h"
+#include "CommandProcessor.h"
 #include <string>
 class Order;
 
@@ -62,8 +63,8 @@ public:
     void reinforcementPhase(Player *player, Map *graph);
     void issueOrdersPhase(Player *player);
     void executeOrdersPhase();
-    void startupPhase();
-    // void printMapNames();
+    void startupPhase(CommandProcessor *cp);
+    vector<char *> directory();
 
 }; // end of class GameEngine
 
