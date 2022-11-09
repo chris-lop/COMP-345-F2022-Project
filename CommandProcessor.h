@@ -1,5 +1,4 @@
 
-
 #include "Command.h"
 #ifndef COMMANDPROCESSOR_H
 #define COMMANDPROCESSOR_H
@@ -14,13 +13,18 @@ private:
     //declared virtual so that inheritance applies to it
     virtual void readCommand();
     bool done;
+    bool valid;
 
 public:
 vector<string*> getCommand();
 void start();
 void startMessage();
+//getters
+Command* get_c();
+bool getvalid();
+
     void playegame(string line);
-    bool validate(string command);
+    string validate(string command);
     void saveCommand(string command);
     CommandProcessor();
     virtual ~CommandProcessor();
