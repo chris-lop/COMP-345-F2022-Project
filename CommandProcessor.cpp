@@ -255,7 +255,15 @@ bool CommandProcessor::getvalid(){
     return valid;
 }
 
+string CommandProcessor::get_state()
+{
+    return state;
+}
 
+//setter
+void CommandProcessor::set_state(string line){
+    state=line;
+}
 
 //keeps on taking user's command until the end of game
 void CommandProcessor::start(){
