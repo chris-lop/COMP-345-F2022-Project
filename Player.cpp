@@ -229,5 +229,5 @@ void Player::issueOrder(Order* o) {
     this->get_olst()->addOrder(o);
     std::cout << "The new list of order is: ";
     std::cout<< *(this->get_olst());
-    std::cout<<std::endl;
+    std::cout<<"\n\n";
 }

@@ -22,8 +22,8 @@ int main()
     //Part 5: Game Engine
     // testGameStates();
 
-    //A2 Part 3
-    testMainGameLoop();
+    //A2 Part 3 
+    //testMainGameLoop();
 
 }
 

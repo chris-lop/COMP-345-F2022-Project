@@ -108,7 +108,7 @@ void GameEngine::addPlayers()
     cout<<*p;
     delete p;
 }
-
+  
 //prints out assigning reinforcement
 void GameEngine::assignReinforcement()
 {
@@ -390,86 +390,129 @@ void GameEngine::reinforcementPhase(Player* p, Map* graph){
 }
 
 //issueOrdersPhase(): each player issue orders
-void GameEngine::issueOrdersPhase(Player* p){
-    
-    vector <Territory*> trt_attack = p->toAttack();
-    vector <Territory*> trt_defend = p->toDefend();
-    
-    //Notify player of the current list of territories to defend and to attack
-    std::cout<<"Issue orders for "<<p->get_name()<<std::endl;
-    std::cout<<"Player's territories to defend: "<<std::endl;
-    for (Territory* t: trt_defend){
-        std::cout<< *(t->getTerritoryName()) <<" ";
+void GameEngine::issueOrdersPhase(vector<Player*> players){
+    int pool[players.size()];
+    for(int i=0; i<players.size(); i++){
+        pool[i] = 0;
     }
-    std::cout<<std::endl;
-    std::cout<<"Player's territories to attack: "<<std::endl;
-    for (Territory* t: trt_attack){
-        std::cout<< *(t->getTerritoryName()) <<" ";
+    bool deploy[players.size()];
+    for(int i=0; i<players.size(); i++){
+        deploy[i] = false;
     }
-    std::cout<<std::endl;
+    bool done[players.size()];
+    for(int i=0; i<players.size(); i++){
+        done[i] = false;
+    }
 
-    //Issue deploy order
-    bool deploy = true;
+    for(Player* p: players){
+        //Notify player of the current list of territories to defend and to attack
+        vector <Territory*> trt_attack = p->toAttack();
+        vector <Territory*> trt_defend = p->toDefend();
+        std::cout<<"Player "<<p->get_name()<<"'s territories to defend: "<<std::endl;
+        for (Territory* t: trt_defend){
+            std::cout<< *(t->getTerritoryName()) <<" ";
+        }
+        std::cout<<"\n";
+        std::cout<<"Player"<<p->get_name()<<"'s territories to attack: "<<std::endl;
+        for (Territory* t: trt_attack){
+            std::cout<< *(t->getTerritoryName()) <<" ";
+        }
+        std::cout<<"\n\n";
+    }
+
     bool issue = true;
-    int i_count = 0;
-    while(deploy){
-        if(p->get_armyUnit() > 0){
-            std:: string answer;
-            std::cout<< "Issue Deploy order? (Y/N)"<<std::endl;
-            std::cin>>answer;
-            if(answer=="Y"){
-                int army;
-                std::cout<<"Deploying army units to "<<*(trt_defend.at(i_count)->getTerritoryName())<<std::endl;
-                std::cout<<"Number of army units to deploy: ";
-                std::cin>>army;
-                Deploy* d = new Deploy(trt_defend.at(i_count), trt_defend.at(i_count)->getTerritoryOwner(), army);
-                p->issueOrder(d);
-                p->set_armyUnit(p->get_armyUnit()-army);
-                i_count+=1;
-            }
-            else if(answer=="N"){
-                std::cout<<"You cannot issue other orders if you don't deploy all army units.\n"<<endl;
-                deploy = false;
-                issue = false;
-            }
-            else{
-                std::cout<<"!ERROR!***Please enter the correct answer.***"<<std::endl;  
-            }
-        }
-        //player does not have any more army units
-        else{
-            std::cout<<"You don't have any more army units to deploy. \n"<<endl;
-            deploy = false;
-        }
-    }
-    
-    //If no more army units, proceed to issue other orders
-    //If player has army units left undeployed, then this while loop will be skipped
     while(issue){
-        bool yn = true;
-        while(yn){
-            std:: string answer;
-            std::cout<< "Add more order? (Y/N)"<<std::endl;
-            std::cin>>answer;
-            if(answer=="Y"){
-                issue=true;
-                yn = true;
-                //TODO
-                //issueOrders() need following corrections: remove deploy() as option, use the correct constructor for each order type
-                Order* o = issueOrders(); //issueOrders() of GameEngine class to prompt user to select orders
-                p->issueOrder(o);
-            }
-            else if(answer=="N")
-            {
-               issue=false;
-               yn = false;
+        for(int i = 0; i<players.size(); i++){
+
+            if(done[i] == true){
+                std::cout<<"Player "<<players.at(i)->get_name()<<" finished issuing orders.\n"<<std::endl;
+                continue;
             }
             else{
-                std::cout<<"!ERROR!***Please enter the correct answer.***"<<std::endl;
-                yn = true;
+                std::cout<<"Issuing order for player "<<players.at(i)->get_name()<<std::endl;
+                //every turn, check if the current player finished deploying army
+                //if yes, skip to next issue order
+                if (pool[i] == players.at(i)->get_armyUnit()){
+                    deploy[i] = true;
+                    std::cout<<"You deployed all your army units.\n\n";
+                }
+                else{
+                    std::cout<<"You have army units in your reinforcement pool.\nYou can only issue deploy order.\n";
+                    std::cout<<"Current army units in the pool: "<<(players.at(i)->get_armyUnit()-(pool[i]))<<std::endl;
+                    bool yn = true;
+                    std:: string answer;
+                    std::cout<<"Issue deploy order? (Y/N)\n";
+                    std::cin>>answer;
+                    while(yn){
+                        //Issue deploy order
+                        if(answer=="Y"||answer=="y"){
+                            int army;
+                            vector <Territory*> trt_defend = players.at(i)->toDefend();
+                            int limit = trt_defend.size();
+                            int rdm_i = rand() % limit;
+                            std::cout<<"Deploying army units to "<<*(trt_defend.at(rdm_i)->getTerritoryName())<<std::endl;
+                            std::cout<<"Number of army units to deploy: ";
+                            std::cin>>army;
+                            Deploy* d = new Deploy(trt_defend.at(rdm_i), trt_defend.at(rdm_i)->getTerritoryOwner(), army);
+                            players.at(i)->issueOrder(d);
+                            pool[i] = pool[i] + army;
+                            yn = false;
+                        }
+                        //If player does not wish to issue deploy order
+                        else if(answer=="N"||answer=="n")
+                        {
+                            std::cout<<"Player cannot issue more orders without deploying all army units.\nPlayer's turn will be skipped.\n\n";
+                            done[i] = true;
+                            yn = false;
+                        }
+                        else{
+                            std::cout<<"!ERROR!***Please enter the correct answer.***"<<std::endl;
+                            yn = true;
+                        }
+                    }
+                }
+            }//end of else
+
+            //issue other orders
+            if(done[i]==false && deploy[i] == true){
+                bool yn = true;
+                std:: string answer;
+                std::cout<<"Issue other orders? (Y/N)\n";
+                std::cin>>answer;
+                while(yn){
+                    if(answer=="Y"||answer=="y"){
+                        //TODO
+                        //issueOrders() need following corrections: remove deploy() as option, use the correct constructor for each order type
+                        Order* o = issueOrders(); //issueOrders() of GameEngine class to prompt user to select orders
+                        players.at(i)->issueOrder(o);
+                        yn=false;
+                    }
+                    else if(answer=="N"||answer=="n")
+                    {
+                        done[i] = true;
+                        yn = false;
+                    }
+                    else{
+                        std::cout<<"!ERROR!***Please enter the correct answer.***"<<std::endl;
+                        yn = true;
+                    }
+                }
+            }
+
+        }//end of for
+
+        //verify all players have completed issuing orders
+        int count = 0;
+        for (int i = 0; i<players.size();i++){
+            if (done[i] == true){
+                count = count+1;
             }
         }
-    }
+        if(count == players.size()){
+            issue = false;
+        }
+    }//end of while
+    
 }
 
 //TODO
@@ -513,15 +556,17 @@ bool GameEngine::mainGameLoop(std::vector <Player*> players, Map* graph){
             std::cout<<"\nCurrent turn: "<<p->get_name()<<std::endl;
             reinforcementPhase(p, graph);
         }
-        
+        std::cout<<"\n<<<reinforcement phase complete...>>>\n";
+
         //Phase 2: issue Orders --> call issueOrdersPhase() in round-robin
-        std::cout<<"\n#issueing orders..."<<std::endl;
-        for (Player* p : players){
-            std::cout<<"Current turn: "<<p->get_name()<<std::endl;
-            issueOrdersPhase(p);
-        }
+        std::cout<<"\n#issueing orders...\n";
+        issueOrdersPhase(gamePlayers);
+        std::cout<<"\n<<<issue order phase complete>>>\n";
+
         //to test if everything's working
+        //TO REMOVE when Phase 3 is complete
         finished=true;
+
         //Phase 3: execute Orders --> call executeOrdersPhase() in round-robin
     }
 

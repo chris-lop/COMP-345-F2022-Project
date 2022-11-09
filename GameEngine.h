@@ -70,7 +70,7 @@ public:
     //A2 functions
     bool mainGameLoop(std::vector <Player*> players, Map* graph);
     void reinforcementPhase(Player* player, Map* graph);
-    void issueOrdersPhase(Player* player);
+    void issueOrdersPhase(vector<Player*> player);
     void executeOrdersPhase();
 
 }; //end of class GameEngine

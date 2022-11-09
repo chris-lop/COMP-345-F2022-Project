@@ -59,8 +59,10 @@ void testMainGameLoop(){
     for (Territory* t: p2_trt){
         std::cout << *(t->getTerritoryName)() << "\t";
     }
-    std::cout<<"\n\n##Starting Main Game Loop##\n";
-    
+    std::cout<<"\n\n##Starting Main Game Loop##\n\n";
+    gameEngine->setMap(gameMap);
+    gameEngine->setPlayers(gamePlayers);
+
     bool finished = false;
     while(!finished){
         finished = gameEngine->mainGameLoop(gamePlayers, gameMap);
