@@ -1,5 +1,4 @@
 
-
 #include "CommandProcessor.h"
 #include <iostream>
 #include <vector>
@@ -13,6 +12,7 @@ CommandProcessor::CommandProcessor()
     state = "start";
     c = new Command();
     done = false;
+    valid = false;
 }
 
 // destructor
@@ -22,58 +22,98 @@ CommandProcessor::~CommandProcessor()
 }
 
 // validates the user's commands and if invalid saves the error message to a vector of strings
-bool CommandProcessor::validate(string command)
+// returns a string of the effect resulting from the command passed to it
+string CommandProcessor::validate(string command)
 {
 
     if (state == "start")
     {
-        if (command == "loadmap")
-            return true;
+        if (command.substr(0, 8) == "loadmap<" && command.substr(command.length() - 1) == ">")
+        {
+            valid = true;
+            return "Now in map loaded state. Valid input: loadmap<mapfile>, validatemap.";
+        }
         else
-            c->effect.push_back(new string("invalid command, the valid command is loadmap."));
-        return false;
+        {
+            valid = false;
+            c->effect.push_back(new string("invalid command, the valid command is loadmap<mapfile>."));
+            return "invalid command, the valid command is loadmap<mapfile>.";
+        }
     }
     else if (state == "maploaded")
     {
-        if (command == "loadmap")
-            return true;
+        if (command.substr(0, 8) == "loadmap<" && command.substr(command.length() - 1) == ">")
+        {
+            valid = true;
+            return "Now in map loaded state. Valid input: loadmap<mapfile>, validatemap.";
+        }
         else if (command == "validatemap")
-            return true;
+        {
+            valid = true;
+            return "Map now validated, you are in validated state. Valid input: addplayer<playername>.";
+        }
         else
-            c->effect.push_back(new string("invalid command, valid commands are loadmap or validatemap."));
-        return false;
+        {
+            valid = false;
+            c->effect.push_back(new string("invalid command, valid commands are loadmap<mapfile>, validatemap."));
+            return "invalid command, valid commands are loadmap<mapfile>, validatemap.";
+        }
     }
     else if (state == "mapvalidated")
     {
-        if (command == "addplayer")
-            return true;
+        if (command.substr(0, 10) == "addplayer<" && command.substr(command.length() - 1) == ">")
+        {
+            valid = true;
+            return "you are now in players added state. Valid input: addplayer<playername>, gamestart.";
+        }
         else
-            c->effect.push_back(new string("invalid command, the valid command is addplayer."));
-        return false;
+        {
+            valid = false;
+            c->effect.push_back(new string("invalid command, the valid command is addplayer<playername>."));
+            return "invalid command, the valid command is addplayer<playername>.";
+        }
     }
     else if (state == "playersadded")
     {
-        if (command == "addplayer")
-            return true;
+        if (command.substr(0, 10) == "addplayer<" && command.substr(command.length() - 1) == ">")
+        {
+            valid = true;
+            return "you are now in players added state. Valid input: addplayer<playername>, gamestart.";
+        }
 
         if (command == "gamestart")
-            return true;
+        {
+            valid = true;
+            return "starting the game... Valid input: replay, quit.";
+        }
         else
-            c->effect.push_back(new string("invalid command, valid commands are addplayer or gamestart."));
-        return false;
+        {
+            valid = false;
+            c->effect.push_back(new string("invalid command, valid commands are addplayer<playername>, gamestart."));
+            return "invalid command, valid commands are addplayer<playername>, gamestart.";
+        }
     }
     else if (state == "win")
     {
         if (command == "quit")
-            return true;
+        {
+            valid = true;
+            return "game ended.";
+        }
         else if (command == "replay")
-            return true;
+        {
+            valid = true;
+            return "Now in start state. Valid input: loadmap<mapfile>";
+        }
         else
+        {
+            valid = false;
             c->effect.push_back(new string("invalid command, valid commands are quit or replay."));
-        return false;
+            return "invalid command, valid commands are quit or replay.";
+        }
     }
     else
-        return false;
+        return "";
 }
 
 // this method saves the command
@@ -160,8 +200,16 @@ bool CommandProcessor::playegame(string line)
         }
         else if (line == "gamestart")
         {
-            // assignReinforcement();
+
             cout << "starting the game... Valid input: replay, quit." << endl;
+
+            // here game should be played automatically
+            cout << "assigning reinforcement." << endl;
+            cout << "issuing orders." << endl;
+            cout << "executing orders." << endl;
+            cout << "enter replay or quit." << endl;
+            // then jump to state win
+            state = "win";
 
             // here game should be played automatically
             // then jump to state win
@@ -196,18 +244,45 @@ bool CommandProcessor::playegame(string line)
     }
 }
 
-// read's user's commands, saves and validates them
+// read's user's commands, saves and validates them, then saves the effects of the commands
 void CommandProcessor::readCommand()
 {
-    bool valid;
+    string ycommand;
     string yourCommand;
     cin >> yourCommand;
     saveCommand(yourCommand);
-    valid = validate(yourCommand);
+    // validates the command which will return a string of the effect and save invalid commands' effects
+    ycommand = validate(yourCommand);
+    // saves the effect of the command if the command is valid
+    if (valid == true)
+        c->saveEffect(ycommand);
+
     {
         // this will handle the user's input to pass through stages of the game
         playegame(yourCommand);
     }
+}
+
+// getters
+Command *CommandProcessor::get_c()
+{
+    return c;
+}
+
+bool CommandProcessor::getvalid()
+{
+    return valid;
+}
+
+string CommandProcessor::get_state()
+{
+    return state;
+}
+
+// setter
+void CommandProcessor::set_state(string line)
+{
+    state = line;
 }
 
 // keeps on taking user's command until the end of game
@@ -223,7 +298,7 @@ void CommandProcessor::start()
 // prints out a start message
 void CommandProcessor::startMessage()
 {
-    cout << "Now in start state. Valid input: loadmap" << endl;
+    cout << "Now in start state. Valid input: loadmap<mapfile>" << endl;
 }
 
 // returns a vector of strings which are the commands that the user entered
