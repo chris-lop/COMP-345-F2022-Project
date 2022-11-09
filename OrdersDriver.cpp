@@ -172,4 +172,9 @@ void testOrderExecution() {
    delete n1; delete advance1; delete bomb1;
    delete n2; delete n3;
    delete deployT1; delete deployT2; delete deployT1_units;
+
+   delete territory1; delete territory2; delete territory3; delete territory4;
+   delete advT1; delete advT2; delete advT3; delete advT4; delete advT5;
+   delete bmbT1; delete bmbT2; delete bmbT3;
+   delete blockade1; delete blockade2;
 }
