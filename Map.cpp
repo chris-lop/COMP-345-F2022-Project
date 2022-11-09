@@ -470,7 +470,7 @@ Map *MapLoader::loadMap(string path)
     {
         if (line.find("[Continents]") != std::string::npos)
         {
-            Iterate through Continent declarations and add them to continent vector until Territories section is found while (getline(file, line))
+            // Iterate through Continent declarations and add them to continent vector until Territories section is found while (getline(file, line))
             {
                 // Territories section is found, break out of loop
                 if (line.find("[Territories]") != std::string::npos)

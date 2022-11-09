@@ -26,7 +26,7 @@ Player::Player(std::string name)
     this->name = name;
     this->trt = {};
     this->h = new Hand();
-    // this->olst = new OrdersList();
+    this->olst = new OrdersList();
     this->army_unit = 0;
 }
 // Constructor without reinforcement pool
@@ -36,7 +36,7 @@ Player::Player(std::string name, std::vector<Territory *> trt, Hand *h, OrdersLi
     this->name = name;
     this->trt = trt;
     this->h = h;
-    // this->olst = olst;
+    this->olst = olst;
     this->army_unit = 0;
 }
 // Constructor with all parameters
@@ -57,7 +57,7 @@ Player::~Player()
         delete (t);
     }
     delete h;
-    // delete olst;
+    delete olst;
 }
 
 // Copy constructor
@@ -102,6 +102,13 @@ int Player::get_armyUnit()
     return this->army_unit;
 }
 
+// Checks if this player has a negotiation with the other
+bool Player::hasNegotiationWith(Player *o)
+{
+    return any_of(negotiatedPlayers.begin(), negotiatedPlayers.end(), [o](Player *p)
+                  { return p == o; });
+}
+
 // Setter for name
 void Player::set_Pname(std::string name)
 {
@@ -127,11 +134,11 @@ void Player::set_Player_Hand(Hand *h)
 //  since it's the start of a turn
 void Player::set_armyUnit(int army_unit)
 {
-    this->army_unit = army_unit;
     if (army_unit > this->army_unit)
     {
         negotiatedPlayers.clear();
     }
+    this->army_unit = army_unit;
 }
 
 void Player::addNegotiatedPlayer(Player *p)
@@ -251,7 +258,7 @@ std::vector<Territory *> Player::toAttack()
 // add a new order input by user to the existing list
 void Player::issueOrder(Order *o)
 {
-    std::cout << "The player " << this->get_name() << "'s current list of order is: ";
+    std::cout << "The player " << this->get_name() << "'s original list of order was: ";
     std::cout << *(this->get_olst());
     std::cout << std::endl;
 
@@ -264,5 +271,6 @@ void Player::issueOrder(Order *o)
     // adding the input order to the existing list and return the new list
     this->get_olst()->addOrder(o);
     std::cout << "The new list of order is: ";
-    std::cout << *(this->get_olst()) << std::endl;
+    std::cout << *(this->get_olst());
+    std::cout << "\n\n";
 }

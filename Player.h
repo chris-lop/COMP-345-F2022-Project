@@ -72,7 +72,12 @@ public:
     // Other methods
     // Adds player to the list of negotiated players
     void addNegotiatedPlayer(Player *p);
+    // Checks if this player has a negotiation with the other
+    bool hasNegotiationWith(Player *o);
 }; // end class Player
+
+// free function testPlayer
+//  void testPlayer();
 
 // free function testPlayer
 //  void testPlayer();
