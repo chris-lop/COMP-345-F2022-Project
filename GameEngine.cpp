@@ -559,6 +559,16 @@ bool GameEngine::mainGameLoop(std::vector<Player *> players, Map *graph)
     return finished;
 }
 
+void GameEngine::freeCharPtrVectr(vector<char *> v)
+{
+    for (auto p : v)
+    {
+        cout << "hello" << endl;
+        delete p;
+    }
+    v.clear();
+}
+
 vector<char *> GameEngine::directory()
 {
     DIR *dir;
@@ -593,8 +603,6 @@ vector<char *> GameEngine::directory()
 void GameEngine::startupPhase(CommandProcessor *cp)
 {
 
-    vector<char *> nameOfMaps;
-
     cout << "**********THE GAME HAS STARTED********** \n"
          << endl;
     cout << "Enter the the following command to load a mad (loadmap <filename>): ";
@@ -605,6 +613,7 @@ void GameEngine::startupPhase(CommandProcessor *cp)
     char nameMapSaver[1000] = "";
     while (true)
     {
+        vector<char *> nameOfMaps;
         nameOfMaps = directory();
         char mapPath[1000] = "./maps/";
         bool truemap = true;
@@ -640,7 +649,7 @@ void GameEngine::startupPhase(CommandProcessor *cp)
             if (truemap == false)
             {
                 cout << "\nInvalid Map name \n";
-            }
+                        }
             cout << "\n";
         }
         else if (command == "validatemap")
@@ -661,7 +670,6 @@ void GameEngine::startupPhase(CommandProcessor *cp)
             }
             else
             {
-                // check for segmentation fault for sencond mapvalidity
                 cout << "\n";
                 cp->playegame(command);
                 cp->saveCommand(command);

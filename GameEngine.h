@@ -64,6 +64,7 @@ public:
     void issueOrdersPhase(Player *player);
     void executeOrdersPhase();
     void startupPhase(CommandProcessor *cp);
+    void freeCharPtrVectr(vector<char *> v);
     vector<char *> directory();
 
 }; // end of class GameEngine
