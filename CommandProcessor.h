@@ -21,9 +21,6 @@ public:
     void start();
     void startMessage();
     bool playegame(string line);
-    vector<string *> getCommand();
-    void start();
-    void startMessage();
     // getters
     Command *get_c();
     bool getvalid();

@@ -629,7 +629,6 @@ void GameEngine::startupPhase(CommandProcessor *cp)
         if (command.find("loadmap") != std::string::npos)
         {
             nameMapSaver[0] = 0;
-            cout << nameMapSaver << "HELLO" << endl;
             cp->saveCommand(command);
             for (auto name : nameOfMaps)
             {
@@ -649,11 +648,13 @@ void GameEngine::startupPhase(CommandProcessor *cp)
             if (truemap == false)
             {
                 cout << "\nInvalid Map name \n";
+                cp->set_state("start");
             }
             cout << "\n";
         }
-        else if (command == "validatemap")
+        else if (command == "validatemap" && cp->get_state() == "maploaded")
         {
+            cout << cp->get_state() << endl;
             cp->saveCommand(command);
             strcat(mapPath, nameMapSaver);
             std::cout << nameMapSaver << "WHATT\n"
@@ -667,6 +668,7 @@ void GameEngine::startupPhase(CommandProcessor *cp)
                      << endl;
                 command = "";
                 cout << "\nValid commands: loadmap\n " << endl;
+                cp->set_state("start");
             }
             else
             {
