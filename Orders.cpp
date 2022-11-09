@@ -383,16 +383,25 @@ void Advance::execute(){
         if (ownsSource && ownsTarget)
         {
             // Increment target territory with army amount
-            target->armyAmount = target->armyAmount+this->numberUnits;
+            int newTargetArmy = (*(target->getArmy())+this->numberUnits);
+            int* ptrTargetArmy = &newTargetArmy;
+            target->setArmy(ptrTargetArmy);
 
             // Decrement source territory with army amount
-            source->armyAmount = source->armyAmount-this->numberUnits;
+            int newSourceArmy = (*(source->getArmy())-this->numberUnits);
+            int* ptrSourceArmy = &newSourceArmy;
+            source->setArmy(ptrSourceArmy);
         }
         // If player does not own target, attack target
         else
         {
+            // Decrement source territory with army amount
+            int newSourceArmy = (*(source->getArmy())-this->numberUnits);
+            int* ptrSourceArmy = &newSourceArmy;
+            source->setArmy(ptrSourceArmy);
+            
             // While attacker or defender doesn't have 0 units...
-            while (attackerNb!=0 || this->target->armyAmount!=0)
+            while (attackerNb!=0 && *(this->target->getArmy())!=0)
             {
                 // Counters to keep track of losses
                 int attackerLosses = 0;
@@ -409,7 +418,8 @@ void Advance::execute(){
                 }
 
                 // For every defending unit, increment attackers loss with probability
-                for (int i = 0; i < *target->armyAmount; i++)
+                int *targetArmy = target->getArmy();
+                for (int i = 0; i < *targetArmy; i++)
                 {
                     bool kill = (rand() % 100) < 70;
                     if (kill)
@@ -420,7 +430,9 @@ void Advance::execute(){
 
                 // Decrement source army and target territory army with their losses
                 attackerNb = attackerNb - attackerLosses;
-                this->target->armyAmount = this->target->armyAmount - defenderLosses;
+                int newTargetArmy = (*(target->getArmy())-defenderLosses);
+                int* ptrTargetArmy = &newTargetArmy;
+                target->setArmy(ptrTargetArmy);
 
                 // Check for negative values and set them to zero for attacker and defender
                 if (attackerNb < 0)
@@ -428,10 +440,47 @@ void Advance::execute(){
                     attackerNb = 0;
                 }
 
-                if (*this->target->armyAmount < 0)
+                if (*this->target->getArmy() < 0)
                 {
-                    this->target->armyAmount = 0;
+                    newTargetArmy = 0;
+                    target->setArmy(ptrTargetArmy);
                 }
+            }
+            // If attacker won, capture territory
+            if (attackerNb!=0 && *target->getArmy()==0)
+            {
+                // Save territory vector of attacker
+                vector<Territory*> attackerTerritories = this->player->get_trt();
+
+                // Add conquered territory in attacker's territory vector
+                attackerTerritories.push_back(this->target);
+
+                // Save territory vector of defender
+                vector<Territory*> defenderTerritories = this->target->getTerritoryOwner()->get_trt();
+
+                // Remove conquered territory in defender's territory vector
+                for (auto it = defenderTerritories.begin(); it != defenderTerritories.end(); ++it)
+                {
+                    Territory *aTerritory = *it;
+                    // If both point to the same territory, remove it from defender list
+                    if(aTerritory == this->target)
+                    {
+                        defenderTerritories.erase(it);
+                        break;
+                    }
+                }
+                
+                // Change owned territories of attacker
+                this->player->set_Trt(attackerTerritories);
+
+                // Change owned territories of defender
+                this->target->getTerritoryOwner()->set_Trt(defenderTerritories);
+
+                // Change ownership of territory
+                this->target->setTerritoryOwner(this->player);
+
+                // Surviving army units occupy conquered territory
+                this->target->setArmy(&attackerNb);
             }
         }
         cout << "Deploy has executed" << endl;

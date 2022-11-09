@@ -104,7 +104,7 @@ int *Territory::getArmy()
 // Setter for Army
 void Territory::setArmy(int *newAmount)
 {
-    this->armyAmount = newAmount;
+    *this->armyAmount = *newAmount;
 }
 
 //Getter for adjacent Territories

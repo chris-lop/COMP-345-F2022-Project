@@ -34,15 +34,44 @@ void testOrderExecution() {
     Deploy *deployT1_units = new Deploy(t1, p, 10);
     cout << "Deploy 1 valid (for territory1, move 10 units): " << deployT1_units->validate() << "\n";
     
-    /*
+    
     cout << "------- Testing Advance Order -------" <<"\n";
-    Advance *advT1 = new Advance(t1, t2, p, 5);
-    Advance *advT2 = new Advance(t2, t2, p, 5);
+    Territory *territory1 = new Territory(new string("territory1"), new string("continent1"), vector<Territory*>{}, nullptr, new int(5));
+    Territory *territory2 = new Territory(new string("territory2"), new string("continent1"), vector<Territory*>{}, nullptr, new int(5));
+    Territory *territory3 = new Territory(new string("territory3"), new string("continent1"), vector<Territory*>{}, nullptr, new int(5));
+    Territory *territory4 = new Territory(new string("territory4"), new string("continent1"), vector<Territory*>{}, nullptr, new int(5));
+    territory1->setAdjTerritories(vector<Territory*> {territory2});
+    territory2->setAdjTerritories(vector<Territory*> {territory1, territory3, territory4});
+    territory3->setAdjTerritories(vector<Territory*> {territory2});
+    territory4->setAdjTerritories(vector<Territory*> {territory2});
+    Player *player1 = new Player("Chris", {territory1, territory3}, nullptr, {});
+    Player *player2 = new Player("Marc", {territory2, territory4}, nullptr, {});
+    territory1->setTerritoryOwner(player1);
+    territory2->setTerritoryOwner(player2);
+    territory3->setTerritoryOwner(player1);
+    territory4->setTerritoryOwner(player2);
+
+    Advance *advT1 = new Advance(territory1, territory2, player1, 5);
+    Advance *advT2 = new Advance(territory2, territory1, player1, 5);
+    Advance *advT3 = new Advance(territory1, territory2, player1, 10);
+    Advance *advT4 = new Advance(territory1, territory3, player1, 5);
+    Advance *advT5 = new Advance(territory2, territory4, player2, 2);
+
+    cout << "Current State of territories:" << endl;
+    cout << "Territory 1: " << *territory1 << " Territory 2: " << *territory2 << " Territory 3: " << *territory3 << " Territory 4: " << *territory4 <<  "\n";
     cout << "# Verifying that advance order checks ownership of source territory #\n";
-    cout << "Advance 1 valid (from territory1 to territory 2, Marc moves 5 units): " << advT1->validate() << "\n";
-    cout << "Advance 2 valid (from territory2 to territory 1, Marc moves 5 units): " << advT2->validate() << "\n";
-    "# Verifying that advance order checks the number of units in source territory #\n";
-    */
+    cout << "Advance 1 (from territory1 to territory 2, Chris moves 5 units): " << advT1->validate() << "\n";
+    cout << "Advance 2 (from territory2 to territory 1, Chris moves 5 units): " << advT2->validate() << "\n";
+    cout << "# Verifying that advance order checks the number of units in source territory #\n";
+    cout << "Advance 3 (from territory1 to territory 2, Chris moves 10 units): " << advT3->validate() << "\n";
+    cout << "# Verifying that advance order checks adjacency of territories #\n";
+    cout << "Advance 4 (from territory1 to territory 3, Chris moves 5 units): " << advT3->validate() << "\n";
+    cout << "# Executing an advance order that results in a movement of units #\n";
+    advT5->execute();
+    cout << "# Executing an advance order that results in an attack #\n";
+    advT1->execute();
+    cout << "Current State of territories after execution of advance orders:" << endl;
+    cout << "Territory 1: " << *territory1 << " Territory 2: " << *territory2 << " Territory 3: " << *territory3 << " Territory 4: " << *territory4 <<  "\n";
 
    cout << "------- Testing Airlift Order -------\n";
    Territory *t3 = new Territory(new string("t3"), new string("cont1"), vector<Territory*>{t2}, p, new int(5));
