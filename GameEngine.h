@@ -12,7 +12,10 @@ class GameEngine {
 private:
     int state;
     Map* gameMap;
+
+    //active game players
     vector <Player*> gamePlayers;
+    //players without territories removed from the game
     vector <Player*> removedPlayers;
 
 public:
@@ -53,7 +56,7 @@ public:
     void assignReinforcement();
     
     //takes order as input and creates an order
-    Order* issueOrders();
+    string issueOrders();
     
     //prints out orders are executed
     void executeOrders();
@@ -71,7 +74,7 @@ public:
     bool mainGameLoop(std::vector <Player*> players, Map* graph);
     void reinforcementPhase(Player* player, Map* graph);
     void issueOrdersPhase(vector<Player*> player);
-    void executeOrdersPhase();
+    bool executeOrdersPhase();
 
 }; //end of class GameEngine
 

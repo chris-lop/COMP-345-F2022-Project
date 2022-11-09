@@ -1,6 +1,8 @@
 
 #include <iostream>
 #include "GameEngine.h"
+#include"Player.h"
+#include"Cards.h"
 #include <string>
 using std::cin; using std::cout; using std::string; using std::endl;
 
@@ -34,10 +36,23 @@ void testMainGameLoop(){
     gamePlayers.push_back(p1);
     gamePlayers.push_back(p2);
 
+    //assign 2 cards from deck to players
+    Deck* d = new Deck();
+    Hand* h1= new Hand();
+    for (int i = 0; i < 2; i++) {
+        h1->addCard(d->draw());
+    }
+    Hand* h2= new Hand();
+    for (int i = 0; i < 2; i++) {
+        h2->addCard(d->draw());
+    }
+    p1->set_Player_Hand(h1);
+    p2->set_Player_Hand(h2);
+
     //assign territories to player
     vector <Territory*> p1_trt;
     vector <Territory*> p2_trt;
-    for(int i=0; i<5; i++){
+    for(int i=0; i<3; i++){
         Territory* t = gameMap->territories.at(i);
         p1_trt.push_back(t);
     }
@@ -54,11 +69,16 @@ void testMainGameLoop(){
     for (Territory* t: p1_trt){
         std::cout << *(t->getTerritoryName)() << "\t";
     }
+    std::cout<<"\nPlayer1's hand of cards:\n";
+    std::cout<<*h1;
     std::cout<<"\n";
-    std::cout<< "Player2 owns:" << std::endl;
+    std::cout<< "\nPlayer2 owns:" << std::endl;
     for (Territory* t: p2_trt){
         std::cout << *(t->getTerritoryName)() << "\t";
     }
+    std::cout<<"\nPlayer2's hand of cards:\n";
+    std::cout<<*h2;
+
     std::cout<<"\n\n##Starting Main Game Loop##\n\n";
     gameEngine->setMap(gameMap);
     gameEngine->setPlayers(gamePlayers);

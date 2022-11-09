@@ -4,9 +4,10 @@
 #include<vector>
 #include <algorithm>
 #include "GameEngine.h"
-#include"Player.h"
-#include"Map.h"
+#include "Player.h"
+#include "Map.h"
 #include "Orders.h"
+#include "Cards.h"
 using namespace std;
 
 
@@ -116,36 +117,19 @@ void GameEngine::assignReinforcement()
 }
 
 //takes user's input and creates an order depending on input
-Order* GameEngine::issueOrders()
+string GameEngine::issueOrders()
 {
     string type;
-    Order* order = nullptr;
     do{
-    cout<<"enter your order."<<endl;
-    cin>>type;
-    if(type!="bomb"&&type!="blockade"&&type!="airlift"&&type!="negotiate"&&type!="deploy"&&type!="advance")
-    cout<<"invalid type. valid types: bomb, bloackade, airlift, negotiate, deploy, advance."<<endl;
-            if (type == "bomb") {
-                order = new Bomb();
-            } else if (type == "blockade") {
-                order = new Blockade();
-            } else if (type == "airlift") {
-                order = new Airlift();
-            } else if (type == "negotiate") {
-                order = new Negotiate();
-            } else if (type == "deploy") {
-                order = new Deploy();
-            } else if (type == "advance") {
-                order = new Advance();
-            } 
-            if (order != nullptr) {
-                cout<<*order << endl;
-            }
-        delete order;
+        cout<<"Enter your order: "<<endl;
+        cin>>type;
+        if(type!="bomb"&&type!="blockade"&&type!="airlift"&&type!="negotiate"&&type=="deploy"&&type!="advance") {
+            cout<<"invalid type. valid types: bomb, bloackade, airlift, negotiate, deploy, advance."<<endl;
+        }
     }
-    while(type!="bomb"&&type!="blockade"&&type!="airlift"&&type!="negotiate"&&type!="deploy"&&type!="advance");
+    while(type!="bomb"&&type!="blockade"&&type!="airlift"&&type!="negotiate"&&type=="deploy"&&type!="advance");
 
-    return order;
+    return type;
 }
 
 //executes orders, prints out executing orders
@@ -473,6 +457,7 @@ void GameEngine::issueOrdersPhase(vector<Player*> players){
                 }
             }//end of else
 
+            //TODO
             //issue other orders
             if(done[i]==false && deploy[i] == true){
                 bool yn = true;
@@ -481,10 +466,16 @@ void GameEngine::issueOrdersPhase(vector<Player*> players){
                 std::cin>>answer;
                 while(yn){
                     if(answer=="Y"||answer=="y"){
-                        //TODO
-                        //issueOrders() need following corrections: remove deploy() as option, use the correct constructor for each order type
-                        Order* o = issueOrders(); //issueOrders() of GameEngine class to prompt user to select orders
-                        players.at(i)->issueOrder(o);
+                        //assuming player has non-empty hand of cards
+                        std::cout<<"Current list of ";
+                        std::cout<<*(players.at(i)->get_Phand());
+
+                        //issueOrders() of GameEngine class to prompt user to select orders and validate order type
+                        string o = issueOrders(); 
+                        if(o=="advance"){
+                            Advance* a = new Advance();
+                            players.at(i)->issueOrder(a);
+                        }
                         yn=false;
                     }
                     else if(answer=="N"||answer=="n")
@@ -517,7 +508,70 @@ void GameEngine::issueOrdersPhase(vector<Player*> players){
 
 //TODO
 //executeOrdersPhase(): execute the top order on the list of orders of each player 
-void executeOrdersPhase(){
+bool GameEngine::executeOrdersPhase(){
+    bool winner = false;
+    bool gameplay = true;
+
+    while(gameplay){
+        //for each player, execute one order
+        for (int i = 0; i<this->getPlayers().size(); i++){
+            std::cout<<"Current turn: "<<this->getPlayers().at(i)->get_name()<<std::endl;
+
+            //if the order list is empty
+            if(this->getPlayers().at(i)->get_olst()->getOrder().size() == 0){
+                std::cout<<"Player has no more order to execute.\nSkiping turn.\n";
+            }
+            //if the order list is not empty, execute the first order
+            else{
+                std::cout<<"Executing next order in the order list";
+                this->getPlayers().at(i)->get_olst()->getOrder().at(0)->execute();
+                //once the order is executed, remove from the list
+                std::cout<<"Order executed and removed from the player's order list.\n\n";
+                this->getPlayers().at(i)->get_olst()->remove(this->getPlayers().at(i)->get_olst()->getOrder().at(0));
+            }
+
+            //if any player of the game does not own any territories after executing current order, remove from the game
+            for (int i=0; i<this->getPlayers().size();i++){
+                //the removed player will be stored in a vector in case the players re-play the game at the end
+                if(this->getPlayers().at(i)->get_trt().size()==0){
+                    std::cout<<"Player "<<this->getPlayers().at(i)->get_name()<<" does not own any territories.\n";
+                    this->getRemovedPlayers().push_back(this->getPlayers().at(i));
+                    //remove player from the active game player list
+                    vector <Player*>::iterator it;
+                    it = remove(this->getPlayers().begin(),this->getPlayers().end(), this->getPlayers().at(i));
+                    std::cout<<"Player "<<this->getPlayers().at(i)->get_name()<<" is removed from current game.\n";
+                }
+            }
+
+            //if a player owns all territories of the map after executing order, stop the gameplay
+            if (this->getPlayers().at(i)->get_trt().size()==this->getMap()->territories.size()){
+                winner = true;
+                gameplay = false;
+                std::cout<<"Player now owns all the territories of the game map.\n\n";
+                break;
+            }
+            //if the player does not own all the territories of the map after executing order, continue to the next player
+            else{
+                winner = false;
+                gameplay = true;
+            }
+
+            //verify if all players finished executing orders and finish this game play
+            int count = 0;
+            for (int i = 0; i<this->getPlayers().size(); i++){
+                if(this->getPlayers().at(i)->get_olst()->getOrder().size() == 0){
+                    count++;
+                }
+            }
+            if(count==this->getPlayers().size()){
+                gameplay = false;
+            }
+        }//end of for
+    }//end of while
+
+
+    
+    return winner;
 
 }
 
@@ -563,11 +617,12 @@ bool GameEngine::mainGameLoop(std::vector <Player*> players, Map* graph){
         issueOrdersPhase(gamePlayers);
         std::cout<<"\n<<<issue order phase complete>>>\n";
 
-        //to test if everything's working
-        //TO REMOVE when Phase 3 is complete
-        finished=true;
-
         //Phase 3: execute Orders --> call executeOrdersPhase() in round-robin
+        // executeOrders();
+
+        //to test if everything's working
+        //TO REMOVE when Phase 3 is complete to test the loop
+        finished=true;
     }
 
     return finished;   
