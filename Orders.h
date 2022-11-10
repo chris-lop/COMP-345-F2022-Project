@@ -27,7 +27,7 @@ void testOrdersLists();
 void testOrderExecution();
 
 //OrdersList lass definition
-class OrdersList{
+class OrdersList: public ILoggable, public Subject {
 public:
     //OrdersList default constructor
     OrdersList();
@@ -53,8 +53,8 @@ public:
     int getIndex(Order* order);
     //Output stream
     friend std::ostream& operator<<(std::ostream&, const OrdersList&);
-
-
+    // ILoggable method
+    virtual std::string stringToLog(); 
 private:
     //orderList is the list of vector type that stores all the orders
     std::vector<Order*> orderList;

@@ -1,12 +1,13 @@
 #include <iostream> 
 #include <algorithm>
 #include <vector>
+#include <sstream>
 #include "Orders.h"
 #include "Map.h"
 #include "Player.h"
 #include "LoggingObserver.h"
 
-using std::cout; 
+using std::cout;
 using std::string; 
 using std::vector;
 using std::endl;
@@ -61,6 +62,7 @@ std::vector<Order*>& OrdersList::getOrder(){
 //Add an order to the Order list
 void OrdersList::addOrder(Order* order){
     this->orderList.push_back(order);
+    notify(this);
 }
 
 //Remove an order from the Order list
@@ -126,6 +128,12 @@ std::ostream& operator<<(std::ostream &strm, const OrdersList &ol){
     strm<<"}";
     return strm;
    
+}
+
+string OrdersList::stringToLog() {
+    std::stringstream out;
+    out << *this;
+    return out.str();
 }
 
 
@@ -738,12 +746,14 @@ bool Airlift::validate(){
 //execute order
 void Airlift::execute(){
     if(validate()){
+        this->hasExecuted = true;
         (*source->armyAmount) -= numToMove;
         (*target->armyAmount) += numToMove;
         effect.append("Executed Airlift order, moving ").append(to_string(numToMove))
                 .append(" units from ").append(*source->getTerritoryName()).append(" to ")
                 .append(*target->getTerritoryName());
     } else {
+        this->hasExecuted = false;  
         effect.append("Airlift order cannot be executed");
     }
     notify(this);
@@ -825,10 +835,12 @@ bool Negotiate::validate() {
 void Negotiate::execute(){
     //validate the order then execute
     if(validate()){
+        this->hasExecuted = true;
         effect.append("Negotiation between ").append(source->get_name()).append(" and ").append(target->get_name()).append(" executed ");
         source->addNegotiatedPlayer(target);
         target->addNegotiatedPlayer(source);
     } else {
+        this->hasExecuted = false;
         effect.append("Negotiate order cannot be executed");
     }
     notify(this);
