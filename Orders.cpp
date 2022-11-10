@@ -4,6 +4,7 @@
 #include "Orders.h"
 #include "Map.h"
 #include "Player.h"
+#include "LoggingObserver.h"
 
 using std::cout; 
 using std::string; 
@@ -214,6 +215,14 @@ std::ostream& operator<<(std::ostream &strm, const Order &order){
     }
 }
 
+std::string Order::stringToLog() {
+    if (effect.length() == 0) {
+        return "Order has not executed";
+    } else {
+        return effect;
+    }
+}
+
 
 
 //class Deploy
@@ -280,6 +289,7 @@ void Deploy::execute(){
         this->hasExecuted = false;
         cout << "ERROR: Deploy cannot be executed" << endl;
     }
+    notify(this);
 }
 
 //clone method
@@ -584,6 +594,7 @@ void Bomb::execute(){
         this->hasExecuted = false;
         cout << "ERROR: Bomb cannot be executed" << endl;
     }
+    notify(this);
 }
 
 //clone method
@@ -678,6 +689,7 @@ void Blockade::execute(){
         this->hasExecuted = false;
         cout << "ERROR: Blockade cannot be executed" << endl;
     }
+    notify(this);
 }
 
 //clone method
@@ -727,6 +739,7 @@ void Airlift::execute(){
                 .append(" units from ").append(*source->getTerritoryName()).append(" to ")
                 .append(*target->getTerritoryName());
     }
+    notify(this);
 }
 
 //Airlift assignment operator
@@ -809,6 +822,7 @@ void Negotiate::execute(){
         source->addNegotiatedPlayer(target);
         target->addNegotiatedPlayer(source);
     }
+    notify(this);
 }
 
 //clone method

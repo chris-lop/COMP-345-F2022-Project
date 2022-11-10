@@ -15,6 +15,7 @@
                 "${workspaceFolder}\\OrdersDriver.cpp",
                 "${workspaceFolder}\\GameEngine.cpp",
                 "${workspaceFolder}\\GameEngineDriver.cpp",
+                "${workspaceFolder}\\LoggingObserver.cpp",
                 "-o",
                 "${workspaceFolder}\\Project.exe"
             ],

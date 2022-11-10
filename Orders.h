@@ -4,6 +4,7 @@
 #include <vector>
 #include "Map.h"
 #include "Player.h"
+#include "LoggingObserver.h"
 
 //Class forward declations
 class OrdersList;
@@ -17,6 +18,9 @@ class Negotiate;
 
 class Territory;
 class Player;
+
+class ILoggable;
+class Subject;
 
 //Driver functions
 void testOrdersLists();
@@ -58,7 +62,7 @@ private:
 };
 
 //Order lass definition
-class Order{
+class Order: public ILoggable, public Subject {
 public:
     //Order default constructor
     Order();
@@ -92,6 +96,8 @@ public:
     virtual void execute() = 0;
     // Pure virtual clone method, required for the copy constructor
     virtual Order* clone() = 0;
+    // Method providing the string to log
+    virtual std::string stringToLog();
 protected:
     //type is the order type (deploy, advance, bomb, airlift, negotiate, blockade)
     std::string type;
