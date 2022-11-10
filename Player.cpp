@@ -212,22 +212,435 @@ std::vector <Territory*> Player::toAttack(){
     return result_attack;
 }
 
-//issueOrder()
 //add a new order input by user to the existing list
-void Player::issueOrder(Order* o) {
-    std::cout << "The player " << this->get_name() << "'s original list of order was: ";
-    std::cout<< *(this->get_olst());
-    std::cout<<std::endl;
+void Player::issueOrder()
+{
+    // issueOrder Starting Message
+    cout << this->get_name() << "'s Turn to play:" << endl;
 
-    // //prompt user to input order
-    // std::string order1;
-    // std::cout <<"Enter order to be added: " ;
-    // std::cin >> order1;
-    // std::cout << std::endl;
+    // Variable to keep track of reinforcement
+    int deployed_units = 0;
 
-    //adding the input order to the existing list and return the new list
-    this->get_olst()->addOrder(o);
-    std::cout << "The new list of order is: ";
-    std::cout<< *(this->get_olst());
-    std::cout<<"\n\n";
+    // Vector to keep track of issued orders
+    vector <string> issued_orders;
+
+    while (true)
+    {
+        // If reinforcement pool of player isn't empty, player can only use Deploy orders
+        if (this->get_armyUnit()-deployed_units != 0)
+        {
+            // Deployment Starting Message
+            cout << "You still have army units in your reinforcement pool!" << endl;
+            cout << "You currently have: " << this->get_armyUnit()-deployed_units << " units in your reinforcement pool!" << endl;
+            cout << "You must deploy these units before issuing any other orders." << endl << endl;
+            
+            // Saving player's defendable territories using toDefend() method
+            vector <Territory*> trt_defend = this->toDefend();
+
+            // Displaying player's defendable territories 
+            cout << "Defendable Territories: " << endl;
+            int trt_defend_ctr = 0;
+
+            for(Territory* t: trt_defend)
+            {
+                trt_defend_ctr++;
+                cout << "[" << trt_defend_ctr << "]: " << *t->getTerritoryName() << endl;
+            }
+
+            // Ask for which territory player wants to deploy units to
+            cout << "\nSelect a territory to reinforce (1-" << trt_defend_ctr << "):" << endl;
+            int trt_defend_choice = 1;
+            cout << "Territory Selected: " << *trt_defend[trt_defend_choice-1]->getTerritoryName() << endl << endl;
+
+            // Ask user for how many units he wants to reinforce this territory with
+            cout << "How many units do you want to reinforce this territory with? (Max: " << this->get_armyUnit() << ")" << endl;
+            int trt_defend_army_amount = this->get_armyUnit();
+            cout << "Amount of Units: " << trt_defend_army_amount << endl << endl;
+
+            // Increment deployed_units by this value
+            deployed_units = deployed_units + trt_defend_army_amount;
+
+            // Create Deploy order with data above
+            Deploy* d = new Deploy(trt_defend[trt_defend_choice-1], this, trt_defend_army_amount);
+
+            // Add deploy order to player's order list
+            this->get_olst()->addOrder(d); 
+
+            // Add to issed orders vector for display later
+            issued_orders.push_back("Deploy | To: "+*trt_defend[trt_defend_choice-1]->getTerritoryName()+" | "+to_string(trt_defend_army_amount)+" units");
+            
+        }
+        // Else, the reinforcement pool is empty, let player give other orders
+        else
+        {
+            // Boolean variable to check if player possesses airlift card
+            bool hasAirlift;
+            bool hasBomb;
+            bool hasBlockade;
+            bool hasdiplomacy;
+            
+            // Check through a player's hand and check if he has order cards
+            for (Card* c : this->get_Phand()->cardList())
+            {
+                // If player has airlift card, save it in boolean variable
+                if (c->getType() == "Airlift" || c->getType() == "airlift")
+                {
+                    hasAirlift = true;
+                    break;
+                }
+                // If player has bomb card, save it in boolean variable 
+                if (c->getType() == "Bomb" || c->getType() == "bomb")
+                {
+                    hasBomb = true;
+                    break;
+                }
+                // If player has blockade card, save it in boolean variable
+                if (c->getType() == "Blockade" || c->getType() == "blockade")
+                {
+                    hasBlockade = true;
+                    break;
+                }
+                // If player has diplomacy card, save it in boolean variable 
+                if (c->getType() == "Diplomacy" || c->getType() == "diplomacy")
+                {
+                    hasdiplomacy = true;
+                    break;
+                }
+            }
+
+            // Diplay player options for further orders
+            cout << "Select which type of order you want to issue:" << endl;
+            cout << "[1]: Advance" << endl;
+            
+            // If player has airlift card, print out the option to issue that order
+            if (hasAirlift)
+            {
+                cout << "[2]: Airlift" << endl;
+            }
+            // If player has bomb card, print out the option to issue that order
+            if (hasBomb)
+            {
+                cout << "[3]: Bomb" << endl;
+            }
+            // If player has blockade card, print out the option to issue that order
+            if (hasBlockade)
+            {
+                cout << "[4]: Blockade" << endl;
+            }
+            // If player has diplomacy card, print out the option to issue that order
+            if (hasdiplomacy)
+            {
+                cout << "[5]: Negotiate" << endl;
+            }
+
+            // Save user choice
+            cout << "\nPlease enter a choice: " << endl;
+            int order_option;
+            cout << "Choice Selected: " << "[" << order_option << "]" << endl << endl;
+
+            // Switch case to issue order depending on user choice
+            switch(order_option) 
+            {
+                // Advance case
+                case 1:
+                    {
+                        // Advance order starting message, make user choose between moving units or attacking enemy
+                        cout << "Starting an Advance Order!" << endl;
+                        cout << "Do you want to move units to a friendly territory or attack an enemy territory? (MOV/ATK)" << endl;
+                        
+                        // Save user input to variable
+                        string advance_choice;
+                        cout << "Choice Selected: " << "[" << advance_choice << "]" << endl << endl;
+
+                        // Declaration of trt_defend_ctr and trt_defend vector
+                        vector <Territory*> trt_defend;
+                        int trt_defend_ctr;
+
+                        // If initial choice was MOV, use defendable territories vector
+                        if (advance_choice=="MOV")
+                        {
+                            // Saving player's defendable territories using toDefend() method
+                            trt_defend = this->toDefend();
+
+                            // Displaying player's defendable territories 
+                            cout << "Defendable Territories: " << endl;
+                            trt_defend_ctr = 0;
+
+                            for(Territory* t: trt_defend)
+                            {
+                                trt_defend_ctr++;
+                                cout << "[" << trt_defend_ctr << "]: " << *t->getTerritoryName() << endl;
+                            }
+                        }
+                        // Else, if initial choice was ATK, use attackable territories vector
+                        else if (advance_choice=="ATK")
+                        {
+                            // Saving player's attackable territories using toAttack() method
+                            vector <Territory*> trt_defend = this->toAttack();
+
+                            // Displaying player's attackable territories 
+                            cout << "Attackable Territories: " << endl;
+                            trt_defend_ctr = 0;
+
+                            for(Territory* t: trt_defend)
+                            {
+                                trt_defend_ctr++;
+                                cout << "[" << trt_defend_ctr << "]: " << *t->getTerritoryName() << endl;
+                            }
+                        }
+
+                        // Ask for which territory player wants to move units to and save user input into variable
+                        cout << "\nSelect a territory to move units to (1-" << trt_defend_ctr << "):" << endl;
+                        int trt_defend_choice;
+                        cout << "Territory Selected: " << *trt_defend[trt_defend_choice-1]->getTerritoryName() << endl << endl;
+
+                        // Look through this territory's adjacent territories
+                        // print out the territories belonging to the player and the amount of units in these territories
+                        trt_defend_ctr = 0;
+                        vector <Territory*> trt_source;
+                        for(Territory* t: trt_defend[trt_defend_choice-1]->getAdjTerritories())
+                        {
+                            if (t->getTerritoryOwner()->get_name() == this->get_name())
+                            {
+                                trt_defend_ctr++;
+                                cout << "[" << trt_defend_ctr << "]: " << *t->getTerritoryName() << " | Troops available: " << *t->getArmy() << endl;
+                                trt_source.push_back(t);
+                            }
+                        }
+
+                        // Ask for which territory player wants to move units from and save user input into variable
+                        cout << "\nSelect a territory to move units from (1-" << trt_defend_ctr << "):" << endl;
+                        int trt_source_choice;
+                        cout << "Territory Selected: " << trt_source[trt_source_choice-1]->getTerritoryName() << endl << endl;
+
+                        // Ask for how many units user wants to move and save user input into variable
+                        cout << "How many units do you want to reinforce this territory with? (Max: " << *trt_source[trt_source_choice-1]->getArmy() << ")" << endl;
+                        int trt_defend_army_amount;
+                        cout << "Amount of Units: " << trt_defend_army_amount << endl << endl;
+
+                        // Create Advance order with data above
+                        Advance* a = new Advance(trt_source[trt_source_choice-1], trt_defend[trt_defend_choice-1], this , trt_defend_army_amount);
+
+                        // Add deploy order to player's order list
+                        this->get_olst()->addOrder(a);
+
+                        // Add to issed orders vector for display later
+                        issued_orders.push_back("Advance | From: "+*trt_source[trt_source_choice-1]->getTerritoryName()+" | To: "+*trt_defend[trt_defend_choice-1]->getTerritoryName()+" | "+to_string(trt_defend_army_amount)+" units");
+                        break;
+                    }
+                
+                // Airlift case
+                case 2:
+                    {
+                        // Airlift order starting message
+                        cout << "Starting an Airlift Order!" << endl;
+
+                        // Saving player's defendable territories using toDefend() method
+                        vector <Territory*> trt_defend = this->toDefend();
+
+                        // Displaying player's defendable territories 
+                        cout << "Defendable Territories: " << endl;
+                        int trt_defend_ctr = 0;
+
+                        for(Territory* t: trt_defend)
+                        {
+                            trt_defend_ctr++;
+                            cout << "[" << trt_defend_ctr << "]: " << *t->getTerritoryName() << endl;
+                        }
+
+                        // Ask for which territory player wants to Airlift units to and save user input into variable
+                        cout << "\nSelect a territory to Airlift units to (1-" << trt_defend_ctr << "):" << endl;
+                        int trt_defend_choice;
+                        cout << "Territory Selected: " << trt_defend[trt_defend_choice-1]->getTerritoryName() << endl << endl;
+
+                        // Print out this player's other territories
+                        trt_defend_ctr = 0;
+                        
+                        for(Territory* t: trt_defend)
+                        {
+                            trt_defend_ctr++;
+
+                            // If the current territory is the territory selected for defense, skip it
+                            if (trt_defend_ctr == trt_defend_choice)
+                            {
+                                continue;
+                            }
+
+                            cout << "[" << trt_defend_ctr << "]: " << *t->getTerritoryName() << endl;
+                        }
+
+                        // Ask for which territory player wants to move units from and save user input into variable
+                        cout << "\nSelect a territory to move units from:" << endl;
+                        int trt_source_choice;
+                        cout << "Territory Selected: " << trt_defend[trt_defend_choice-1]->getTerritoryName() << endl << endl;
+
+                        // Ask for how many units user wants to move and save user input into variable
+                        cout << "How many units do you want to Airlift? (Max: " << *trt_defend[trt_defend_choice-1]->getArmy() << ")" << endl;
+                        int trt_defend_army_amount;
+                        cout << "Amount of Units: " << trt_defend_army_amount << endl << endl;
+
+                        // Create Airlift order with data above
+                        Airlift* a = new Airlift(trt_defend[trt_source_choice-1], trt_defend[trt_defend_choice-1], this , trt_defend_army_amount);
+
+                        // Add Airlift order to player's order list
+                        this->get_olst()->addOrder(a);
+
+                        // Add to issed orders vector for display later
+                        issued_orders.push_back("Airlift | From: "+*trt_defend[trt_source_choice-1]->getTerritoryName()+" | To: "+*trt_defend[trt_defend_choice-1]->getTerritoryName()+" | "+to_string(trt_defend_army_amount)+" units");
+                        break;
+                    }
+
+                // Bomb case
+                case 3:
+                    {
+                        // Bomb order starting message
+                        cout << "Starting an Bomb Order!" << endl;
+
+                        // Saving player's attackable territories using toAttack() method
+                        vector <Territory*> trt_attack = this->toAttack();
+
+                        // Displaying player's attackable territories 
+                        cout << "Attackable Territories: " << endl;
+                        int trt_attack_ctr = 0;
+
+                        for(Territory* t: trt_attack)
+                        {
+                            trt_attack_ctr++;
+                            cout << "[" << trt_attack_ctr << "]: " << *t->getTerritoryName() << endl;
+                        }
+
+                        // Ask for which territory player wants to Bomb
+                        cout << "\nSelect a territory to Bomb (1-" << trt_attack_ctr << "):" << endl;
+                        int trt_attack_choice;
+                        cout << "Territory Selected: " << trt_attack[trt_attack_choice-1]->getTerritoryName() << endl << endl;
+
+                        // Create Bomb order with data above
+                        Bomb* b = new Bomb(trt_attack[trt_attack_choice-1], this);
+
+                        // Add Bomb order to player's order list
+                        this->get_olst()->addOrder(b);
+
+                        // Add to issued orders vector for display later
+                        issued_orders.push_back("Bomb | Target: "+*trt_attack[trt_attack_choice-1]->getTerritoryName());
+                        break;
+                    }
+
+                // Blockade case
+                case 4:
+                    {
+                        // Blockade order starting message
+                        cout << "Starting an Blockade Order!" << endl;
+
+                        // Saving player's defendable territories using toDefend() method
+                        vector <Territory*> trt_defend = this->toDefend();
+
+                        // Displaying player's defendable territories 
+                        cout << "Defendable Territories: " << endl;
+                        int trt_defend_ctr = 0;
+
+                        for(Territory* t: trt_defend)
+                        {
+                            trt_defend_ctr++;
+                            cout << "[" << trt_defend_ctr << "]: " << *t->getTerritoryName() << endl;
+                        }
+
+                        // Ask for which territory player wants to Blockade
+                        cout << "\nSelect a territory to Blockade (1-" << trt_defend_ctr << "):" << endl;
+                        int trt_defend_choice;
+                        cout << "Territory Selected: " << trt_defend[trt_defend_choice-1]->getTerritoryName() << endl << endl;
+
+                        // Create Blockade order with data above
+                        Blockade* blc = new Blockade(trt_defend[trt_defend_choice-1], this);
+
+                        // Add Blockade order to player's order list
+                        this->get_olst()->addOrder(blc);
+
+                        // Add to issued orders vector for display later
+                        issued_orders.push_back("Blockade | Target: "+*trt_defend[trt_defend_choice-1]->getTerritoryName());
+                        break;
+                    }
+
+                // Negotiate case
+                case 5:
+                    {
+                        // Negotiate order starting message
+                        cout << "Starting a Negotiate Order!" << endl;
+
+                        // Saving player's attackable territories using toAttack() method
+                        vector <Territory*> trt_attack = this->toAttack();
+
+                        // Extracting Players from territory List
+                        map<string, int> temporaryPlayerMap;
+
+                        // For each territory, insert its owner in the player map
+                        for (Territory *aTerritory : trt_attack)
+                        {
+                            temporaryPlayerMap.insert(pair<string, int>(aTerritory->getTerritoryOwner()->get_name(), 0));
+                        }
+
+                        // Player vector to store neighbouring players
+                        vector <string> temporaryPlayerList;
+
+                        // Insert each individual player in temporaryPlayerList
+                        for(map<string,int>::iterator it = temporaryPlayerMap.begin(), end = temporaryPlayerMap.end(); it != end; it = temporaryPlayerMap.upper_bound(it->first))
+                        {
+                            temporaryPlayerList.push_back(it->first);
+                        }
+
+                        // Displaying player's attackable territories owners
+                        cout << "Players to Negotiate with: " << endl;
+                        int trt_attack_ctr = 0;
+
+                        for(string s: temporaryPlayerList)
+                        {
+                            trt_attack_ctr++;
+                            cout << "[" << trt_attack_ctr << "]: " << temporaryPlayerList[trt_attack_ctr-1] << endl;
+                        }
+
+                        // Ask for which player to Negotiate with
+                        cout << "\nSelect a player to Negotiate with (1-" << trt_attack_ctr << "):" << endl;
+                        int trt_attack_choice;
+                        
+
+                        // Find player and create a ptr to this player
+                        Player *aTarget;
+                        for (Territory *aTerritory : trt_attack)
+                        {
+                            // If player name selected matches the current territory's owner name, make ptr point to this player and stop for loop
+                            if (temporaryPlayerList[trt_attack_choice-1]==aTerritory->getTerritoryOwner()->get_name())
+                            {
+                                aTarget = aTerritory->getTerritoryOwner();
+                                break;
+                            }
+                        }
+
+                        // Print out selected player name
+                        cout << "Player Selected: " << aTarget->get_name() << endl << endl;
+
+                        // Create Negotiate order with data above
+                        Negotiate* neg = new Negotiate(this, aTarget);
+
+                        // Add Bomb order to player's order list
+                        this->get_olst()->addOrder(neg);
+
+                        // Add to issued orders vector for display later
+                        issued_orders.push_back("Negotiate | Target: "+aTarget->get_name());
+                        break;
+                    }
+            }
+        }
+        // Warning message
+        cout << "Warning! " << this->get_name() << "'s turn has ended." << endl;
+
+        // Print issued orders
+        cout << "Issued Orders:" << endl;
+        for (string s : issued_orders)
+        {
+            cout << s << endl;
+        }
+        cout << endl;
+
+        // Break out of outter while loop
+        break;
+    }
 }
