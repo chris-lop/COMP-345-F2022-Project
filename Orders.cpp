@@ -217,9 +217,9 @@ std::ostream& operator<<(std::ostream &strm, const Order &order){
 
 std::string Order::stringToLog() {
     if (effect.length() == 0) {
-        return "Order has not executed";
+        return string("Order ").append(type).append(" has not executed yet");
     } else {
-        return effect;
+        return string("Command effect: ").append(effect);
     }
 }
 
@@ -287,6 +287,7 @@ void Deploy::execute(){
     }
     else{
         this->hasExecuted = false;
+        effect.append("Deploy cannot be executed");
         cout << "ERROR: Deploy cannot be executed" << endl;
     }
     notify(this);
@@ -500,8 +501,10 @@ void Advance::execute(){
     }
     else{
         this->hasExecuted = false;
+        effect.append("Advance cannot be executed");
         cout << "ERROR: Advance cannot be executed" << endl;
     }
+    notify(this);
 }
 
 //clone method
@@ -592,6 +595,7 @@ void Bomb::execute(){
     }
     else{
         this->hasExecuted = false;
+        effect.append("Bomb cannot be executed");
         cout << "ERROR: Bomb cannot be executed" << endl;
     }
     notify(this);
@@ -687,6 +691,7 @@ void Blockade::execute(){
     }
     else{
         this->hasExecuted = false;
+        effect.append("Blockade cannot be executed");
         cout << "ERROR: Blockade cannot be executed" << endl;
     }
     notify(this);
@@ -738,6 +743,8 @@ void Airlift::execute(){
         effect.append("Executed Airlift order, moving ").append(to_string(numToMove))
                 .append(" units from ").append(*source->getTerritoryName()).append(" to ")
                 .append(*target->getTerritoryName());
+    } else {
+        effect.append("Airlift order cannot be executed");
     }
     notify(this);
 }
@@ -818,9 +825,11 @@ bool Negotiate::validate() {
 void Negotiate::execute(){
     //validate the order then execute
     if(validate()){
-        effect.append("Negotiation between ").append(source->get_name()).append(" and ").append(target->get_name());
+        effect.append("Negotiation between ").append(source->get_name()).append(" and ").append(target->get_name()).append(" executed ");
         source->addNegotiatedPlayer(target);
         target->addNegotiatedPlayer(source);
+    } else {
+        effect.append("Negotiate order cannot be executed");
     }
     notify(this);
 }

@@ -151,6 +151,7 @@ void testOrderExecution() {
    cout << "# Checking that Negotiate blocks a Bomb order #\n";
    n1->execute();
    cout << "bomb1->validate(): " << bomb1->validate() << endl;
+   //cout << "n1->stringToLog(): " << n1->stringToLog() << endl;
    cout << "# Checking that a new turn starting stops the negotiation #\n";
    p->set_armyUnit(p->get_armyUnit() + 3);
    other->set_armyUnit(other->get_armyUnit() + 3);
