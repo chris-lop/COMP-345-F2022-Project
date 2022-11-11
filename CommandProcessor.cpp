@@ -242,6 +242,7 @@ bool CommandProcessor::playegame(string line)
             cout << "invalid command, valid commands are replay, quit." << endl;
         return false;
     }
+    return true; // added by marc
 }
 
 // read's user's commands, saves and validates them, then saves the effects of the commands

@@ -4,6 +4,7 @@
 #include <vector>
 #include "Map.h"
 #include "Player.h"
+#include "LoggingObserver.h"
 
 //Class forward declations
 class OrdersList;
@@ -18,12 +19,15 @@ class Negotiate;
 class Territory;
 class Player;
 
+class ILoggable;
+class Subject;
+
 //Driver functions
 void testOrdersLists();
 void testOrderExecution();
 
 //OrdersList lass definition
-class OrdersList{
+class OrdersList: public ILoggable, public Subject {
 public:
     //OrdersList default constructor
     OrdersList();
@@ -49,8 +53,8 @@ public:
     int getIndex(Order* order);
     //Output stream
     friend std::ostream& operator<<(std::ostream&, const OrdersList&);
-
-
+    // ILoggable method
+    virtual std::string stringToLog(); 
 private:
     //orderList is the list of vector type that stores all the orders
     std::vector<Order*> orderList;
@@ -58,7 +62,7 @@ private:
 };
 
 //Order lass definition
-class Order{
+class Order: public ILoggable, public Subject {
 public:
     //Order default constructor
     Order();
@@ -92,6 +96,8 @@ public:
     virtual void execute() = 0;
     // Pure virtual clone method, required for the copy constructor
     virtual Order* clone() = 0;
+    // Method providing the string to log
+    virtual std::string stringToLog();
 protected:
     //type is the order type (deploy, advance, bomb, airlift, negotiate, blockade)
     std::string type;
@@ -187,6 +193,8 @@ class Blockade : public Order{
 public:
     //Blockade default constructor
     Blockade();
+    //Blockade parameterized constructor
+    Blockade(Territory *target, Player *player);
     //Blockade destructor
     ~Blockade();
     //Blockade copy constructor
@@ -199,15 +207,11 @@ public:
     bool validate();
     //execute order
     void execute();
-    //getter for valid
-    bool getValid();
-    //setter for valid
-    void setValid(bool valid);
     // Clone method, required for the copy constructor
     virtual Order* clone();
 private:
-    //valid stores the information if the order is valid
-    bool valid;
+    Territory *target;
+    Player *player;
 };
 
 //Airlift lass definition

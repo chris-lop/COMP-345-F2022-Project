@@ -1,11 +1,13 @@
 #include <iostream> 
 #include <algorithm>
 #include <vector>
+#include <sstream>
 #include "Orders.h"
 #include "Map.h"
 #include "Player.h"
+#include "LoggingObserver.h"
 
-using std::cout; 
+using std::cout;
 using std::string; 
 using std::vector;
 using std::endl;
@@ -60,6 +62,7 @@ std::vector<Order*>& OrdersList::getOrder(){
 //Add an order to the Order list
 void OrdersList::addOrder(Order* order){
     this->orderList.push_back(order);
+    notify(this);
 }
 
 //Remove an order from the Order list
@@ -125,6 +128,12 @@ std::ostream& operator<<(std::ostream &strm, const OrdersList &ol){
     strm<<"}";
     return strm;
    
+}
+
+string OrdersList::stringToLog() {
+    std::stringstream out;
+    out << *this;
+    return out.str();
 }
 
 
@@ -214,6 +223,14 @@ std::ostream& operator<<(std::ostream &strm, const Order &order){
     }
 }
 
+std::string Order::stringToLog() {
+    if (effect.length() == 0) {
+        return string("Order ").append(type).append(" has not executed yet");
+    } else {
+        return string("Command effect: ").append(effect);
+    }
+}
+
 
 
 //class Deploy
@@ -278,8 +295,10 @@ void Deploy::execute(){
     }
     else{
         this->hasExecuted = false;
+        effect.append("Deploy cannot be executed");
         cout << "ERROR: Deploy cannot be executed" << endl;
     }
+    notify(this);
 }
 
 //clone method
@@ -303,14 +322,17 @@ Advance::~Advance(){
 }
 
 //Advance copy constructor
-Advance::Advance(const Advance& ad1){
-    this->type = ad1.type;
-    this->effect = ad1.effect;
+Advance::Advance(const Advance& ad1):
+    Order(ad1.type, ad1.effect), source(ad1.source), target(ad1.target), player(player), numberUnits(ad1.numberUnits){
 }
 
 //Advance assignment operator
 Advance& Advance::operator=(const Advance& ad){
 	Advance::operator=(ad);
+    this->source = ad.source;
+    this->target = ad.target;
+    this->player = ad.player;
+    this->numberUnits = ad.numberUnits;
 	return *this;
 }
 
@@ -487,8 +509,10 @@ void Advance::execute(){
     }
     else{
         this->hasExecuted = false;
+        effect.append("Advance cannot be executed");
         cout << "ERROR: Advance cannot be executed" << endl;
     }
+    notify(this);
 }
 
 //clone method
@@ -512,14 +536,15 @@ Bomb::~Bomb(){
 }
 
 //Bomb copy constructor
-Bomb::Bomb(const Bomb& b1){
-    this->type = b1.type;
-    this->effect = b1.effect;
+Bomb::Bomb(const Bomb& b1):
+    Order(b1.type, b1.effect), target(b1.target), player(player) {
 }
 
 //Bomb assignment operator
 Bomb& Bomb::operator=(const Bomb& b){
 	Bomb::operator=(b);
+    this->target = b.target;
+    this->player = b.player;
 	return *this;
 }
 
@@ -578,8 +603,10 @@ void Bomb::execute(){
     }
     else{
         this->hasExecuted = false;
+        effect.append("Bomb cannot be executed");
         cout << "ERROR: Bomb cannot be executed" << endl;
     }
+    notify(this);
 }
 
 //clone method
@@ -592,7 +619,12 @@ Order* Bomb::clone(){
 //Blockade default constructor
 Blockade::Blockade(){
     type = "Blockade";
-    valid = true;
+
+}
+
+//Blockade paramaterized constructor
+Blockade::Blockade(Territory *target, Player *player):
+    Order("Blockade"), target(target), player(player) {
 }
 
 //Blockade destructor
@@ -601,14 +633,15 @@ Blockade::~Blockade(){
 }
 
 //Blockade copy constructor
-Blockade::Blockade(const Blockade& bl1){
-    this->type = bl1.type;
-    this->effect = bl1.effect;
+Blockade::Blockade(const Blockade& bl1):
+    Order(bl1.type, bl1.effect), target(bl1.target), player(bl1.player) {
 }
 
 //Blockade assignment operator
 Blockade& Blockade::operator=(const Blockade& bl){
 	Blockade::operator=(bl);
+    this->target = bl.target;
+    this->player = bl.player;
 	return *this;
 }
 
@@ -624,14 +657,13 @@ std::ostream& operator<<(std::ostream &strm, const Blockade &Blockade){
 
 //Validate if the order is valid
 bool Blockade::validate(){
-    if (valid){
-        cout << "Blockade is valid" << endl;
-        return true;
-    }
-    else{
-        cout << "ERROR: Blockade is not valid" << endl;
-        return false;
-    }
+    // Save player territories into vector
+    vector<Territory*> playerTerritories = player->get_trt();
+    
+    // Check if target territory belongs to player
+    bool ownsTarget = any_of(playerTerritories.begin(), playerTerritories.end(), [this](Territory *t){return t == this->target;});
+
+    return ownsTarget;
 }
 
 //execute order
@@ -640,22 +672,37 @@ void Blockade::execute(){
     if(validate()){
         this->hasExecuted = true;
         effect = "executed";
-        cout << "Blockade is executing" << endl;
+
+        // Double units in territory
+        *(this->target->armyAmount) = *(this->target->armyAmount)*2;
+        
+        // Save territory vector of player
+        vector<Territory*> playerTerritories = this->player->get_trt();
+
+        // Remove blockaded territory from player's territory vector
+        for (auto it = playerTerritories.begin(); it != playerTerritories.end(); ++it)
+        {
+            Territory *aTerritory = *it;
+            // If both point to the same territory, remove it from territory list
+            if(aTerritory == this->target)
+            {
+                playerTerritories.erase(it);
+                break;
+            }
+        }
+
+        // Change owned territories of player
+        this->player->set_Trt(playerTerritories);
+
+        // Change ownership of territory
+        this->target->setTerritoryOwner(new Player("Neutral Player", {this->target}, nullptr, {}));
     }
     else{
         this->hasExecuted = false;
+        effect.append("Blockade cannot be executed");
         cout << "ERROR: Blockade cannot be executed" << endl;
     }
-}
-
-//getter for valid
-bool Blockade::getValid(){
-    return this->valid;
-}
-
-//setter for valid
-void Blockade::setValid(bool valid){
-    this->valid = valid;
+    notify(this);
 }
 
 //clone method
@@ -699,12 +746,17 @@ bool Airlift::validate(){
 //execute order
 void Airlift::execute(){
     if(validate()){
+        this->hasExecuted = true;
         (*source->armyAmount) -= numToMove;
         (*target->armyAmount) += numToMove;
         effect.append("Executed Airlift order, moving ").append(to_string(numToMove))
                 .append(" units from ").append(*source->getTerritoryName()).append(" to ")
                 .append(*target->getTerritoryName());
+    } else {
+        this->hasExecuted = false;  
+        effect.append("Airlift order cannot be executed");
     }
+    notify(this);
 }
 
 //Airlift assignment operator
@@ -783,10 +835,15 @@ bool Negotiate::validate() {
 void Negotiate::execute(){
     //validate the order then execute
     if(validate()){
-        effect.append("Negotiation between ").append(source->get_name()).append(" and ").append(target->get_name());
+        this->hasExecuted = true;
+        effect.append("Negotiation between ").append(source->get_name()).append(" and ").append(target->get_name()).append(" executed ");
         source->addNegotiatedPlayer(target);
         target->addNegotiatedPlayer(source);
+    } else {
+        this->hasExecuted = false;
+        effect.append("Negotiate order cannot be executed");
     }
+    notify(this);
 }
 
 //clone method

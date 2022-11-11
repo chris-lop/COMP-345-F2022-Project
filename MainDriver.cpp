@@ -26,7 +26,8 @@ int main()
     // Part 1: Map
     // testLoadMaps();
 
-    // removed testPlayer() from A1 and commented out all test functions from A1- HL
+    //A2 Part 3 
+    testMainGameLoop();
 
     // Part 3: Orders List
     //  testOrderExecution();

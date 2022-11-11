@@ -114,6 +114,20 @@ void testOrderExecution() {
     cout << "Current State of territories after execution of bomb order on Territory4:" << endl;
     cout << "Territory 1: " << *territory1 << " Territory 2: " << *territory2 << " Territory 3: " << *territory3 << " Territory 4: " << *territory4 <<  "\n";
 
+    cout << "------- Testing Blockade Order -------" <<"\n";
+    Blockade *blockade1 = new Blockade(territory3, player2);
+    Blockade *blockade2 = new Blockade(territory3, player1);
+
+    cout << "# Verifying that blockade order checks ownership of target territory #\n";
+    cout << "Blockade 1 validation (Marc blockades territory3): " << blockade1->validate() << "\n";
+    cout << "Blockade 2 validation (Chris blockades territory3): " << blockade2->validate() << "\n";
+    
+    cout << "# Executing a valid Blockade order #\n";
+    blockade2->execute();
+
+    cout << "Current State of territories after execution of Blockade order on Territory3:" << endl;
+    cout << "Territory 1: " << *territory1 << " Territory 2: " << *territory2 << " Territory 3: " << *territory3 << " Territory 4: " << *territory4 <<  "\n";
+
 
    cout << "------- Testing negotiate order -------\n";
    cout << "#### Checking Negotiate with Advance ####\n";
@@ -137,6 +151,7 @@ void testOrderExecution() {
    cout << "# Checking that Negotiate blocks a Bomb order #\n";
    n1->execute();
    cout << "bomb1->validate(): " << bomb1->validate() << endl;
+   //cout << "n1->stringToLog(): " << n1->stringToLog() << endl;
    cout << "# Checking that a new turn starting stops the negotiation #\n";
    p->set_armyUnit(p->get_armyUnit() + 3);
    other->set_armyUnit(other->get_armyUnit() + 3);
@@ -158,4 +173,9 @@ void testOrderExecution() {
    delete n1; delete advance1; delete bomb1;
    delete n2; delete n3;
    delete deployT1; delete deployT2; delete deployT1_units;
+
+   delete territory1; delete territory2; delete territory3; delete territory4;
+   delete advT1; delete advT2; delete advT3; delete advT4; delete advT5;
+   delete bmbT1; delete bmbT2; delete bmbT3;
+   delete blockade1; delete blockade2;
 }

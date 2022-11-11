@@ -60,14 +60,14 @@ public:
     void set_Olst(OrdersList *olst);
     void set_Player_Hand(Hand *h);
     void set_armyUnit(int army_unit);
-
-    // methods to implement for assignment 1
-    // issue a list of territories to be defended by the player based on the player owned territories
-    std::vector<Territory *> toDefend();
-    // issue a list of territories that can be attacked by the player based on the player owned territories
-    std::vector<Territory *> toAttack();
-    // add a new order input by user to the existing list
-    void issueOrder(Order *o);
+    
+    //methods to implement for assignment 1
+    //issue a list of territories to be defended by the player based on the player owned territories
+    std::vector <Territory*> toDefend();
+    //issue a list of territories that can be attacked by the player based on the player owned territories
+    std::vector <Territory*> toAttack();
+    //add a new order input by user to the existing list
+    void issueOrder();
 
     // Other methods
     // Adds player to the list of negotiated players
