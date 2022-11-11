@@ -134,7 +134,7 @@ private:
     int numberUnits;
 };
 
-//Advance lass definition
+//Advance class definition
 class Advance : public Order{
 public:
     //Advance default constructor
@@ -153,6 +153,12 @@ public:
     bool validate();
     //execute order
     void execute();
+    // check if Advance order is an attack or a movement
+    bool isAttack();
+    // Getter for target
+    Territory* getTarget();
+    // Getter for player
+    Player* getPlayer();
     // Clone method, required for the copy constructor
     virtual Order* clone();
 private:

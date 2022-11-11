@@ -6,12 +6,14 @@
 #include "Player.h"
 #include "Map.h"
 #include <string>
+#include "cards.h"
 class Order;
 
 class GameEngine {
 private:
     string state;
     Map* gameMap;
+    Deck* d;
 
     //active game players
     vector <Player*> gamePlayers;
@@ -32,11 +34,13 @@ public:
     //setters
     void setState(string state);
     void setMap(Map* gameMap);
+    void setDeck(Deck* gameDeck);
     void setPlayers(vector <Player*> gamePlayers);
     
     //getters
     string getState();
     Map* getMap();
+    Deck* getDeck();
     vector<Player*> getPlayers();
     vector<Player*> getRemovedPlayers();
 

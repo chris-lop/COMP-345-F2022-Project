@@ -62,6 +62,10 @@ void GameEngine::setState(string st)
     this->state=st;
 }
 
+void GameEngine::setDeck(Deck* gameDeck){
+    this->d = gameDeck;
+}
+
 void GameEngine::setMap(Map* gameMap){
     this->gameMap = gameMap;
 }
@@ -78,6 +82,10 @@ string GameEngine::getState()
 
 Map* GameEngine::getMap(){
     return this->gameMap;
+}
+
+Deck* GameEngine::getDeck(){
+    return this->d;
 }
 
 vector <Player*> GameEngine::getPlayers(){
@@ -444,8 +452,116 @@ bool GameEngine::executeOrdersPhase(){
             }
             //if the order list is not empty, execute the first order
             else{
+                // order execution
                 std::cout<<"Executing next order in the order list...\n";
                 this->getPlayers().at(i)->get_olst()->getOrder().at(0)->execute();
+
+                string orderType = this->getPlayers().at(i)->get_olst()->getOrder().at(0)->getType();
+                Order* theOrder = this->getPlayers().at(i)->get_olst()->getOrder().at(0);
+
+                if (orderType == "Bomb") 
+                {
+                    Bomb* cardType = (Bomb*) theOrder;
+
+                    // if order was valid, remove its card from player's hand
+                    if (cardType->validate() && this->getPlayers().at(i)->get_olst()->getOrder().at(0)->getType() != "Advance" && this->getPlayers().at(i)->get_olst()->getOrder().at(0)->getType() != "Deploy")
+                    {
+                        // Check order type, and remove card from player's hand depending on order type
+                        string orderType = this->getPlayers().at(i)->get_olst()->getOrder().at(0)->getType();
+
+                        for (Card* c : this->getPlayers().at(i)->get_Phand()->cardList())
+                        {
+                            if (c->getType() == orderType)
+                            {
+                                this->getPlayers().at(i)->get_Phand()->returnToDeck(c, this->getDeck());
+                                break;
+                            }
+                        }
+                        
+                    }
+                }
+                else if (orderType == "Airlift")
+                {
+                    Airlift* cardType = (Airlift*) theOrder;
+
+                    // if order was valid, remove its card from player's hand
+                    if (cardType->validate() && this->getPlayers().at(i)->get_olst()->getOrder().at(0)->getType() != "Advance" && this->getPlayers().at(i)->get_olst()->getOrder().at(0)->getType() != "Deploy")
+                    {
+                        // Check order type, and remove card from player's hand depending on order type
+                        string orderType = this->getPlayers().at(i)->get_olst()->getOrder().at(0)->getType();
+
+                        for (Card* c : this->getPlayers().at(i)->get_Phand()->cardList())
+                        {
+                            if (c->getType() == orderType)
+                            {
+                                this->getPlayers().at(i)->get_Phand()->returnToDeck(c, this->getDeck());
+                                break;
+                            }
+                        }
+                        
+                    }
+                }
+                else if (orderType == "Blockade")
+                {
+                    Blockade* cardType = (Blockade*) theOrder;
+
+                    // if order was valid, remove its card from player's hand
+                    if (cardType->validate() && this->getPlayers().at(i)->get_olst()->getOrder().at(0)->getType() != "Advance" && this->getPlayers().at(i)->get_olst()->getOrder().at(0)->getType() != "Deploy")
+                    {
+                        // Check order type, and remove card from player's hand depending on order type
+                        string orderType = this->getPlayers().at(i)->get_olst()->getOrder().at(0)->getType();
+
+                        for (Card* c : this->getPlayers().at(i)->get_Phand()->cardList())
+                        {
+                            if (c->getType() == orderType)
+                            {
+                                this->getPlayers().at(i)->get_Phand()->returnToDeck(c, this->getDeck());
+                                break;
+                            }
+                        }
+                        
+                    }
+                }
+                else if (orderType == "Negotiate")
+                {
+                    Negotiate* cardType = (Negotiate*) theOrder;
+
+                    // if order was valid, remove its card from player's hand
+                    if (cardType->validate() && this->getPlayers().at(i)->get_olst()->getOrder().at(0)->getType() != "Advance" && this->getPlayers().at(i)->get_olst()->getOrder().at(0)->getType() != "Deploy")
+                    {
+                        // Check order type, and remove card from player's hand depending on order type
+                        string orderType = this->getPlayers().at(i)->get_olst()->getOrder().at(0)->getType();
+
+                        for (Card* c : this->getPlayers().at(i)->get_Phand()->cardList())
+                        {
+                            if (c->getType() == orderType)
+                            {
+                                this->getPlayers().at(i)->get_Phand()->returnToDeck(c, this->getDeck());
+                                break;
+                            }
+                        }
+                        
+                    }
+                }
+
+                // If order was an advance order, check if it resulted in a conquered territory
+                if (this->getPlayers().at(i)->get_olst()->getOrder().at(0)->getType() == "Advance")
+                {
+                    Order* anOrder = this->getPlayers().at(i)->get_olst()->getOrder().at(0);
+                    Advance* anAdvance = (Advance*) anOrder;
+                    
+                    // Check if order was an attack
+                    if (anAdvance->isAttack())
+                    {
+                        // check if execution resulted in conquered territory
+                        if (anAdvance->getPlayer()->get_name() == anAdvance->getTarget()->getTerritoryOwner()->get_name())
+                        {
+                            // Award player with a card from deck
+                            this->getPlayers().at(i)->get_Phand()->addCard(this->getDeck()->draw());
+                        }
+                    }
+                }
+                
                 //once the order is executed, remove from the list
                 std::cout<<"Order executed and removed from the player's order list.\n\n";
                 this->getPlayers().at(i)->get_olst()->remove(this->getPlayers().at(i)->get_olst()->getOrder().at(0));
@@ -542,7 +658,7 @@ bool GameEngine::mainGameLoop(std::vector <Player*> players, Map* graph){
 
         //Phase 2: issue Orders --> call issueOrdersPhase() in round-robin
         std::cout<<"\n#issueing orders...\n";
-        issueOrdersPhase(gamePlayers);
+        // issueOrdersPhase(gamePlayers);
         std::cout<<"\n<<<issue order phase complete>>>\n";
 
         //Phase 3: execute Orders --> call executeOrdersPhase() in round-robin

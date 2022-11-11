@@ -335,7 +335,7 @@ void Player::issueOrder()
 
             // Save user choice
             cout << "\nPlease enter a choice: " << endl;
-            int order_option;
+            int order_option = 1;
             cout << "Choice Selected: " << "[" << order_option << "]" << endl << endl;
 
             // Switch case to issue order depending on user choice
@@ -349,7 +349,7 @@ void Player::issueOrder()
                         cout << "Do you want to move units to a friendly territory or attack an enemy territory? (MOV/ATK)" << endl;
                         
                         // Save user input to variable
-                        string advance_choice;
+                        string advance_choice = "ATK";
                         cout << "Choice Selected: " << "[" << advance_choice << "]" << endl << endl;
 
                         // Declaration of trt_defend_ctr and trt_defend vector
@@ -391,7 +391,7 @@ void Player::issueOrder()
 
                         // Ask for which territory player wants to move units to and save user input into variable
                         cout << "\nSelect a territory to move units to (1-" << trt_defend_ctr << "):" << endl;
-                        int trt_defend_choice;
+                        int trt_defend_choice = 1;
                         cout << "Territory Selected: " << *trt_defend[trt_defend_choice-1]->getTerritoryName() << endl << endl;
 
                         // Look through this territory's adjacent territories
@@ -410,12 +410,12 @@ void Player::issueOrder()
 
                         // Ask for which territory player wants to move units from and save user input into variable
                         cout << "\nSelect a territory to move units from (1-" << trt_defend_ctr << "):" << endl;
-                        int trt_source_choice;
+                        int trt_source_choice = 1;
                         cout << "Territory Selected: " << trt_source[trt_source_choice-1]->getTerritoryName() << endl << endl;
 
                         // Ask for how many units user wants to move and save user input into variable
                         cout << "How many units do you want to reinforce this territory with? (Max: " << *trt_source[trt_source_choice-1]->getArmy() << ")" << endl;
-                        int trt_defend_army_amount;
+                        int trt_defend_army_amount = *trt_source[trt_source_choice-1]->armyAmount;
                         cout << "Amount of Units: " << trt_defend_army_amount << endl << endl;
 
                         // Create Advance order with data above
@@ -640,7 +640,10 @@ void Player::issueOrder()
         }
         cout << endl;
 
-        // Break out of outter while loop
-        break;
+        // Break out of outter while loop if there are more than 1 orders in issued_orders vector
+        if (issued_orders.size() > 1)
+        {
+            break;
+        }
     }
 }

@@ -44,6 +44,7 @@ void testMainGameLoop(){
 
     //assign 2 cards from deck to players
     Deck* d = new Deck();
+    gameEngine->setDeck(d);
     Hand* h1= new Hand();
     for (int i = 0; i < 2; i++) {
         h1->addCard(d->draw());
