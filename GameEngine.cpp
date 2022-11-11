@@ -658,7 +658,7 @@ bool GameEngine::mainGameLoop(std::vector <Player*> players, Map* graph){
 
         //Phase 2: issue Orders --> call issueOrdersPhase() in round-robin
         std::cout<<"\n#issueing orders...\n";
-        // issueOrdersPhase(gamePlayers);
+        issueOrdersPhase(gamePlayers);
         std::cout<<"\n<<<issue order phase complete>>>\n";
 
         //Phase 3: execute Orders --> call executeOrdersPhase() in round-robin
@@ -666,8 +666,8 @@ bool GameEngine::mainGameLoop(std::vector <Player*> players, Map* graph){
 
         //to test if everything's working
         //TO REMOVE when Phase 3 is complete to test the loop
-        finished=true;
+        // finished=true;
     }
 
-    return finished;   
+    return winner;   
 }

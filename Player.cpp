@@ -376,7 +376,7 @@ void Player::issueOrder()
                         else if (advance_choice=="ATK")
                         {
                             // Saving player's attackable territories using toAttack() method
-                            vector <Territory*> trt_defend = this->toAttack();
+                            trt_defend = this->toAttack();
 
                             // Displaying player's attackable territories 
                             cout << "Attackable Territories: " << endl;
@@ -391,7 +391,7 @@ void Player::issueOrder()
 
                         // Ask for which territory player wants to move units to and save user input into variable
                         cout << "\nSelect a territory to move units to (1-" << trt_defend_ctr << "):" << endl;
-                        int trt_defend_choice = 1;
+                        int trt_defend_choice = rand() % trt_defend_ctr+1;
                         cout << "Territory Selected: " << *trt_defend[trt_defend_choice-1]->getTerritoryName() << endl << endl;
 
                         // Look through this territory's adjacent territories
@@ -410,8 +410,8 @@ void Player::issueOrder()
 
                         // Ask for which territory player wants to move units from and save user input into variable
                         cout << "\nSelect a territory to move units from (1-" << trt_defend_ctr << "):" << endl;
-                        int trt_source_choice = 1;
-                        cout << "Territory Selected: " << trt_source[trt_source_choice-1]->getTerritoryName() << endl << endl;
+                        int trt_source_choice = rand() % trt_defend_ctr+1;
+                        cout << "Territory Selected: " << *trt_source[trt_source_choice-1]->getTerritoryName() << endl << endl;
 
                         // Ask for how many units user wants to move and save user input into variable
                         cout << "How many units do you want to reinforce this territory with? (Max: " << *trt_source[trt_source_choice-1]->getArmy() << ")" << endl;
