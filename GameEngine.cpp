@@ -665,16 +665,6 @@ bool GameEngine::mainGameLoop(std::vector<Player *> players, Map *graph)
     return finished;
 }
 
-// void GameEngine::freeCharPtrVectr(vector<char *> v)
-// {
-//     for (auto p : v)
-//     {
-//         cout << "hello" << endl;
-//         delete p;
-//     }
-//     v.clear();
-// }
-
 vector<char *> GameEngine::directory()
 {
     DIR *dir;
@@ -763,10 +753,6 @@ void GameEngine::startupPhase(CommandProcessor *cp)
             cout << cp->get_state() << endl;
             cp->saveCommand(command);
             strcat(mapPath, nameMapSaver);
-            std::cout << nameMapSaver << "WHATT\n"
-                      << endl;
-            std::cout << mapPath << "WHATT\n"
-                      << endl;
             gameMap = loader->loadMap(mapPath);
             if (!m->validate(gameMap->territories))
             {
@@ -847,6 +833,7 @@ void GameEngine::startupPhase(CommandProcessor *cp)
         playersMap[count]->set_Trt(tempPlayer);
 
         terr->territoryOwner = playersMap[count];
+        terr->armyAmount = new int(50);
 
         count++;
     }
