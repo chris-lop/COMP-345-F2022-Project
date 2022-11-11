@@ -1,70 +1,89 @@
 #pragma once
 
-#include<string>
+#include <string>
 #include <iostream>
 #include <vector>
 #include "Player.h"
-#pragma once
+#include "Map.h"
+#include "CommandProcessor.h"
 #include <string>
+class Order;
 
-class GameEngine {
+class GameEngine
+{
 private:
     int state;
+    Map *gameMap;
+    vector<Player *> gamePlayers;
+    vector<Player *> removedPlayers;
+
 public:
-    //constructor
+    // constructor
     GameEngine();
-    //destructor
-   ~GameEngine();
-  
-    //stream operators
-   friend std::ostream& operator << (std::ostream& strm, const GameEngine& g);
-    friend std::istream& operator >> (std::istream& in, GameEngine& g);
-    
-    //setters and getters
+    GameEngine(Map *gameMap, vector<Player *> gamePlayers);
+    // destructor
+    ~GameEngine();
+
+    // stream operators
+    friend std::ostream &operator<<(std::ostream &strm, const GameEngine &g);
+    friend std::istream &operator>>(std::istream &in, GameEngine &g);
+
+    // setters
     void setState(int state);
+    void setMap(Map *gameMap);
+    void setPlayers(vector<Player *> gamePlayers);
+
+    // getters
     int getState();
-    
-    //takes commands as input and passes through states accordingly
+    Map *getMap();
+    vector<Player *> getPlayers();
+    vector<Player *> getRemovedPlayers();
+
+    // takes commands as input and passes through states accordingly
     void handleInput(std::string line);
-    
-    //prints out map is loaded
+
+    // prints out map is loaded
     void loadMap();
-    
-    //prints out map is validated
+
+    // prints out map is validated
     void validateMap();
-    
-    //takes player's name as an input and creates a player
+
+    // takes player's name as an input and creates a player
     void addPlayers();
-    
-    //prints out reinforcement is aasigned
+
+    // prints out reinforcement is aasigned
     void assignReinforcement();
-    
-    //takes order as input and creates an order
-    void issueOrders();
-    
-    //prints out orders are executed
+
+    // takes order as input and creates an order
+    Order *issueOrders();
+
+    // prints out orders are executed
     void executeOrders();
-    
-    //prints out win
+
+    // prints out win
     void win();
-    
-    //prints out message at start of the game
+
+    // prints out message at start of the game
     void startMessage();
-    
-    //boolean checks whether last state has been reached or not
+
+    // boolean checks whether last state has been reached or not
     bool finished();
 
-    //A2 functions
-    void mainGameLoop(std::vector <Player*> players);
-    void reinforcementPhase(std::vector <Player*> players);
-    void issueOrdersPhase(Player* p);
+    // A2 functions
+    bool mainGameLoop(std::vector<Player *> players, Map *graph);
+    void reinforcementPhase(Player *player, Map *graph);
+    void issueOrdersPhase(vector<Player *> player);
     void executeOrdersPhase();
+    void startupPhase(CommandProcessor *cp);
+    void freeCharPtrVectr(vector<char *> v);
+    vector<char *> directory();
 
-}; //end of class GameEngine
+}; // end of class GameEngine
 
-
-//free function
+// free function
 void testGameStates();
 
-//A2 free function
+// A2 free function
 void testMainGameLoop();
+
+void testGameEngine();

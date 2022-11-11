@@ -1,49 +1,17 @@
+#pragma once
 #include <string>
 #include <iostream>
 #include <fstream>
 #include <vector>
 #include <unordered_map>
+#include <map>
+#include "Player.h"
+
+class Player;
 
 using namespace std;
 
 void testLoadMaps();
-
-// ----------------------- //
-// TEMPORARY PLAYER CLASS  //
-// ----------------------- //
-class PlayerT
-{
-        //--------------//
-        //  ATTRIBUTES  //
-        //--------------//
-
-        //Player name
-        string name;
-
-    public:
-        //----------------//
-        //  CONSTRUCTORS  //
-        //----------------//
-
-        //Default Constructor
-        PlayerT();
-
-        //Destructor
-        ~PlayerT();
-
-        //Assignment Operator        
-        PlayerT& operator = (const PlayerT&);
-
-        //-----------//
-        //  GETTERS  //
-        //-----------//
-        string getName();     
-        
-        //-----------//
-        //  SETTERS  //
-        //-----------//
-        void setName(string);
-};
 
 // ------------------ //
 //  TERRITORY CLASS   //
@@ -64,7 +32,7 @@ public:
     string *continent;
 
     // Player to which territory belongs to
-    PlayerT *territoryOwner;
+    Player *territoryOwner;
 
     // Amount of troops in a given territory
     int *armyAmount;
@@ -77,7 +45,7 @@ public:
     Territory();
 
     // Parameterized Constructor
-    Territory(string *, string *, vector<Territory *>, PlayerT *, int *);
+    Territory(string *, string *, vector<Territory *>, Player *, int *);
 
     // Copy Constructor
     Territory(const Territory *);
@@ -93,7 +61,7 @@ public:
     //-----------//
     string *getTerritoryName();
     string *getContinent();
-    PlayerT *getTerritoryOwner();
+    Player *getTerritoryOwner();
     int *getArmy();
     vector<Territory *> getAdjTerritories();
 
@@ -102,12 +70,12 @@ public:
     //-----------//
     void setTerritoryName(string *);
     void setContinent(string *);
-    void setTerritoryOwner(PlayerT *);
+    void setTerritoryOwner(Player *);
     void setArmy(int *);
     void setAdjTerritories(vector<Territory *>);
 
     // Stream insertion operator
-    friend ostream& operator<<(ostream& strm, const Territory& territory);
+    friend ostream &operator<<(ostream &strm, const Territory &territory);
 };
 
 // ------------ //
@@ -115,38 +83,38 @@ public:
 // ------------ //
 class Map
 {
-    
-    public:
-        //--------------//
-        //  ATTRIBUTES  //
-        //--------------//
 
-        // Variable for number of territories (nodes)   
-        int TerritoryNb;
-        vector<Territory*> territories;
-    
-        //----------------//
-        //  CONSTRUCTORS  //
-        //----------------//
+public:
+    //--------------//
+    //  ATTRIBUTES  //
+    //--------------//
 
-        // Default Constructor
-        Map();
+    // Variable for number of territories (nodes)
+    int TerritoryNb;
+    vector<Territory *> territories;
+    map<string, int> continentsList;
 
-        // Parameterized Constructor
-        Map(int);
+    //----------------//
+    //  CONSTRUCTORS  //
+    //----------------//
 
-        // Copy Constructor        
-        Map(const Map*);
+    // Default Constructor
+    Map();
 
-        // Destructor
-        ~Map();
+    // Parameterized Constructor
+    Map(int);
 
-        // Assignment Operator
-        Map& operator = (const Map&);
+    // Copy Constructor
+    Map(const Map *);
 
-        // Validate method
-        void validate(vector<Territory *>);
+    // Destructor
+    ~Map();
 
+    // Assignment Operator
+    Map &operator=(const Map &);
+
+    // Validate method
+    bool validate(vector<Territory *>);
 };
 
 //  MAP Loader CLASS   //
@@ -163,7 +131,7 @@ public:
     MapLoader();
 
     // std::vector<Territory> loadMap();
-    Map* loadMap(string);
+    Map *loadMap(string);
 
     // Destructor
     ~MapLoader();

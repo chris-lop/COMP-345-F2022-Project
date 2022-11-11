@@ -2,6 +2,8 @@
 
 #include <iostream>
 #include <vector>
+#include "Map.h"
+#include "Player.h"
 
 //Class forward declations
 class OrdersList;
@@ -13,9 +15,12 @@ class Blockade;
 class Airlift;
 class Negotiate;
 
-//Driver function
-void testOrdersLists();
+class Territory;
+class Player;
 
+//Driver functions
+void testOrdersLists();
+void testOrderExecution();
 
 //OrdersList lass definition
 class OrdersList{
@@ -62,7 +67,7 @@ public:
     //Order destructor
     ~Order();
     //Order paramatrized constructor
-    Order(std::string description, std::string effect);
+    Order(std::string type, std::string effect);
     //Order copy constructor
     Order(const Order& o1);
     //Order assignment operator
@@ -81,8 +86,12 @@ public:
     void setHasExecuted(bool hasExecuted);
      //Order input stream
     friend std::istream& operator >> (std::istream& in, Order&);
-    //Oorder output stream
+    //Order output stream
     friend std::ostream& operator << (std::ostream&, const Order&);
+    // Pure virtual execute() method
+    virtual void execute() = 0;
+    // Pure virtual clone method, required for the copy constructor
+    virtual Order* clone() = 0;
 protected:
     //type is the order type (deploy, advance, bomb, airlift, negotiate, blockade)
     std::string type;
@@ -90,15 +99,15 @@ protected:
     std::string effect;
     //hasExecuted checks if the order has executed yet
     bool hasExecuted;
-    
-
 };
 
 //Deploy lass definition
 class Deploy : public Order{
 public:
-    //Deploy default constructor
+    //Default ctor
     Deploy();
+    //Deploy constructor
+    Deploy(Territory *target, Player *player, int numberUnits);
     //Deploy destructor
     ~Deploy();
     //Deploy copy constructor
@@ -111,13 +120,12 @@ public:
     bool validate();
     //execute order
     void execute();
-    //getter for valid
-    bool getValid();
-    //setter for valid
-    void setValid(bool valid);
+    // Clone method, required for the copy constructor
+    virtual Order* clone();
 private:
-    //valid stores the information if the order is valid
-    bool valid;
+    Territory *target;
+    Player *player;
+    int numberUnits;
 };
 
 //Advance lass definition
@@ -125,6 +133,8 @@ class Advance : public Order{
 public:
     //Advance default constructor
     Advance();
+    //Advance constructor
+    Advance(Territory *source, Territory *target, Player *player, int numberUnits);
     //Advance destructor
     ~Advance();
     //Advance copy constructor
@@ -137,13 +147,13 @@ public:
     bool validate();
     //execute order
     void execute();
-    //getter for valid
-    bool getValid();
-    //setter for valid
-    void setValid(bool valid);
+    // Clone method, required for the copy constructor
+    virtual Order* clone();
 private:
-    //valid stores the information if the order is valid
-    bool valid;
+    Territory *source;
+    Territory *target;
+    Player *player;
+    int numberUnits;
 };
 
 //Bomb lass definition
@@ -151,6 +161,8 @@ class Bomb : public Order{
 public:
     //Bomb default constructor
     Bomb();
+    //Bomb constructor
+    Bomb(Territory *target, Player *player);
     //Bomb destructor
     ~Bomb();
     //Bomb copy constructor
@@ -163,13 +175,11 @@ public:
     bool validate();
     //execute order
     void execute();
-    //getter for valid
-    bool getValid();
-    //setter for valid
-    void setValid(bool valid);
+    // Clone method, required for the copy constructor
+    virtual Order* clone();
 private:
-    //valid stores the information if the order is valid
-    bool valid;
+    Territory *target;
+    Player *player;
 };
 
 //Blockade lass definition
@@ -193,6 +203,8 @@ public:
     bool getValid();
     //setter for valid
     void setValid(bool valid);
+    // Clone method, required for the copy constructor
+    virtual Order* clone();
 private:
     //valid stores the information if the order is valid
     bool valid;
@@ -203,6 +215,8 @@ class Airlift : public Order{
 public:
     //Airlift default constructor
     Airlift();
+    //Airlift Paramaterized constructor
+    Airlift(Territory *source, Territory *target, Player *player, int numToMove);
     //Airlift destructor
     ~Airlift();
     //Airlift copy constructor
@@ -215,13 +229,12 @@ public:
     bool validate();
     //execute order
     void execute();
-    //getter for valid
-    bool getValid();
-    //setter for valid
-    void setValid(bool valid);
+    // Clone method, required for the copy constructor
+    virtual Order* clone();
 private:
-    //valid stores the information if the order is valid
-    bool valid;
+    Territory *source, *target;
+    Player *player;
+    int numToMove;
 };
 
 //Negotiate lass definition
@@ -229,6 +242,8 @@ class Negotiate : public Order{
 public:
     //Negotiate default constructor
     Negotiate();
+    // Negotiate paramaterized constructor
+    Negotiate(Player *source, Player *target);
     //Negotiate destructor
     ~Negotiate();
     //Negotiate copy constructor
@@ -241,11 +256,8 @@ public:
     bool validate();
     //execute order
     void execute();
-    //getter for valid
-    bool getValid();
-    //setter for valid
-    void setValid(bool valid);
+    // Clone method, required for the copy constructor
+    virtual Order* clone();
 private:
-    //valid stores the information if the order is valid
-    bool valid;
+    Player *source, *target;
 };

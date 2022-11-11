@@ -1,6 +1,9 @@
 #include <iostream> 
 #include <algorithm>
+#include <vector>
 #include "Orders.h"
+#include "Map.h"
+#include "Player.h"
 
 using std::cout; 
 using std::string; 
@@ -23,7 +26,7 @@ OrdersList::OrdersList(std::vector<Order*> orderList){
 OrdersList::OrdersList(const OrdersList& ol1){
     orderList = vector<Order*>();
     for (Order* c: ol1.orderList) {
-        orderList.push_back(new Order(*c));
+        orderList.push_back(c->clone());
     }}
 
 //OrdersList destructor
@@ -39,7 +42,7 @@ OrdersList::~OrdersList(){
 OrdersList& OrdersList::operator=(const OrdersList& ol) {
 	orderList = vector<Order*>();
     for (Order* c: ol.orderList) {
-        orderList.push_back(new Order(*c));
+        orderList.push_back(c->clone());
     }
     return *this;
 }
@@ -107,14 +110,19 @@ int OrdersList::getIndex(Order * order){
 
 //Output stream
 std::ostream& operator<<(std::ostream &strm, const OrdersList &ol){
-    strm << "Order List: ";
-    for (int i = 0; i < ol.orderList.size(); i++) {
-        Order& orderRef = *(ol.orderList[i]);
-        strm << orderRef;
-        if (i < ol.orderList.size() - 1) {
-            strm << ", ";
-        }
+    // strm << "Order List: ";
+    // for (int i = 0; i < ol.orderList.size(); i++) {
+    //     // Order& orderRef = *(ol.orderList.at(i));
+    //     strm << *(ol->getOrder().at(i));
+    //     if (i < ol.orderList.size() - 1) {
+    //         strm << ", ";
+    //     }
+    // }
+    strm<<"{";
+    for(Order* o: ol.orderList){
+        strm<<*o<<" ";
     }
+    strm<<"}";
     return strm;
    
 }
@@ -196,7 +204,7 @@ void Order::setHasExecuted(bool hasExecuted){
     return in;
 }
 
-//Oorder output stream
+//Order output stream
 std::ostream& operator<<(std::ostream &strm, const Order &order){
     if(!order.hasExecuted){
         return strm << "Order(" << order.type << ")";
@@ -210,9 +218,12 @@ std::ostream& operator<<(std::ostream &strm, const Order &order){
 
 //class Deploy
 //Deploy default constructor
-Deploy::Deploy(){
+Deploy::Deploy(): Order("Deploy"), target(nullptr), player(nullptr), numberUnits(0) {
     this->type = "Deploy";
-    valid = true;
+}
+
+Deploy::Deploy(Territory *target, Player *player, int numberUnits): 
+    Order("Deploy"), target(target), player(player), numberUnits(numberUnits) {
 }
 
 //Deploy destructor
@@ -221,14 +232,16 @@ Deploy::~Deploy(){
 }
 
 //Deploy copy constructor
-Deploy::Deploy(const Deploy& d1){
-    this->type = d1.type;
-    this->effect = d1.effect;
+Deploy::Deploy(const Deploy& d1):
+    Order(d1.type, d1.effect), target(d1.target), player(player), numberUnits(d1.numberUnits) {
 }
 
 //Deploy assignment operator
 Deploy& Deploy::operator=(const Deploy& d1){
 	Order::operator=(d1);
+    this->target = d1.target;
+    this->player = d1.player;
+    this->numberUnits = d1.numberUnits;
 	return *this;
 }
 
@@ -244,14 +257,10 @@ std::ostream& operator<<(std::ostream &strm, const Deploy &Deploy){
 
 //Validate if the order is valid
 bool Deploy::validate(){
-    if (valid){
-        cout << "Deploy is valid" << endl;
-        return true;
-    }
-    else{
-        cout << "ERROR: Deploy is not valid" << endl;
-        return false;
-    }
+    vector<Territory*> trt = player->get_trt();
+    bool ownsTerritory = any_of(trt.begin(), trt.end(), [this](Territory *t){return t == this->target;});
+    bool haveEnoughUnits = player->get_armyUnit() >= numberUnits;
+    return ownsTerritory && haveEnoughUnits;
 }
 
 //execute order
@@ -259,8 +268,13 @@ void Deploy::execute(){
     //validate the order then execute
     if(validate()){
         this->hasExecuted = true;
-        effect = "executed";
-        cout << "Deploy is executing" << endl;
+        effect.append("Executed Deploy order, adding ").append(std::to_string(numberUnits)).append(" units to the territory ").append(*(target->getTerritoryName()));
+        // Increment the amount of army units in the target
+        int *targetArmies = target->armyAmount;
+        (*targetArmies) += numberUnits;
+        // Decrement the amount of army units the player has
+        player->set_armyUnit(player->get_armyUnit() - numberUnits);
+        
     }
     else{
         this->hasExecuted = false;
@@ -268,21 +282,19 @@ void Deploy::execute(){
     }
 }
 
-//getter for valid
-bool Deploy::getValid(){
-    return this->valid;
-}
-
-//setter for valid
-void Deploy::setValid(bool valid){
-    this->valid = valid;
+//clone method
+Order* Deploy::clone(){
+    return new Deploy(*this);
 }
 
 //class Advance
 //Advance default constructor
-Advance::Advance(){
+Advance::Advance(): target(nullptr), source(nullptr), player(nullptr), numberUnits(0) {
     type = "Advance";
-    valid = true;
+}
+
+Advance::Advance(Territory *source, Territory *target, Player *player, int numberUnits): 
+    source(source), target(target), player(player), numberUnits(numberUnits) {
 }
 
 //Advance destructor
@@ -313,24 +325,165 @@ std::ostream& operator<<(std::ostream &strm, const Advance &Advance){
 }
 
 //Validate if the order is valid
-bool Advance::validate(){
-    if (valid){
-        cout << "Advance is valid" << endl;
-        return true;
+bool Advance::validate()
+{
+    // Get territories owned by player and save them into playerTerritories vector
+    vector<Territory*> playerTerritories = player->get_trt();
+    
+    // Check if source territory belongs to player
+    bool ownsSource = any_of(playerTerritories.begin(), playerTerritories.end(), [this](Territory *t){return t == this->source;});
+    
+    // Check if target territory is adjacent to source
+    bool isTargetAdjacent = false;
+
+    for (auto i : source->AdjTerritories)
+    {
+        if (i==target)
+        {
+            isTargetAdjacent = true;
+            break;
+        }
     }
-    else{
-        cout << "ERROR: Advance is not valid" << endl;
-        return false;
+
+    bool negotiationBlocks = false;
+    // Check to see if a negotiate order is blocking advance (which might be an attack)
+    if (player != target->getTerritoryOwner()) {
+        // If the target is not player-owned, this is an attack: check for negotiation
+        Player *enemy = target->getTerritoryOwner();
+        negotiationBlocks = enemy->hasNegotiationWith(player);
     }
+
+    // Check if source territory possesses enough troops for request
+    bool enoughTroops = this->numberUnits <= *source->armyAmount;
+
+    return ownsSource && isTargetAdjacent && enoughTroops && !negotiationBlocks;
 }
 
 //execute order
 void Advance::execute(){
     //validate the order then execute
-    if(validate()){
+    if(validate())
+    {
         this->hasExecuted = true;
         effect = "executed";
-        cout << "Advance is executing" << endl;
+
+        // Save number of units sent to separate variable
+        int attackerNb = this->numberUnits;
+
+        // Get territories owned by player and save them into playerTerritories vector
+        vector<Territory*> playerTerritories = player->get_trt();
+        
+        // Check if source territory belongs to player
+        bool ownsSource = any_of(playerTerritories.begin(), playerTerritories.end(), [this](Territory *t){return t == this->source;});
+        
+        // Check if target territory belongs to player
+        bool ownsTarget = any_of(playerTerritories.begin(), playerTerritories.end(), [this](Territory *t){return t == this->target;});
+
+        // If player owns source and target, move units
+        if (ownsSource && ownsTarget)
+        {
+            // Increment target territory with army amount
+            int newTargetArmy = (*(target->getArmy())+this->numberUnits);
+            int* ptrTargetArmy = &newTargetArmy;
+            target->setArmy(ptrTargetArmy);
+
+            // Decrement source territory with army amount
+            int newSourceArmy = (*(source->getArmy())-this->numberUnits);
+            int* ptrSourceArmy = &newSourceArmy;
+            source->setArmy(ptrSourceArmy);
+        }
+        // If player does not own target, attack target
+        else
+        {
+            // Decrement source territory with army amount
+            int newSourceArmy = (*(source->getArmy())-this->numberUnits);
+            int* ptrSourceArmy = &newSourceArmy;
+            source->setArmy(ptrSourceArmy);
+            
+            // While attacker or defender doesn't have 0 units...
+            while (attackerNb!=0 && *(this->target->getArmy())!=0)
+            {
+                // Counters to keep track of losses
+                int attackerLosses = 0;
+                int defenderLosses = 0;
+
+                // For every attacking unit, increment defenders loss with probability
+                for (int i = 0; i < attackerNb; i++)
+                {
+                    bool kill = (rand() % 100) < 60;
+                    if (kill)
+                    {
+                        defenderLosses++;
+                    }
+                }
+
+                // For every defending unit, increment attackers loss with probability
+                int *targetArmy = target->getArmy();
+                for (int i = 0; i < *targetArmy; i++)
+                {
+                    bool kill = (rand() % 100) < 70;
+                    if (kill)
+                    {
+                        attackerLosses++;
+                    }
+                }
+
+                // Decrement source army and target territory army with their losses
+                attackerNb = attackerNb - attackerLosses;
+                int newTargetArmy = (*(target->getArmy())-defenderLosses);
+                int* ptrTargetArmy = &newTargetArmy;
+                target->setArmy(ptrTargetArmy);
+
+                // Check for negative values and set them to zero for attacker and defender
+                if (attackerNb < 0)
+                {
+                    attackerNb = 0;
+                }
+
+                if (*this->target->getArmy() < 0)
+                {
+                    newTargetArmy = 0;
+                    target->setArmy(ptrTargetArmy);
+                }
+            }
+            // If attacker won, capture territory
+            if (attackerNb!=0 && *target->getArmy()==0)
+            {
+                // Save territory vector of attacker
+                vector<Territory*> attackerTerritories = this->player->get_trt();
+
+                // Add conquered territory in attacker's territory vector
+                attackerTerritories.push_back(this->target);
+
+                // Save territory vector of defender
+                vector<Territory*> defenderTerritories = this->target->getTerritoryOwner()->get_trt();
+
+                // Remove conquered territory in defender's territory vector
+                for (auto it = defenderTerritories.begin(); it != defenderTerritories.end(); ++it)
+                {
+                    Territory *aTerritory = *it;
+                    // If both point to the same territory, remove it from defender list
+                    if(aTerritory == this->target)
+                    {
+                        defenderTerritories.erase(it);
+                        break;
+                    }
+                }
+                
+                // Change owned territories of attacker
+                this->player->set_Trt(attackerTerritories);
+
+                // Change owned territories of defender
+                this->target->getTerritoryOwner()->set_Trt(defenderTerritories);
+
+                // Change ownership of territory
+                this->target->setTerritoryOwner(this->player);
+
+                // Surviving army units occupy conquered territory
+                this->target->setArmy(&attackerNb);
+            }
+        }
+        cout << "Deploy has executed" << endl;
     }
     else{
         this->hasExecuted = false;
@@ -338,21 +491,19 @@ void Advance::execute(){
     }
 }
 
-//getter for valid
-bool Advance::getValid(){
-    return this->valid;
-}
-
-//setter for valid
-void Advance::setValid(bool valid){
-    this->valid = valid;
+//clone method
+Order* Advance::clone(){
+    return new Advance(*this);
 }
 
 //class Bomb
 //Bomb default constructor
-Bomb::Bomb(){
-    type = "Bomb";
-    valid = true;
+Bomb::Bomb(): Order("Bomb"), target(nullptr), player(nullptr) {
+    this->type = "Bomb";
+}
+
+Bomb::Bomb(Territory *target, Player *player): 
+    Order("Bomb"), target(target), player(player) {
 }
 
 //Bomb destructor
@@ -383,15 +534,34 @@ std::ostream& operator<<(std::ostream &strm, const Bomb &Bomb){
 }
 
 //Validate if the order is valid
-bool Bomb::validate(){
-    if (valid){
-        cout << "Bomb is valid" << endl;
-        return true;
+bool Bomb::validate()
+{
+    // Save player territories into vector
+    vector<Territory*> playerTerritories = player->get_trt();
+
+    // Check if the enemy has a negotiation that would block the bombing
+    Player *enemy = target->getTerritoryOwner();
+    bool negotiationBlocks = enemy->hasNegotiationWith(player);
+
+    // Check if target territory belongs to player
+    bool ownsTarget = any_of(playerTerritories.begin(), playerTerritories.end(), [this](Territory *t){return t == this->target;});
+
+    // Check if target territory is adjacent to source
+    bool isTargetAdjacent = false;
+
+    for (auto i : playerTerritories)
+    {
+        for (auto j : i->AdjTerritories)
+        {
+            if (j==target)
+            {
+                isTargetAdjacent = true;
+                goto DONE;
+            }
+        }
     }
-    else{
-        cout << "ERROR: Bomb is not valid" << endl;
-        return false;
-    }
+
+    DONE: return !ownsTarget&&isTargetAdjacent && !negotiationBlocks;
 }
 
 //execute order
@@ -400,7 +570,11 @@ void Bomb::execute(){
     if(validate()){
         this->hasExecuted = true;
         effect = "executed";
-        cout << "Bomb is executing" << endl;
+
+        // Remove half of the army units from target territory
+        *(this->target->armyAmount) = *(this->target->armyAmount)/2;
+
+        cout << "Bomb has executed" << endl;
     }
     else{
         this->hasExecuted = false;
@@ -408,14 +582,9 @@ void Bomb::execute(){
     }
 }
 
-//getter for valid
-bool Bomb::getValid(){
-    return this->valid;
-}
-
-//setter for valid
-void Bomb::setValid(bool valid){
-    this->valid = valid;
+//clone method
+Order* Bomb::clone(){
+    return new Bomb(*this);
 }
 
 
@@ -489,11 +658,20 @@ void Blockade::setValid(bool valid){
     this->valid = valid;
 }
 
+//clone method
+Order* Blockade::clone(){
+    return new Blockade(*this);
+}
+
 //class Airlift
 //Airlift default constructor
 Airlift::Airlift(){
     type = "Airlift";
-    valid = true;
+}
+
+//Airlift paramaterized constructor
+Airlift::Airlift(Territory *source, Territory *target, Player *player, int numToMove):
+    Order("Airlift"), source(source), target(target), player(player), numToMove(numToMove) {
 }
 
 //Airlift destructor
@@ -502,69 +680,69 @@ Airlift::~Airlift(){
 }
 
 //Airlift copy constructor
-Airlift::Airlift(const Airlift& ai1){
-    this->type = ai1.type;
-    this->effect = ai1.effect;
+Airlift::Airlift(const Airlift& ai1): 
+    Order(ai1.type, ai1.effect), source(ai1.source), target(ai1.target), 
+    player(ai1.player), numToMove(ai1.numToMove) {
 }
 
 //Validate if the order is valid
 bool Airlift::validate(){
-    if (valid){
-        cout << "Airlift is valid" << endl;
-        return true;
-    }
-    else{
-        cout << "ERROR: Airlift is not valid" << endl;
-        return false;
+    vector<Territory*> playerTerritories = player->get_trt();
+    
+    // Check if source territory belongs to player
+    bool ownsSource = any_of(playerTerritories.begin(), playerTerritories.end(), [this](Territory *t){return t == this->source;});
+    bool ownsTarget = any_of(playerTerritories.begin(), playerTerritories.end(), [this](Territory *t){return t == this->target;});
+    bool enoughArmies = *(source->armyAmount) >= numToMove;
+    return ownsSource && ownsTarget && enoughArmies;
+}
+
+//execute order
+void Airlift::execute(){
+    if(validate()){
+        (*source->armyAmount) -= numToMove;
+        (*target->armyAmount) += numToMove;
+        effect.append("Executed Airlift order, moving ").append(to_string(numToMove))
+                .append(" units from ").append(*source->getTerritoryName()).append(" to ")
+                .append(*target->getTerritoryName());
     }
 }
 
 //Airlift assignment operator
 Airlift& Airlift::operator=(const Airlift& ai){
-	Airlift::operator=(ai);
+	Order::operator=(ai);
+    this->source = ai.source;
+    this->target = ai.target;
+    this->player = ai.player;
+    this->numToMove = ai.numToMove;
 	return *this;
 }
 
 //Airlift output stream
 std::ostream& operator<<(std::ostream &strm, const Airlift &Airlift){
-    if(!Airlift.hasExecuted){
+    return strm << "Airlift order of " << Airlift.numToMove <<  " armies from territory "
+     << *Airlift.source << " to " << *Airlift.target;
+    /*if(!Airlift.hasExecuted){
         return strm << "Airlift(" << Airlift.type << ")";
     }
     else{
         return strm << "Airlift(" << Airlift.type << "," << Airlift.effect << ")";
-    }
+    }*/
 }
 
-//execute order
-void Airlift::execute(){
-    //validate the order then execute
-    if(validate()){
-        this->hasExecuted = true;
-        effect = "executed";
-        cout << "Airlift is executing" << endl;
-    }
-    else{
-        this->hasExecuted = false;
-        cout << "ERROR: Airlift cannot be executed" << endl;
-    }
-}
-
-//getter for valid
-bool Airlift::getValid(){
-    return this->valid;
-}
-
-//setter for valid
-void Airlift::setValid(bool valid){
-    this->valid = valid;
+//clone method
+Order* Airlift::clone(){
+    return new Airlift(*this);
 }
 
 
 //class Negotiate
 //Negotiate default constructor
-Negotiate::Negotiate(){
-    type = "Negotiate";
-    valid = true;
+Negotiate::Negotiate(): Order("negotiate") {
+}
+
+// Negotiate paramaterized constructor
+Negotiate::Negotiate(Player *source, Player *target):
+    Order("Negotiate"), source(source), target(target) {
 }
 
 //Negotiate destructor
@@ -573,14 +751,14 @@ Negotiate::~Negotiate(){
 }
 
 //Negotiate copy constructor
-Negotiate::Negotiate(const Negotiate& n1){
-    this->type = n1.type;
-    this->effect = n1.effect;
+Negotiate::Negotiate(const Negotiate& n1): Order(n1.type), source(source), target(target) {
 }
 
 //Negotiate assignment operator
 Negotiate& Negotiate::operator=(const Negotiate& n){
-	Negotiate::operator=(n);
+	Order::operator=(n);
+    source = n.source;
+    target = n.target;
 	return *this;
 }
 
@@ -595,38 +773,24 @@ std::ostream& operator<<(std::ostream &strm, const Negotiate &Negotiate){
 }
 
 //Validate if the order is valid
-bool Negotiate::validate(){
-    if (valid){
-        cout << "Negotiate is valid" << endl << endl;
-        return true;
-    }
-    else{
-        cout << "ERROR: Negotiate is not valid" << endl;
-        return false;
-    }
+bool Negotiate::validate() {
+    // The order is valid as long as the two 
+    // players it's between are different
+    return source != target;
 }
 
 //execute order
 void Negotiate::execute(){
     //validate the order then execute
     if(validate()){
-        this->hasExecuted = true;
-        effect = "executed";
-        cout << "Negotiate is executing" << endl;
-    }
-    else{
-        this->hasExecuted = false;
-        cout << "ERROR: Negotiate cannot be executed" << endl;
+        effect.append("Negotiation between ").append(source->get_name()).append(" and ").append(target->get_name());
+        source->addNegotiatedPlayer(target);
+        target->addNegotiatedPlayer(source);
     }
 }
 
-//getter for valid
-bool Negotiate::getValid(){
-    return this->valid;
-}
-
-//setter for valid
-void Negotiate::setValid(bool valid){
-    this->valid = valid;
+//clone method
+Order* Negotiate::clone(){
+    return new Negotiate(*this);
 }
 
