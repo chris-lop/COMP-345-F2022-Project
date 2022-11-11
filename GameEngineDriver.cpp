@@ -29,8 +29,13 @@ void testMainGameLoop(){
 
     //Prepare game play
     GameEngine* gameEngine = new GameEngine();
+    gameEngine->setState("start");
     MapLoader* loader = new MapLoader();
     Map* gameMap = loader->loadMap("./3D.map");
+    //change state from 'start' to 'maploaded'
+    gameEngine->transition();
+    //change state from 'maploaded' to 'mapvalidated'
+    gameEngine->transition();
     vector <Player*> gamePlayers;
     Player* p1 = new Player("Player1");
     Player* p2 = new Player("Player2");
@@ -68,6 +73,9 @@ void testMainGameLoop(){
     p2->set_Trt(p2_trt);
     p2->set_armyUnit(50);
 
+    //change state from 'mapvalidated' to 'playersadded'
+    gameEngine->transition();
+
     std::cout<< "Player1 owns:" << std::endl;
     for (Territory* t: p1_trt){
         std::cout << *(t->getTerritoryName)() << "\t";
@@ -90,4 +98,8 @@ void testMainGameLoop(){
     while(!finished){
         finished = gameEngine->mainGameLoop(gamePlayers, gameMap);
     }
+    //change state from 'mapvalidated' to 'playersadded'
+    gameEngine->setState("quit");
+    gameEngine->transition();
+    
 }

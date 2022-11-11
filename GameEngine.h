@@ -10,7 +10,7 @@ class Order;
 
 class GameEngine {
 private:
-    int state;
+    string state;
     Map* gameMap;
 
     //active game players
@@ -30,12 +30,12 @@ public:
     friend std::istream& operator >> (std::istream& in, GameEngine& g);
     
     //setters
-    void setState(int state);
+    void setState(string state);
     void setMap(Map* gameMap);
     void setPlayers(vector <Player*> gamePlayers);
     
     //getters
-    int getState();
+    string getState();
     Map* getMap();
     vector<Player*> getPlayers();
     vector<Player*> getRemovedPlayers();
@@ -71,9 +71,19 @@ public:
     bool finished();
 
     //A2 functions
+    //function for GameLogObserver
+    void transition();
+    
+    //main game play loop
     bool mainGameLoop(std::vector <Player*> players, Map* graph);
+
+    //reinforcement phase
     void reinforcementPhase(Player* player, Map* graph);
+
+    //issue orders phase
     void issueOrdersPhase(vector<Player*> player);
+
+    //execute orders phase
     bool executeOrdersPhase();
 
 }; //end of class GameEngine

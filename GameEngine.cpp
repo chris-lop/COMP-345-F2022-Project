@@ -18,15 +18,15 @@ void GameEngine::startMessage() {
 }
 
 //Default Constructor
-GameEngine::GameEngine(): state(0){
-    this->state=0;
+GameEngine::GameEngine(){
+    this->state="start";
     this->gameMap = new Map();
     this->gamePlayers = {};
     this->removedPlayers = {};
 }
 
 GameEngine::GameEngine(Map* gameMap, vector <Player*> gamePlayers){
-    this->state = 0;
+    this->state = "start";
     this->gameMap = gameMap;
     this->gamePlayers = gamePlayers;
     this->removedPlayers = {};
@@ -57,7 +57,7 @@ std::ostream& operator<<(std::ostream &strm, const GameEngine &g){
 }
 
 //setters
-void GameEngine::setState(int st)
+void GameEngine::setState(string st)
 {
     this->state=st;
 }
@@ -71,7 +71,7 @@ void GameEngine::setPlayers(vector <Player*> gamePlayers){
 }
 
 //getters
-int GameEngine::getState()
+string GameEngine::getState()
 {
     return state;
 }
@@ -146,39 +146,39 @@ void GameEngine::win()
 
 //moves through the states depending on the user's command which will be passed to the function as a parameter
 void GameEngine::handleInput(std::string line) {
-    if (state == 0) {
+    if (state == "start") {
         // State: start
         // valid inputs: loadmap
         if (line == "loadmap") {
             loadMap();
             cout << "Now in map loaded state. Valid input: loadmap, validatemap" << endl;
-            state = 1;
+            state = "loadmap";
         } else {
             cout << "Invalid command. Valid commands: loadmap" << endl;
         }
-    } else if (state == 1) {
+    } else if (state == "loadmap") {
         // State: map loaded
         // Valid inputs: loadmap, validatemap
         if (line == "loadmap") {
             loadMap();
             cout << "Now in map loaded state. Valid input: loadmap, validatemap" << endl;
-            state = 1;
+            state = "loadmap";
         } else if (line == "validatemap") {
             validateMap();
             cout << "Map now validated, you are in validated state. Valid input: addplayer" << endl;
-            state = 2;
+            state = "maploaded";
         }
         else{
             cout<<"Invalid command. Valid commands: loadmap, validatemap."<<endl;
         }
-    } else if (state == 2) {
+    } else if (state == "maploaded") {
         // State: map validated
         // Valid input: addplayer
         if (line == "addplayer") {
             addPlayers();
              cout<<"you are now in players added state. Valid input: addplayer, assigncountries."<<endl;
             
-            state = 3;
+            state = "playersadded";
         
         }
          else {
@@ -186,7 +186,7 @@ void GameEngine::handleInput(std::string line) {
         }
     }
     //players added state
-    else if(state==3){
+    else if(state=="playersadded"){
         //state: players added
         //valid input: addplayer, assigncountries
         if(line=="addplayer")
@@ -194,7 +194,7 @@ void GameEngine::handleInput(std::string line) {
             addPlayers();
              cout<<"you are now in players added state. Valid input: addplayer, assigncountries."<<endl;
              
-            state = 3;
+            state = "playersadded";
         }
         else
         if(line=="assigncountries")
@@ -202,7 +202,7 @@ void GameEngine::handleInput(std::string line) {
              assignReinforcement();
              cout<<"you are now in assign reinforcement state. Valid input: issueorder."<<endl;
             
-            state=4;
+            state="assignreinforcement";
             
         }
         else
@@ -210,27 +210,27 @@ void GameEngine::handleInput(std::string line) {
     }
     else
     //the issue orders state
-    if(state==4){
+    if(state=="assignreinforcement"){
         //state assign reinforcement
         //valid input: issueorder
         if(line=="issueorder"){
             issueOrders();
             cout<<"you are now in the issue orders state. Valid input: issueorder, endissueorders."<<endl;
             
-            state=5;
+            state="issueorders";
         }
         else
         cout<<"Invalid command. Valid command: issueorder. "<<endl;
     }
     else
     //the issue orders state
-    if(state==5){
+    if(state=="issueorders"){
         if(line=="issueorder")
         {
              issueOrders();
              cout<<"you are now in the issue orders state. Valid input: issueorder, endissueorders."<<endl;
            
-            state=5;
+            state="issueorders";
         }
         else
         //the execute orders state
@@ -238,7 +238,7 @@ void GameEngine::handleInput(std::string line) {
         {
             executeOrders();
             cout<<"You are now in the execute orders state. Valid input: execorder, endexecorders, win."<<endl;
-        state=6;
+        state="executeorders";
             
         }
         
@@ -249,11 +249,11 @@ void GameEngine::handleInput(std::string line) {
     }
     else
     //the execute orders state
-    if(state==6){
+    if(state=="executeorders"){
         if(line=="execorder"){
             executeOrders();
             cout<<"you are now in the execute orders state. valid input: execorder, endexecorders, win."<<endl;
-            state=6;
+            state="executeorders";
             
         }
         else
@@ -262,7 +262,7 @@ void GameEngine::handleInput(std::string line) {
              assignReinforcement();
             cout<<"you are now in assign reinforcement state. Valid input: issueorder."<<endl;
            
-            state=4;
+            state="assignreinforcement";
         }
         else
         //the win state
@@ -270,7 +270,7 @@ void GameEngine::handleInput(std::string line) {
         {
             win();
             cout<<"you are now in the win state. valid input: end, play."<<endl;
-            state=7;
+            state="win";
         }
         else{
             cout<<"invalid command. valid input: execorder, endexecorders, win."<<endl;
@@ -279,18 +279,18 @@ void GameEngine::handleInput(std::string line) {
     }
     else
     //pplay again or end the game
-    if(state==7){
+    if(state=="win"){
         if(line=="play")
         {
             
             startMessage();
-            state=0;
+            state="start";
         }
         else
         if(line=="end")
         {
             cout<<"Game finishing..."<<endl;
-            state=8;
+            state="end";
         }
         else
         cout<<"Invalid command. valid commands: play, end."<<endl;
@@ -300,12 +300,50 @@ void GameEngine::handleInput(std::string line) {
 
 //checks whether the final state has been reached or not
 bool GameEngine::finished() {
-    return state == 8;
+    return state == "end";
 }
 
 //A2 functions
+//Set the game engine to the correct state when called
+void GameEngine::transition(){
+    string current = this->getState();
+
+    if(current == "start"){
+        this->setState("maploaded");
+    }
+    if(current == "maploaded"){
+        this->setState("mapvalidated");
+    }
+    if(current == "mapvalidated"){
+        this->setState("playersadded");
+    }
+    if(current == "playersadded"){
+        this->setState("assignreinforcement");
+    }
+    if(current == "assignreinforcement"){
+        this->setState("issueorders");
+    }
+    if(current == "issueorders"){
+        this->setState("executeorders");
+    }
+    if(current == "executeorders"){
+        this->setState("win");
+    }
+    if(current == "replay"){
+        this->setState("start");
+    }
+    if(current == "quit"){
+        this->setState("end");
+    }
+}
+
 //reinforcementPhase(): provide each players with the appropriate army units number
 void GameEngine::reinforcementPhase(Player* p, Map* graph){
+
+    //change state from 'playersadded' to 'assignreinforcement'
+    this->setState("playersadded");
+    this->transition();
+
     //For each player, # army units = (# territories owned)/3, and min. 3 units
     if(std::floor(p->get_trt().size()/3) <= 3){
         p->set_armyUnit(p->get_armyUnit()+3);
@@ -375,6 +413,9 @@ void GameEngine::reinforcementPhase(Player* p, Map* graph){
 
 //issueOrdersPhase(): each player issue orders
 void GameEngine::issueOrdersPhase(vector<Player*> players){
+    //change state from 'assignreinforcement' to 'issueorders'
+    this->setState("assignreinforcement");
+    this->transition();
     // Execute issueOrder in a round-robin fashion
     for(Player* p: players)
     {
@@ -386,6 +427,9 @@ void GameEngine::issueOrdersPhase(vector<Player*> players){
 //To TEST
 //executeOrdersPhase(): execute the top order on the list of orders of each player 
 bool GameEngine::executeOrdersPhase(){
+    //change state from 'issueorders' to 'executeorders'
+    this->setState("issueorders");
+    this->transition();
     bool winner = false;
     bool gameplay = true;
 
@@ -465,6 +509,13 @@ bool GameEngine::mainGameLoop(std::vector <Player*> players, Map* graph){
         if(p->get_trt().size() == num_trt){
             winner = true;
             winPlayer = p->get_name();
+            if(this->getState() == "executeorders"){
+                this->transition();
+            }
+            else{
+                this->setState("executeorders");
+                this->transition();
+            }
             break;
         }
         //player does not own all territories of the map
