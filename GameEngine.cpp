@@ -818,9 +818,8 @@ void GameEngine::startupPhase(CommandProcessor *cp)
             cp->playegame(command);
         }
     }
+
     int count = 0;
-    std::cout << playersMap.size() << endl;
-    std::cout << gameMap->territories.size() << endl;
     for (auto terr : gameMap->territories)
     {
         if (count == playersMap.size())
@@ -837,7 +836,9 @@ void GameEngine::startupPhase(CommandProcessor *cp)
 
         count++;
     }
+    // shuffling the players to get them in random order of paye
     std::shuffle(playersMap.begin(), playersMap.end(), std::random_device());
+
     // printing the players
     int range = 0;
     for (auto i : playersMap)
@@ -859,4 +860,6 @@ void GameEngine::startupPhase(CommandProcessor *cp)
                   << endl;
         range++;
     }
+    gameMap = gameMap;
+    gamePlayers = playersMap;
 }
