@@ -705,10 +705,11 @@ void GameEngine::startupPhase(CommandProcessor *cp)
     string command;
     Map *m = new Map();
     Map *gameMap = new Map();
-    MapLoader *loader = new MapLoader();
+    // MapLoader *loader = new MapLoader();
     char nameMapSaver[1000] = "";
     while (true)
     {
+        MapLoader *loader = new MapLoader();
         vector<char *> nameOfMaps;
         nameOfMaps = directory();
         char mapPath[1000] = "./maps/";
@@ -754,6 +755,13 @@ void GameEngine::startupPhase(CommandProcessor *cp)
             cp->saveCommand(command);
             strcat(mapPath, nameMapSaver);
             gameMap = loader->loadMap(mapPath);
+            // for (auto i : gameMap3->territories)
+            // {
+            //     std::cout << i;
+            // }
+            std::cout << gameMap->TerritoryNb;
+            std::cout << mapPath;
+            std::cout << gameMap->territories.size() << endl;
             if (!m->validate(gameMap->territories))
             {
                 cout << " \nInvalid map \n"
