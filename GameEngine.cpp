@@ -593,6 +593,7 @@ bool GameEngine::mainGameLoop(std::vector<Player *> players, Map *graph)
         finished=true;
     }
 
+    //once removed, replace finished with winner so main game loop is finished when there is a winner
     return finished;
 }
 
