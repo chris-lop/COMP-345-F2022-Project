@@ -320,7 +320,7 @@ void Player::issueOrder()
             // If player has blockade card, player has 15% chance to use it during a turn
             if (hasBlockade)
             {
-                if ((rand() % 100) < 0)
+                if (((rand() % 100) < 15) && this->get_trt().size()>1)
                 {
                     order_option = 4;
                 }
