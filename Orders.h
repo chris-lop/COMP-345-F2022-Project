@@ -54,7 +54,7 @@ public:
     //Output stream
     friend std::ostream& operator<<(std::ostream&, const OrdersList&);
     // ILoggable method
-    std::string stringToLog(); 
+    virtual std::string stringToLog(); 
 private:
     //orderList is the list of vector type that stores all the orders
     std::vector<Order*> orderList;
@@ -97,7 +97,7 @@ public:
     // Pure virtual clone method, required for the copy constructor
     virtual Order* clone() = 0;
     // Method providing the string to log
-    std::string stringToLog();
+    virtual std::string stringToLog();
 protected:
     //type is the order type (deploy, advance, bomb, airlift, negotiate, blockade)
     std::string type;
@@ -128,13 +128,16 @@ public:
     void execute();
     // Clone method, required for the copy constructor
     virtual Order* clone();
+
+    int getNumberUnits();
+
 private:
     Territory *target;
     Player *player;
     int numberUnits;
 };
 
-//Advance lass definition
+//Advance class definition
 class Advance : public Order{
 public:
     //Advance default constructor
@@ -153,6 +156,12 @@ public:
     bool validate();
     //execute order
     void execute();
+    // check if Advance order is an attack or a movement
+    bool isAttack();
+    // Getter for target
+    Territory* getTarget();
+    // Getter for player
+    Player* getPlayer();
     // Clone method, required for the copy constructor
     virtual Order* clone();
 private:
