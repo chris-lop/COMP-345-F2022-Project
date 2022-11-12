@@ -272,11 +272,6 @@ std::ostream& operator<<(std::ostream &strm, const Deploy &Deploy){
     }
 }
 
-int Deploy::getNumberUnits()
-{
-    return this->numberUnits;
-}
-
 //Validate if the order is valid
 bool Deploy::validate(){
     vector<Territory*> trt = player->get_trt();

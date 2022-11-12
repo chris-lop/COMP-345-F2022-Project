@@ -424,25 +424,11 @@ void GameEngine::issueOrdersPhase(vector<Player*> players){
     //change state from 'assignreinforcement' to 'issueorders'
     this->setState("assignreinforcement");
     this->transition();
-
     // Execute issueOrder in a round-robin fashion
-    while (true)
+    for(Player* p: players)
     {
-        for(Player* p: players)
-        {
-            p->issueOrder();    
-        }
-        
-        // Ask if players want to issue more orders
-        bool issueMoreOrders = (rand() % 100) < 60;
-
-        if (!issueMoreOrders)
-        {
-            cout << "Players have decided not to issue more orders" << endl;
-            break;
-        }
+        p->issueOrder();
     }
-    
     cout << "All players have issued their orders. Now executing all player orders..." << endl;
 }
 
