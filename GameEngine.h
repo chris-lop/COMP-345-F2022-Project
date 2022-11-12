@@ -24,6 +24,7 @@ public:
     //constructor
     GameEngine();
     GameEngine(Map* gameMap, vector<Player*> gamePlayers);
+    GameEngine(Map* gameMap, vector <Player*> gamePlayers, vector <Player*> removedPlayers);
     //destructor
    ~GameEngine();
   
@@ -36,6 +37,7 @@ public:
     void setMap(Map* gameMap);
     void setDeck(Deck* gameDeck);
     void setPlayers(vector <Player*> gamePlayers);
+    void setRemovedPlayers(vector <Player*> removedPlayers);
     
     //getters
     string getState();

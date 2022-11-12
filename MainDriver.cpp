@@ -16,7 +16,7 @@ int main()
     //removed testPlayer() from A1 and commented out all test functions from A1- HL 
 
     //Part 3: Orders List
-    testOrderExecution();
+    //testOrderExecution();
     //Part 4: Cards
     //testCards();
     //Part 5: Game Engine

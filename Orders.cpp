@@ -306,6 +306,10 @@ Order* Deploy::clone(){
     return new Deploy(*this);
 }
 
+int Deploy::getNumberUnits(){
+    return this->numberUnits;
+}
+
 //class Advance
 //Advance default constructor
 Advance::Advance(): target(nullptr), source(nullptr), player(nullptr), numberUnits(0) {
@@ -848,9 +852,10 @@ std::ostream& operator<<(std::ostream &strm, const Negotiate &Negotiate){
 
 //Validate if the order is valid
 bool Negotiate::validate() {
+    bool isNeutral = this->target->get_name() == "Neutral Player";
     // The order is valid as long as the two 
     // players it's between are different
-    return source != target;
+    return (source != target) && !isNeutral;
 }
 
 //execute order

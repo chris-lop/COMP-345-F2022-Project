@@ -222,6 +222,17 @@ void Player::issueOrder()
     // Variable to keep track of reinforcement
     int deployed_units = 0;
 
+    for (Order* o : this->get_olst()->getOrder())
+    {
+        // If this order is of type Deploy
+        if (o->getType() == "Deploy" || o->getType() == "deploy")
+        {
+            // Increment deployed_units
+            Deploy *d = (Deploy *) o;
+            deployed_units = deployed_units+d->getNumberUnits();
+        }
+    }
+
     // Vector to keep track of issued orders
     vector <string> issued_orders;
 
@@ -276,25 +287,25 @@ void Player::issueOrder()
                 if (c->getType() == "Airlift" || c->getType() == "airlift")
                 {
                     hasAirlift = true;
-                    break;
+                    continue;
                 }
                 // If player has bomb card, save it in boolean variable 
                 if (c->getType() == "Bomb" || c->getType() == "bomb")
                 {
                     hasBomb = true;
-                    break;
+                    continue;
                 }
                 // If player has blockade card, save it in boolean variable
                 if (c->getType() == "Blockade" || c->getType() == "blockade")
                 {
                     hasBlockade = true;
-                    break;
+                    continue;
                 }
                 // If player has diplomacy card, save it in boolean variable 
                 if (c->getType() == "Diplomacy" || c->getType() == "diplomacy")
                 {
                     hasdiplomacy = true;
-                    break;
+                    continue;
                 }
             }
 
@@ -581,8 +592,8 @@ void Player::issueOrder()
         }
 
         // Break out of outter while loop if there are more than 1 orders in issued_orders vector
-        if (issued_orders.size() > (rand() % 5+1))
-        {
+        // if (issued_orders.size() > (rand() % 5+1))
+        // {
             // Print issued orders    
             for (string s : issued_orders)
             {
@@ -591,6 +602,6 @@ void Player::issueOrder()
             
             cout << endl;
             break;
-        }
+        // }
     }
 }

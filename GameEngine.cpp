@@ -32,6 +32,13 @@ GameEngine::GameEngine(Map* gameMap, vector <Player*> gamePlayers){
     this->removedPlayers = {};
 }
 
+GameEngine::GameEngine(Map* gameMap, vector <Player*> gamePlayers, vector <Player*> removedPlayers){
+    this->state = "start";
+    this->gameMap = gameMap;
+    this->gamePlayers = gamePlayers;
+    this->removedPlayers = removedPlayers;
+}
+
 //GameEngine destructor
 GameEngine::~GameEngine()
 {
@@ -74,6 +81,9 @@ void GameEngine::setPlayers(vector <Player*> gamePlayers){
     this->gamePlayers = gamePlayers;
 }
 
+void GameEngine::setRemovedPlayers(vector <Player*> removedPlayers){
+    this->removedPlayers = removedPlayers;
+}
 //getters
 string GameEngine::getState()
 {
@@ -424,13 +434,31 @@ void GameEngine::issueOrdersPhase(vector<Player*> players){
     //change state from 'assignreinforcement' to 'issueorders'
     this->setState("assignreinforcement");
     this->transition();
+
     // Execute issueOrder in a round-robin fashion
-    for(Player* p: players)
+    while (true)
     {
-        p->issueOrder();
+        for(Player* p: players)
+        {
+            if(p->get_name() == "Neutral Player"){
+                continue;
+            }
+            p->issueOrder();    
+        }
+        
+        // Ask if players want to issue more orders
+        bool issueMoreOrders = (rand() % 100) < 60;
+
+        if (!issueMoreOrders)
+        {
+            cout << "Players have decided not to issue more orders" << endl;
+            break;
+        }
     }
+    
     cout << "All players have issued their orders. Now executing all player orders..." << endl;
 }
+
 
 //To TEST
 //executeOrdersPhase(): execute the top order on the list of orders of each player 
@@ -444,6 +472,10 @@ bool GameEngine::executeOrdersPhase(){
     while(gameplay){
         //for each player, execute one order
         for (int i = 0; i<this->getPlayers().size(); i++){
+            //skip Neutral Player's turn
+            if(this->getPlayers().at(i)->get_name() == "Neutral Player"){
+                continue;
+            }
             std::cout<<"Current turn: "<<this->getPlayers().at(i)->get_name()<<std::endl;
 
             //if the order list is empty
@@ -571,21 +603,34 @@ bool GameEngine::executeOrdersPhase(){
             for (int i=0; i<this->getPlayers().size();i++){
                 //the removed player will be stored in a vector in case the players re-play the game at the end
                 if(this->getPlayers().at(i)->get_trt().size()==0){
+                    vector <Player*> temp1 = this->getPlayers();
+                    vector <Player*> tempRemove = this->getRemovedPlayers();
                     std::cout<<"Player "<<this->getPlayers().at(i)->get_name()<<" does not own any territories.\n";
-                    this->getRemovedPlayers().push_back(this->getPlayers().at(i));
+                    tempRemove.push_back(this->getPlayers().at(i));
+                    std::cout<<"Player "<<this->getPlayers().at(i)->get_name()<<" is removed from current game.\n";
                     //remove player from the active game player list
                     vector <Player*>::iterator it;
-                    it = this->getPlayers().begin()+i;
-                    this->getPlayers().erase(it);
-                    std::cout<<"Player "<<this->getPlayers().at(i)->get_name()<<" is removed from current game.\n";
+                    it = temp1.begin()+i;
+                    temp1.erase(it);
+                    this->setPlayers(temp1);
+                    this->setRemovedPlayers(tempRemove);
+
+                    std::cout<<"Active Players"<<std::endl;
+                    for(Player* p: this->getPlayers()){
+                        std::cout<<p->get_name()<<std::endl;
+                    }
+                    std::cout<<"Removed Players"<<std::endl;
+                    for(Player* p: this->getRemovedPlayers()){
+                        std::cout<<p->get_name()<<std::endl;
+                    }
                 }
             }
-
+            
             //if a player owns all territories of the map after executing order, stop the gameplay
-            if (this->getPlayers().at(i)->get_trt().size()==this->getMap()->territories.size()){
+            if (this->getPlayers().at(0)->get_trt().size()==this->getMap()->territories.size()){
                 winner = true;
                 gameplay = false;
-                std::cout<<"\nPlayer "<<this->getPlayers().at(i)->get_name()<<" now owns all the territories of the game map.\n\n";
+                std::cout<<"\nPlayer "<<this->getPlayers().at(0)->get_name()<<" now owns all the territories of the game map.\n\n";
                 break;
             }
             //if the player does not own all the territories of the map after executing order, continue to the next player
@@ -652,6 +697,9 @@ bool GameEngine::mainGameLoop(std::vector <Player*> players, Map* graph){
         std::cout<<"#";
         assignReinforcement();
         for (Player* p : players){
+            if(p->get_name() == "Neutral Player"){
+                continue;
+            }
             std::cout<<"\nCurrent turn: "<<p->get_name()<<std::endl;
             reinforcementPhase(p, graph);
         }
