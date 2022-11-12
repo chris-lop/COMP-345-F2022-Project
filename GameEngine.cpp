@@ -359,6 +359,13 @@ void GameEngine::transition(){
     if(current == "quit"){
         this->setState("end");
     }
+
+    notify(this);
+
+}
+
+string GameEngine::stringToLog(){
+    return string("The state has transitioned to ") + getState();
 }
 
 //reinforcementPhase(): provide each players with the appropriate army units number
