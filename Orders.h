@@ -54,7 +54,7 @@ public:
     //Output stream
     friend std::ostream& operator<<(std::ostream&, const OrdersList&);
     // ILoggable method
-    std::string stringToLog(); 
+    virtual std::string stringToLog(); 
 private:
     //orderList is the list of vector type that stores all the orders
     std::vector<Order*> orderList;
@@ -97,7 +97,7 @@ public:
     // Pure virtual clone method, required for the copy constructor
     virtual Order* clone() = 0;
     // Method providing the string to log
-    std::string stringToLog();
+    virtual std::string stringToLog();
 protected:
     //type is the order type (deploy, advance, bomb, airlift, negotiate, blockade)
     std::string type;

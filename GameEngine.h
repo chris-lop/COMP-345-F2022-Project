@@ -1,17 +1,15 @@
 #pragma once
 
-#include <string>
+#include<string>
 #include <iostream>
 #include <vector>
 #include "Player.h"
 #include "Map.h"
-#include "CommandProcessor.h"
 #include <string>
 #include "cards.h"
 class Order;
 
-class GameEngine
-{
+class GameEngine {
 private:
     string state;
     Map* gameMap;
@@ -23,7 +21,7 @@ private:
     vector <Player*> removedPlayers;
 
 public:
-    // constructor
+    //constructor
     GameEngine();
     GameEngine(Map* gameMap, vector<Player*> gamePlayers);
     //destructor
@@ -46,24 +44,19 @@ public:
     vector<Player*> getPlayers();
     vector<Player*> getRemovedPlayers();
 
-    // stream operators
-    friend std::ostream &operator<<(std::ostream &strm, const GameEngine &g);
-    friend std::istream &operator>>(std::istream &in, GameEngine &g);
-
-
-    // takes commands as input and passes through states accordingly
+    //takes commands as input and passes through states accordingly
     void handleInput(std::string line);
-
-    // prints out map is loaded
+    
+    //prints out map is loaded
     void loadMap();
-
-    // prints out map is validated
+    
+    //prints out map is validated
     void validateMap();
-
-    // takes player's name as an input and creates a player
+    
+    //takes player's name as an input and creates a player
     void addPlayers();
-
-    // prints out reinforcement is aasigned
+    
+    //prints out reinforcement is aasigned
     void assignReinforcement();
     
     //takes order as input and creates an order
@@ -71,14 +64,14 @@ public:
     
     //prints out orders are executed
     void executeOrders();
-
-    // prints out win
+    
+    //prints out win
     void win();
-
-    // prints out message at start of the game
+    
+    //prints out message at start of the game
     void startMessage();
-
-    // boolean checks whether last state has been reached or not
+    
+    //boolean checks whether last state has been reached or not
     bool finished();
 
     //A2 functions
@@ -97,17 +90,11 @@ public:
     //execute orders phase
     bool executeOrdersPhase();
 
-    vector<char *> directory();
+}; //end of class GameEngine
 
-    // startup phase
-    void startupPhase(CommandProcessor *cp);
 
-}; // end of class GameEngine
-
-// free function
+//free function
 void testGameStates();
 
-// A2 free function
+//A2 free function
 void testMainGameLoop();
-
-void testGameEngine();
