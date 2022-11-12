@@ -27,15 +27,17 @@ void GameEngine::startMessage()
     cout << "Now in start state. Valid input: loadmap" << endl;
 }
 
-//Default Constructor
-GameEngine::GameEngine(){
-    this->state="start";
+// Default Constructor
+GameEngine::GameEngine()
+{
+    this->state = "start";
     this->gameMap = new Map();
     this->gamePlayers = {};
     this->removedPlayers = {};
 }
 
-GameEngine::GameEngine(Map* gameMap, vector <Player*> gamePlayers){
+GameEngine::GameEngine(Map *gameMap, vector<Player *> gamePlayers)
+{
     this->state = "start";
     this->gameMap = gameMap;
     this->gamePlayers = gamePlayers;
@@ -70,7 +72,7 @@ std::ostream &operator<<(std::ostream &strm, const GameEngine &g)
     return strm << "current state is " << g.state << endl;
 }
 
-//setters
+// setters
 void GameEngine::setState(string st)
 {
     this->state = st;
@@ -86,7 +88,7 @@ void GameEngine::setPlayers(vector<Player *> gamePlayers)
     this->gamePlayers = gamePlayers;
 }
 
-//getters
+// getters
 string GameEngine::getState()
 {
     return state;
@@ -136,18 +138,19 @@ void GameEngine::assignReinforcement()
     cout << "assigning reinforcements..." << endl;
 }
 
-//takes user's input and creates an order depending on input
+// takes user's input and creates an order depending on input
 string GameEngine::issueOrders()
 {
     string type;
-    do{
-        cout<<"Enter your order: "<<endl;
-        cin>>type;
-        if(type!="bomb"&&type!="blockade"&&type!="airlift"&&type!="negotiate"&&type=="deploy"&&type!="advance") {
-            cout<<"invalid type. valid types: bomb, bloackade, airlift, negotiate, deploy, advance."<<endl;
+    do
+    {
+        cout << "Enter your order: " << endl;
+        cin >> type;
+        if (type != "bomb" && type != "blockade" && type != "airlift" && type != "negotiate" && type == "deploy" && type != "advance")
+        {
+            cout << "invalid type. valid types: bomb, bloackade, airlift, negotiate, deploy, advance." << endl;
         }
-    }
-    while(type!="bomb"&&type!="blockade"&&type!="airlift"&&type!="negotiate"&&type=="deploy"&&type!="advance");
+    } while (type != "bomb" && type != "blockade" && type != "airlift" && type != "negotiate" && type == "deploy" && type != "advance");
 
     return type;
 }
@@ -164,9 +167,11 @@ void GameEngine::win()
     cout << "you win." << endl;
 }
 
-//moves through the states depending on the user's command which will be passed to the function as a parameter
-void GameEngine::handleInput(std::string line) {
-    if (state == "start") {
+// moves through the states depending on the user's command which will be passed to the function as a parameter
+void GameEngine::handleInput(std::string line)
+{
+    if (state == "start")
+    {
         // State: start
         // valid inputs: loadmap
         if (line == "loadmap")
@@ -174,10 +179,14 @@ void GameEngine::handleInput(std::string line) {
             loadMap();
             cout << "Now in map loaded state. Valid input: loadmap, validatemap" << endl;
             state = "loadmap";
-        } else {
+        }
+        else
+        {
             cout << "Invalid command. Valid commands: loadmap" << endl;
         }
-    } else if (state == "loadmap") {
+    }
+    else if (state == "loadmap")
+    {
         // State: map loaded
         // Valid inputs: loadmap, validatemap
         if (line == "loadmap")
@@ -185,7 +194,9 @@ void GameEngine::handleInput(std::string line) {
             loadMap();
             cout << "Now in map loaded state. Valid input: loadmap, validatemap" << endl;
             state = "loadmap";
-        } else if (line == "validatemap") {
+        }
+        else if (line == "validatemap")
+        {
             validateMap();
             cout << "Map now validated, you are in validated state. Valid input: addplayer" << endl;
             state = "maploaded";
@@ -194,190 +205,207 @@ void GameEngine::handleInput(std::string line) {
         {
             cout << "Invalid command. Valid commands: loadmap, validatemap." << endl;
         }
-    } else if (state == "maploaded") {
+    }
+    else if (state == "maploaded")
+    {
         // State: map validated
         // Valid input: addplayer
         if (line == "addplayer")
         {
             addPlayers();
-             cout<<"you are now in players added state. Valid input: addplayer, assigncountries."<<endl;
-            
+            cout << "you are now in players added state. Valid input: addplayer, assigncountries." << endl;
+
             state = "playersadded";
-        
         }
         else
         {
             cout << "Invalid command. Valid command: addplayer" << endl;
         }
     }
-    //players added state
-    else if(state=="playersadded"){
-        //state: players added
-        //valid input: addplayer, assigncountries
-        if(line=="addplayer")
+    // players added state
+    else if (state == "playersadded")
+    {
+        // state: players added
+        // valid input: addplayer, assigncountries
+        if (line == "addplayer")
         {
             addPlayers();
-             cout<<"you are now in players added state. Valid input: addplayer, assigncountries."<<endl;
-             
+            cout << "you are now in players added state. Valid input: addplayer, assigncountries." << endl;
+
             state = "playersadded";
         }
         else if (line == "assigncountries")
         {
-             assignReinforcement();
-             cout<<"you are now in assign reinforcement state. Valid input: issueorder."<<endl;
-            
-            state="assignreinforcement";
-            
+            assignReinforcement();
+            cout << "you are now in assign reinforcement state. Valid input: issueorder." << endl;
+
+            state = "assignreinforcement";
         }
         else
             cout << "Invalid command. Valid commands: addplayer, assigncountries." << endl;
     }
     else
-    //the issue orders state
-    if(state=="assignreinforcement"){
-        //state assign reinforcement
-        //valid input: issueorder
-        if(line=="issueorder"){
-            issueOrders();
-            cout<<"you are now in the issue orders state. Valid input: issueorder, endissueorders."<<endl;
-            
-            state="issueorders";
-        }
-        else
-        cout<<"Invalid command. Valid command: issueorder. "<<endl;
-    }
-    else
-    //the issue orders state
-    if(state=="issueorders"){
-        if(line=="issueorder")
+        // the issue orders state
+        if (state == "assignreinforcement")
         {
-             issueOrders();
-             cout<<"you are now in the issue orders state. Valid input: issueorder, endissueorders."<<endl;
-           
-            state="issueorders";
+            // state assign reinforcement
+            // valid input: issueorder
+            if (line == "issueorder")
+            {
+                issueOrders();
+                cout << "you are now in the issue orders state. Valid input: issueorder, endissueorders." << endl;
+
+                state = "issueorders";
+            }
+            else
+                cout << "Invalid command. Valid command: issueorder. " << endl;
         }
         else
-        //the execute orders state
-        if(line=="endissueorders")
-        {
-            executeOrders();
-            cout<<"You are now in the execute orders state. Valid input: execorder, endexecorders, win."<<endl;
-        state="executeorders";
-            
-        }
-        
-        else
-        {
-            cout<<"Invalid input. valid commands: issueorder, endissueorders."<<endl;
-        }
-    }
-    else
-    //the execute orders state
-    if(state=="executeorders"){
-        if(line=="execorder"){
-            executeOrders();
-            cout<<"you are now in the execute orders state. valid input: execorder, endexecorders, win."<<endl;
-            state="executeorders";
-            
-        }
-        else
-        //assign reinforcement state
-        if(line=="endexecorders"){
-             assignReinforcement();
-            cout<<"you are now in assign reinforcement state. Valid input: issueorder."<<endl;
-           
-            state="assignreinforcement";
-        }
-        else
-        //the win state
-        if(line=="win")
-        {
-            win();
-            cout<<"you are now in the win state. valid input: end, play."<<endl;
-            state="win";
-        }
-        else{
-            cout<<"invalid command. valid input: execorder, endexecorders, win."<<endl;
-        }
-        
-    }
-    else
-    //pplay again or end the game
-    if(state=="win"){
-        if(line=="play")
-        {
-            
-            startMessage();
-            state="start";
-        }
-        else
-        if(line=="end")
-        {
-            cout<<"Game finishing..."<<endl;
-            state="end";
-        }
-        else
-        cout<<"Invalid command. valid commands: play, end."<<endl;
-        
-    }
+            // the issue orders state
+            if (state == "issueorders")
+            {
+                if (line == "issueorder")
+                {
+                    issueOrders();
+                    cout << "you are now in the issue orders state. Valid input: issueorder, endissueorders." << endl;
+
+                    state = "issueorders";
+                }
+                else
+                    // the execute orders state
+                    if (line == "endissueorders")
+                    {
+                        executeOrders();
+                        cout << "You are now in the execute orders state. Valid input: execorder, endexecorders, win." << endl;
+                        state = "executeorders";
+                    }
+
+                    else
+                    {
+                        cout << "Invalid input. valid commands: issueorder, endissueorders." << endl;
+                    }
+            }
+            else
+                // the execute orders state
+                if (state == "executeorders")
+                {
+                    if (line == "execorder")
+                    {
+                        executeOrders();
+                        cout << "you are now in the execute orders state. valid input: execorder, endexecorders, win." << endl;
+                        state = "executeorders";
+                    }
+                    else
+                        // assign reinforcement state
+                        if (line == "endexecorders")
+                        {
+                            assignReinforcement();
+                            cout << "you are now in assign reinforcement state. Valid input: issueorder." << endl;
+
+                            state = "assignreinforcement";
+                        }
+                        else
+                            // the win state
+                            if (line == "win")
+                            {
+                                win();
+                                cout << "you are now in the win state. valid input: end, play." << endl;
+                                state = "win";
+                            }
+                            else
+                            {
+                                cout << "invalid command. valid input: execorder, endexecorders, win." << endl;
+                            }
+                }
+                else
+                    // pplay again or end the game
+                    if (state == "win")
+                    {
+                        if (line == "play")
+                        {
+
+                            startMessage();
+                            state = "start";
+                        }
+                        else if (line == "end")
+                        {
+                            cout << "Game finishing..." << endl;
+                            state = "end";
+                        }
+                        else
+                            cout << "Invalid command. valid commands: play, end." << endl;
+                    }
 }
 
-//checks whether the final state has been reached or not
-bool GameEngine::finished() {
+// checks whether the final state has been reached or not
+bool GameEngine::finished()
+{
     return state == "end";
 }
 
-//A2 functions
-//Set the game engine to the correct state when called
-void GameEngine::transition(){
+// A2 functions
+// Set the game engine to the correct state when called
+void GameEngine::transition()
+{
     string current = this->getState();
 
-    if(current == "start"){
+    if (current == "start")
+    {
         this->setState("maploaded");
     }
-    if(current == "maploaded"){
+    if (current == "maploaded")
+    {
         this->setState("mapvalidated");
     }
-    if(current == "mapvalidated"){
+    if (current == "mapvalidated")
+    {
         this->setState("playersadded");
     }
-    if(current == "playersadded"){
+    if (current == "playersadded")
+    {
         this->setState("assignreinforcement");
     }
-    if(current == "assignreinforcement"){
+    if (current == "assignreinforcement")
+    {
         this->setState("issueorders");
     }
-    if(current == "issueorders"){
+    if (current == "issueorders")
+    {
         this->setState("executeorders");
     }
-    if(current == "executeorders"){
+    if (current == "executeorders")
+    {
         this->setState("win");
     }
-    if(current == "replay"){
+    if (current == "replay")
+    {
         this->setState("start");
     }
-    if(current == "quit"){
+    if (current == "quit")
+    {
         this->setState("end");
     }
 
     notify(this);
-
 }
 
-string GameEngine::stringToLog(){
+string GameEngine::stringToLog()
+{
     return string("The state has transitioned to ") + getState();
 }
 
-//reinforcementPhase(): provide each players with the appropriate army units number
-void GameEngine::reinforcementPhase(Player* p, Map* graph){
+// reinforcementPhase(): provide each players with the appropriate army units number
+void GameEngine::reinforcementPhase(Player *p, Map *graph)
+{
 
-    //change state from 'playersadded' to 'assignreinforcement'
+    // change state from 'playersadded' to 'assignreinforcement'
     this->setState("playersadded");
     this->transition();
 
-    //For each player, # army units = (# territories owned)/3, and min. 3 units
-    if(std::floor(p->get_trt().size()/3) <= 3){
-        p->set_armyUnit(p->get_armyUnit()+3);
+    // For each player, # army units = (# territories owned)/3, and min. 3 units
+    if (std::floor(p->get_trt().size() / 3) <= 3)
+    {
+        p->set_armyUnit(p->get_armyUnit() + 3);
     }
     else
     {
@@ -451,89 +479,100 @@ void GameEngine::reinforcementPhase(Player* p, Map* graph){
     std::cout << "Player " << p->get_name() << "'s total army units: " << p->get_armyUnit() << std::endl;
 }
 
-//issueOrdersPhase(): each player issue orders
-void GameEngine::issueOrdersPhase(vector<Player*> players){
-    //change state from 'assignreinforcement' to 'issueorders'
+// issueOrdersPhase(): each player issue orders
+void GameEngine::issueOrdersPhase(vector<Player *> players)
+{
+    // change state from 'assignreinforcement' to 'issueorders'
     this->setState("assignreinforcement");
     this->transition();
     // Execute issueOrder in a round-robin fashion
-    for(Player* p: players)
+    for (Player *p : players)
     {
         p->issueOrder();
     }
     cout << "All players have issued their orders. Now executing all player orders..." << endl;
 }
 
-//To TEST
-//executeOrdersPhase(): execute the top order on the list of orders of each player 
-bool GameEngine::executeOrdersPhase(){
-    //change state from 'issueorders' to 'executeorders'
+// To TEST
+// executeOrdersPhase(): execute the top order on the list of orders of each player
+bool GameEngine::executeOrdersPhase()
+{
+    // change state from 'issueorders' to 'executeorders'
     this->setState("issueorders");
     this->transition();
     bool winner = false;
     bool gameplay = true;
 
-    while(gameplay){
-        //for each player, execute one order
-        for (int i = 0; i<this->getPlayers().size(); i++){
-            std::cout<<"Current turn: "<<this->getPlayers().at(i)->get_name()<<std::endl;
+    while (gameplay)
+    {
+        // for each player, execute one order
+        for (int i = 0; i < this->getPlayers().size(); i++)
+        {
+            std::cout << "Current turn: " << this->getPlayers().at(i)->get_name() << std::endl;
 
-            //if the order list is empty
-            if(this->getPlayers().at(i)->get_olst()->getOrder().size() == 0){
-                std::cout<<"Player has no more order to execute.\nSkiping turn.\n\n";
+            // if the order list is empty
+            if (this->getPlayers().at(i)->get_olst()->getOrder().size() == 0)
+            {
+                std::cout << "Player has no more order to execute.\nSkiping turn.\n\n";
             }
-            //if the order list is not empty, execute the first order
-            else{
-                std::cout<<"Executing next order in the order list...\n";
+            // if the order list is not empty, execute the first order
+            else
+            {
+                std::cout << "Executing next order in the order list...\n";
                 this->getPlayers().at(i)->get_olst()->getOrder().at(0)->execute();
-                //once the order is executed, remove from the list
-                std::cout<<"Order executed and removed from the player's order list.\n\n";
+                // once the order is executed, remove from the list
+                std::cout << "Order executed and removed from the player's order list.\n\n";
                 this->getPlayers().at(i)->get_olst()->remove(this->getPlayers().at(i)->get_olst()->getOrder().at(0));
             }
 
-            //if any player of the game does not own any territories after executing current order, remove from the game
-            for (int i=0; i<this->getPlayers().size();i++){
-                //the removed player will be stored in a vector in case the players re-play the game at the end
-                if(this->getPlayers().at(i)->get_trt().size()==0){
-                    std::cout<<"Player "<<this->getPlayers().at(i)->get_name()<<" does not own any territories.\n";
+            // if any player of the game does not own any territories after executing current order, remove from the game
+            for (int i = 0; i < this->getPlayers().size(); i++)
+            {
+                // the removed player will be stored in a vector in case the players re-play the game at the end
+                if (this->getPlayers().at(i)->get_trt().size() == 0)
+                {
+                    std::cout << "Player " << this->getPlayers().at(i)->get_name() << " does not own any territories.\n";
                     this->getRemovedPlayers().push_back(this->getPlayers().at(i));
-                    //remove player from the active game player list
-                    vector <Player*>::iterator it;
-                    it = remove(this->getPlayers().begin(),this->getPlayers().end(), this->getPlayers().at(i));
-                    std::cout<<"Player "<<this->getPlayers().at(i)->get_name()<<" is removed from current game.\n";
+                    // remove player from the active game player list
+                    vector<Player *>::iterator it;
+                    it = remove(this->getPlayers().begin(), this->getPlayers().end(), this->getPlayers().at(i));
+                    std::cout << "Player " << this->getPlayers().at(i)->get_name() << " is removed from current game.\n";
                 }
             }
 
-            //if a player owns all territories of the map after executing order, stop the gameplay
-            if (this->getPlayers().at(i)->get_trt().size()==this->getMap()->territories.size()){
+            // if a player owns all territories of the map after executing order, stop the gameplay
+            if (this->getPlayers().at(i)->get_trt().size() == this->getMap()->territories.size())
+            {
                 winner = true;
                 gameplay = false;
-                std::cout<<"Player now owns all the territories of the game map.\n\n";
+                std::cout << "Player now owns all the territories of the game map.\n\n";
                 break;
             }
-            //if the player does not own all the territories of the map after executing order, continue to the next player
-            else{
+            // if the player does not own all the territories of the map after executing order, continue to the next player
+            else
+            {
                 winner = false;
                 gameplay = true;
             }
 
-            //verify if all players finished executing orders and finish this game play
+            // verify if all players finished executing orders and finish this game play
             int count = 0;
-            for (int i = 0; i<this->getPlayers().size(); i++){
-                if(this->getPlayers().at(i)->get_olst()->getOrder().size() == 0){
+            for (int i = 0; i < this->getPlayers().size(); i++)
+            {
+                if (this->getPlayers().at(i)->get_olst()->getOrder().size() == 0)
+                {
                     count++;
                 }
             }
-            if(count==this->getPlayers().size()){
+            if (count == this->getPlayers().size())
+            {
                 gameplay = false;
             }
-        }//end of for
-    }//end of while
+        } // end of for
+    }     // end of while
 
-
-    //let the main game loop know if there is a winner
+    // let the main game loop know if there is a winner
     return winner;
-
 }
 
 // mainGameLoop(): calling 3 phases
@@ -552,10 +591,12 @@ bool GameEngine::mainGameLoop(std::vector<Player *> players, Map *graph)
         {
             winner = true;
             winPlayer = p->get_name();
-            if(this->getState() == "executeorders"){
+            if (this->getState() == "executeorders")
+            {
                 this->transition();
             }
-            else{
+            else
+            {
                 this->setState("executeorders");
                 this->transition();
             }
@@ -592,15 +633,15 @@ bool GameEngine::mainGameLoop(std::vector<Player *> players, Map *graph)
         issueOrdersPhase(gamePlayers);
         std::cout << "\n<<<issue order phase complete>>>\n";
 
-        //Phase 3: execute Orders --> call executeOrdersPhase() in round-robin
+        // Phase 3: execute Orders --> call executeOrdersPhase() in round-robin
         finished = executeOrdersPhase();
 
-        //to test if everything's working
-        //TO REMOVE when Phase 3 is complete to test the loop
-        finished=true;
+        // to test if everything's working
+        // TO REMOVE when Phase 3 is complete to test the loop
+        finished = true;
     }
 
-    //once removed, replace finished with winner so main game loop is finished when there is a winner
+    // once removed, replace finished with winner so main game loop is finished when there is a winner
     return finished;
 }
 
@@ -665,12 +706,13 @@ void GameEngine::startupPhase(CommandProcessor *cp)
         if (command.find("loadmap") != std::string::npos)
         {
             nameMapSaver[0] = 0;
-            cp->saveCommand(command);
+            Command *c = new Command(command, "");
             for (auto name : nameOfMaps)
             {
                 if (command.find(name) != std::string::npos)
                 {
-                    cp->playegame(command);
+                    cp->playegame(c);
+                    cp->saveCommand(c);
                     strcat(mapPath, name);
                     strcat(nameMapSaver, name);
                     truemap = true;
@@ -691,13 +733,10 @@ void GameEngine::startupPhase(CommandProcessor *cp)
         else if (command == "validatemap" && cp->get_state() == "maploaded")
         {
             cout << cp->get_state() << endl;
-            cp->saveCommand(command);
+            Command *c = new Command(command, "");
+            cp->saveCommand(c);
             strcat(mapPath, nameMapSaver);
             gameMap = loader->loadMap(mapPath);
-            // for (auto i : gameMap3->territories)
-            // {
-            //     std::cout << i;
-            // }
             std::cout << gameMap->TerritoryNb;
             std::cout << mapPath;
             std::cout << gameMap->territories.size() << endl;
@@ -712,15 +751,16 @@ void GameEngine::startupPhase(CommandProcessor *cp)
             else
             {
                 cout << "\n";
-                cp->playegame(command);
-                cp->saveCommand(command);
+                cp->playegame(c);
                 command = "";
                 break;
             }
         }
         else
         {
-            cp->playegame(command);
+            Command *c = new Command(command, "");
+            cp->playegame(c);
+            cp->saveCommand(c);
         }
     }
     std::shuffle(gameMap->territories.begin(), gameMap->territories.end(), std::random_device());
@@ -733,8 +773,9 @@ void GameEngine::startupPhase(CommandProcessor *cp)
         Deck *deck = new Deck();
         if (command.find("addplayer") != std::string::npos)
         {
-            cp->playegame(command);
-            cp->saveCommand(command);
+            Command *c = new Command(command, "");
+            cp->playegame(c);
+            cp->saveCommand(c);
             string nameOfPlayer;
 
             std::stringstream ss(command);
@@ -755,14 +796,16 @@ void GameEngine::startupPhase(CommandProcessor *cp)
         }
         else if (command == "gamestart")
         {
-            cp->saveCommand(command);
+            Command *c = new Command(command, "");
+            cp->saveCommand(c);
             command = "";
             break;
         }
         else
         {
+            Command *c = new Command(command, "");
+            cp->playegame(c);
             command = "";
-            cp->playegame(command);
         }
     }
 
