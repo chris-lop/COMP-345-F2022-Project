@@ -434,10 +434,11 @@ void GameEngine::issueOrdersPhase(vector<Player*> players){
         }
         
         // Ask if players want to issue more orders
-        bool issueMoreOrders = (rand() % 100) < 80;
+        bool issueMoreOrders = (rand() % 100) < 60;
 
         if (!issueMoreOrders)
         {
+            cout << "Players have decided not to issue more orders" << endl;
             break;
         }
     }
