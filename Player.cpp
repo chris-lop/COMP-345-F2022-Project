@@ -49,6 +49,7 @@ Player::Player(std::string name, std::vector<Territory *> trt, Hand *h, OrdersLi
     this->army_unit = army_unit;
 }
 
+
 // Destructor
 Player::~Player()
 {
@@ -56,8 +57,12 @@ Player::~Player()
     {
         delete (t);
     }
-    delete h;
-    delete olst;
+    if (h) {
+        delete h;
+    }
+    if (olst) {
+        delete olst;
+    }
 }
 
 // Copy constructor
@@ -317,10 +322,10 @@ void Player::issueOrder()
         else
         {
             // Boolean variable to check if player possesses airlift card
-            bool hasAirlift;
-            bool hasBomb;
-            bool hasBlockade;
-            bool hasdiplomacy;
+            bool hasAirlift = false;
+            bool hasBomb = false;
+            bool hasBlockade = false;
+            bool hasdiplomacy = false;
             
             // Check through a player's hand and check if he has order cards
             for (Card* c : this->get_Phand()->cardList())

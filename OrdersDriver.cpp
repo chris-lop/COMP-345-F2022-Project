@@ -1,6 +1,9 @@
 #include <iostream> 
-#include "Orders.h"
 #include <algorithm>
+#include "Orders.h"
+#include "Player.h"
+#include "Cards.h"
+#include "GameEngine.h"
 
 using std::cout;
 using std::endl;
@@ -68,8 +71,8 @@ void testOrderExecution() {
     cout << "Advance 4 (from territory1 to territory 3, Chris moves 5 units): " << advT3->validate() << "\n";
     cout << "# Executing an advance order that results in a movement of units #\n";
     advT5->execute();
-    cout << "# Executing an advance order that results in an attack #\n";
-    advT1->execute();
+    //cout << "# Executing an advance order that results in an attack #\n";
+    //advT1->execute();
     cout << "Current State of territories after execution of advance orders:" << endl;
     cout << "Territory 1: " << *territory1 << " Territory 2: " << *territory2 << " Territory 3: " << *territory3 << " Territory 4: " << *territory4 <<  "\n";
 
@@ -174,8 +177,42 @@ void testOrderExecution() {
    delete n2; delete n3;
    delete deployT1; delete deployT2; delete deployT1_units;
 
-   delete territory1; delete territory2; delete territory3; delete territory4;
+   delete player1; delete player2;
    delete advT1; delete advT2; delete advT3; delete advT4; delete advT5;
    delete bmbT1; delete bmbT2; delete bmbT3;
    delete blockade1; delete blockade2;
+
+
+    cout << "\n########## TESTING ORDERS WITH GAME ENGINE ##########" <<"\n";
+    /*
+        This is re-setting up the territories from above
+    */
+    territory1 = new Territory(new string("territory1"), new string("continent1"), vector<Territory*>{}, nullptr, new int(5));
+    territory2 = new Territory(new string("territory2"), new string("continent1"), vector<Territory*>{}, nullptr, new int(5));
+    territory3 = new Territory(new string("territory3"), new string("continent1"), vector<Territory*>{}, nullptr, new int(5));
+    territory4 = new Territory(new string("territory4"), new string("continent1"), vector<Territory*>{}, nullptr, new int(5));
+    territory1->setAdjTerritories(vector<Territory*> {territory2});
+    territory2->setAdjTerritories(vector<Territory*> {territory1, territory3, territory4});
+    territory3->setAdjTerritories(vector<Territory*> {territory2});
+    territory4->setAdjTerritories(vector<Territory*> {territory2});
+    Hand *hand1 = new Hand();
+    Hand *hand2 = new Hand();
+    OrdersList *o1 = new OrdersList(), *o2 = new OrdersList();
+    player1 = new Player("Chris", {territory1, territory3}, hand1, o1);
+    player2 = new Player("Marc", {territory2, territory4}, hand2, o2);
+    player1->set_armyUnit(3); player2->set_armyUnit(3);
+    territory1->setTerritoryOwner(player1);
+    territory2->setTerritoryOwner(player2);
+    territory3->setTerritoryOwner(player1);
+    territory4->setTerritoryOwner(player2);
+    
+    Map *map = new Map();
+    map->territories = vector<Territory*> {territory1, territory2, territory3, territory4};
+    GameEngine *engine = new GameEngine(map, vector<Player*> {player1, player2});
+    cout << "------ Testing Deploy ------\n";
+    engine->issueOrdersPhase(vector<Player*>{player1, player2});
+    engine->executeOrdersPhase();
+
+
+    delete player1; delete player2;
 }
