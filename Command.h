@@ -4,22 +4,21 @@
 #include <vector>
 #include<string>
 #include "LoggingObserver.h"
-using std::vector;
 using std::string;
 
-class ILoggable;
-class Subject;
-class Command;
+// class ILoggable;
+// class Subject;
+// class Command;
 
-class Command : public ILoggable, public Subject{
+class Command {
 public:
-    std::vector <string*> command;
-    std::vector<string*> effect;
+    string command;
+    string effect;
 
     void saveEffect(string effect);
 
     //constructors
-    Command(std::vector<string*> command, std::vector<string*> effect);
+    Command(string command, string effect);
 
     //default constructor
     Command();
@@ -27,11 +26,15 @@ public:
     //destructor
     ~Command();
 
+    //getters
+    string getCommand();
+    string getEffect();
+
    
     friend std::ostream& operator << (std::ostream& strm, const Command& c);
 
     // ILoggable method
-    std::string stringToLog();
+    // std::string stringToLog();
 
 };
 #endif

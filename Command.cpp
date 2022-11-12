@@ -2,9 +2,8 @@
 #include "Command.h"
 #include <string>
 #include <iostream>
-using namespace std;
-using std::vector;
 using std::string;
+using std::endl;
 
 
 //constructors
@@ -14,38 +13,34 @@ Command::Command(){
     this->effect={};
 }
 
-Command::Command(std::vector<string*>command, std::vector<string*> effect){
+Command::Command(string command, string effect){
     this->command=command;
     this->effect=effect;
 }
 
 //destructor
 Command::~Command(){
-for(string* s:effect){
-delete(s);
-}
-for(string* c:command){
-    delete(c);
-}
 
 }
 
 
 //stream operators
 std::ostream& operator<<(std::ostream &strm, const Command &c){
- strm<<"the saved effects are:"<<std::endl;
-   for(string* s:c.effect){
-        strm<<*(s)<<endl;
-    }
-   
+    strm << "The  command and its effect are " << c.command <<" and " <<  c.effect << endl;
     return strm;
 
 }
 
+string Command::getCommand(){
+    return this->command;
+}
+
+string Command::getEffect(){
+    return this->effect;
+}
 
 
 //saves effect of the command to the vector of strings
 void Command::saveEffect(string eff){
-
-    effect.push_back(new string(eff));
+    this->effect = eff;
 }

@@ -13,34 +13,34 @@ class Subject;
 class CommandProcessor;
 class Command;
 
-class CommandProcessor : public ILoggable, public Subject
+class CommandProcessor //: public ILoggable, public Subject
 {
 private:
-    Command *c;
+    vector <Command*> commands;
     string state;
     // declared virtual so that inheritance applies to it
-    virtual void readCommand();
+    virtual Command readCommand();
     bool done;
     bool valid;
 
 public:
-    vector<string *> getCommand();
+   Command getCommand();
     void start();
     void startMessage();
-    bool playegame(string line);
+    bool playegame(Command* command);
     // getters
-    Command *get_c();
     bool getvalid();
+    vector<Command*> getterCommands();
     string get_state();
 
     // setter
     void set_state(string line);
 
-    string validate(string command);
-    void saveCommand(string command);
+    string validate(Command* c);
+    void saveCommand(Command* command);
     CommandProcessor();
     virtual ~CommandProcessor();
     // ILoggable method
-    std::string stringToLog();
+    // std::string stringToLog();
 };
 #endif
