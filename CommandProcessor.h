@@ -6,7 +6,7 @@
 #include <string>
 #include <vector>
 using namespace std;
-class CommandProcessor
+class CommandProcessor : public ILoggable, public Subject
 {
 private:
     Command *c;

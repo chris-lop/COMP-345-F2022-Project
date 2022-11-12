@@ -5,7 +5,7 @@
 #include<string>
 using std::vector;
 using std::string;
-class Command{
+class Command : public ILoggable, public Subject{
 public:
     std::vector <string*> command;
     std::vector<string*> effect;

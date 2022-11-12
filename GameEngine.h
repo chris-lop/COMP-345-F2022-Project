@@ -9,7 +9,7 @@
 #include <string>
 class Order;
 
-class GameEngine
+class GameEngine : public ILoggable, public Subject
 {
 private:
     string state;
