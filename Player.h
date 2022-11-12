@@ -9,55 +9,56 @@ class Order;
 class Territory;
 class Hand;
 
-class Player {
+class Player
+{
 private:
-    //player name
+    // player name
     std::string name;
-    //list of territories owned by the player
-    std::vector <Territory*> trt;
-    //hand of cards owned by the player
-    Hand* h;
-    //list of orders by the player
-    OrdersList* olst;
-    //number of army units owned
+    // list of territories owned by the player
+    std::vector<Territory *> trt;
+    // hand of cards owned by the player
+    Hand *h;
+    // list of orders by the player
+    OrdersList *olst;
+    // number of army units owned
     int army_unit;
     // List of players this player has a negotiation with
     // (and cannot attack for the remainder of the turn)
     // Reset when army units added to the reinforcement
     // pool, at the start of the turn
-    std::vector<Player*> negotiatedPlayers;
+    std::vector<Player *> negotiatedPlayers;
 
 public:
-    //default constructor
+    // default constructor
     Player();
-    //destructor
+    // destructor
     ~Player();
 
-    //constructor with name parameter only
+    // constructor with name parameter only
     Player(std::string name);
-    //constructor without reinforcement pool
-    Player(std::string name, std::vector<Territory*> trt, Hand* h, OrdersList* olst);
-    //constructor with all parameters
-    Player(std::string name, std::vector<Territory*> trt, Hand* h, OrdersList* olst, int army_unit);
-    //copy constructor
-    Player (const Player& p1);
+    // constructor without reinforcement pool
+    Player(std::string name, std::vector<Territory *> trt, Hand *h, OrdersList *olst);
+    // constructor with all parameters
+    Player(std::string name, std::vector<Territory *> trt, Hand *h, OrdersList *olst, int army_unit);
+    // copy constructor
+    Player(const Player &p1);
 
-    //stream insertion operator
-    friend std::ostream& operator << (std::ostream& strm, const Player& p);
-    friend std::istream& operator >> (std::istream& in, Player& p);
+    // stream insertion operator
+    friend std::ostream &operator<<(std::ostream &strm, const Player &p);
+    friend std::istream &operator>>(std::istream &in, Player &p);
 
-    //getter functions
+    // getter functions
     std::string get_name();
-    std::vector <Territory*> get_trt();
-    OrdersList* get_olst();
-    Hand* get_Phand();
+    std::vector<Territory *> get_trt();
+    OrdersList *get_olst();
+    Hand *get_Phand();
     int get_armyUnit();
 
-    //setter functions
+    // setter functions
     void set_Pname(std::string name);
-    void set_Trt(std::vector<Territory*>trt);
-    void set_Olst(OrdersList* olst);
-    void set_Player_Hand(Hand* h);
+    void set_Trt(std::vector<Territory *> trt);
+    void set_Olst(OrdersList *olst);
+    void set_Player_Hand(Hand *h);
     void set_armyUnit(int army_unit);
     
     //methods to implement for assignment 1
@@ -73,10 +74,12 @@ public:
     void addNegotiatedPlayer(Player *p);
     // Checks if this player has a negotiation with the other
     bool hasNegotiationWith(Player *o);
-};//end class Player
+}; // end class Player
 
-//free function testPlayer
-// void testPlayer();
+// free function testPlayer
+//  void testPlayer();
 
+// free function testPlayer
+//  void testPlayer();
 
 #endif

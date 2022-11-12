@@ -15,9 +15,10 @@ void testLoadMaps()
     auto graph = ml->loadMap("./3D.map");
     auto graph1 = ml1->loadMap("./Mongol Empire 1294.map");
     auto graph2 = ml2->loadMap("./_22_ PAC-MAN.map");
-    
+
     // CHECK for map validity
-    if (graph->territories.size() == 0) {
+    if (graph->territories.size() == 0)
+    {
         std::cerr << "### ERROR ###\nNo territories loaded from file\n";
         return;
     }

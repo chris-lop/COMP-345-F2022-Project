@@ -48,7 +48,6 @@ Territory &Territory::operator=(const Territory &territory)
     this->continent = territory.continent;
     this->territoryOwner = territory.territoryOwner;
     this->armyAmount = territory.armyAmount;
-    this->AdjTerritories = territory.AdjTerritories;
     return *this;
 }
 
@@ -56,7 +55,6 @@ Territory &Territory::operator=(const Territory &territory)
 Territory::~Territory()
 {
     territoryOwner = NULL;
-
 }
 
 // Getter for TerritoryName
@@ -104,22 +102,25 @@ int *Territory::getArmy()
 // Setter for Army
 void Territory::setArmy(int *newAmount)
 {
-    *this->armyAmount = *newAmount;
+    this->armyAmount = newAmount;
 }
 
-//Getter for adjacent Territories
-vector<Territory *> Territory::getAdjTerritories() {
+// Getter for adjacent Territories
+vector<Territory *> Territory::getAdjTerritories()
+{
     return AdjTerritories;
 }
 
-//Setter for adjacent Territories
-void Territory::setAdjTerritories(vector<Territory *> newAdjacent) {
+// Setter for adjacent Territories
+void Territory::setAdjTerritories(vector<Territory *> newAdjacent)
+{
     AdjTerritories = newAdjacent;
 }
 
 // operator<<
-ostream& operator<<(ostream& strm, const Territory& territory) {
-        strm << "Name: " << *(territory.TerritoryName)
+ostream &operator<<(ostream &strm, const Territory &territory)
+{
+    strm << "Name: " << *(territory.TerritoryName)
          << "| Continent: " << *(territory.continent) << " "
          << "| Owner: " << territory.territoryOwner->get_name() << " "
          << "| Army: " << *(territory.armyAmount)
@@ -131,7 +132,7 @@ ostream& operator<<(ostream& strm, const Territory& territory) {
     }
     strm << "\n"
          << endl;
-    return strm;    
+    return strm;
 }
 
 // ------------------------ //
@@ -157,7 +158,7 @@ Map::Map(const Map *map)
 }
 
 // Assignment Operator
-Map& Map::operator=(const Map& map)
+Map &Map::operator=(const Map &map)
 {
     this->TerritoryNb = map.TerritoryNb;
     return *this;
@@ -166,19 +167,19 @@ Map& Map::operator=(const Map& map)
 // Destructor
 Map::~Map()
 {
-    //the map loader deletes territories
+    // the map loader deletes territories
 }
 
-//search method to find index of the territory in the territory vector
+// search method to find index of the territory in the territory vector
 int searchResult(std::vector<Territory *> tList, Territory t)
 {
     int index = -1;
     for (int i = 0; i < tList.size(); i++)
-    {   
+    {
         string s1 = *tList[i]->getTerritoryName();
         string s2 = *t.getTerritoryName();
 
-        if (s1 ==  s2)
+        if (s1 == s2)
         {
             index = i;
             break;
@@ -187,9 +188,10 @@ int searchResult(std::vector<Territory *> tList, Territory t)
     return index;
 }
 
-//validate  method to validate map
-void Map::validate(vector<Territory *> territories)
+// validate  method to validate map
+bool Map::validate(vector<Territory *> territories)
 {
+    bool valide = true;
     cout << "Now Verifying Map validity... \n";
 
     //----------------------------//
@@ -207,16 +209,16 @@ void Map::validate(vector<Territory *> territories)
     // Set node at index 0 as visited and enqueue it into queue
     visited[0] = true;
     queue.push_back(*territories[0]);
-    
+
     // Start of BFS
-    while(!queue.empty())
+    while (!queue.empty())
     {
         // Dequeue territory from queue
         Territory t = queue.front();
         queue.pop_front();
 
         // Get all adjacent territories of the dequeued territory t. If a adjacent has not been visited, then mark it visited and enqueue it
-        for (auto adjacent: t.AdjTerritories)
+        for (auto adjacent : t.AdjTerritories)
         {
             int index = searchResult(territories, adjacent);
             if (!visited[index])
@@ -244,6 +246,7 @@ void Map::validate(vector<Territory *> territories)
     }
     else
     {
+        valide = false;
         cout << "Map is NOT a connected graph!\n";
     }
 
@@ -264,11 +267,10 @@ void Map::validate(vector<Territory *> territories)
     }
 
     // Insert each continent along with its number of territories in a <string, int> vector
-    for(multimap<string,int>::iterator it = continents.begin(), end = continents.end(); it != end; it = continents.upper_bound(it->first))
+    for (multimap<string, int>::iterator it = continents.begin(), end = continents.end(); it != end; it = continents.upper_bound(it->first))
     {
         continentList.insert(pair<string, int>(it->first, continents.count(it->first)));
     }
-
 
     // Create visited2 vector and mark all the territories as not visited
     vector<bool> visited2;
@@ -278,17 +280,19 @@ void Map::validate(vector<Territory *> territories)
     int ctr2;
 
     // Create a Territory ptr to point to starting territory for BFS
-    Territory* startingTerritory;
+    Territory *startingTerritory;
 
     // Start of Check for Validation of #2
 
     // For each unique continent...
-    for (auto pair : continentList) {
+    for (auto pair : continentList)
+    {
         // Resize visited2 vector to number of territories in map
         visited2.resize(territories.size(), false);
 
         // Set all values in visited2 to false
-        for (auto i : visited2) {
+        for (auto i : visited2)
+        {
             i = false;
         }
 
@@ -313,14 +317,14 @@ void Map::validate(vector<Territory *> territories)
         queue2.push_back(*startingTerritory);
 
         // Start of BFS
-        while(!queue2.empty())
+        while (!queue2.empty())
         {
             // Dequeue territory from queue
             Territory t = queue2.front();
             queue2.pop_front();
 
             // Get all adjacent territories of the dequeued territory t. If a adjacent has not been visited, then mark it visited and enqueue it
-            for (auto adjacent: t.AdjTerritories)
+            for (auto adjacent : t.AdjTerritories)
             {
                 if (*adjacent->getContinent() == currentContinent)
                 {
@@ -351,10 +355,11 @@ void Map::validate(vector<Territory *> territories)
         }
         else
         {
+            valide = false;
             cout << "Continent " << currentContinent << " is NOT a connected subgraph!\n";
         }
     }
-    
+
     //----------------------------//
     // VERIFYING CONDITION #3     //
     //----------------------------//
@@ -362,13 +367,13 @@ void Map::validate(vector<Territory *> territories)
     // Set all values in visited2 to false and set ctr2 to 0
     for (auto i : visited2)
     {
-            i = false;
+        i = false;
     }
 
     ctr2 = 0;
 
     // For each territory, check they are only pointing to one and only one continent
-    for (int j = 0; j<territories.size(); j++)
+    for (int j = 0; j < territories.size(); j++)
     {
         string aContinent = *territories[j]->getContinent();
         if (!aContinent.empty())
@@ -393,8 +398,10 @@ void Map::validate(vector<Territory *> territories)
     }
     else
     {
+        valide = false;
         cout << "Each territory DOES NOT belong to one and only one continent! \n";
     }
+    return valide;
 }
 
 // Default constructor
@@ -403,25 +410,16 @@ MapLoader::MapLoader()
     // this->Territories = vector<Territory>{};
 }
 
-// Remove trailing '\r' in a string, if it
-// exists
-void remove_r(string& s) {
-    size_t r_pos = s.find_last_of('\r');
-    if (r_pos != string::npos) {
-        s.erase(r_pos);
-    }
-}
-
 /**
  * @brief Loads a map from the specified file
- * 
+ *
  * @param path Path of file to load
  * @return Map* A Map of the file. This is empty
  * if some error occured while loading the map.
  */
-Map* MapLoader::loadMap(string path)
+Map *MapLoader::loadMap(string path)
 {
-    
+
     unordered_map<string, string *> umapContinents;
 
     string line;
@@ -438,17 +436,16 @@ Map* MapLoader::loadMap(string path)
         }
         // This loop checks that the file contains a [Continents] and [Territories] line
         bool checkContinents = false, checkTerritories = false;
-        while (getline(file,line))
+        while (getline(file, line))
         {
-            if (line.find("[Continents]")!=string::npos)
+            if (line.find("[Continents]") != string::npos)
             {
                 checkContinents = true;
             }
-            if (line.find("[Territories]")!=string::npos)
+            if (line.find("[Territories]") != string::npos)
             {
                 checkTerritories = true;
             }
-
         }
         if (checkContinents == false)
         {
@@ -459,7 +456,7 @@ Map* MapLoader::loadMap(string path)
             throw "Error invalid file: No Territories";
         }
     }
-    catch (char const* err)
+    catch (char const *err)
     {
         std::cerr << err << endl;
         // Return an empty map on error
@@ -471,40 +468,33 @@ Map* MapLoader::loadMap(string path)
     file.open(path);
     while (getline(file, line))
     {
-        // Remove trailing \r
-        remove_r(line);
-
         if (line.find("[Continents]") != std::string::npos)
         {
-            // Iterate through Continent declarations and add them to continent vector until Territories section is found
-            while (getline(file, line))
-            {   
-                // Remove trailing \r
-                remove_r(line);
+            // Iterate through Continent declarations and add them to continent vector until Territories section is found while (getline(file, line))
+            // {
+            //     // Territories section is found, break out of loop
+            //     if (line.find("[Territories]") != std::string::npos)
+            //     {
+            //         break;
+            //     }
 
-                // Territories section is found, break out of loop
-                if (line.find("[Territories]") != std::string::npos)
-                {
-                    break;
-                }
+            //     // If line is empty, skip it
+            //     if (line.length() == 0)
+            //     {
+            //         continue;
+            //     }
+            //     // Parsing continents into two variables (continentName & bonusValue)
+            //     string continentDelimiter = "=";
+            //     string continentName = line.substr(0, line.find(continentDelimiter));
+            //     string x = line.substr(line.find(continentDelimiter) + 1, line.length());
+            //     int bonusValue = stoi(line.substr(line.find(continentDelimiter) + 1, line.length()));
 
-                // If line is empty, skip it
-                if (line.length() == 0)
-                {
-                    continue;
-                }
+            //     std::cout << "CONTINENT PARSING" << std::endl;
+            //     std::cout << continentName << " " << bonusValue << std::endl;
 
-                // Parsing continents into two variables (continentName & bonusValue)
-                string continentDelimiter = "=";
-                string continentName = line.substr(0, line.find(continentDelimiter));
-                int bonusValue = stoi(line.substr(line.find(continentDelimiter)+1, line.length()));
-
-                std::cout << "CONTINENT PARSING" << std::endl;
-                std::cout << continentName << " " << bonusValue << std::endl;
-
-                // Add value to its corresponding continent in map
-                continentsList.insert({continentName, bonusValue});
-            }
+            //     // Add value to its corresponding continent in map
+            //     continentsList.insert({continentName, bonusValue});
+            // }
         }
         if (line.find("[Territories]") != std::string::npos)
         {
@@ -512,10 +502,7 @@ Map* MapLoader::loadMap(string path)
             // So get lines until EOF
             while (getline(file, line))
             {
-                // Remove trailing \r
-                remove_r(line);
-                
-		vector<string> territory;
+                vector<string> territory;
 
                 cout << "\n";
                 string delim = ",";
@@ -592,7 +579,7 @@ Map* MapLoader::loadMap(string path)
             }
         }
     }
-
+    file.close();
     // Set each territory's continent
     for (auto territory : territories)
     {
@@ -608,7 +595,8 @@ Map* MapLoader::loadMap(string path)
 // Destructor
 MapLoader::~MapLoader()
 {
-    for(auto& i:umap){
+    for (auto &i : umap)
+    {
         delete i.second;
     }
 }
