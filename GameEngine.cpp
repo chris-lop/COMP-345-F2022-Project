@@ -575,7 +575,8 @@ bool GameEngine::executeOrdersPhase(){
                     this->getRemovedPlayers().push_back(this->getPlayers().at(i));
                     //remove player from the active game player list
                     vector <Player*>::iterator it;
-                    it = remove(this->getPlayers().begin(),this->getPlayers().end(), this->getPlayers().at(i));
+                    it = this->getPlayers().begin()+i;
+                    this->getPlayers().erase(it);
                     std::cout<<"Player "<<this->getPlayers().at(i)->get_name()<<" is removed from current game.\n";
                 }
             }
@@ -584,7 +585,7 @@ bool GameEngine::executeOrdersPhase(){
             if (this->getPlayers().at(i)->get_trt().size()==this->getMap()->territories.size()){
                 winner = true;
                 gameplay = false;
-                std::cout<<"Player now owns all the territories of the game map.\n\n";
+                std::cout<<"\nPlayer "<<this->getPlayers().at(i)->get_name()<<" now owns all the territories of the game map.\n\n";
                 break;
             }
             //if the player does not own all the territories of the map after executing order, continue to the next player

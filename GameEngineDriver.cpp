@@ -59,12 +59,14 @@ void testMainGameLoop(){
     //assign territories to player
     vector <Territory*> p1_trt;
     vector <Territory*> p2_trt;
-    for(int i=0; i<3; i++){
+    //assign random number of territories each time
+    int rdm_trt_num = 1+(rand()%(gameMap->territories.size()-1));
+    for(int i=0; i<rdm_trt_num; i++){
         Territory* t = gameMap->territories.at(i);
         t -> setTerritoryOwner(p1);
         p1_trt.push_back(t);
     }
-    for(int i=5; i<gameMap->territories.size(); i++){
+    for(int i=rdm_trt_num; i<gameMap->territories.size(); i++){
         Territory* t = gameMap->territories.at(i);
         t -> setTerritoryOwner(p2);
         p2_trt.push_back(t);
