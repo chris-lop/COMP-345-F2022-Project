@@ -222,13 +222,24 @@ void Player::issueOrder()
     // Variable to keep track of reinforcement
     int deployed_units = 0;
 
+    for (Order* o : this->get_olst()->getOrder())
+    {
+        // If this order is of type Deploy
+        if (o->getType() == "Deploy" || o->getType() == "deploy")
+        {
+            // Increment deployed_units
+            Deploy *d = (Deploy *) o;
+            deployed_units = deployed_units+d->getNumberUnits();
+        }
+    }
+
     // Vector to keep track of issued orders
     vector <string> issued_orders;
 
     while (true)
     {
         // If reinforcement pool of player isn't empty, player can only use Deploy orders
-        if (this->get_armyUnit()-deployed_units != 0)
+        if (!(this->get_armyUnit()-deployed_units <= 0))
         {            
             // Saving player's defendable territories using toDefend() method
             vector <Territory*> trt_defend = this->toDefend();
@@ -320,7 +331,7 @@ void Player::issueOrder()
             // If player has blockade card, player has 15% chance to use it during a turn
             if (hasBlockade)
             {
-                if (((rand() % 100) < 15) && this->get_trt().size()>1)
+                if (((rand() % 100) < 0) && this->get_trt().size()>1)
                 {
                     order_option = 4;
                 }
@@ -580,17 +591,14 @@ void Player::issueOrder()
             }
         }
 
-        // Break out of outter while loop if there are more than 1 orders in issued_orders vector
-        if (issued_orders.size() > (rand() % 5+1))
+        // Print issued orders    
+        for (string s : issued_orders)
         {
-            // Print issued orders    
-            for (string s : issued_orders)
-            {
-                cout << s << endl;
-            }
-            
-            cout << endl;
-            break;
+            cout << s << endl;
         }
+        
+        cout << endl;
+        break;
+
     }
 }

@@ -128,6 +128,8 @@ public:
     void execute();
     // Clone method, required for the copy constructor
     virtual Order* clone();
+    // Get numberUnits
+    int getNumberUnits();
 private:
     Territory *target;
     Player *player;
