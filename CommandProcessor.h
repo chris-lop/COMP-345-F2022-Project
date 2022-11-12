@@ -5,7 +5,14 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include "LoggingObserver.h"
 using namespace std;
+
+class ILoggable;
+class Subject;
+class CommandProcessor;
+class Command;
+
 class CommandProcessor : public ILoggable, public Subject
 {
 private:
@@ -33,5 +40,7 @@ public:
     void saveCommand(string command);
     CommandProcessor();
     virtual ~CommandProcessor();
+    // ILoggable method
+    std::string stringToLog();
 };
 #endif

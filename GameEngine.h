@@ -6,8 +6,11 @@
 #include "Player.h"
 #include "Map.h"
 #include "CommandProcessor.h"
+#include "LoggingObserver.h"
 #include <string>
 class Order;
+class ILoggable;
+class Subject;
 
 class GameEngine : public ILoggable, public Subject
 {
@@ -97,6 +100,9 @@ public:
 
     // startup phase
     void startupPhase(CommandProcessor *cp);
+
+    // ILoggable method
+    std::string stringToLog();
 
 }; // end of class GameEngine
 
