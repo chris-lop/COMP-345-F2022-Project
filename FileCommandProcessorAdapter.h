@@ -9,11 +9,12 @@
 
 
 class FileCommandProcessorAdapter: public CommandProcessor{
-   private:
-    string f_name;
-   FileLineReader* f;
-   void readCommand();
-    public:
+private:
+  string f_name;
+  FileLineReader* f;
+  Command readCommand();
+  int lineNum;
+public:
     //constructor
     FileCommandProcessorAdapter();
     //destructor

@@ -26,6 +26,9 @@ public:
     //destructor
     ~Command();
 
+    Command(const Command& c1);
+    Command& operator=(const Command& c1);
+
     //getters
     string getCommand();
     string getEffect();

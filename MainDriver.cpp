@@ -5,7 +5,11 @@
 #include "Cards.h"
 #include "Map.h"
 #include "Orders.h"
-#include "GameEngine.h"
+#include "Command.h"
+#include "CommandProcessor.h"
+#include "FileCommandProcessorAdapter.h"
+#include "FileLineReader.h"
+
 
 // The main driver function that will run all the test driver functions
 int main()
@@ -20,14 +24,14 @@ int main()
     // testCards();
     // Part 5: Game Engine
     // testGameStates();
-    testGameEngine();
+    // testGameEngine();
     // A2 Part 3
     // testMainGameLoop();
     // Part 1: Map
     // testLoadMaps();
 
     //A2 Part 3 
-    testMainGameLoop();
+    // testMainGameLoop();
 
     // Part 3: Orders List
     //  testOrderExecution();
@@ -38,4 +42,5 @@ int main()
 
     // A2 Part 3
     // testMainGameLoop();
+    testCommandProcessor();
 }

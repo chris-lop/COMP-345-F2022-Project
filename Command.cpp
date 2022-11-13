@@ -31,6 +31,17 @@ std::ostream& operator<<(std::ostream &strm, const Command &c){
 
 }
 
+Command::Command(const Command& c1){
+    this->command = c1.command;
+    this->effect = c1.effect;
+}
+
+Command& Command::operator=(const Command& c1){
+	this->command = c1.command;
+    this->effect = c1.effect;
+	return *this;
+}
+
 string Command::getCommand(){
     return this->command;
 }
