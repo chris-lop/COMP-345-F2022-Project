@@ -3,139 +3,138 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include<fstream>
+#include <fstream>
 #include "LoggingObserver.h"
 using std::string;
 using std::vector;
 
-//class forward declarations 
+// class forward declarations
 class ILoggable;
 class Subject;
 class CommandProcessor;
 class Command;
 
-//free functions
-void testCommandProcessor();
+// free functions
+void testCommandProcessor(string command);
 
 class Command : public ILoggable, public Subject
 {
 public:
-//attributes
+  // attributes
   string command;
   string effect;
-  
-  //private method that saves the effect of the command object
+
+  // private method that saves the effect of the command object
   void saveEffect(string effect);
 
-  //constructors
+  // constructors
   Command(string command, string effect);
 
-  //default constructor
+  // default constructor
   Command();
 
-  //destructor
+  // destructor
   ~Command();
 
-  //copy constructor
-  Command(const Command& c1);
+  // copy constructor
+  Command(const Command &c1);
 
-  //assignment operator
-  Command& operator=(const Command& c1);
+  // assignment operator
+  Command &operator=(const Command &c1);
 
-  //getters
+  // getters
   string getCommand();
   string getEffect();
 
-  //stream insertion operator
-  friend std::ostream& operator << (std::ostream& strm, const Command& c);
-  
+  // stream insertion operator
+  friend std::ostream &operator<<(std::ostream &strm, const Command &c);
+
   // ILoggable method
   string stringToLog();
-
 };
 
 class CommandProcessor : public ILoggable, public Subject
 {
 private:
-
-//attributes
-  vector <Command*> commands;
+  // attributes
+  vector<Command *> commands;
   string state;
   bool done;
   bool valid;
 
-  //declared virtual so that inheritance applies to it
-  virtual Command* readCommand();
+  // declared virtual so that inheritance applies to it
+  virtual Command *readCommand();
 
 public:
-//returns a pointer to a command object
-  Command* getCommand();
+  // returns a pointer to a command object
+  Command *getCommand();
   void start();
   void startMessage();
-  bool playegame(Command* command);
+  bool playegame(Command *command);
 
   // getters
   bool getvalid();
-  vector<Command*> getterCommands();
+  vector<Command *> getterCommands();
   string get_state();
 
-  //copy constructor
-  CommandProcessor(const CommandProcessor& cp);
+  // copy constructor
+  CommandProcessor(const CommandProcessor &cp);
 
-  //assignment operator
-  CommandProcessor& operator=(const CommandProcessor& cp);
+  // assignment operator
+  CommandProcessor &operator=(const CommandProcessor &cp);
 
-//stream insertion operator
- friend std::ostream& operator << (std::ostream& strm, const CommandProcessor& cp);
+  // stream insertion operator
+  friend std::ostream &operator<<(std::ostream &strm, const CommandProcessor &cp);
 
   // setters
   void set_state(string line);
-  bool validate(Command* c);
-  void saveCommand(Command* command);
+  bool validate(Command *c);
+  void saveCommand(Command *command);
 
-  //constructor
+  // constructor
   CommandProcessor();
 
-  //destructor
+  // destructor
   virtual ~CommandProcessor();
 
   // ILoggable method
   string stringToLog();
 };
 
-class FileLineReader{
+class FileLineReader
+{
 public:
-  //this method reads commands from a file and returns them in a vector of strings
-  vector<string*> readLineFromFile(string fname);
+  // this method reads commands from a file and returns them in a vector of strings
+  vector<string *> readLineFromFile(string fname);
 };
 
-
-class FileCommandProcessorAdapter: public CommandProcessor{
+class FileCommandProcessorAdapter : public CommandProcessor
+{
 private:
-  //attributes
+  // attributes
   string f_name;
-  FileLineReader* f;
+  FileLineReader *f;
   int lineNum;
 
-  //overridden inherited method from CommandProcessor
-  Command* readCommand();
-  
+  // overridden inherited method from CommandProcessor
+  Command *readCommand();
+
 public:
-  //constructor
+  // constructor
   FileCommandProcessorAdapter();
 
-  //copy constructor
-  FileCommandProcessorAdapter(const FileCommandProcessorAdapter& fcp);
+  // copy constructor
+  FileCommandProcessorAdapter(const FileCommandProcessorAdapter &fcp);
 
-  //assignment operator
-  FileCommandProcessorAdapter& operator=(const FileCommandProcessorAdapter& fcp);
+  // assignment operator
+  FileCommandProcessorAdapter &operator=(const FileCommandProcessorAdapter &fcp);
 
- //stream insertion operator
- friend std::ostream& operator << (std::ostream& strm, const FileCommandProcessorAdapter& fcp);
+  // stream insertion operator
+  friend std::ostream &operator<<(std::ostream &strm, const FileCommandProcessorAdapter &fcp);
 
-  //destructor
+  // destructor
   ~FileCommandProcessorAdapter();
 
-  //setter
-    void set_f_name(string name);  
+  // setter
+  void set_f_name(string name);
 };

@@ -1,16 +1,3 @@
-The command and its effect saved are 3D.map and 
-The effect saved is invalid command from the command 3D.map
-The command and its effect saved are loadmap 3D.map and 
-The effect saved is in map loaded state from the command loadmap 3D.map
-The command and its effect saved are validatemap and 
-The effect saved is in validated state from the command validatemap
-The command and its effect saved are addplayer marc and 
-The effect saved is in players added state from the command addplayer marc
-The command and its effect saved are addplyer chris and 
-The effect saved is invalid command from the command addplyer chris
-The command and its effect saved are addplayer chris and 
-The effect saved is in players added state from the command addplayer chris
-The command and its effect saved are gamestart and 
 The effect saved is testing from the command loadmap
 The command and its effect saved are loadmap and testing
 Command effect: Executed Deploy order, adding 1 units to the territory t1

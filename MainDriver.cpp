@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 #include <vector>
 #include <algorithm>
 #include "Player.h"
@@ -8,20 +9,29 @@
 #include "GameEngine.h"
 #include "CommandProcessor.h"
 
-//The main driver function that will run all the test driver functions
-int main()
-{   
-    //Part 1: Map
-    //testLoadMaps();
+// The main driver function that will run all the test driver functions
+int main(int argc, char *argv[])
+{
 
-    //removed testPlayer() from A1 and commented out all test functions from A1- HL 
+    string commandLineArg = "";
+    for (int i = 1; i < argc; i++)
+    {
+        std::cout << argv[i] << endl;
+        commandLineArg = commandLineArg + argv[i] + "\t";
+    }
+    // add validationg
 
-    //Part 3: Orders List
-    //testOrderExecution();
-    //Part 4: Cards
-    //testCards();
-    //Part 5: Game Engine
-    // testGameStates();
+    // Part 1: Map
+    // testLoadMaps();
+
+    // removed testPlayer() from A1 and commented out all test functions from A1- HL
+
+    // Part 3: Orders List
+    // testOrderExecution();
+    // Part 4: Cards
+    // testCards();
+    // Part 5: Game Engine
+    //  testGameStates();
 
     // A2 Part 3
     //  testMainGameLoop();
@@ -34,10 +44,9 @@ int main()
     //  testGameStates();
 
     // A2 Part 3
-    //      testCommandProcessor();
+    // testCommandProcessor(commandLineArg);
     // TESTED working
-    testStatUpPhase();
-    testLoggingObserver();
-    testMainGameLoop();
+    // testStatUpPhase(commandLineArg);
+    testLoggingObserver(commandLineArg);
+    // testMainGameLoop();
 }
-
