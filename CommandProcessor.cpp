@@ -70,6 +70,7 @@ void Command::saveEffect(string eff)
     notify(this);
 }
 
+// Method providing the string to log
 string Command::stringToLog()
 {
     string s = "The effect saved is ";
@@ -296,6 +297,7 @@ vector<string *> FileLineReader::readLineFromFile(string fname)
     return co;
 }
 
+// Method providing the string to log
 string CommandProcessor::stringToLog()
 {
     string str = "";

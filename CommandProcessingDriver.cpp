@@ -7,18 +7,10 @@ void testCommandProcessor(){
     cout<<"enter console or file<filename> to start."<<endl;
     string choice;
     string copy;
-    string copy2;
-    string copy3;
     
     do{
         cin>>choice;
         copy = choice;
-
-    
-    
-        // start=choice.find("console");
-        // end=choice.substr(choice.length()-1);
-        
         if(choice=="console"){
             CommandProcessor* p=new CommandProcessor();
             p->start();
@@ -41,12 +33,6 @@ void testCommandProcessor(){
     do{
         cin>>choice;
         copy = choice;
-
-    
-    
-        // start=choice.find("console");
-        // end=choice.substr(choice.length()-1);
-        
         if(choice=="console"){
             CommandProcessor* p=new CommandProcessor();
             p->start();

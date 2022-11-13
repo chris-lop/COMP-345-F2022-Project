@@ -41,4 +41,5 @@ int main()
     // testMainGameLoop();
     // testCommandProcessor();
     testStatUpPhase();
+    testLoggingObserver();
 }
