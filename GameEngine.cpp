@@ -750,7 +750,8 @@ void GameEngine::startupPhase(CommandProcessor *cp)
             {
                 if (command.find(name) != std::string::npos)
                 {
-                    cp->playegame(commands);
+                    Command *c = new Command(command, "");
+                    cp->playegame(c);
                     mapthName = mapPath + name;
                     nameMapSaver = nameMapSaver + name;
                     truemap = true;
@@ -790,14 +791,16 @@ void GameEngine::startupPhase(CommandProcessor *cp)
             // if the map is valid change the state
             {
                 std::cout << "\n";
-                cp->playegame(commands);
+                Command *c = new Command(command, "");
+                cp->playegame(c);
                 command = "";
                 break;
             }
         }
         else
         {
-            cp->playegame(commands);
+            Command *c = new Command(command, "");
+            cp->playegame(c);
         }
     }
     std::shuffle(gameMap->territories.begin(), gameMap->territories.end(), std::random_device());
