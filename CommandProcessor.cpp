@@ -243,7 +243,7 @@ void CommandProcessor::start()
     startMessage();
     while (done == false)
     {
-        getCommand();
+        playegame(getCommand());
     }
 }
 
@@ -337,7 +337,9 @@ bool CommandProcessor::playegame(Command* command)
         if ((command->getCommand()).find("loadmap") == 0)
         {
             // loadMap();
+            string file;
             cout << "Now in map loaded state. Valid input: loadmap, validatemap" << endl;
+            cin >> file;
             state = "maploaded";
             return true;
         }
