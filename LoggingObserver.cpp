@@ -49,32 +49,38 @@ std::ostream& operator<<(std::ostream &strm, const LogObserver &lo){
 
 void LogObserver::update(ILoggable* il){
     //write into log file
-    ofstream logFile("gamelog.txt");
-    logFile << il->stringToLog() << endl;
-    logFile.close();
+    if(empty){
+        ofstream logFile("gamelog.txt", std::ios::trunc);
+        logFile << il->stringToLog() << endl;
+        logFile.close();
+        empty = false;
+    }
+    else{
+        ofstream logFile("gamelog.txt", std::ios::app);
+        logFile << il->stringToLog() << endl;
+        logFile.close();
+    }
 }
 
 //Class Subject
 Subject::Subject(){
-   this->_observers = new list<Observer*>;
 }
 
 Subject::~Subject(){ 
-    delete this->_observers;
+    // delete this->_observer;
 }
 
 void Subject::attach(Observer* o){
-    this->_observers->push_back(o);
+    // this->_observer = o;
 }
 
 void Subject::detach(Observer* o){
-    this->_observers->remove(o);
+    // this->_observer = nullptr;
 }
 
 void Subject::notify(ILoggable* il){
-    list<Observer *>::iterator i = _observers->begin();
-    for (; i != _observers->end(); ++i)
-    (*i)->update(il);
+    LogObserver* observer = new LogObserver();
+    observer->update(il);
 }
 
 //Class ILoggable

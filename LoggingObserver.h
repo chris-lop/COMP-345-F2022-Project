@@ -9,6 +9,7 @@ class ILoggable;
 class LogObserver;
 
 void testLoggingObserver();
+static bool empty = true;
 
 class Observer{
 public:
@@ -28,6 +29,7 @@ public:
     LogObserver& operator=(const LogObserver& lo);
     friend std::ostream& operator<<(std::ostream&, const LogObserver&);
     void update(ILoggable* il);
+
 };
 
 class Subject{
@@ -40,8 +42,6 @@ public:
     void notify(ILoggable* il);
     void attach(Observer* o);
     void detach(Observer* o);
-private:
-    std::list<Observer*> *_observers;
 };
 
 class ILoggable{

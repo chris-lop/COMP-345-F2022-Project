@@ -19,7 +19,6 @@ using std::ifstream;
 
 //constructors
 Command::Command(){
-   
     this->command={};
     this->effect={};
 }
@@ -289,10 +288,11 @@ vector<string*> FileLineReader::readLineFromFile(string fname){
 }
 
 string CommandProcessor::stringToLog(){
-    string str = "The command added is ";
+    string str = "";
     string s = "The command and its effect saved are ";
     str.append(s).append(commands.at(commands.size()-1)->command).append(" and ").append(commands.at(commands.size()-1)->effect);
     str.append("\n");
+    return str;
 
 }
 
