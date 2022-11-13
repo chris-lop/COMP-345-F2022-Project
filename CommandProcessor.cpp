@@ -147,12 +147,12 @@ void CommandProcessor::saveCommand(Command* command)
 }
 
 // read's user's commands, saves and validates them, then saves the effects of the commands
-Command CommandProcessor::readCommand()
+Command* CommandProcessor::readCommand()
 {
     string yourCommand;
     cin >> yourCommand;
     Command* c = new Command(yourCommand, "");
-    return *c;
+    return c;
 }
 
 bool CommandProcessor::getvalid()
@@ -192,11 +192,11 @@ void CommandProcessor::startMessage()
 }
 
 // returns a vector of strings which are the commands that the user entered
-Command CommandProcessor::getCommand()
+Command* CommandProcessor::getCommand()
 {
-    Command* c = new Command(readCommand());
+    Command* c = new Command(*readCommand());
     saveCommand(c);
-    return *c;
+    return c;
 }
 
 // handles the user's commands and passes through the stages of the game

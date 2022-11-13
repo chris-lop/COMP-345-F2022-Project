@@ -24,11 +24,11 @@ void FileCommandProcessorAdapter::set_f_name(string name){
 }
 
 //overriding the readCommand() method from the base class
-Command FileCommandProcessorAdapter:: readCommand(){
+Command* FileCommandProcessorAdapter:: readCommand(){
     //read the commands from a file
     vector<string*> commands=f->readLineFromFile(f_name);
     string command = *commands.at(lineNum);
     lineNum = lineNum + 1;
     Command* c = new Command(command, "");
-    return *c;
+    return c;
 }

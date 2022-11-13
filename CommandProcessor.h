@@ -23,11 +23,10 @@ private:
     // declared virtual so that inheritance applies to it
     bool done;
     bool valid;
-
+    virtual Command* readCommand();
 public:
-    virtual Command readCommand();
 
-   Command getCommand();
+   Command* getCommand();
     void start();
     void startMessage();
     bool playegame(Command* command);

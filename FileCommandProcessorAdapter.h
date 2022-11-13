@@ -12,7 +12,7 @@ class FileCommandProcessorAdapter: public CommandProcessor{
 private:
   string f_name;
   FileLineReader* f;
-  Command readCommand();
+  Command* readCommand();
   int lineNum;
 public:
     //constructor
