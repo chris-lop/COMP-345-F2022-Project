@@ -8,24 +8,20 @@
 #include "GameEngine.h"
 #include "CommandProcessor.h"
 
-// The main driver function that will run all the test driver functions
+//The main driver function that will run all the test driver functions
 int main()
-{
-    // Part 1: Map
-    // testLoadMaps();
-    // Part 2: Player
-    // testPlayer();
-    // Part 3: Orders List
-    // testOrderExecution();
-    // Part 4: Cards
-    // testCards();
-    // Part 5: Game Engine
+{   
+    //Part 1: Map
+    //testLoadMaps();
+
+    //removed testPlayer() from A1 and commented out all test functions from A1- HL 
+
+    //Part 3: Orders List
+    //testOrderExecution();
+    //Part 4: Cards
+    //testCards();
+    //Part 5: Game Engine
     // testGameStates();
-    // testGameEngine();
-    // A2 Part 3
-    // testMainGameLoop();
-    // Part 1: Map
-    // testLoadMaps();
 
     // A2 Part 3
     //  testMainGameLoop();
@@ -38,8 +34,10 @@ int main()
     //  testGameStates();
 
     // A2 Part 3
-    // testMainGameLoop();
-    // testCommandProcessor();
+    //      testCommandProcessor();
+    // TESTED working
     testStatUpPhase();
     testLoggingObserver();
+    testMainGameLoop();
 }
+

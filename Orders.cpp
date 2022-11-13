@@ -308,6 +308,10 @@ Order* Deploy::clone(){
     return new Deploy(*this);
 }
 
+int Deploy::getNumberUnits(){
+    return this->numberUnits;
+}
+
 //class Advance
 //Advance default constructor
 Advance::Advance(): target(nullptr), source(nullptr), player(nullptr), numberUnits(0) {
@@ -381,6 +385,28 @@ bool Advance::validate()
     bool enoughTroops = this->numberUnits <= *source->armyAmount;
 
     return ownsSource && isTargetAdjacent && enoughTroops && !negotiationBlocks;
+}
+
+// isAttack method to check if the advance order is an attack or not
+bool Advance::isAttack()
+{
+    // Get territories owned by player and save them into playerTerritories vector
+    vector<Territory*> playerTerritories = this->getPlayer()->get_trt();
+    
+    // Check if target territory belongs to player
+    return !any_of(playerTerritories.begin(), playerTerritories.end(), [this](Territory *t){return t == this->target;});
+}
+
+// Getter for target
+Territory* Advance::getTarget()
+{
+    return this->target;
+}
+
+// Getter for player
+Player* Advance::getPlayer()
+{
+    return this->player;
 }
 
 //execute order
@@ -828,9 +854,10 @@ std::ostream& operator<<(std::ostream &strm, const Negotiate &Negotiate){
 
 //Validate if the order is valid
 bool Negotiate::validate() {
+    bool isNeutral = this->target->get_name() == "Neutral Player";
     // The order is valid as long as the two 
     // players it's between are different
-    return source != target;
+    return (source != target) && !isNeutral;
 }
 
 //execute order

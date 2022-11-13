@@ -48,6 +48,7 @@ Territory &Territory::operator=(const Territory &territory)
     this->continent = territory.continent;
     this->territoryOwner = territory.territoryOwner;
     this->armyAmount = territory.armyAmount;
+    this->AdjTerritories = territory.AdjTerritories;
     return *this;
 }
 
@@ -55,6 +56,7 @@ Territory &Territory::operator=(const Territory &territory)
 Territory::~Territory()
 {
     territoryOwner = NULL;
+
 }
 
 // Getter for TerritoryName
@@ -102,25 +104,22 @@ int *Territory::getArmy()
 // Setter for Army
 void Territory::setArmy(int *newAmount)
 {
-    this->armyAmount = newAmount;
+    *this->armyAmount = *newAmount;
 }
 
-// Getter for adjacent Territories
-vector<Territory *> Territory::getAdjTerritories()
-{
+//Getter for adjacent Territories
+vector<Territory *> Territory::getAdjTerritories() {
     return AdjTerritories;
 }
 
-// Setter for adjacent Territories
-void Territory::setAdjTerritories(vector<Territory *> newAdjacent)
-{
+//Setter for adjacent Territories
+void Territory::setAdjTerritories(vector<Territory *> newAdjacent) {
     AdjTerritories = newAdjacent;
 }
 
 // operator<<
-ostream &operator<<(ostream &strm, const Territory &territory)
-{
-    strm << "Name: " << *(territory.TerritoryName)
+ostream& operator<<(ostream& strm, const Territory& territory) {
+        strm << "Name: " << *(territory.TerritoryName)
          << "| Continent: " << *(territory.continent) << " "
          << "| Owner: " << territory.territoryOwner->get_name() << " "
          << "| Army: " << *(territory.armyAmount)
@@ -132,7 +131,7 @@ ostream &operator<<(ostream &strm, const Territory &territory)
     }
     strm << "\n"
          << endl;
-    return strm;
+    return strm;    
 }
 
 // ------------------------ //
@@ -158,7 +157,7 @@ Map::Map(const Map *map)
 }
 
 // Assignment Operator
-Map &Map::operator=(const Map &map)
+Map& Map::operator=(const Map& map)
 {
     this->TerritoryNb = map.TerritoryNb;
     return *this;
@@ -167,19 +166,19 @@ Map &Map::operator=(const Map &map)
 // Destructor
 Map::~Map()
 {
-    // the map loader deletes territories
+    //the map loader deletes territories
 }
 
-// search method to find index of the territory in the territory vector
+//search method to find index of the territory in the territory vector
 int searchResult(std::vector<Territory *> tList, Territory t)
 {
     int index = -1;
     for (int i = 0; i < tList.size(); i++)
-    {
+    {   
         string s1 = *tList[i]->getTerritoryName();
         string s2 = *t.getTerritoryName();
 
-        if (s1 == s2)
+        if (s1 ==  s2)
         {
             index = i;
             break;
@@ -188,7 +187,7 @@ int searchResult(std::vector<Territory *> tList, Territory t)
     return index;
 }
 
-// validate  method to validate map
+//validate  method to validate map
 bool Map::validate(vector<Territory *> territories)
 {
     bool valide = true;
@@ -410,16 +409,25 @@ MapLoader::MapLoader()
     // this->Territories = vector<Territory>{};
 }
 
+// Remove trailing '\r' in a string, if it
+// exists
+void remove_r(string& s) {
+    size_t r_pos = s.find_last_of('\r');
+    if (r_pos != string::npos) {
+        s.erase(r_pos);
+    }
+}
+
 /**
  * @brief Loads a map from the specified file
- *
+ * 
  * @param path Path of file to load
  * @return Map* A Map of the file. This is empty
  * if some error occured while loading the map.
  */
-Map *MapLoader::loadMap(string path)
+Map* MapLoader::loadMap(string path)
 {
-
+    
     unordered_map<string, string *> umapContinents;
 
     string line;
@@ -436,16 +444,17 @@ Map *MapLoader::loadMap(string path)
         }
         // This loop checks that the file contains a [Continents] and [Territories] line
         bool checkContinents = false, checkTerritories = false;
-        while (getline(file, line))
+        while (getline(file,line))
         {
-            if (line.find("[Continents]") != string::npos)
+            if (line.find("[Continents]")!=string::npos)
             {
                 checkContinents = true;
             }
-            if (line.find("[Territories]") != string::npos)
+            if (line.find("[Territories]")!=string::npos)
             {
                 checkTerritories = true;
             }
+
         }
         if (checkContinents == false)
         {
@@ -456,7 +465,7 @@ Map *MapLoader::loadMap(string path)
             throw "Error invalid file: No Territories";
         }
     }
-    catch (char const *err)
+    catch (char const* err)
     {
         std::cerr << err << endl;
         // Return an empty map on error
@@ -468,33 +477,40 @@ Map *MapLoader::loadMap(string path)
     file.open(path);
     while (getline(file, line))
     {
+        // Remove trailing \r
+        remove_r(line);
+
         if (line.find("[Continents]") != std::string::npos)
         {
-            // Iterate through Continent declarations and add them to continent vector until Territories section is found while (getline(file, line))
-            // {
-            //     // Territories section is found, break out of loop
-            //     if (line.find("[Territories]") != std::string::npos)
-            //     {
-            //         break;
-            //     }
+            // Iterate through Continent declarations and add them to continent vector until Territories section is found
+            while (getline(file, line))
+            {   
+                // Remove trailing \r
+                remove_r(line);
 
-            //     // If line is empty, skip it
-            //     if (line.length() == 0)
-            //     {
-            //         continue;
-            //     }
-            //     // Parsing continents into two variables (continentName & bonusValue)
-            //     string continentDelimiter = "=";
-            //     string continentName = line.substr(0, line.find(continentDelimiter));
-            //     string x = line.substr(line.find(continentDelimiter) + 1, line.length());
-            //     int bonusValue = stoi(line.substr(line.find(continentDelimiter) + 1, line.length()));
+                // Territories section is found, break out of loop
+                if (line.find("[Territories]") != std::string::npos)
+                {
+                    break;
+                }
 
-            //     std::cout << "CONTINENT PARSING" << std::endl;
-            //     std::cout << continentName << " " << bonusValue << std::endl;
+                // If line is empty, skip it
+                if (line.length() == 0)
+                {
+                    continue;
+                }
 
-            //     // Add value to its corresponding continent in map
-            //     continentsList.insert({continentName, bonusValue});
-            // }
+                // Parsing continents into two variables (continentName & bonusValue)
+                string continentDelimiter = "=";
+                string continentName = line.substr(0, line.find(continentDelimiter));
+                int bonusValue = stoi(line.substr(line.find(continentDelimiter)+1, line.length()));
+
+                std::cout << "CONTINENT PARSING" << std::endl;
+                std::cout << continentName << " " << bonusValue << std::endl;
+
+                // Add value to its corresponding continent in map
+                continentsList.insert({continentName, bonusValue});
+            }
         }
         if (line.find("[Territories]") != std::string::npos)
         {
@@ -502,7 +518,10 @@ Map *MapLoader::loadMap(string path)
             // So get lines until EOF
             while (getline(file, line))
             {
-                vector<string> territory;
+                // Remove trailing \r
+                remove_r(line);
+                
+		vector<string> territory;
 
                 cout << "\n";
                 string delim = ",";
@@ -579,7 +598,7 @@ Map *MapLoader::loadMap(string path)
             }
         }
     }
-    file.close();
+
     // Set each territory's continent
     for (auto territory : territories)
     {
@@ -595,8 +614,7 @@ Map *MapLoader::loadMap(string path)
 // Destructor
 MapLoader::~MapLoader()
 {
-    for (auto &i : umap)
-    {
+    for(auto& i:umap){
         delete i.second;
     }
 }
