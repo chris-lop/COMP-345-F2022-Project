@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 #include<fstream>
-// #include "LoggingObserver.h"
+#include "LoggingObserver.h"
 using std::string;
 using std::vector;
 
@@ -15,7 +15,8 @@ class Command;
 
 void testCommandProcessor();
 
-class Command {
+class Command : public ILoggable, public Subject
+{
 public:
     string command;
     string effect;
@@ -42,11 +43,11 @@ public:
     friend std::ostream& operator << (std::ostream& strm, const Command& c);
 
     // ILoggable method
-    // std::string stringToLog();
+    string stringToLog();
 
 };
 
-class CommandProcessor //: public ILoggable, public Subject
+class CommandProcessor : public ILoggable, public Subject
 {
 private:
     vector <Command*> commands;
@@ -78,7 +79,7 @@ public:
     CommandProcessor();
     virtual ~CommandProcessor();
     // ILoggable method
-    // std::string stringToLog();
+    string stringToLog();
 };
 
 class FileLineReader{

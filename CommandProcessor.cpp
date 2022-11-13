@@ -1,9 +1,11 @@
+#pragma once
 
 #include "CommandProcessor.h"
+#include "LoggingObserver.h"
 #include <iostream>
 #include <vector>
-#include <string>
-#include<fstream>
+#include <fstream>
+#include <sstream>
 using std::string;
 using std::vector;
 using std::endl;
@@ -37,7 +39,6 @@ Command::~Command(){
 std::ostream& operator<<(std::ostream &strm, const Command &c){
     strm << "The  command and its effect are " << c.command <<" and " <<  c.effect << endl;
     return strm;
-
 }
 
 Command::Command(const Command& c1){
@@ -63,8 +64,14 @@ string Command::getEffect(){
 //saves effect of the command to the vector of strings
 void Command::saveEffect(string eff){
     this->effect = eff;
+    notify(this);
 }
 
+
+string Command::stringToLog(){
+    string s = "The command and its effect saved are ";
+    return (s).append(this->command).append(" and ").append(this->effect);
+}
 
 // ----CommandProcessor Class ---------
 
@@ -206,6 +213,7 @@ string CommandProcessor::validate(Command* c)
 void CommandProcessor::saveCommand(Command* command)
 {
     this->commands.push_back(command);
+    notify(this);
 }
 
 // read's user's commands, saves and validates them, then saves the effects of the commands
@@ -280,6 +288,14 @@ vector<string*> FileLineReader::readLineFromFile(string fname){
     
 }
 
+string CommandProcessor::stringToLog(){
+    string str = "The command added is ";
+    string s = "The command and its effect saved are ";
+    str.append(s).append(commands.at(commands.size()-1)->command).append(" and ").append(commands.at(commands.size()-1)->effect);
+    str.append("\n");
+
+}
+
 
 
 
@@ -316,16 +332,6 @@ Command* FileCommandProcessorAdapter:: readCommand(){
 
 
 
-
-
-
-
-
-
-
-
-
-
 // handles the user's commands and passes through the stages of the game
 bool CommandProcessor::playegame(Command* command)
 {
@@ -337,9 +343,7 @@ bool CommandProcessor::playegame(Command* command)
         if ((command->getCommand()).find("loadmap") == 0)
         {
             // loadMap();
-            string file;
             cout << "Now in map loaded state. Valid input: loadmap, validatemap" << endl;
-            cin >> file;
             state = "maploaded";
             return true;
         }
