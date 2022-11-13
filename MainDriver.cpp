@@ -5,9 +5,8 @@
 #include "Cards.h"
 #include "Map.h"
 #include "Orders.h"
+#include "GameEngine.h"
 #include "CommandProcessor.h"
-
-
 
 // The main driver function that will run all the test driver functions
 int main()
@@ -28,8 +27,8 @@ int main()
     // Part 1: Map
     // testLoadMaps();
 
-    //A2 Part 3 
-    // testMainGameLoop();
+    // A2 Part 3
+    //  testMainGameLoop();
 
     // Part 3: Orders List
     //  testOrderExecution();
@@ -40,5 +39,6 @@ int main()
 
     // A2 Part 3
     // testMainGameLoop();
-    testCommandProcessor();
+    // testCommandProcessor();
+    testStatUpPhase();
 }

@@ -1,9 +1,8 @@
 loadmap
-start
-loadmap<mapfile>
+loadmap 3D.map
 v
 validatemap
-addplayer
-addplayer<playersname>
+addplayer Marita
+addplayer Lea
 gamestart
 quit

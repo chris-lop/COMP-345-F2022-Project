@@ -1,0 +1,14 @@
+The command and its effect saved are loadmap 3D.map and 
+The effect saved is in map loaded state from the command loadmap 3D.map
+The command and its effect saved are loadmap Mongol Empire 1294.map and 
+The effect saved is in map loaded state from the command loadmap Mongol Empire 1294.map
+The command and its effect saved are validatemap and 
+The command and its effect saved are loadmap 3D.map and 
+The effect saved is in map loaded state from the command loadmap 3D.map
+The command and its effect saved are validatemap and 
+The effect saved is in validated state from the command validatemap
+The command and its effect saved are addplayer lea and 
+The effect saved is in players added state from the command addplayer lea
+The command and its effect saved are addplayer marita and 
+The effect saved is in players added state from the command addplayer marita
+The command and its effect saved are gamestart and 

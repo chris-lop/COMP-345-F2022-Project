@@ -112,30 +112,30 @@ vector<Player *> GameEngine::getRemovedPlayers()
 // loads the map
 void GameEngine::loadMap()
 {
-    cout << "Loading map..." << endl;
+    std::cout << "Loading map..." << endl;
 }
 
 // validates the map, prints out that the map got validated
 void GameEngine::validateMap()
 {
-    cout << "Validating map..." << endl;
+    std::cout << "Validating map..." << endl;
 }
 
 // takes player's name as input from the user and creates a player
 void GameEngine::addPlayers()
 {
     string name;
-    cout << "enter the name of the palyer." << endl;
+    std::cout << "enter the name of the palyer." << endl;
     cin >> name;
     Player *p = new Player(name);
-    cout << *p;
+    std::cout << *p;
     delete p;
 }
 
 // prints out assigning reinforcement
 void GameEngine::assignReinforcement()
 {
-    cout << "assigning reinforcements..." << endl;
+    std::cout << "assigning reinforcements..." << endl;
 }
 
 // takes user's input and creates an order depending on input
@@ -144,11 +144,11 @@ string GameEngine::issueOrders()
     string type;
     do
     {
-        cout << "Enter your order: " << endl;
+        std::cout << "Enter your order: " << endl;
         cin >> type;
         if (type != "bomb" && type != "blockade" && type != "airlift" && type != "negotiate" && type == "deploy" && type != "advance")
         {
-            cout << "invalid type. valid types: bomb, bloackade, airlift, negotiate, deploy, advance." << endl;
+            std::cout << "invalid type. valid types: bomb, bloackade, airlift, negotiate, deploy, advance." << endl;
         }
     } while (type != "bomb" && type != "blockade" && type != "airlift" && type != "negotiate" && type == "deploy" && type != "advance");
 
@@ -158,13 +158,13 @@ string GameEngine::issueOrders()
 // executes orders, prints out executing orders
 void GameEngine::executeOrders()
 {
-    cout << "executing orders..." << endl;
+    std::cout << "executing orders..." << endl;
 }
 
 // prints out you win
 void GameEngine::win()
 {
-    cout << "you win." << endl;
+    std::cout << "you win." << endl;
 }
 
 // moves through the states depending on the user's command which will be passed to the function as a parameter
@@ -177,12 +177,12 @@ void GameEngine::handleInput(std::string line)
         if (line == "loadmap")
         {
             loadMap();
-            cout << "Now in map loaded state. Valid input: loadmap, validatemap" << endl;
+            std::cout << "Now in map loaded state. Valid input: loadmap, validatemap" << endl;
             state = "loadmap";
         }
         else
         {
-            cout << "Invalid command. Valid commands: loadmap" << endl;
+            std::cout << "Invalid command. Valid commands: loadmap" << endl;
         }
     }
     else if (state == "loadmap")
@@ -192,18 +192,18 @@ void GameEngine::handleInput(std::string line)
         if (line == "loadmap")
         {
             loadMap();
-            cout << "Now in map loaded state. Valid input: loadmap, validatemap" << endl;
+            std::cout << "Now in map loaded state. Valid input: loadmap, validatemap" << endl;
             state = "loadmap";
         }
         else if (line == "validatemap")
         {
             validateMap();
-            cout << "Map now validated, you are in validated state. Valid input: addplayer" << endl;
+            std::cout << "Map now validated, you are in validated state. Valid input: addplayer" << endl;
             state = "maploaded";
         }
         else
         {
-            cout << "Invalid command. Valid commands: loadmap, validatemap." << endl;
+            std::cout << "Invalid command. Valid commands: loadmap, validatemap." << endl;
         }
     }
     else if (state == "maploaded")
@@ -213,13 +213,13 @@ void GameEngine::handleInput(std::string line)
         if (line == "addplayer")
         {
             addPlayers();
-            cout << "you are now in players added state. Valid input: addplayer, assigncountries." << endl;
+            std::cout << "you are now in players added state. Valid input: addplayer, assigncountries." << endl;
 
             state = "playersadded";
         }
         else
         {
-            cout << "Invalid command. Valid command: addplayer" << endl;
+            std::cout << "Invalid command. Valid command: addplayer" << endl;
         }
     }
     // players added state
@@ -230,19 +230,19 @@ void GameEngine::handleInput(std::string line)
         if (line == "addplayer")
         {
             addPlayers();
-            cout << "you are now in players added state. Valid input: addplayer, assigncountries." << endl;
+            std::cout << "you are now in players added state. Valid input: addplayer, assigncountries." << endl;
 
             state = "playersadded";
         }
         else if (line == "assigncountries")
         {
             assignReinforcement();
-            cout << "you are now in assign reinforcement state. Valid input: issueorder." << endl;
+            std::cout << "you are now in assign reinforcement state. Valid input: issueorder." << endl;
 
             state = "assignreinforcement";
         }
         else
-            cout << "Invalid command. Valid commands: addplayer, assigncountries." << endl;
+            std::cout << "Invalid command. Valid commands: addplayer, assigncountries." << endl;
     }
     else
         // the issue orders state
@@ -253,12 +253,12 @@ void GameEngine::handleInput(std::string line)
             if (line == "issueorder")
             {
                 issueOrders();
-                cout << "you are now in the issue orders state. Valid input: issueorder, endissueorders." << endl;
+                std::cout << "you are now in the issue orders state. Valid input: issueorder, endissueorders." << endl;
 
                 state = "issueorders";
             }
             else
-                cout << "Invalid command. Valid command: issueorder. " << endl;
+                std::cout << "Invalid command. Valid command: issueorder. " << endl;
         }
         else
             // the issue orders state
@@ -267,7 +267,7 @@ void GameEngine::handleInput(std::string line)
                 if (line == "issueorder")
                 {
                     issueOrders();
-                    cout << "you are now in the issue orders state. Valid input: issueorder, endissueorders." << endl;
+                    std::cout << "you are now in the issue orders state. Valid input: issueorder, endissueorders." << endl;
 
                     state = "issueorders";
                 }
@@ -394,7 +394,6 @@ void GameEngine::transition()
         this->setState("end");
         notify(this);
     }
-
 }
 
 string GameEngine::stringToLog()
@@ -658,14 +657,8 @@ vector<char *> GameEngine::directory()
     DIR *dir;
     struct dirent *diread;
     vector<char *> nameOfMaps;
-    char buffer[1000];
-    char *answer = getcwd(buffer, sizeof(buffer));
 
-    char *path = new char[std::strlen(answer) + std::strlen("/maps") + 1];
-    std::strcat(path, answer);
-    std::strcat(path, "/maps");
-
-    if ((dir = opendir(path)) != nullptr)
+    if ((dir = opendir("./maps")) != nullptr)
     {
 
         while ((diread = readdir(dir)) != nullptr)
@@ -687,42 +680,66 @@ vector<char *> GameEngine::directory()
 void GameEngine::startupPhase(CommandProcessor *cp)
 {
 
-    cout << "**********THE GAME HAS STARTED********** \n"
-         << endl;
-    cout << "Enter the the following command to load a mad (loadmap <filename>): ";
+    int commandTracker = 0;
+    string choice = "";
+    std::cout << "enter console or file <filename> to start." << endl;
+    getline(cin, choice);
+    vector<string *> commandsOfFile;
+    if (choice.find("file") == 0)
+    {
+        std::stringstream ss(choice);
+        std::istream_iterator<std::string> begin(ss);
+        std::istream_iterator<std::string> end;
+        std::vector<std::string> tokens(begin, end);
+        string CommandFileName = tokens[1];
+        FileLineReader *fileCommands = new FileLineReader();
+        commandsOfFile = fileCommands->readLineFromFile(CommandFileName);
+    }
+
+    std::cout << "**********THE GAME HAS STARTED********** \n"
+              << endl;
+    std::cout << "Enter the the following command to load a mad (loadmap <filename>): ";
     string command;
     Map *m = new Map();
     Map *gameMap = new Map();
-    // MapLoader *loader = new MapLoader();
-    char nameMapSaver[1000] = "";
+    string nameMapSaver = "";
+    Command *commands;
     while (true)
     {
         MapLoader *loader = new MapLoader();
         vector<char *> nameOfMaps;
         nameOfMaps = directory();
-        char mapPath[1000] = "./maps/";
+        string mapPath = "./maps/";
+        string mapthName = "";
         bool truemap = true;
-        cout << "\nHere is a list of maps you can choose from\n";
+        std::cout << "\nHere is a list of maps you can choose from\n";
         int nbr = 0;
         for (auto file : nameOfMaps)
         {
-            cout << nbr << ": " << file << "\n";
+            std::cout << nbr << ": " << file << "\n";
             nbr++;
         }
-        getline(cin, command);
-        cout << "\n";
+        if (choice.find("file") == 0)
+        {
+            command = *commandsOfFile[commandTracker];
+            commandTracker++;
+        }
+        else
+        {
+            commands = cp->getCommand();
+            command = commands->command;
+        }
+        std::cout << "\n";
         if (command.find("loadmap") != std::string::npos)
         {
-            nameMapSaver[0] = 0;
-            Command *c = new Command(command, "");
+            nameMapSaver = "";
             for (auto name : nameOfMaps)
             {
                 if (command.find(name) != std::string::npos)
                 {
-                    cp->playegame(c);
-                    cp->saveCommand(c);
-                    strcat(mapPath, name);
-                    strcat(nameMapSaver, name);
+                    cp->playegame(commands);
+                    mapthName = mapPath + name;
+                    nameMapSaver = nameMapSaver + name;
                     truemap = true;
                     break;
                 }
@@ -733,65 +750,66 @@ void GameEngine::startupPhase(CommandProcessor *cp)
             }
             if (truemap == false)
             {
-                cout << "\nInvalid Map name \n";
+                std::cout << "\nInvalid Map name \n";
                 cp->set_state("start");
             }
-            cout << "\n";
+            std::cout << "\n";
         }
         else if (command == "validatemap" && cp->get_state() == "maploaded")
         {
-            cout << cp->get_state() << endl;
-            Command *c = new Command(command, "");
-            cp->saveCommand(c);
-            strcat(mapPath, nameMapSaver);
-            gameMap = loader->loadMap(mapPath);
-            std::cout << gameMap->TerritoryNb;
+            std::cout << cp->get_state() << endl;
+            mapPath = mapPath + nameMapSaver;
             std::cout << mapPath;
-            std::cout << gameMap->territories.size() << endl;
+            gameMap = loader->loadMap(mapPath);
             if (!m->validate(gameMap->territories))
             {
-                cout << " \nInvalid map \n"
-                     << endl;
+                std::cout << "\nInvalid map \n"
+                          << endl;
                 command = "";
-                cout << "\nValid commands: loadmap\n " << endl;
+                std::cout << "\nValid commands: loadmap\n " << endl;
                 cp->set_state("start");
             }
             else
             {
-                cout << "\n";
-                cp->playegame(c);
+                std::cout << "\n";
+                cp->playegame(commands);
                 command = "";
                 break;
             }
         }
         else
         {
-            Command *c = new Command(command, "");
-            cp->playegame(c);
-            cp->saveCommand(c);
+            cp->playegame(commands);
         }
     }
     std::shuffle(gameMap->territories.begin(), gameMap->territories.end(), std::random_device());
     std::vector<Player *> playersMap;
     while (true)
     {
-        cout << "\nEnter the next command \n"
-             << endl;
-        getline(cin, command);
+        std::cout << "\nEnter the next command \n"
+                  << endl;
+
+        if (choice.find("file") == 0)
+        {
+            command = *commandsOfFile[commandTracker];
+            commandTracker++;
+        }
+        else
+        {
+            commands = cp->getCommand();
+            command = commands->command;
+        }
         Deck *deck = new Deck();
         if (command.find("addplayer") != std::string::npos)
         {
             Command *c = new Command(command, "");
             cp->playegame(c);
-            cp->saveCommand(c);
-            string nameOfPlayer;
 
             std::stringstream ss(command);
             std::istream_iterator<std::string> begin(ss);
             std::istream_iterator<std::string> end;
             std::vector<std::string> tokens(begin, end);
             Player *p = new Player(tokens[1]);
-            cout << tokens[1] << "TOKEN";
             p->set_armyUnit(50);
             Hand *hand = new Hand();
             for (int i = 0; i < 2; i++)
@@ -805,14 +823,12 @@ void GameEngine::startupPhase(CommandProcessor *cp)
         else if (command == "gamestart")
         {
             Command *c = new Command(command, "");
-            cp->saveCommand(c);
             command = "";
             break;
         }
         else
         {
-            Command *c = new Command(command, "");
-            cp->playegame(c);
+            cp->playegame(commands);
             command = "";
         }
     }

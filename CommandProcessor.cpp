@@ -6,68 +6,72 @@
 #include <vector>
 #include <fstream>
 #include <sstream>
-using std::string;
-using std::vector;
-using std::endl;
 using std::cin;
 using std::cout;
+using std::endl;
 using std::ifstream;
-
-
+using std::string;
+using std::vector;
 
 // ----Command Class ---------
 
-//constructors
-Command::Command(){
-    this->command={};
-    this->effect={};
+// constructors
+Command::Command()
+{
+    this->command = {};
+    this->effect = {};
 }
 
-Command::Command(string command, string effect){
-    this->command=command;
-    this->effect=effect;
+Command::Command(string command, string effect)
+{
+    this->command = command;
+    this->effect = effect;
 }
 
-//destructor
-Command::~Command(){
-
+// destructor
+Command::~Command()
+{
 }
 
-
-//stream operators
-std::ostream& operator<<(std::ostream &strm, const Command &c){
-    strm << "The  command and its effect are " << c.command <<" and " <<  c.effect << endl;
+// stream operators
+std::ostream &operator<<(std::ostream &strm, const Command &c)
+{
+    strm << "The  command and its effect are " << c.command << " and " << c.effect << endl;
     return strm;
 }
 
-Command::Command(const Command& c1){
+Command::Command(const Command &c1)
+{
     this->command = c1.command;
     this->effect = c1.effect;
 }
 
-Command& Command::operator=(const Command& c1){
-	this->command = c1.command;
+Command &Command::operator=(const Command &c1)
+{
+    this->command = c1.command;
     this->effect = c1.effect;
-	return *this;
+    return *this;
 }
 
-string Command::getCommand(){
+string Command::getCommand()
+{
     return this->command;
 }
 
-string Command::getEffect(){
+string Command::getEffect()
+{
     return this->effect;
 }
 
-
-//saves effect of the command to the vector of strings
-void Command::saveEffect(string eff){
+// saves effect of the command to the vector of strings
+void Command::saveEffect(string eff)
+{
     this->effect = eff;
     notify(this);
 }
 
-
-string Command::stringToLog(){
+string Command::stringToLog()
+{
     string s = "The effect saved is ";
     return (s).append(this->effect).append(" from the command ").append(this->command);
 }
@@ -78,7 +82,7 @@ string Command::stringToLog(){
 CommandProcessor::CommandProcessor()
 {
     state = "start";
-    vector<Command*> commands;
+    vector<Command *> commands;
     this->commands = commands;
     done = false;
     valid = false;
@@ -88,42 +92,45 @@ CommandProcessor::CommandProcessor()
 CommandProcessor::~CommandProcessor()
 {
     for (int i = 0; i < this->commands.size(); i++)
-	{
-		delete this->commands.at(i);
-	}
+    {
+        delete this->commands.at(i);
+    }
 }
 
-CommandProcessor::CommandProcessor(const CommandProcessor& cp){
-  commands = vector<Command*>();
-    for (Command* c: cp.commands) {
+CommandProcessor::CommandProcessor(const CommandProcessor &cp)
+{
+    commands = vector<Command *>();
+    for (Command *c : cp.commands)
+    {
         commands.push_back(new Command(*c));
-    }    
+    }
     this->state = cp.state;
     this->done = cp.done;
     this->valid = cp.valid;
 }
 
-CommandProcessor& CommandProcessor::operator=(const CommandProcessor& cp){
-	commands = vector<Command*>();
-    for (Command* c: cp.commands) {
+CommandProcessor &CommandProcessor::operator=(const CommandProcessor &cp)
+{
+    commands = vector<Command *>();
+    for (Command *c : cp.commands)
+    {
         commands.push_back(new Command(*c));
-    } 
+    }
     this->state = cp.state;
     this->done = cp.done;
     this->valid = cp.valid;
-	return *this;
+    return *this;
 }
-
 
 // validates the user's commands and if invalid saves the error message to a vector of strings
 // returns a string of the effect resulting from the command passed to it
-bool CommandProcessor::validate(Command* c)
+bool CommandProcessor::validate(Command *c)
 {
     string command = c->getCommand();
 
     if (state == "start")
     {
-        if (command.find("loadmap")==0)
+        if (command.find("loadmap") == 0)
         {
             c->saveEffect("in map loaded state");
             return true;
@@ -136,9 +143,9 @@ bool CommandProcessor::validate(Command* c)
     }
     else if (state == "maploaded")
     {
-        if (command.find("loadmap")==0)
+        if (command.find("loadmap") == 0)
         {
-            c->saveEffect("in map loaded state");        
+            c->saveEffect("in map loaded state");
             return true;
         }
         else if (command == "validatemap")
@@ -202,25 +209,26 @@ bool CommandProcessor::validate(Command* c)
             return false;
         }
     }
-    else{
+    else
+    {
         c->saveEffect("invalid command");
         return false;
     }
 }
 
 // this method saves the command
-void CommandProcessor::saveCommand(Command* command)
+void CommandProcessor::saveCommand(Command *command)
 {
     this->commands.push_back(command);
     notify(this);
 }
 
 // read's user's commands, saves and validates them, then saves the effects of the commands
-Command* CommandProcessor::readCommand()
+Command *CommandProcessor::readCommand()
 {
     string yourCommand;
-    cin >> yourCommand;
-    Command* c = new Command(yourCommand, "");
+    getline(cin, yourCommand);
+    Command *c = new Command(yourCommand, "");
     return c;
 }
 
@@ -234,7 +242,8 @@ string CommandProcessor::get_state()
     return this->state;
 }
 
-vector<Command*> CommandProcessor::getterCommands(){
+vector<Command *> CommandProcessor::getterCommands()
+{
     return this->commands;
 }
 
@@ -261,72 +270,73 @@ void CommandProcessor::startMessage()
 }
 
 // returns a vector of strings which are the commands that the user entered
-Command* CommandProcessor::getCommand()
+Command *CommandProcessor::getCommand()
 {
-    Command* c = new Command(*readCommand());
+    Command *c = new Command(*readCommand());
     saveCommand(c);
     return c;
 }
 
-
 //------ FileLineReader Class ------
 
-//returns a string of the commands read from the file
-vector<string*> FileLineReader::readLineFromFile(string fname){
-  string text;
-  vector<string*> co={};
-  ifstream readFile(fname);
-  while (getline (readFile, text)) {
-    
-    // reads text from the file and saves it to a string of commands
-    co.push_back(new string(text));
-  }
+// returns a string of the commands read from the file
+vector<string *> FileLineReader::readLineFromFile(string fname)
+{
+    string text;
+    vector<string *> co = {};
+    ifstream readFile(fname);
+    while (getline(readFile, text))
+    {
 
-  readFile.close();
-  return co;
-    
+        // reads text from the file and saves it to a string of commands
+        co.push_back(new string(text));
+    }
+
+    readFile.close();
+    return co;
 }
 
-string CommandProcessor::stringToLog(){
+string CommandProcessor::stringToLog()
+{
     string str = "";
     string s = "The command and its effect saved are ";
-    str.append(s).append(commands.at(commands.size()-1)->command).append(" and ").append(commands.at(commands.size()-1)->effect);
-    
+    str.append(s).append(commands.at(commands.size() - 1)->command).append(" and ").append(commands.at(commands.size() - 1)->effect);
+
     return str;
-
 }
-
 
 //-------FileCommandProcessorAdapter Class------
 
-//constructor
-FileCommandProcessorAdapter::FileCommandProcessorAdapter():CommandProcessor(),f_name(""),f(new FileLineReader()), lineNum(0){
+// constructor
+FileCommandProcessorAdapter::FileCommandProcessorAdapter() : CommandProcessor(), f_name(""), f(new FileLineReader()), lineNum(0)
+{
 }
 
-//destructor
-FileCommandProcessorAdapter::~FileCommandProcessorAdapter(){
+// destructor
+FileCommandProcessorAdapter::~FileCommandProcessorAdapter()
+{
     delete f;
-    
 }
 
-//setter
-void FileCommandProcessorAdapter::set_f_name(string name){
-    f_name=name;
+// setter
+void FileCommandProcessorAdapter::set_f_name(string name)
+{
+    f_name = name;
 }
 
-//overriding the readCommand() method from the base class
-Command* FileCommandProcessorAdapter:: readCommand(){
-    //read the commands from a file
-    vector<string*> commands=f->readLineFromFile(f_name);
+// overriding the readCommand() method from the base class
+Command *FileCommandProcessorAdapter::readCommand()
+{
+    // read the commands from a file
+    vector<string *> commands = f->readLineFromFile(f_name);
     string command = *commands.at(lineNum);
     lineNum = lineNum + 1;
-    Command* c = new Command(command, "");
+    Command *c = new Command(command, "");
     return c;
 }
 
-
 // handles the user's commands and passes through the stages of the game
-bool CommandProcessor::playegame(Command* command)
+bool CommandProcessor::playegame(Command *command)
 {
     validate(command);
     if (state == "start")
@@ -447,4 +457,3 @@ bool CommandProcessor::playegame(Command* command)
     }
     return true; // added by marc
 }
-
