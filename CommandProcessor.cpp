@@ -3,8 +3,70 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include<fstream>
 using std::string;
 using std::vector;
+using std::endl;
+using std::cin;
+using std::cout;
+using std::ifstream;
+
+
+
+// ----Command Class ---------
+
+//constructors
+Command::Command(){
+   
+    this->command={};
+    this->effect={};
+}
+
+Command::Command(string command, string effect){
+    this->command=command;
+    this->effect=effect;
+}
+
+//destructor
+Command::~Command(){
+
+}
+
+
+//stream operators
+std::ostream& operator<<(std::ostream &strm, const Command &c){
+    strm << "The  command and its effect are " << c.command <<" and " <<  c.effect << endl;
+    return strm;
+
+}
+
+Command::Command(const Command& c1){
+    this->command = c1.command;
+    this->effect = c1.effect;
+}
+
+Command& Command::operator=(const Command& c1){
+	this->command = c1.command;
+    this->effect = c1.effect;
+	return *this;
+}
+
+string Command::getCommand(){
+    return this->command;
+}
+
+string Command::getEffect(){
+    return this->effect;
+}
+
+
+//saves effect of the command to the vector of strings
+void Command::saveEffect(string eff){
+    this->effect = eff;
+}
+
+
+// ----CommandProcessor Class ---------
 
 // constructor
 CommandProcessor::CommandProcessor()
@@ -198,6 +260,71 @@ Command* CommandProcessor::getCommand()
     saveCommand(c);
     return c;
 }
+
+
+//------ FileLineReader Class ------
+
+//returns a string of the commands read from the file
+vector<string*> FileLineReader::readLineFromFile(string fname){
+  string text;
+  vector<string*> co={};
+  ifstream readFile(fname);
+  while (getline (readFile, text)) {
+    
+    // reads text from the file and saves it to a string of commands
+    co.push_back(new string(text));
+  }
+
+  readFile.close();
+  return co;
+    
+}
+
+
+
+
+//-------FileCommandProcessorAdapter Class------
+
+//constructor
+FileCommandProcessorAdapter::FileCommandProcessorAdapter():CommandProcessor(),f_name(""),f(new FileLineReader()), lineNum(0){
+}
+
+//destructor
+FileCommandProcessorAdapter::~FileCommandProcessorAdapter(){
+    delete f;
+    
+}
+
+//setter
+void FileCommandProcessorAdapter::set_f_name(string name){
+    f_name=name;
+}
+
+//overriding the readCommand() method from the base class
+Command* FileCommandProcessorAdapter:: readCommand(){
+    //read the commands from a file
+    vector<string*> commands=f->readLineFromFile(f_name);
+    string command = *commands.at(lineNum);
+    lineNum = lineNum + 1;
+    Command* c = new Command(command, "");
+    return c;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // handles the user's commands and passes through the stages of the game
 bool CommandProcessor::playegame(Command* command)

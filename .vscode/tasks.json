@@ -17,10 +17,6 @@
                 "${workspaceFolder}\\GameEngineDriver.cpp",
                 "${workspaceFolder}\\LoggingObserver.cpp",
                 "${workspaceFolder}\\CommandProcessor.cpp",
-                "${workspaceFolder}\\Command.cpp",
-                "${workspaceFolder}\\CommandProcessingDriver.cpp",
-                "${workspaceFolder}\\FileCommandProcessorAdapter.cpp",
-                "${workspaceFolder}\\FileLineReader.cpp",
                 "-o",
                 "${workspaceFolder}\\Project.exe"
             ],

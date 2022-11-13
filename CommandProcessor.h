@@ -1,12 +1,12 @@
+#pragma once
 
-#include "Command.h"
-#ifndef COMMANDPROCESSOR_H
-#define COMMANDPROCESSOR_H
 #include <iostream>
 #include <string>
 #include <vector>
+#include<fstream>
 // #include "LoggingObserver.h"
-using namespace std;
+using std::string;
+using std::vector;
 
 class ILoggable;
 class Subject;
@@ -14,6 +14,37 @@ class CommandProcessor;
 class Command;
 
 void testCommandProcessor();
+
+class Command {
+public:
+    string command;
+    string effect;
+
+    void saveEffect(string effect);
+
+    //constructors
+    Command(string command, string effect);
+
+    //default constructor
+    Command();
+
+    //destructor
+    ~Command();
+
+    Command(const Command& c1);
+    Command& operator=(const Command& c1);
+
+    //getters
+    string getCommand();
+    string getEffect();
+
+   
+    friend std::ostream& operator << (std::ostream& strm, const Command& c);
+
+    // ILoggable method
+    // std::string stringToLog();
+
+};
 
 class CommandProcessor //: public ILoggable, public Subject
 {
@@ -49,4 +80,31 @@ public:
     // ILoggable method
     // std::string stringToLog();
 };
-#endif
+
+class FileLineReader{
+    
+  public:
+  
+  //this method reads commands from a file and returns them in a vector of strings
+  vector<string*> readLineFromFile(string fname);
+
+};
+
+
+class FileCommandProcessorAdapter: public CommandProcessor{
+private:
+  string f_name;
+  FileLineReader* f;
+  Command* readCommand();
+  int lineNum;
+public:
+    //constructor
+    FileCommandProcessorAdapter();
+    //destructor
+    ~FileCommandProcessorAdapter();
+   
+   //setter
+     void set_f_name(string name);
+    
+    
+};
