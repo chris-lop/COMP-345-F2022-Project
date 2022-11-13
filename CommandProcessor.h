@@ -74,7 +74,7 @@ public:
     // setter
     void set_state(string line);
 
-    string validate(Command* c);
+    bool validate(Command* c);
     void saveCommand(Command* command);
     CommandProcessor();
     virtual ~CommandProcessor();
