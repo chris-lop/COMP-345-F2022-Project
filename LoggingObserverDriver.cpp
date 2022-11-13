@@ -59,6 +59,18 @@ void testOrdersLists(){
     else{
         cout << "The GameEngine object is NOT a subclass of Subject and ILoggable" << endl;
     }
+
+    cout << "\nTesting the observer pattern's notify(this) in Command::saveEffect()" << endl;
+    command->saveEffect("testing");
+    cout << "\nTesting the observer pattern's notify(this) in CommandProcessor::saveCommand()" << endl;
+    commandProcessor->saveCommand(command);
+    cout << "\nTesting the observer pattern's notify(this) in Order::execute()" << endl;
+    // order->execute();
+    cout << "\nTesting the observer pattern's notify(this) in OrderList::addOrder()" << endl;
+    ordersList->addOrder(order);
+    cout << "\nTesting the observer pattern's notify(this) in GameEngine::transition()" << endl;
+    gameEngine->setState("start");
+    gameEngine->transition();
 }
 
 
