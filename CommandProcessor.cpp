@@ -38,12 +38,14 @@ std::ostream &operator<<(std::ostream &strm, const Command &c)
     return strm;
 }
 
+//copy constructor
 Command::Command(const Command &c1)
 {
     this->command = c1.command;
     this->effect = c1.effect;
 }
 
+//assignment operator
 Command &Command::operator=(const Command &c1)
 {
     this->command = c1.command;
@@ -51,6 +53,8 @@ Command &Command::operator=(const Command &c1)
     return *this;
 }
 
+
+//getters
 string Command::getCommand()
 {
     return this->command;
@@ -96,6 +100,7 @@ CommandProcessor::~CommandProcessor()
     }
 }
 
+//copy constructor
 CommandProcessor::CommandProcessor(const CommandProcessor &cp)
 {
     commands = vector<Command *>();
@@ -108,6 +113,7 @@ CommandProcessor::CommandProcessor(const CommandProcessor &cp)
     this->valid = cp.valid;
 }
 
+//assignment operator
 CommandProcessor &CommandProcessor::operator=(const CommandProcessor &cp)
 {
     commands = vector<Command *>();
@@ -121,8 +127,17 @@ CommandProcessor &CommandProcessor::operator=(const CommandProcessor &cp)
     return *this;
 }
 
-// validates the user's commands and if invalid saves the error message to a vector of strings
-// returns a string of the effect resulting from the command passed to it
+//stream insertion operator
+std::ostream &operator<<(std::ostream &strm, const CommandProcessor &cp)
+{
+   strm<<"The commands are: "<<endl;
+  for(Command* c:cp.commands)
+  strm<<*c;
+  return strm;
+}
+
+
+// validates the user's commands and then saves the effect that it results in
 bool CommandProcessor::validate(Command *c)
 {
     string command = c->getCommand();
@@ -215,14 +230,14 @@ bool CommandProcessor::validate(Command *c)
     }
 }
 
-// this method saves the command
+// this method saves the command object to the vector of commands
 void CommandProcessor::saveCommand(Command *command)
 {
     this->commands.push_back(command);
     notify(this);
 }
 
-// read's user's commands, saves and validates them, then saves the effects of the commands
+// read's user's commands as strings and then creates command object and returns it
 Command *CommandProcessor::readCommand()
 {
     string yourCommand;
@@ -231,6 +246,7 @@ Command *CommandProcessor::readCommand()
     return c;
 }
 
+//getters
 bool CommandProcessor::getvalid()
 {
     return this->valid;
@@ -268,7 +284,7 @@ void CommandProcessor::startMessage()
     cout << "Now in start state. Valid input: loadmap<mapfile>" << endl;
 }
 
-// returns a vector of strings which are the commands that the user entered
+// creates command object, saves and returns a pointer to it
 Command *CommandProcessor::getCommand()
 {
     Command *c = new Command(*readCommand());
@@ -310,6 +326,33 @@ string CommandProcessor::stringToLog()
 // constructor
 FileCommandProcessorAdapter::FileCommandProcessorAdapter() : CommandProcessor(), f_name(""), f(new FileLineReader()), lineNum(0)
 {
+}
+
+//copy constructor
+FileCommandProcessorAdapter::FileCommandProcessorAdapter(const FileCommandProcessorAdapter &fcp)
+{
+    f=new FileLineReader();
+    *f=*fcp.f;
+    this->f_name = fcp.f_name;
+    this->lineNum = fcp.lineNum;
+    
+}
+
+//assignment operator
+FileCommandProcessorAdapter &FileCommandProcessorAdapter::operator=(const FileCommandProcessorAdapter &fcp)
+{
+   f=new FileLineReader();
+   *f=*fcp.f;
+    this->f_name = fcp.f_name;
+    this->lineNum = fcp.lineNum;
+    return *this;
+}
+
+//stream insertion operator
+std::ostream &operator<<(std::ostream &strm, const FileCommandProcessorAdapter &fcp)
+{
+   strm<<"The name of the file and the line number are: "<<fcp.f_name<<", "<<fcp.lineNum<<endl;
+  return strm;
 }
 
 // destructor
