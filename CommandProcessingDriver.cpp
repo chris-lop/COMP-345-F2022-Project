@@ -10,7 +10,8 @@ void testCommandProcessor(){
     string copy;
     
     do{
-        cin>>choice;
+        //cin>>choice;
+        getline(cin,choice);
         copy = choice;
         //if the user chooses console then they will be prompted to enter the commands
         if(choice=="console"){
@@ -35,7 +36,8 @@ void testCommandProcessor(){
     cout<<"enter console or file<filename> to start."<<endl;
 
     do{
-        cin>>choice;
+        //cin>>choice;
+        getline(cin,choice);
         copy = choice;
         if(choice=="console"){
             CommandProcessor* p=new CommandProcessor();
