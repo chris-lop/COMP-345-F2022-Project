@@ -397,6 +397,7 @@ void GameEngine::transition()
 
 }
 
+// Method providing the string to log
 string GameEngine::stringToLog()
 {
     return string("The state has transitioned to ") + getState();

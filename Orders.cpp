@@ -130,6 +130,7 @@ std::ostream& operator<<(std::ostream &strm, const OrdersList &ol){
    
 }
 
+// Method providing the string to log
 string OrdersList::stringToLog() {
     std::stringstream out;
     out << *this;
@@ -223,6 +224,7 @@ std::ostream& operator<<(std::ostream &strm, const Order &order){
     }
 }
 
+// Method providing the string to log
 std::string Order::stringToLog() {
     if (effect.length() == 0) {
         return string("Order ").append(type).append(" has not executed yet");

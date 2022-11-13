@@ -66,7 +66,7 @@ void Command::saveEffect(string eff){
     notify(this);
 }
 
-
+// Method providing the string to log
 string Command::stringToLog(){
     string s = "The effect saved is ";
     return (s).append(this->effect).append(" from the command ").append(this->command);
@@ -287,6 +287,7 @@ vector<string*> FileLineReader::readLineFromFile(string fname){
     
 }
 
+// Method providing the string to log
 string CommandProcessor::stringToLog(){
     string str = "";
     string s = "The command and its effect saved are ";
