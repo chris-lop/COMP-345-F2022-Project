@@ -8,7 +8,7 @@
 using std::cout;
 using std::endl;
 
-void testOrdersLists(){
+void testLoggingObserver(){
     cout << "---- PART 5 TESTS ----" << endl;
     cout << "Creating a Command object of loadmap" << endl;
     Command* command = new Command("loadmap", "");
@@ -31,7 +31,12 @@ void testOrdersLists(){
     }
 
     cout << "\nCreating an Order object of Deploy" << endl;
-    Deploy* order = new Deploy();
+    Territory *t1 = new Territory(new string("t1"), new string("cont1"), vector<Territory*>{}, nullptr, new int(5));
+    Player *p = new Player("Marc", {t1}, nullptr, {});
+    p->set_armyUnit(8);
+    t1->setTerritoryOwner(p);
+
+    Deploy* order = new Deploy(t1, p, 1);
     cout << "Checking if Deplooy is a subclass of Subject and ILoggable"<<endl;
     if(dynamic_cast<Subject*>(order) && dynamic_cast<ILoggable*>(order)){
         cout << "The Order object is a subclass of Subject and ILoggable" << endl;
@@ -65,12 +70,18 @@ void testOrdersLists(){
     cout << "\nTesting the observer pattern's notify(this) in CommandProcessor::saveCommand()" << endl;
     commandProcessor->saveCommand(command);
     cout << "\nTesting the observer pattern's notify(this) in Order::execute()" << endl;
-    // order->execute();
+    order->execute();
     cout << "\nTesting the observer pattern's notify(this) in OrderList::addOrder()" << endl;
     ordersList->addOrder(order);
     cout << "\nTesting the observer pattern's notify(this) in GameEngine::transition()" << endl;
     gameEngine->setState("start");
     gameEngine->transition();
+
+    cout << "\n\n- Now testing with commands from the console -\n"<<endl;
+
+    
+    CommandProcessor* cp=new CommandProcessor();
+    cp->start();
 }
 
 

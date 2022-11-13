@@ -40,5 +40,6 @@ int main()
 
     // A2 Part 3
     // testMainGameLoop();
-    testCommandProcessor();
+    // testCommandProcessor();
+    testLoggingObserver();
 }
