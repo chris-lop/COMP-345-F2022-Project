@@ -297,8 +297,6 @@ string CommandProcessor::stringToLog(){
 }
 
 
-
-
 //-------FileCommandProcessorAdapter Class------
 
 //constructor
@@ -325,11 +323,6 @@ Command* FileCommandProcessorAdapter:: readCommand(){
     Command* c = new Command(command, "");
     return c;
 }
-
-
-
-
-
 
 
 // handles the user's commands and passes through the stages of the game

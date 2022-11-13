@@ -352,41 +352,49 @@ void GameEngine::transition()
     if (current == "start")
     {
         this->setState("maploaded");
+        notify(this);
     }
     if (current == "maploaded")
     {
         this->setState("mapvalidated");
+        notify(this);
     }
     if (current == "mapvalidated")
     {
         this->setState("playersadded");
+        notify(this);
     }
     if (current == "playersadded")
     {
         this->setState("assignreinforcement");
+        notify(this);
     }
     if (current == "assignreinforcement")
     {
         this->setState("issueorders");
+        notify(this);
     }
     if (current == "issueorders")
     {
         this->setState("executeorders");
+        notify(this);
     }
     if (current == "executeorders")
     {
         this->setState("win");
+        notify(this);
     }
     if (current == "replay")
     {
         this->setState("start");
+        notify(this);
     }
     if (current == "quit")
     {
         this->setState("end");
+        notify(this);
     }
 
-    notify(this);
 }
 
 string GameEngine::stringToLog()
