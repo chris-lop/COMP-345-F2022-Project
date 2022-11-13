@@ -19,6 +19,10 @@ int main(int argc, char *argv[])
         std::cout << argv[i] << endl;
         commandLineArg = commandLineArg + argv[i] + "\t";
     }
+    if (commandLineArg.find("console") != 0 || commandLineArg.find("file") != 0)
+    {
+        exit(1);
+    }
     // add validationg
 
     // Part 1: Map
