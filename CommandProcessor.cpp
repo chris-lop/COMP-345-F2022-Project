@@ -1,5 +1,3 @@
-#pragma once
-
 #include "CommandProcessor.h"
 #include "LoggingObserver.h"
 #include <iostream>
