@@ -680,31 +680,38 @@ vector<char *> GameEngine::directory()
 }
 void GameEngine::startupPhase(CommandProcessor *cp)
 {
-
+    // this is a valiable that tracks commands in the command txt file
     int commandTracker = 0;
+    // this vatiable checks for the choice of the user
     string choice = "";
+    // asking the user if they want to read from a file of use console input
     std::cout << "enter console or file <filename> to start." << endl;
     getline(cin, choice);
     vector<string *> commandsOfFile;
+    // checking if the choice contains the word file
     if (choice.find("file") == 0)
     {
+        // parsing the command to obtain the filename and passing it through the readLineFomLine
         std::stringstream ss(choice);
         std::istream_iterator<std::string> begin(ss);
         std::istream_iterator<std::string> end;
         std::vector<std::string> tokens(begin, end);
         string CommandFileName = tokens[1];
         FileLineReader *fileCommands = new FileLineReader();
+        // getting a vector of all the commands in a file
         commandsOfFile = fileCommands->readLineFromFile(CommandFileName);
     }
-
+    // indicating to the user that the game has started
     std::cout << "**********THE GAME HAS STARTED********** \n"
               << endl;
     std::cout << "Enter the the following command to load a mad (loadmap <filename>): ";
+    // creating objects that will be used throughout the function
     string command;
     Map *m = new Map();
     Map *gameMap = new Map();
     string nameMapSaver = "";
     Command *commands;
+    // this loop goes through the loadmap and validatemap commands
     while (true)
     {
         MapLoader *loader = new MapLoader();
@@ -713,6 +720,7 @@ void GameEngine::startupPhase(CommandProcessor *cp)
         string mapPath = "./maps/";
         string mapthName = "";
         bool truemap = true;
+        // displaying to the users the maps he can choose from
         std::cout << "\nHere is a list of maps you can choose from\n";
         int nbr = 0;
         for (auto file : nameOfMaps)
@@ -720,20 +728,24 @@ void GameEngine::startupPhase(CommandProcessor *cp)
             std::cout << nbr << ": " << file << "\n";
             nbr++;
         }
+        // checking if the choice of user was file, if it was then we get the command from the vector of commands
         if (choice.find("file") == 0)
         {
             command = *commandsOfFile[commandTracker];
             commandTracker++;
         }
+        // if the user did not choose file we ask the user for his commands through the getCommand() funciton
         else
         {
             commands = cp->getCommand();
             command = commands->command;
         }
         std::cout << "\n";
+        // checking if the command contains loadmap
         if (command.find("loadmap") != std::string::npos)
         {
             nameMapSaver = "";
+            // checking if the name of the man provided by the user is a valid map
             for (auto name : nameOfMaps)
             {
                 if (command.find(name) != std::string::npos)
@@ -746,9 +758,12 @@ void GameEngine::startupPhase(CommandProcessor *cp)
                 }
                 else
                 {
+                    // if the map does not exist then set this variable to false
                     truemap = false;
                 }
             }
+            // if the truemap is false it means that the map does not exists, then tell the user and change the state to start
+            // so that the user cannot validate a non existing map
             if (truemap == false)
             {
                 std::cout << "\nInvalid Map name \n";
@@ -756,14 +771,15 @@ void GameEngine::startupPhase(CommandProcessor *cp)
             }
             std::cout << "\n";
         }
+        // if the command validates the map, then check if we are at the right state
         else if (command == "validatemap" && cp->get_state() == "maploaded")
         {
-            std::cout << cp->get_state() << endl;
             mapPath = mapPath + nameMapSaver;
-            std::cout << mapPath;
             gameMap = loader->loadMap(mapPath);
+            // e validate the map
             if (!m->validate(gameMap->territories))
             {
+                // if the map is not valid tell the user
                 std::cout << "\nInvalid map \n"
                           << endl;
                 command = "";
@@ -771,6 +787,7 @@ void GameEngine::startupPhase(CommandProcessor *cp)
                 cp->set_state("start");
             }
             else
+            // if the map is valid change the state
             {
                 std::cout << "\n";
                 cp->playegame(commands);
@@ -805,13 +822,14 @@ void GameEngine::startupPhase(CommandProcessor *cp)
         {
             Command *c = new Command(command, "");
             cp->playegame(c);
-
+            // parsing the command to get players name
             std::stringstream ss(command);
             std::istream_iterator<std::string> begin(ss);
             std::istream_iterator<std::string> end;
             std::vector<std::string> tokens(begin, end);
             Player *p = new Player(tokens[1]);
             p->set_armyUnit(50);
+            // assigning hands to player
             Hand *hand = new Hand();
             for (int i = 0; i < 2; i++)
             {
