@@ -1,87 +1,18 @@
+The command and its effect saved are 3D.map and 
+The effect saved is invalid command from the command 3D.map
+The command and its effect saved are loadmap 3D.map and 
+The effect saved is in map loaded state from the command loadmap 3D.map
+The command and its effect saved are validatemap and 
+The effect saved is in validated state from the command validatemap
+The command and its effect saved are addplayer marc and 
+The effect saved is in players added state from the command addplayer marc
+The command and its effect saved are addplyer chris and 
+The effect saved is invalid command from the command addplyer chris
+The command and its effect saved are addplayer chris and 
+The effect saved is in players added state from the command addplayer chris
+The command and its effect saved are gamestart and 
+The effect saved is testing from the command loadmap
+The command and its effect saved are loadmap and testing
+Command effect: Executed Deploy order, adding 1 units to the territory t1
+{Order(Deploy,Executed Deploy order, adding 1 units to the territory t1) }
 The state has transitioned to maploaded
-The state has transitioned to mapvalidated
-The state has transitioned to playersadded
-The state has transitioned to assignreinforcement
-The state has transitioned to assignreinforcement
-The state has transitioned to issueorders
-{Order(Deploy) }
-{Order(Deploy) }
-The state has transitioned to executeorders
-Command effect: Executed Deploy order, adding 53 units to the territory 1c
-Command effect: Executed Deploy order, adding 56 units to the territory 1t
-The state has transitioned to assignreinforcement
-The state has transitioned to assignreinforcement
-The state has transitioned to issueorders
-{Order(Deploy) }
-{Order(Deploy) }
-{Order(Deploy) Order(Negotiate) }
-{Order(Deploy) Order() }
-{Order(Deploy) Order(Negotiate) Order() }
-{Order(Deploy) Order() Order() }
-The state has transitioned to executeorders
-Command effect: Executed Deploy order, adding 3 units to the territory 1c
-Command effect: Executed Deploy order, adding 6 units to the territory 5c
-Command effect: Negotiation between Player1 and Player2 executed 
-Command effect: Advance cannot be executed
-Command effect: Advance cannot be executed
-Command effect: Advance cannot be executed
-The state has transitioned to assignreinforcement
-The state has transitioned to assignreinforcement
-The state has transitioned to issueorders
-{Order(Deploy) }
-{Order(Deploy) }
-The state has transitioned to executeorders
-Command effect: Executed Deploy order, adding 3 units to the territory 1c
-Command effect: Executed Deploy order, adding 6 units to the territory 1t
-The state has transitioned to assignreinforcement
-The state has transitioned to assignreinforcement
-The state has transitioned to issueorders
-{Order(Deploy) }
-{Order(Deploy) }
-{Order(Deploy) Order() }
-{Order(Deploy) Order(Bomb) }
-The state has transitioned to executeorders
-Command effect: Executed Deploy order, adding 3 units to the territory 1c
-Command effect: Executed Deploy order, adding 6 units to the territory 2c
-Command effect: executed
-Command effect: executed
-The state has transitioned to assignreinforcement
-The state has transitioned to assignreinforcement
-The state has transitioned to issueorders
-{Order(Deploy) }
-{Order(Deploy) }
-{Order(Deploy) Order() }
-{Order(Deploy) Order() }
-{Order(Deploy) Order() Order() }
-{Order(Deploy) Order() Order() }
-The state has transitioned to executeorders
-Command effect: Executed Deploy order, adding 3 units to the territory 1c
-Command effect: Executed Deploy order, adding 6 units to the territory 2c
-Command effect: executed
-Command effect: executed
-Command effect: Advance cannot be executed
-Command effect: executed
-The state has transitioned to assignreinforcement
-The state has transitioned to assignreinforcement
-The state has transitioned to issueorders
-{Order(Deploy) }
-{Order(Deploy) }
-The state has transitioned to executeorders
-Command effect: Executed Deploy order, adding 3 units to the territory 1c
-Command effect: Executed Deploy order, adding 6 units to the territory 5c
-The state has transitioned to assignreinforcement
-The state has transitioned to assignreinforcement
-The state has transitioned to issueorders
-{Order(Deploy) }
-{Order(Deploy) }
-{Order(Deploy) Order() }
-{Order(Deploy) Order() }
-{Order(Deploy) Order() Order() }
-{Order(Deploy) Order() Order() }
-The state has transitioned to executeorders
-Command effect: Executed Deploy order, adding 3 units to the territory 1c
-Command effect: Executed Deploy order, adding 6 units to the territory 6c
-Command effect: executed
-Command effect: executed
-The state has transitioned to win
-The state has transitioned to end
