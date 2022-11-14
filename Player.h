@@ -75,8 +75,6 @@ public:
     bool hasNegotiationWith(Player *o);
 };//end class Player
 
-//free function testPlayer
-// void testPlayer();
 
 
 #endif

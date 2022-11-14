@@ -852,13 +852,9 @@ vector<string> GameEngine::directory()
 }
 void GameEngine::startupPhase(CommandProcessor *cp, string choice)
 {
-    // this is a valiable that tracks commands in the command txt file
+    // this is a variable that tracks commands in the command txt file
     int commandTracker = 0;
-    // this vatiable checks for the choice of the user
-    // string choice = "";
-    // // asking the user if they want to read from a file of use console input
-    // std::cout << "enter console or file <filename> to start." << endl;
-    // getline(cin, choice);
+    
     std::cout << choice << endl;
     vector<string *> commandsOfFile;
     // checking if the choice contains the word file
