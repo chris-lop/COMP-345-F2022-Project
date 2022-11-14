@@ -322,6 +322,7 @@ void Player::issueOrder()
                 if ((rand() % 100) < 50)
                 {
                     order_option = 2;
+                    std::cout<<"Using player's Airlift card.\n";
                 }
             }
             // If player has bomb card, player has 50% chance to use it during a turn
@@ -330,6 +331,7 @@ void Player::issueOrder()
                 if ((rand() % 100) < 50)
                 {
                     order_option = 3;
+                    std::cout<<"Using player's Bomb card.\n";
                 }
             }
             // If player has blockade card, player has 15% chance to use it during a turn
@@ -338,6 +340,7 @@ void Player::issueOrder()
                 if (((rand() % 100) < 0) && this->get_trt().size()>1)
                 {
                     order_option = 4;
+                    std::cout<<"Using player's Blockade card.\n";
                 }
             }
             // If player has diplomacy card, player has 50% chance to use it during a turn
@@ -346,6 +349,7 @@ void Player::issueOrder()
                 if ((rand() % 100) < 50)
                 {
                     order_option = 5;
+                    std::cout<<"Using player's Diplomacy card.\n";
                 }
             }
             

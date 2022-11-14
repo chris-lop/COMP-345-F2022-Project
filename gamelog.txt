@@ -7,18 +7,38 @@ The state has transitioned to issueorders
 {Order(Deploy) }
 {Order(Deploy) }
 The state has transitioned to executeorders
-Command effect: Executed Deploy order, adding 56 units to the territory 4t
+Command effect: Executed Deploy order, adding 56 units to the territory 2t
 Command effect: Executed Deploy order, adding 53 units to the territory 3t
 The state has transitioned to assignreinforcement
 The state has transitioned to assignreinforcement
 The state has transitioned to issueorders
 {Order(Deploy) }
 {Order(Deploy) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1t
+Command effect: Executed Deploy order, adding 3 units to the territory 4t
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
 {Order(Deploy) Order(Bomb) }
-{Order(Deploy) Order(Advance) }
+{Order(Deploy) Order(Bomb) }
 The state has transitioned to executeorders
 Command effect: Executed Deploy order, adding 6 units to the territory 2t
-Command effect: Executed Deploy order, adding 3 units to the territory 5t
+Command effect: Executed Deploy order, adding 3 units to the territory 6t
+Command effect: executed
+Command effect: executed
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+{Order(Deploy) Order(Advance) }
+{Order(Deploy) Order(Bomb) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1t
+Command effect: Executed Deploy order, adding 3 units to the territory 6t
 Command effect: executed
 Command effect: executed
 The state has transitioned to assignreinforcement
@@ -28,11 +48,15 @@ The state has transitioned to issueorders
 {Order(Deploy) }
 {Order(Deploy) Order(Bomb) }
 {Order(Deploy) Order(Advance) }
+{Order(Deploy) Order(Bomb) Order(Airlift) }
+{Order(Deploy) Order(Advance) Order(Advance) }
 The state has transitioned to executeorders
 Command effect: Executed Deploy order, adding 6 units to the territory 1t
-Command effect: Executed Deploy order, adding 3 units to the territory 5t
+Command effect: Executed Deploy order, adding 3 units to the territory 3t
 Command effect: executed
-Command effect: Advance cannot be executed
+Command effect: executed
+Command effect: Executed Airlift order, moving 27 units from 2t to 2t
+Command effect: executed
 The state has transitioned to assignreinforcement
 The state has transitioned to assignreinforcement
 The state has transitioned to issueorders
@@ -46,9 +70,833 @@ The state has transitioned to assignreinforcement
 The state has transitioned to issueorders
 {Order(Deploy) }
 {Order(Deploy) }
+{Order(Deploy) Order(Advance) }
+{Order(Deploy) Order(Advance) }
 The state has transitioned to executeorders
-Command effect: Executed Deploy order, adding 6 units to the territory 2t
+Command effect: Executed Deploy order, adding 6 units to the territory 4t
 Command effect: Executed Deploy order, adding 3 units to the territory 6t
+Command effect: executed
+Command effect: executed
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1c
+Command effect: Executed Deploy order, adding 3 units to the territory 3t
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1c
+Command effect: Executed Deploy order, adding 3 units to the territory 3t
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 4t
+Command effect: Executed Deploy order, adding 3 units to the territory 3t
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1c
+Command effect: Executed Deploy order, adding 3 units to the territory 1t
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+{Order(Deploy) Order(Bomb) }
+{Order(Deploy) Order(Bomb) }
+{Order(Deploy) Order(Bomb) Order(Airlift) }
+{Order(Deploy) Order(Bomb) Order(Bomb) }
+{Order(Deploy) Order(Bomb) Order(Airlift) Order(Airlift) }
+{Order(Deploy) Order(Bomb) Order(Bomb) Order(Bomb) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 4t
+Command effect: Executed Deploy order, adding 3 units to the territory 3t
+Command effect: executed
+Command effect: executed
+Command effect: Executed Airlift order, moving 6 units from 4t to 4t
+Command effect: executed
+Command effect: Executed Airlift order, moving 1 units from 1c to 4t
+Command effect: executed
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 4t
+Command effect: Executed Deploy order, adding 3 units to the territory 1t
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+{Order(Deploy) Order(Bomb) }
+{Order(Deploy) Order(Advance) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 4t
+Command effect: Executed Deploy order, adding 3 units to the territory 1t
+Command effect: executed
+Command effect: Advance cannot be executed
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 4t
+Command effect: Executed Deploy order, adding 3 units to the territory 3t
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 4t
+Command effect: Executed Deploy order, adding 3 units to the territory 3t
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1c
+Command effect: Executed Deploy order, adding 3 units to the territory 5t
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1c
+Command effect: Executed Deploy order, adding 3 units to the territory 3t
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+{Order(Deploy) Order(Bomb) }
+{Order(Deploy) Order(Bomb) }
+{Order(Deploy) Order(Bomb) Order(Bomb) }
+{Order(Deploy) Order(Bomb) Order(Bomb) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1c
+Command effect: Executed Deploy order, adding 3 units to the territory 5t
+Command effect: executed
+Command effect: executed
+Command effect: executed
+Command effect: executed
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+{Order(Deploy) Order(Bomb) }
+{Order(Deploy) Order(Bomb) }
+{Order(Deploy) Order(Bomb) Order(Bomb) }
+{Order(Deploy) Order(Bomb) Order(Bomb) }
+{Order(Deploy) Order(Bomb) Order(Bomb) Order(Bomb) }
+{Order(Deploy) Order(Bomb) Order(Bomb) Order(Bomb) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 4t
+Command effect: Executed Deploy order, adding 3 units to the territory 1t
+Command effect: executed
+Command effect: executed
+Command effect: executed
+Command effect: executed
+Command effect: executed
+Command effect: executed
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+{Order(Deploy) Order(Bomb) }
+{Order(Deploy) Order(Advance) }
+{Order(Deploy) Order(Bomb) Order(Bomb) }
+{Order(Deploy) Order(Advance) Order(Advance) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1c
+Command effect: Executed Deploy order, adding 3 units to the territory 3t
+Command effect: executed
+Command effect: Advance cannot be executed
+Command effect: executed
+Command effect: executed
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1c
+Command effect: Executed Deploy order, adding 3 units to the territory 3t
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1c
+Command effect: Executed Deploy order, adding 3 units to the territory 5t
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1c
+Command effect: Executed Deploy order, adding 3 units to the territory 3t
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+{Order(Deploy) Order(Bomb) }
+{Order(Deploy) Order(Bomb) }
+{Order(Deploy) Order(Bomb) Order(Airlift) }
+{Order(Deploy) Order(Bomb) Order(Advance) }
+{Order(Deploy) Order(Bomb) Order(Airlift) Order(Bomb) }
+{Order(Deploy) Order(Bomb) Order(Advance) Order(Advance) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1c
+Command effect: Executed Deploy order, adding 3 units to the territory 5t
+Command effect: executed
+Command effect: executed
+Command effect: Executed Airlift order, moving 0 units from 1c to 4t
+Command effect: executed
+Command effect: executed
+Command effect: Advance cannot be executed
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+{Order(Deploy) Order(Bomb) }
+{Order(Deploy) Order(Bomb) }
+{Order(Deploy) Order(Bomb) Order(Airlift) }
+{Order(Deploy) Order(Bomb) Order(Advance) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 4t
+Command effect: Executed Deploy order, adding 3 units to the territory 1t
+Command effect: executed
+Command effect: executed
+Command effect: Executed Airlift order, moving 4 units from 4t to 1c
+Command effect: executed
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1c
+Command effect: Executed Deploy order, adding 3 units to the territory 3t
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 4t
+Command effect: Executed Deploy order, adding 3 units to the territory 1t
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+{Order(Deploy) Order(Bomb) }
+{Order(Deploy) Order(Bomb) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1c
+Command effect: Executed Deploy order, adding 3 units to the territory 3t
+Command effect: executed
+Command effect: executed
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1c
+Command effect: Executed Deploy order, adding 3 units to the territory 1t
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1c
+Command effect: Executed Deploy order, adding 3 units to the territory 5t
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 4t
+Command effect: Executed Deploy order, adding 3 units to the territory 1t
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 4t
+Command effect: Executed Deploy order, adding 3 units to the territory 3t
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+{Order(Deploy) Order(Airlift) }
+{Order(Deploy) Order(Advance) }
+{Order(Deploy) Order(Airlift) Order(Airlift) }
+{Order(Deploy) Order(Advance) Order(Advance) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 4t
+Command effect: Executed Deploy order, adding 3 units to the territory 5t
+Command effect: Executed Airlift order, moving 8 units from 1c to 4t
+Command effect: executed
+Command effect: Executed Airlift order, moving 11 units from 4t to 4t
+Command effect: executed
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1c
+Command effect: Executed Deploy order, adding 3 units to the territory 5t
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+{Order(Deploy) Order(Bomb) }
+{Order(Deploy) Order(Advance) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1c
+Command effect: Executed Deploy order, adding 3 units to the territory 3t
+Command effect: executed
+Command effect: executed
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1c
+Command effect: Executed Deploy order, adding 3 units to the territory 1t
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+{Order(Deploy) Order(Airlift) }
+{Order(Deploy) Order(Advance) }
+{Order(Deploy) Order(Airlift) Order(Bomb) }
+{Order(Deploy) Order(Advance) Order(Bomb) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1c
+Command effect: Executed Deploy order, adding 3 units to the territory 5t
+Command effect: Executed Airlift order, moving 28 units from 4t to 1c
+Command effect: executed
+Command effect: executed
+Command effect: executed
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 4t
+Command effect: Executed Deploy order, adding 3 units to the territory 5t
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+{Order(Deploy) Order(Bomb) }
+{Order(Deploy) Order(Bomb) }
+{Order(Deploy) Order(Bomb) Order(Airlift) }
+{Order(Deploy) Order(Bomb) Order(Bomb) }
+{Order(Deploy) Order(Bomb) Order(Airlift) Order(Advance) }
+{Order(Deploy) Order(Bomb) Order(Bomb) Order(Advance) }
+{Order(Deploy) Order(Bomb) Order(Airlift) Order(Advance) Order(Bomb) }
+{Order(Deploy) Order(Bomb) Order(Bomb) Order(Advance) Order(Bomb) }
+{Order(Deploy) Order(Bomb) Order(Airlift) Order(Advance) Order(Bomb) Order(Bomb) }
+{Order(Deploy) Order(Bomb) Order(Bomb) Order(Advance) Order(Bomb) Order(Bomb) }
+{Order(Deploy) Order(Bomb) Order(Airlift) Order(Advance) Order(Bomb) Order(Bomb) Order(Airlift) }
+{Order(Deploy) Order(Bomb) Order(Bomb) Order(Advance) Order(Bomb) Order(Bomb) Order(Bomb) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1c
+Command effect: Executed Deploy order, adding 3 units to the territory 3t
+Command effect: executed
+Command effect: executed
+Command effect: Airlift order cannot be executed
+Command effect: executed
+Command effect: Advance cannot be executed
+Command effect: executed
+Command effect: executed
+Command effect: executed
+Command effect: Bomb cannot be executed
+Command effect: executed
+Command effect: Airlift order cannot be executed
+Command effect: Bomb cannot be executed
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+{Order(Deploy) Order(Advance) }
+{Order(Deploy) Order(Bomb) }
+{Order(Deploy) Order(Advance) Order(Bomb) }
+{Order(Deploy) Order(Bomb) Order(Advance) }
+{Order(Deploy) Order(Advance) Order(Bomb) Order(Bomb) }
+{Order(Deploy) Order(Bomb) Order(Advance) Order(Bomb) }
+{Order(Deploy) Order(Advance) Order(Bomb) Order(Bomb) Order(Airlift) }
+{Order(Deploy) Order(Bomb) Order(Advance) Order(Bomb) Order(Bomb) }
+{Order(Deploy) Order(Advance) Order(Bomb) Order(Bomb) Order(Airlift) Order(Airlift) }
+{Order(Deploy) Order(Bomb) Order(Advance) Order(Bomb) Order(Bomb) Order(Advance) }
+{Order(Deploy) Order(Advance) Order(Bomb) Order(Bomb) Order(Airlift) Order(Airlift) Order(Airlift) }
+{Order(Deploy) Order(Bomb) Order(Advance) Order(Bomb) Order(Bomb) Order(Advance) Order(Bomb) }
+{Order(Deploy) Order(Advance) Order(Bomb) Order(Bomb) Order(Airlift) Order(Airlift) Order(Airlift) Order(Advance) }
+{Order(Deploy) Order(Bomb) Order(Advance) Order(Bomb) Order(Bomb) Order(Advance) Order(Bomb) Order(Bomb) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1c
+Command effect: Executed Deploy order, adding 5 units to the territory 1t
+Command effect: executed
+Command effect: executed
+Command effect: executed
+Command effect: executed
+Command effect: executed
+Command effect: executed
+Command effect: Airlift order cannot be executed
+Command effect: executed
+Command effect: Airlift order cannot be executed
+Command effect: executed
+Command effect: Airlift order cannot be executed
+Command effect: executed
+Command effect: Advance cannot be executed
+Command effect: executed
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1c
+Command effect: Executed Deploy order, adding 5 units to the territory 1t
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1c
+Command effect: Executed Deploy order, adding 5 units to the territory 1t
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+{Order(Deploy) Order(Advance) }
+{Order(Deploy) Order(Advance) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1c
+Command effect: Executed Deploy order, adding 5 units to the territory 1t
+Command effect: executed
+Command effect: executed
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+{Order(Deploy) Order(Advance) }
+{Order(Deploy) Order(Bomb) }
+{Order(Deploy) Order(Advance) Order(Airlift) }
+{Order(Deploy) Order(Bomb) Order(Advance) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1c
+Command effect: Executed Deploy order, adding 5 units to the territory 1t
+Command effect: executed
+Command effect: executed
+Command effect: Executed Airlift order, moving 2 units from 1c to 1c
+Command effect: executed
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1c
+Command effect: Executed Deploy order, adding 5 units to the territory 1t
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1c
+Command effect: Executed Deploy order, adding 5 units to the territory 1t
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1c
+Command effect: Executed Deploy order, adding 5 units to the territory 1t
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+{Order(Deploy) Order(Airlift) }
+{Order(Deploy) Order(Advance) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1c
+Command effect: Executed Deploy order, adding 5 units to the territory 1t
+Command effect: Executed Airlift order, moving 4 units from 1c to 1c
+Command effect: executed
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+{Order(Deploy) Order(Airlift) }
+{Order(Deploy) Order(Advance) }
+{Order(Deploy) Order(Airlift) Order(Advance) }
+{Order(Deploy) Order(Advance) Order(Advance) }
+{Order(Deploy) Order(Airlift) Order(Advance) Order(Bomb) }
+{Order(Deploy) Order(Advance) Order(Advance) Order(Advance) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1c
+Command effect: Executed Deploy order, adding 5 units to the territory 1t
+Command effect: Executed Airlift order, moving 4 units from 1c to 1c
+Command effect: executed
+Command effect: executed
+Command effect: executed
+Command effect: executed
+Command effect: Advance cannot be executed
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1c
+Command effect: Executed Deploy order, adding 5 units to the territory 1t
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+{Order(Deploy) Order(Bomb) }
+{Order(Deploy) Order(Bomb) }
+{Order(Deploy) Order(Bomb) Order(Airlift) }
+{Order(Deploy) Order(Bomb) Order(Bomb) }
+{Order(Deploy) Order(Bomb) Order(Airlift) Order(Bomb) }
+{Order(Deploy) Order(Bomb) Order(Bomb) Order(Advance) }
+{Order(Deploy) Order(Bomb) Order(Airlift) Order(Bomb) Order(Airlift) }
+{Order(Deploy) Order(Bomb) Order(Bomb) Order(Advance) Order(Advance) }
+{Order(Deploy) Order(Bomb) Order(Airlift) Order(Bomb) Order(Airlift) Order(Bomb) }
+{Order(Deploy) Order(Bomb) Order(Bomb) Order(Advance) Order(Advance) Order(Bomb) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1c
+Command effect: Executed Deploy order, adding 5 units to the territory 1t
+Command effect: executed
+Command effect: executed
+Command effect: Executed Airlift order, moving 7 units from 1c to 1c
+Command effect: executed
+Command effect: executed
+Command effect: Advance cannot be executed
+Command effect: Airlift order cannot be executed
+Command effect: Advance cannot be executed
+Command effect: executed
+Command effect: executed
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1c
+Command effect: Executed Deploy order, adding 5 units to the territory 1t
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1c
+Command effect: Executed Deploy order, adding 5 units to the territory 1t
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1c
+Command effect: Executed Deploy order, adding 5 units to the territory 1t
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1c
+Command effect: Executed Deploy order, adding 5 units to the territory 1t
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1c
+Command effect: Executed Deploy order, adding 5 units to the territory 1t
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+{Order(Deploy) Order(Advance) }
+{Order(Deploy) Order(Bomb) }
+{Order(Deploy) Order(Advance) Order(Airlift) }
+{Order(Deploy) Order(Bomb) Order(Advance) }
+{Order(Deploy) Order(Advance) Order(Airlift) Order(Bomb) }
+{Order(Deploy) Order(Bomb) Order(Advance) Order(Bomb) }
+{Order(Deploy) Order(Advance) Order(Airlift) Order(Bomb) Order(Bomb) }
+{Order(Deploy) Order(Bomb) Order(Advance) Order(Bomb) Order(Advance) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1c
+Command effect: Executed Deploy order, adding 5 units to the territory 1t
+Command effect: executed
+Command effect: executed
+Command effect: Executed Airlift order, moving 13 units from 1c to 1c
+Command effect: executed
+Command effect: executed
+Command effect: executed
+Command effect: executed
+Command effect: Advance cannot be executed
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+{Order(Deploy) Order(Bomb) }
+{Order(Deploy) Order(Bomb) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1c
+Command effect: Executed Deploy order, adding 5 units to the territory 1t
+Command effect: executed
+Command effect: executed
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1c
+Command effect: Executed Deploy order, adding 5 units to the territory 1t
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1c
+Command effect: Executed Deploy order, adding 5 units to the territory 1t
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1c
+Command effect: Executed Deploy order, adding 5 units to the territory 1t
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+{Order(Deploy) Order(Bomb) }
+{Order(Deploy) Order(Advance) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1c
+Command effect: Executed Deploy order, adding 5 units to the territory 1t
+Command effect: executed
+Command effect: Advance cannot be executed
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1c
+Command effect: Executed Deploy order, adding 5 units to the territory 1t
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1c
+Command effect: Executed Deploy order, adding 5 units to the territory 1t
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+{Order(Deploy) Order(Bomb) }
+{Order(Deploy) Order(Advance) }
+{Order(Deploy) Order(Bomb) Order(Bomb) }
+{Order(Deploy) Order(Advance) Order(Bomb) }
+{Order(Deploy) Order(Bomb) Order(Bomb) Order(Bomb) }
+{Order(Deploy) Order(Advance) Order(Bomb) Order(Bomb) }
+{Order(Deploy) Order(Bomb) Order(Bomb) Order(Bomb) Order(Bomb) }
+{Order(Deploy) Order(Advance) Order(Bomb) Order(Bomb) Order(Advance) }
+{Order(Deploy) Order(Bomb) Order(Bomb) Order(Bomb) Order(Bomb) Order(Bomb) }
+{Order(Deploy) Order(Advance) Order(Bomb) Order(Bomb) Order(Advance) Order(Bomb) }
+{Order(Deploy) Order(Bomb) Order(Bomb) Order(Bomb) Order(Bomb) Order(Bomb) Order(Bomb) }
+{Order(Deploy) Order(Advance) Order(Bomb) Order(Bomb) Order(Advance) Order(Bomb) Order(Bomb) }
+{Order(Deploy) Order(Bomb) Order(Bomb) Order(Bomb) Order(Bomb) Order(Bomb) Order(Bomb) Order(Advance) }
+{Order(Deploy) Order(Advance) Order(Bomb) Order(Bomb) Order(Advance) Order(Bomb) Order(Bomb) Order(Bomb) }
+{Order(Deploy) Order(Bomb) Order(Bomb) Order(Bomb) Order(Bomb) Order(Bomb) Order(Bomb) Order(Advance) Order(Airlift) }
+{Order(Deploy) Order(Advance) Order(Bomb) Order(Bomb) Order(Advance) Order(Bomb) Order(Bomb) Order(Bomb) Order(Bomb) }
+{Order(Deploy) Order(Bomb) Order(Bomb) Order(Bomb) Order(Bomb) Order(Bomb) Order(Bomb) Order(Advance) Order(Airlift) Order(Airlift) }
+{Order(Deploy) Order(Advance) Order(Bomb) Order(Bomb) Order(Advance) Order(Bomb) Order(Bomb) Order(Bomb) Order(Bomb) Order(Advance) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1c
+Command effect: Executed Deploy order, adding 5 units to the territory 1t
+Command effect: executed
+Command effect: executed
+Command effect: executed
+Command effect: executed
+Command effect: executed
+Command effect: executed
+Command effect: executed
+Command effect: Advance cannot be executed
+Command effect: executed
+Command effect: executed
+Command effect: executed
+Command effect: executed
+Command effect: Advance cannot be executed
+Command effect: executed
+Command effect: Airlift order cannot be executed
+Command effect: executed
+Command effect: Airlift order cannot be executed
+Command effect: Advance cannot be executed
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1c
+Command effect: Executed Deploy order, adding 5 units to the territory 1t
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1c
+Command effect: Executed Deploy order, adding 5 units to the territory 1t
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1c
+Command effect: Executed Deploy order, adding 5 units to the territory 1t
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+{Order(Deploy) Order(Bomb) }
+{Order(Deploy) Order(Bomb) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1c
+Command effect: Executed Deploy order, adding 5 units to the territory 1t
+Command effect: executed
+Command effect: executed
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+{Order(Deploy) Order(Advance) }
+{Order(Deploy) Order(Bomb) }
+{Order(Deploy) Order(Advance) Order(Airlift) }
+{Order(Deploy) Order(Bomb) Order(Bomb) }
+{Order(Deploy) Order(Advance) Order(Airlift) Order(Bomb) }
+{Order(Deploy) Order(Bomb) Order(Bomb) Order(Bomb) }
+{Order(Deploy) Order(Advance) Order(Airlift) Order(Bomb) Order(Advance) }
+{Order(Deploy) Order(Bomb) Order(Bomb) Order(Bomb) Order(Bomb) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1c
+Command effect: Executed Deploy order, adding 5 units to the territory 1t
+Command effect: executed
+Command effect: executed
+Command effect: Airlift order cannot be executed
+Command effect: executed
+Command effect: executed
+Command effect: executed
+Command effect: Advance cannot be executed
+Command effect: executed
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1c
+Command effect: Executed Deploy order, adding 5 units to the territory 1t
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1c
+Command effect: Executed Deploy order, adding 5 units to the territory 1t
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1c
+Command effect: Executed Deploy order, adding 5 units to the territory 1t
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1c
+Command effect: Executed Deploy order, adding 5 units to the territory 1t
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1c
+Command effect: Executed Deploy order, adding 5 units to the territory 1t
 The state has transitioned to assignreinforcement
 The state has transitioned to assignreinforcement
 The state has transitioned to issueorders
@@ -60,19 +908,15 @@ The state has transitioned to issueorders
 {Order(Deploy) Order(Bomb) Order(Advance) }
 {Order(Deploy) Order(Bomb) Order(Bomb) Order(Advance) }
 {Order(Deploy) Order(Bomb) Order(Advance) Order(Bomb) }
-{Order(Deploy) Order(Bomb) Order(Bomb) Order(Advance) Order(Bomb) }
-{Order(Deploy) Order(Bomb) Order(Advance) Order(Bomb) Order(Advance) }
 The state has transitioned to executeorders
-Command effect: Executed Deploy order, adding 6 units to the territory 2t
-Command effect: Executed Deploy order, adding 3 units to the territory 3t
+Command effect: Executed Deploy order, adding 6 units to the territory 1c
+Command effect: Executed Deploy order, adding 5 units to the territory 1t
 Command effect: executed
 Command effect: executed
 Command effect: executed
 Command effect: executed
 Command effect: executed
 Command effect: Bomb cannot be executed
-Command effect: executed
-Command effect: Advance cannot be executed
 The state has transitioned to assignreinforcement
 The state has transitioned to assignreinforcement
 The state has transitioned to issueorders
@@ -81,8 +925,8 @@ The state has transitioned to issueorders
 {Order(Deploy) Order(Advance) }
 {Order(Deploy) Order(Bomb) }
 The state has transitioned to executeorders
-Command effect: Executed Deploy order, adding 6 units to the territory 6t
-Command effect: Executed Deploy order, adding 3 units to the territory 5t
+Command effect: Executed Deploy order, adding 6 units to the territory 1t
+Command effect: Executed Deploy order, adding 3 units to the territory 4t
 Command effect: executed
 Command effect: executed
 The state has transitioned to assignreinforcement
@@ -90,15 +934,35 @@ The state has transitioned to assignreinforcement
 The state has transitioned to issueorders
 {Order(Deploy) }
 {Order(Deploy) }
-{Order(Deploy) Order(Bomb) }
-{Order(Deploy) Order(Bomb) }
-{Order(Deploy) Order(Bomb) Order(Bomb) }
-{Order(Deploy) Order(Bomb) Order(Advance) }
 The state has transitioned to executeorders
-Command effect: Executed Deploy order, adding 6 units to the territory 6t
-Command effect: Executed Deploy order, adding 3 units to the territory 5t
-Command effect: executed
-Command effect: executed
+Command effect: Executed Deploy order, adding 6 units to the territory 1t
+Command effect: Executed Deploy order, adding 3 units to the territory 2t
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1t
+Command effect: Executed Deploy order, adding 3 units to the territory 4t
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1t
+Command effect: Executed Deploy order, adding 3 units to the territory 2t
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+{Order(Deploy) Order(Bomb) }
+{Order(Deploy) Order(Advance) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1t
+Command effect: Executed Deploy order, adding 3 units to the territory 4t
 Command effect: executed
 Command effect: executed
 The state has transitioned to assignreinforcement
@@ -106,23 +970,415 @@ The state has transitioned to assignreinforcement
 The state has transitioned to issueorders
 {Order(Deploy) }
 {Order(Deploy) }
-{Order(Deploy) Order(Advance) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1t
+Command effect: Executed Deploy order, adding 3 units to the territory 2t
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+{Order(Deploy) Order(Airlift) }
 {Order(Deploy) Order(Bomb) }
-{Order(Deploy) Order(Advance) Order(Advance) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1t
+Command effect: Executed Deploy order, adding 3 units to the territory 2t
+Command effect: Executed Airlift order, moving 19 units from 1t to 1t
+Command effect: executed
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+{Order(Deploy) Order(Airlift) }
+{Order(Deploy) Order(Bomb) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1t
+Command effect: Executed Deploy order, adding 3 units to the territory 6t
+Command effect: Executed Airlift order, moving 4 units from 1t to 1t
+Command effect: executed
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1t
+Command effect: Executed Deploy order, adding 3 units to the territory 4t
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+{Order(Deploy) Order(Bomb) }
+{Order(Deploy) Order(Bomb) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1t
+Command effect: Executed Deploy order, adding 3 units to the territory 6t
+Command effect: executed
+Command effect: executed
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+{Order(Deploy) Order(Airlift) }
+{Order(Deploy) Order(Bomb) }
+{Order(Deploy) Order(Airlift) Order(Airlift) }
 {Order(Deploy) Order(Bomb) Order(Bomb) }
-{Order(Deploy) Order(Advance) Order(Advance) Order(Bomb) }
+{Order(Deploy) Order(Airlift) Order(Airlift) Order(Advance) }
 {Order(Deploy) Order(Bomb) Order(Bomb) Order(Advance) }
-{Order(Deploy) Order(Advance) Order(Advance) Order(Bomb) Order(Advance) }
+{Order(Deploy) Order(Airlift) Order(Airlift) Order(Advance) Order(Bomb) }
 {Order(Deploy) Order(Bomb) Order(Bomb) Order(Advance) Order(Advance) }
+{Order(Deploy) Order(Airlift) Order(Airlift) Order(Advance) Order(Bomb) Order(Airlift) }
+{Order(Deploy) Order(Bomb) Order(Bomb) Order(Advance) Order(Advance) Order(Advance) }
 The state has transitioned to executeorders
-Command effect: Executed Deploy order, adding 6 units to the territory 4t
-Command effect: Executed Deploy order, adding 3 units to the territory 3t
+Command effect: Executed Deploy order, adding 6 units to the territory 1t
+Command effect: Executed Deploy order, adding 3 units to the territory 6t
+Command effect: Executed Airlift order, moving 3 units from 1t to 1t
+Command effect: executed
+Command effect: Airlift order cannot be executed
+Command effect: executed
+Command effect: Advance cannot be executed
+Command effect: executed
+Command effect: executed
+Command effect: executed
+Command effect: Airlift order cannot be executed
+Command effect: executed
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+{Order(Deploy) Order(Advance) }
+{Order(Deploy) Order(Bomb) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1t
+Command effect: Executed Deploy order, adding 3 units to the territory 6t
+Command effect: executed
+Command effect: executed
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+{Order(Deploy) Order(Bomb) }
+{Order(Deploy) Order(Advance) }
+{Order(Deploy) Order(Bomb) Order(Bomb) }
+{Order(Deploy) Order(Advance) Order(Advance) }
+{Order(Deploy) Order(Bomb) Order(Bomb) Order(Bomb) }
+{Order(Deploy) Order(Advance) Order(Advance) Order(Advance) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1t
+Command effect: Executed Deploy order, adding 3 units to the territory 2t
+Command effect: executed
 Command effect: executed
 Command effect: executed
 Command effect: Advance cannot be executed
 Command effect: executed
 Command effect: executed
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+{Order(Deploy) Order(Airlift) }
+{Order(Deploy) Order(Advance) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1t
+Command effect: Executed Deploy order, adding 3 units to the territory 2t
+Command effect: Executed Airlift order, moving 0 units from 1t to 1t
+Command effect: executed
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1t
+Command effect: Executed Deploy order, adding 3 units to the territory 2t
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1t
+Command effect: Executed Deploy order, adding 3 units to the territory 6t
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1t
+Command effect: Executed Deploy order, adding 3 units to the territory 2t
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+{Order(Deploy) Order(Airlift) }
+{Order(Deploy) Order(Bomb) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1t
+Command effect: Executed Deploy order, adding 3 units to the territory 6t
+Command effect: Executed Airlift order, moving 25 units from 1t to 1t
+Command effect: executed
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1t
+Command effect: Executed Deploy order, adding 3 units to the territory 4t
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+{Order(Deploy) Order(Bomb) }
+{Order(Deploy) Order(Advance) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1t
+Command effect: Executed Deploy order, adding 3 units to the territory 2t
+Command effect: executed
+Command effect: executed
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1t
+Command effect: Executed Deploy order, adding 3 units to the territory 4t
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+{Order(Deploy) Order(Airlift) }
+{Order(Deploy) Order(Bomb) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1t
+Command effect: Executed Deploy order, adding 3 units to the territory 6t
+Command effect: Executed Airlift order, moving 2 units from 1t to 1t
+Command effect: executed
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1t
+Command effect: Executed Deploy order, adding 3 units to the territory 4t
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+{Order(Deploy) Order(Advance) }
+{Order(Deploy) Order(Bomb) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1t
+Command effect: Executed Deploy order, adding 3 units to the territory 2t
+Command effect: executed
+Command effect: executed
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1t
+Command effect: Executed Deploy order, adding 3 units to the territory 2t
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+{Order(Deploy) Order(Airlift) }
+{Order(Deploy) Order(Bomb) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1t
+Command effect: Executed Deploy order, adding 3 units to the territory 6t
+Command effect: Executed Airlift order, moving 12 units from 1t to 1t
+Command effect: executed
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+{Order(Deploy) Order(Advance) }
+{Order(Deploy) Order(Advance) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1t
+Command effect: Executed Deploy order, adding 3 units to the territory 2t
+Command effect: executed
+Command effect: executed
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1t
+Command effect: Executed Deploy order, adding 3 units to the territory 4t
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1t
+Command effect: Executed Deploy order, adding 3 units to the territory 6t
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1t
+Command effect: Executed Deploy order, adding 3 units to the territory 4t
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1t
+Command effect: Executed Deploy order, adding 3 units to the territory 6t
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+{Order(Deploy) Order(Bomb) }
+{Order(Deploy) Order(Advance) }
+{Order(Deploy) Order(Bomb) Order(Airlift) }
+{Order(Deploy) Order(Advance) Order(Bomb) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1t
+Command effect: Executed Deploy order, adding 3 units to the territory 6t
+Command effect: executed
+Command effect: executed
+Command effect: Executed Airlift order, moving 6 units from 1t to 1t
+Command effect: executed
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1t
+Command effect: Executed Deploy order, adding 3 units to the territory 4t
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+{Order(Deploy) Order(Bomb) }
+{Order(Deploy) Order(Advance) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1t
+Command effect: Executed Deploy order, adding 3 units to the territory 6t
+Command effect: executed
+Command effect: executed
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+{Order(Deploy) Order(Bomb) }
+{Order(Deploy) Order(Bomb) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1t
+Command effect: Executed Deploy order, adding 3 units to the territory 2t
+Command effect: executed
+Command effect: executed
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1t
+Command effect: Executed Deploy order, adding 3 units to the territory 6t
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+{Order(Deploy) Order(Bomb) }
+{Order(Deploy) Order(Bomb) }
+{Order(Deploy) Order(Bomb) Order(Bomb) }
+{Order(Deploy) Order(Bomb) Order(Bomb) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1t
+Command effect: Executed Deploy order, adding 3 units to the territory 4t
+Command effect: executed
+Command effect: executed
+Command effect: executed
+Command effect: executed
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+{Order(Deploy) Order(Bomb) }
+{Order(Deploy) Order(Bomb) }
+{Order(Deploy) Order(Bomb) Order(Bomb) }
+{Order(Deploy) Order(Bomb) Order(Advance) }
+{Order(Deploy) Order(Bomb) Order(Bomb) Order(Bomb) }
+{Order(Deploy) Order(Bomb) Order(Advance) Order(Advance) }
+{Order(Deploy) Order(Bomb) Order(Bomb) Order(Bomb) Order(Advance) }
+{Order(Deploy) Order(Bomb) Order(Advance) Order(Advance) Order(Bomb) }
+{Order(Deploy) Order(Bomb) Order(Bomb) Order(Bomb) Order(Advance) Order(Advance) }
+{Order(Deploy) Order(Bomb) Order(Advance) Order(Advance) Order(Bomb) Order(Advance) }
+{Order(Deploy) Order(Bomb) Order(Bomb) Order(Bomb) Order(Advance) Order(Advance) Order(Airlift) }
+{Order(Deploy) Order(Bomb) Order(Advance) Order(Advance) Order(Bomb) Order(Advance) Order(Advance) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1t
+Command effect: Executed Deploy order, adding 3 units to the territory 2t
+Command effect: executed
+Command effect: executed
+Command effect: executed
+Command effect: executed
+Command effect: executed
+Command effect: executed
 Command effect: Advance cannot be executed
+Command effect: executed
+Command effect: Advance cannot be executed
+Command effect: executed
+Command effect: Airlift order cannot be executed
+Command effect: Advance cannot be executed
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1c
+Command effect: Executed Deploy order, adding 5 units to the territory 1t
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+{Order(Deploy) Order(Bomb) }
+{Order(Deploy) Order(Bomb) }
+{Order(Deploy) Order(Bomb) Order(Bomb) }
+{Order(Deploy) Order(Bomb) Order(Bomb) }
+{Order(Deploy) Order(Bomb) Order(Bomb) Order(Bomb) }
+{Order(Deploy) Order(Bomb) Order(Bomb) Order(Advance) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1c
+Command effect: Executed Deploy order, adding 5 units to the territory 1t
+Command effect: executed
+Command effect: executed
+Command effect: executed
+Command effect: executed
 Command effect: executed
 Command effect: Advance cannot be executed
 The state has transitioned to assignreinforcement
@@ -132,9 +1388,113 @@ The state has transitioned to issueorders
 {Order(Deploy) }
 {Order(Deploy) Order(Advance) }
 {Order(Deploy) Order(Bomb) }
+{Order(Deploy) Order(Advance) Order(Bomb) }
+{Order(Deploy) Order(Bomb) Order(Advance) }
+{Order(Deploy) Order(Advance) Order(Bomb) Order(Bomb) }
+{Order(Deploy) Order(Bomb) Order(Advance) Order(Bomb) }
+{Order(Deploy) Order(Advance) Order(Bomb) Order(Bomb) Order(Airlift) }
+{Order(Deploy) Order(Bomb) Order(Advance) Order(Bomb) Order(Bomb) }
+{Order(Deploy) Order(Advance) Order(Bomb) Order(Bomb) Order(Airlift) Order(Advance) }
+{Order(Deploy) Order(Bomb) Order(Advance) Order(Bomb) Order(Bomb) Order(Advance) }
+{Order(Deploy) Order(Advance) Order(Bomb) Order(Bomb) Order(Airlift) Order(Advance) Order(Advance) }
+{Order(Deploy) Order(Bomb) Order(Advance) Order(Bomb) Order(Bomb) Order(Advance) Order(Advance) }
+{Order(Deploy) Order(Advance) Order(Bomb) Order(Bomb) Order(Airlift) Order(Advance) Order(Advance) Order(Bomb) }
+{Order(Deploy) Order(Bomb) Order(Advance) Order(Bomb) Order(Bomb) Order(Advance) Order(Advance) Order(Bomb) }
+{Order(Deploy) Order(Advance) Order(Bomb) Order(Bomb) Order(Airlift) Order(Advance) Order(Advance) Order(Bomb) Order(Bomb) }
+{Order(Deploy) Order(Bomb) Order(Advance) Order(Bomb) Order(Bomb) Order(Advance) Order(Advance) Order(Bomb) Order(Advance) }
+{Order(Deploy) Order(Advance) Order(Bomb) Order(Bomb) Order(Airlift) Order(Advance) Order(Advance) Order(Bomb) Order(Bomb) Order(Advance) }
+{Order(Deploy) Order(Bomb) Order(Advance) Order(Bomb) Order(Bomb) Order(Advance) Order(Advance) Order(Bomb) Order(Advance) Order(Bomb) }
+{Order(Deploy) Order(Advance) Order(Bomb) Order(Bomb) Order(Airlift) Order(Advance) Order(Advance) Order(Bomb) Order(Bomb) Order(Advance) Order(Bomb) }
+{Order(Deploy) Order(Bomb) Order(Advance) Order(Bomb) Order(Bomb) Order(Advance) Order(Advance) Order(Bomb) Order(Advance) Order(Bomb) Order(Bomb) }
+{Order(Deploy) Order(Advance) Order(Bomb) Order(Bomb) Order(Airlift) Order(Advance) Order(Advance) Order(Bomb) Order(Bomb) Order(Advance) Order(Bomb) Order(Bomb) }
+{Order(Deploy) Order(Bomb) Order(Advance) Order(Bomb) Order(Bomb) Order(Advance) Order(Advance) Order(Bomb) Order(Advance) Order(Bomb) Order(Bomb) Order(Advance) }
+{Order(Deploy) Order(Advance) Order(Bomb) Order(Bomb) Order(Airlift) Order(Advance) Order(Advance) Order(Bomb) Order(Bomb) Order(Advance) Order(Bomb) Order(Bomb) Order(Bomb) }
+{Order(Deploy) Order(Bomb) Order(Advance) Order(Bomb) Order(Bomb) Order(Advance) Order(Advance) Order(Bomb) Order(Advance) Order(Bomb) Order(Bomb) Order(Advance) Order(Advance) }
 The state has transitioned to executeorders
-Command effect: Executed Deploy order, adding 7 units to the territory 4t
-Command effect: Executed Deploy order, adding 3 units to the territory 3t
+Command effect: Executed Deploy order, adding 6 units to the territory 1c
+Command effect: Executed Deploy order, adding 5 units to the territory 1t
+Command effect: executed
+Command effect: executed
+Command effect: executed
+Command effect: executed
+Command effect: executed
+Command effect: executed
+Command effect: Executed Airlift order, moving 1 units from 1c to 1c
+Command effect: executed
+Command effect: executed
+Command effect: executed
+Command effect: Advance cannot be executed
+Command effect: Advance cannot be executed
+Command effect: executed
+Command effect: executed
+Command effect: executed
+Command effect: Advance cannot be executed
+Command effect: Advance cannot be executed
+Command effect: executed
+Command effect: executed
+Command effect: executed
+Command effect: executed
+Command effect: executed
+Command effect: executed
+Command effect: executed
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+{Order(Deploy) Order(Advance) }
+{Order(Deploy) Order(Advance) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1c
+Command effect: Executed Deploy order, adding 5 units to the territory 1t
+Command effect: executed
+Command effect: executed
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+{Order(Deploy) Order(Airlift) }
+{Order(Deploy) Order(Bomb) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1c
+Command effect: Executed Deploy order, adding 5 units to the territory 1t
+Command effect: Executed Airlift order, moving 0 units from 1c to 1c
+Command effect: executed
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1c
+Command effect: Executed Deploy order, adding 5 units to the territory 1t
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+{Order(Deploy) Order(Advance) }
+{Order(Deploy) Order(Bomb) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1c
+Command effect: Executed Deploy order, adding 5 units to the territory 1t
+Command effect: executed
+Command effect: executed
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+{Order(Deploy) Order(Airlift) }
+{Order(Deploy) Order(Bomb) }
+{Order(Deploy) Order(Airlift) Order(Advance) }
+{Order(Deploy) Order(Bomb) Order(Bomb) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 6 units to the territory 1c
+Command effect: Executed Deploy order, adding 5 units to the territory 1t
+Command effect: Executed Airlift order, moving 6 units from 1c to 1c
+Command effect: executed
 Command effect: executed
 Command effect: executed
 The state has transitioned to assignreinforcement
@@ -145,10 +1505,86 @@ The state has transitioned to issueorders
 {Order(Deploy) Order(Bomb) }
 {Order(Deploy) Order(Advance) }
 The state has transitioned to executeorders
-Command effect: Executed Deploy order, adding 7 units to the territory 4t
-Command effect: Executed Deploy order, adding 3 units to the territory 3t
+Command effect: Executed Deploy order, adding 6 units to the territory 1c
+Command effect: Executed Deploy order, adding 5 units to the territory 1t
 Command effect: executed
 Command effect: executed
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 3 units to the territory 5c
+Command effect: Executed Deploy order, adding 5 units to the territory 1c
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+{Order(Deploy) Order(Airlift) }
+{Order(Deploy) Order(Advance) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 3 units to the territory 2c
+Command effect: Executed Deploy order, adding 5 units to the territory 1c
+Command effect: Executed Airlift order, moving 0 units from 6c to 6c
+Command effect: executed
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 3 units to the territory 7c
+Command effect: Executed Deploy order, adding 5 units to the territory 1c
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 3 units to the territory 3c
+Command effect: Executed Deploy order, adding 5 units to the territory 2c
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+{Order(Deploy) Order(Bomb) }
+{Order(Deploy) Order(Bomb) }
+{Order(Deploy) Order(Bomb) Order(Airlift) }
+{Order(Deploy) Order(Bomb) Order(Bomb) }
+{Order(Deploy) Order(Bomb) Order(Airlift) Order(Airlift) }
+{Order(Deploy) Order(Bomb) Order(Bomb) Order(Advance) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 3 units to the territory 5c
+Command effect: Executed Deploy order, adding 5 units to the territory 1c
+Command effect: executed
+Command effect: executed
+Command effect: Executed Airlift order, moving 0 units from 5c to 5c
+Command effect: executed
+Command effect: Executed Airlift order, moving 1 units from 5c to 5c
+Command effect: executed
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+{Order(Deploy) Order(Bomb) }
+{Order(Deploy) Order(Advance) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 3 units to the territory 5c
+Command effect: Executed Deploy order, adding 5 units to the territory 1c
+Command effect: executed
+Command effect: executed
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 3 units to the territory 5c
+Command effect: Executed Deploy order, adding 5 units to the territory 1c
 The state has transitioned to assignreinforcement
 The state has transitioned to assignreinforcement
 The state has transitioned to issueorders
@@ -157,19 +1593,15 @@ The state has transitioned to issueorders
 {Order(Deploy) Order(Advance) }
 {Order(Deploy) Order(Advance) }
 {Order(Deploy) Order(Advance) Order(Advance) }
-{Order(Deploy) Order(Advance) Order(Bomb) }
+{Order(Deploy) Order(Advance) Order(Advance) }
+{Order(Deploy) Order(Advance) Order(Advance) Order(Bomb) }
 {Order(Deploy) Order(Advance) Order(Advance) Order(Advance) }
-{Order(Deploy) Order(Advance) Order(Bomb) Order(Advance) }
-{Order(Deploy) Order(Advance) Order(Advance) Order(Advance) Order(Advance) }
-{Order(Deploy) Order(Advance) Order(Bomb) Order(Advance) Order(Advance) }
 The state has transitioned to executeorders
-Command effect: Executed Deploy order, adding 7 units to the territory 2t
-Command effect: Executed Deploy order, adding 3 units to the territory 3t
-Command effect: executed
-Command effect: Advance cannot be executed
+Command effect: Executed Deploy order, adding 3 units to the territory 4c
+Command effect: Executed Deploy order, adding 5 units to the territory 1c
 Command effect: executed
 Command effect: executed
-Command effect: Advance cannot be executed
+Command effect: executed
 Command effect: Advance cannot be executed
 Command effect: executed
 Command effect: executed
@@ -179,8 +1611,16 @@ The state has transitioned to issueorders
 {Order(Deploy) }
 {Order(Deploy) }
 The state has transitioned to executeorders
-Command effect: Executed Deploy order, adding 7 units to the territory 2t
-Command effect: Executed Deploy order, adding 3 units to the territory 3t
+Command effect: Executed Deploy order, adding 3 units to the territory 5c
+Command effect: Executed Deploy order, adding 5 units to the territory 1c
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 3 units to the territory 4c
+Command effect: Executed Deploy order, adding 5 units to the territory 6c
 The state has transitioned to assignreinforcement
 The state has transitioned to assignreinforcement
 The state has transitioned to issueorders
@@ -191,9 +1631,756 @@ The state has transitioned to issueorders
 {Order(Deploy) Order(Bomb) Order(Advance) }
 {Order(Deploy) Order(Advance) Order(Advance) }
 The state has transitioned to executeorders
-Command effect: Executed Deploy order, adding 7 units to the territory 2t
-Command effect: Executed Deploy order, adding 3 units to the territory 3t
+Command effect: Executed Deploy order, adding 3 units to the territory 4c
+Command effect: Executed Deploy order, adding 5 units to the territory 1c
 Command effect: executed
+Command effect: executed
+Command effect: executed
+Command effect: executed
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+{Order(Deploy) Order(Airlift) }
+{Order(Deploy) Order(Bomb) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 3 units to the territory 2c
+Command effect: Executed Deploy order, adding 5 units to the territory 6c
+Command effect: Executed Airlift order, moving 3 units from 5c to 5c
+Command effect: executed
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 3 units to the territory 7c
+Command effect: Executed Deploy order, adding 5 units to the territory 3c
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+{Order(Deploy) Order(Advance) }
+{Order(Deploy) Order(Advance) }
+{Order(Deploy) Order(Advance) Order(Airlift) }
+{Order(Deploy) Order(Advance) Order(Bomb) }
+{Order(Deploy) Order(Advance) Order(Airlift) Order(Bomb) }
+{Order(Deploy) Order(Advance) Order(Bomb) Order(Bomb) }
+{Order(Deploy) Order(Advance) Order(Airlift) Order(Bomb) Order(Airlift) }
+{Order(Deploy) Order(Advance) Order(Bomb) Order(Bomb) Order(Advance) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 3 units to the territory 2c
+Command effect: Executed Deploy order, adding 5 units to the territory 1c
+Command effect: executed
+Command effect: executed
+Command effect: Airlift order cannot be executed
+Command effect: executed
+Command effect: executed
+Command effect: executed
+Command effect: Airlift order cannot be executed
+Command effect: executed
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+{Order(Deploy) Order(Advance) }
+{Order(Deploy) Order(Advance) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 3 units to the territory 4c
+Command effect: Executed Deploy order, adding 5 units to the territory 1c
+Command effect: executed
+Command effect: executed
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 3 units to the territory 2c
+Command effect: Executed Deploy order, adding 5 units to the territory 6c
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+{Order(Deploy) Order(Airlift) }
+{Order(Deploy) Order(Bomb) }
+{Order(Deploy) Order(Airlift) Order(Advance) }
+{Order(Deploy) Order(Bomb) Order(Bomb) }
+{Order(Deploy) Order(Airlift) Order(Advance) Order(Bomb) }
+{Order(Deploy) Order(Bomb) Order(Bomb) Order(Advance) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 3 units to the territory 4c
+Command effect: Executed Deploy order, adding 5 units to the territory 1c
+Command effect: Executed Airlift order, moving 3 units from 7c to 7c
+Command effect: executed
+Command effect: executed
+Command effect: executed
+Command effect: executed
+Command effect: executed
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+{Order(Deploy) Order(Airlift) }
+{Order(Deploy) Order(Bomb) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 3 units to the territory 4c
+Command effect: Executed Deploy order, adding 5 units to the territory 6c
+Command effect: Executed Airlift order, moving 1 units from 2c to 4c
+Command effect: executed
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 3 units to the territory 4c
+Command effect: Executed Deploy order, adding 5 units to the territory 1c
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+{Order(Deploy) Order(Bomb) }
+{Order(Deploy) Order(Advance) }
+{Order(Deploy) Order(Bomb) Order(Bomb) }
+{Order(Deploy) Order(Advance) Order(Advance) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 3 units to the territory 2c
+Command effect: Executed Deploy order, adding 5 units to the territory 5c
+Command effect: executed
+Command effect: executed
+Command effect: executed
+Command effect: executed
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+{Order(Deploy) Order(Bomb) }
+{Order(Deploy) Order(Bomb) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 3 units to the territory 2c
+Command effect: Executed Deploy order, adding 5 units to the territory 5c
+Command effect: executed
+Command effect: executed
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+{Order(Deploy) Order(Bomb) }
+{Order(Deploy) Order(Advance) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 3 units to the territory 4c
+Command effect: Executed Deploy order, adding 5 units to the territory 5c
+Command effect: executed
+Command effect: executed
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+{Order(Deploy) Order(Airlift) }
+{Order(Deploy) Order(Bomb) }
+{Order(Deploy) Order(Airlift) Order(Bomb) }
+{Order(Deploy) Order(Bomb) Order(Advance) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 3 units to the territory 2c
+Command effect: Executed Deploy order, adding 5 units to the territory 5c
+Command effect: Executed Airlift order, moving 2 units from 2c to 2c
+Command effect: executed
+Command effect: executed
+Command effect: executed
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+{Order(Deploy) Order(Bomb) }
+{Order(Deploy) Order(Advance) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 3 units to the territory 2c
+Command effect: Executed Deploy order, adding 5 units to the territory 1c
+Command effect: executed
+Command effect: executed
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 3 units to the territory 2c
+Command effect: Executed Deploy order, adding 5 units to the territory 5c
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+{Order(Deploy) Order(Advance) }
+{Order(Deploy) Order(Bomb) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 3 units to the territory 4c
+Command effect: Executed Deploy order, adding 5 units to the territory 5c
+Command effect: executed
+Command effect: executed
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+{Order(Deploy) Order(Bomb) }
+{Order(Deploy) Order(Bomb) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 3 units to the territory 2c
+Command effect: Executed Deploy order, adding 5 units to the territory 1c
+Command effect: executed
+Command effect: executed
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+{Order(Deploy) Order(Bomb) }
+{Order(Deploy) Order(Advance) }
+{Order(Deploy) Order(Bomb) Order(Advance) }
+{Order(Deploy) Order(Advance) Order(Advance) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 3 units to the territory 2c
+Command effect: Executed Deploy order, adding 5 units to the territory 3c
+Command effect: executed
+Command effect: executed
+Command effect: executed
+Command effect: Advance cannot be executed
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 3 units to the territory 4c
+Command effect: Executed Deploy order, adding 5 units to the territory 1c
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+{Order(Deploy) Order(Advance) }
+{Order(Deploy) Order(Bomb) }
+{Order(Deploy) Order(Advance) Order(Bomb) }
+{Order(Deploy) Order(Bomb) Order(Advance) }
+{Order(Deploy) Order(Advance) Order(Bomb) Order(Bomb) }
+{Order(Deploy) Order(Bomb) Order(Advance) Order(Advance) }
+{Order(Deploy) Order(Advance) Order(Bomb) Order(Bomb) Order(Bomb) }
+{Order(Deploy) Order(Bomb) Order(Advance) Order(Advance) Order(Advance) }
+{Order(Deploy) Order(Advance) Order(Bomb) Order(Bomb) Order(Bomb) Order(Advance) }
+{Order(Deploy) Order(Bomb) Order(Advance) Order(Advance) Order(Advance) Order(Advance) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 3 units to the territory 2c
+Command effect: Executed Deploy order, adding 5 units to the territory 5c
+Command effect: executed
+Command effect: executed
+Command effect: executed
+Command effect: executed
+Command effect: executed
+Command effect: executed
+Command effect: executed
+Command effect: executed
+Command effect: executed
+Command effect: executed
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+{Order(Deploy) Order(Bomb) }
+{Order(Deploy) Order(Bomb) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 3 units to the territory 2c
+Command effect: Executed Deploy order, adding 5 units to the territory 3c
+Command effect: executed
+Command effect: executed
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+{Order(Deploy) Order(Airlift) }
+{Order(Deploy) Order(Advance) }
+{Order(Deploy) Order(Airlift) Order(Bomb) }
+{Order(Deploy) Order(Advance) Order(Advance) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 3 units to the territory 2c
+Command effect: Executed Deploy order, adding 5 units to the territory 5c
+Command effect: Executed Airlift order, moving 3 units from 2c to 7c
+Command effect: executed
+Command effect: executed
+Command effect: executed
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 3 units to the territory 7c
+Command effect: Executed Deploy order, adding 5 units to the territory 1c
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 3 units to the territory 4c
+Command effect: Executed Deploy order, adding 5 units to the territory 3c
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+{Order(Deploy) Order(Bomb) }
+{Order(Deploy) Order(Bomb) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 3 units to the territory 7c
+Command effect: Executed Deploy order, adding 5 units to the territory 5c
+Command effect: executed
+Command effect: executed
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+{Order(Deploy) Order(Airlift) }
+{Order(Deploy) Order(Bomb) }
+{Order(Deploy) Order(Airlift) Order(Airlift) }
+{Order(Deploy) Order(Bomb) Order(Advance) }
+{Order(Deploy) Order(Airlift) Order(Airlift) Order(Advance) }
+{Order(Deploy) Order(Bomb) Order(Advance) Order(Advance) }
+{Order(Deploy) Order(Airlift) Order(Airlift) Order(Advance) Order(Bomb) }
+{Order(Deploy) Order(Bomb) Order(Advance) Order(Advance) Order(Advance) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 3 units to the territory 2c
+Command effect: Executed Deploy order, adding 5 units to the territory 1c
+Command effect: Executed Airlift order, moving 1 units from 7c to 4c
+Command effect: executed
+Command effect: Executed Airlift order, moving 4 units from 2c to 7c
+Command effect: executed
+Command effect: executed
+Command effect: executed
+Command effect: executed
+Command effect: executed
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 3 units to the territory 7c
+Command effect: Executed Deploy order, adding 5 units to the territory 2c
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+{Order(Deploy) Order(Bomb) }
+{Order(Deploy) Order(Advance) }
+{Order(Deploy) Order(Bomb) Order(Bomb) }
+{Order(Deploy) Order(Advance) Order(Advance) }
+{Order(Deploy) Order(Bomb) Order(Bomb) Order(Bomb) }
+{Order(Deploy) Order(Advance) Order(Advance) Order(Advance) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 3 units to the territory 7c
+Command effect: Executed Deploy order, adding 5 units to the territory 3c
+Command effect: executed
+Command effect: executed
+Command effect: executed
+Command effect: executed
+Command effect: executed
+Command effect: executed
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+{Order(Deploy) Order(Advance) }
+{Order(Deploy) Order(Advance) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 3 units to the territory 4c
+Command effect: Executed Deploy order, adding 5 units to the territory 6c
+Command effect: executed
+Command effect: executed
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+{Order(Deploy) Order(Bomb) }
+{Order(Deploy) Order(Bomb) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 3 units to the territory 7c
+Command effect: Executed Deploy order, adding 5 units to the territory 2c
+Command effect: executed
+Command effect: executed
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+{Order(Deploy) Order(Advance) }
+{Order(Deploy) Order(Bomb) }
+{Order(Deploy) Order(Advance) Order(Airlift) }
+{Order(Deploy) Order(Bomb) Order(Advance) }
+{Order(Deploy) Order(Advance) Order(Airlift) Order(Bomb) }
+{Order(Deploy) Order(Bomb) Order(Advance) Order(Advance) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 3 units to the territory 4c
+Command effect: Executed Deploy order, adding 5 units to the territory 6c
+Command effect: executed
+Command effect: executed
+Command effect: Airlift order cannot be executed
+Command effect: executed
+Command effect: executed
+Command effect: executed
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+{Order(Deploy) Order(Bomb) }
+{Order(Deploy) Order(Bomb) }
+{Order(Deploy) Order(Bomb) Order(Bomb) }
+{Order(Deploy) Order(Bomb) Order(Bomb) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 3 units to the territory 4c
+Command effect: Executed Deploy order, adding 5 units to the territory 5c
+Command effect: executed
+Command effect: executed
+Command effect: executed
+Command effect: executed
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+{Order(Deploy) Order(Bomb) }
+{Order(Deploy) Order(Advance) }
+{Order(Deploy) Order(Bomb) Order(Airlift) }
+{Order(Deploy) Order(Advance) Order(Advance) }
+{Order(Deploy) Order(Bomb) Order(Airlift) Order(Bomb) }
+{Order(Deploy) Order(Advance) Order(Advance) Order(Bomb) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 3 units to the territory 4c
+Command effect: Executed Deploy order, adding 5 units to the territory 3c
+Command effect: executed
+Command effect: executed
+Command effect: Airlift order cannot be executed
+Command effect: executed
+Command effect: executed
+Command effect: executed
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+{Order(Deploy) Order(Bomb) }
+{Order(Deploy) Order(Advance) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 3 units to the territory 7c
+Command effect: Executed Deploy order, adding 5 units to the territory 6c
+Command effect: executed
+Command effect: executed
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+{Order(Deploy) Order(Airlift) }
+{Order(Deploy) Order(Bomb) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 3 units to the territory 7c
+Command effect: Executed Deploy order, adding 5 units to the territory 5c
+Command effect: Executed Airlift order, moving 2 units from 4c to 7c
+Command effect: executed
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+{Order(Deploy) Order(Airlift) }
+{Order(Deploy) Order(Bomb) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 3 units to the territory 7c
+Command effect: Executed Deploy order, adding 5 units to the territory 2c
+Command effect: Executed Airlift order, moving 0 units from 7c to 4c
+Command effect: executed
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+{Order(Deploy) Order(Airlift) }
+{Order(Deploy) Order(Advance) }
+{Order(Deploy) Order(Airlift) Order(Advance) }
+{Order(Deploy) Order(Advance) Order(Advance) }
+{Order(Deploy) Order(Airlift) Order(Advance) Order(Advance) }
+{Order(Deploy) Order(Advance) Order(Advance) Order(Advance) }
+{Order(Deploy) Order(Airlift) Order(Advance) Order(Advance) Order(Airlift) }
+{Order(Deploy) Order(Advance) Order(Advance) Order(Advance) Order(Advance) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 3 units to the territory 4c
+Command effect: Executed Deploy order, adding 5 units to the territory 6c
+Command effect: Executed Airlift order, moving 0 units from 4c to 4c
+Command effect: executed
+Command effect: Advance cannot be executed
+Command effect: executed
+Command effect: Advance cannot be executed
+Command effect: Advance cannot be executed
+Command effect: Airlift order cannot be executed
+Command effect: Advance cannot be executed
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+{Order(Deploy) Order(Bomb) }
+{Order(Deploy) Order(Advance) }
+{Order(Deploy) Order(Bomb) Order(Airlift) }
+{Order(Deploy) Order(Advance) Order(Bomb) }
+{Order(Deploy) Order(Bomb) Order(Airlift) Order(Bomb) }
+{Order(Deploy) Order(Advance) Order(Bomb) Order(Advance) }
+{Order(Deploy) Order(Bomb) Order(Airlift) Order(Bomb) Order(Bomb) }
+{Order(Deploy) Order(Advance) Order(Bomb) Order(Advance) Order(Advance) }
+{Order(Deploy) Order(Bomb) Order(Airlift) Order(Bomb) Order(Bomb) Order(Advance) }
+{Order(Deploy) Order(Advance) Order(Bomb) Order(Advance) Order(Advance) Order(Advance) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 3 units to the territory 4c
+Command effect: Executed Deploy order, adding 6 units to the territory 3c
+Command effect: executed
+Command effect: executed
+Command effect: Executed Airlift order, moving 2 units from 4c to 4c
+Command effect: executed
+Command effect: executed
+Command effect: executed
+Command effect: executed
+Command effect: Advance cannot be executed
+Command effect: Advance cannot be executed
+Command effect: executed
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+{Order(Deploy) Order(Airlift) }
+{Order(Deploy) Order(Bomb) }
+{Order(Deploy) Order(Airlift) Order(Bomb) }
+{Order(Deploy) Order(Bomb) Order(Advance) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 3 units to the territory 4c
+Command effect: Executed Deploy order, adding 6 units to the territory 5c
+Command effect: Executed Airlift order, moving 1 units from 4c to 4c
+Command effect: executed
+Command effect: executed
+Command effect: executed
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+{Order(Deploy) Order(Bomb) }
+{Order(Deploy) Order(Advance) }
+{Order(Deploy) Order(Bomb) Order(Airlift) }
+{Order(Deploy) Order(Advance) Order(Advance) }
+{Order(Deploy) Order(Bomb) Order(Airlift) Order(Bomb) }
+{Order(Deploy) Order(Advance) Order(Advance) Order(Advance) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 3 units to the territory 4c
+Command effect: Executed Deploy order, adding 6 units to the territory 3c
+Command effect: executed
+Command effect: executed
+Command effect: Executed Airlift order, moving 2 units from 4c to 4c
+Command effect: executed
+Command effect: executed
+Command effect: executed
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+{Order(Deploy) Order(Bomb) }
+{Order(Deploy) Order(Bomb) }
+{Order(Deploy) Order(Bomb) Order(Bomb) }
+{Order(Deploy) Order(Bomb) Order(Bomb) }
+{Order(Deploy) Order(Bomb) Order(Bomb) Order(Advance) }
+{Order(Deploy) Order(Bomb) Order(Bomb) Order(Advance) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 3 units to the territory 4c
+Command effect: Executed Deploy order, adding 6 units to the territory 3c
+Command effect: executed
+Command effect: executed
+Command effect: executed
+Command effect: executed
+Command effect: Advance cannot be executed
+Command effect: Advance cannot be executed
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+{Order(Deploy) Order(Bomb) }
+{Order(Deploy) Order(Advance) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 3 units to the territory 4c
+Command effect: Executed Deploy order, adding 6 units to the territory 5c
+Command effect: executed
+Command effect: executed
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+{Order(Deploy) Order(Advance) }
+{Order(Deploy) Order(Advance) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 3 units to the territory 4c
+Command effect: Executed Deploy order, adding 6 units to the territory 5c
+Command effect: executed
+Command effect: executed
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 3 units to the territory 4c
+Command effect: Executed Deploy order, adding 6 units to the territory 3c
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+{Order(Deploy) Order(Bomb) }
+{Order(Deploy) Order(Advance) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 3 units to the territory 4c
+Command effect: Executed Deploy order, adding 6 units to the territory 5c
+Command effect: executed
+Command effect: executed
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 3 units to the territory 4c
+Command effect: Executed Deploy order, adding 6 units to the territory 3c
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 3 units to the territory 4c
+Command effect: Executed Deploy order, adding 6 units to the territory 3c
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 3 units to the territory 4c
+Command effect: Executed Deploy order, adding 6 units to the territory 5c
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 3 units to the territory 4c
+Command effect: Executed Deploy order, adding 6 units to the territory 3c
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+{Order(Deploy) Order(Bomb) }
+{Order(Deploy) Order(Advance) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 3 units to the territory 4c
+Command effect: Executed Deploy order, adding 6 units to the territory 5c
+Command effect: executed
+Command effect: Advance cannot be executed
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 3 units to the territory 4c
+Command effect: Executed Deploy order, adding 6 units to the territory 3c
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+{Order(Deploy) Order(Airlift) }
+{Order(Deploy) Order(Advance) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 3 units to the territory 4c
+Command effect: Executed Deploy order, adding 6 units to the territory 3c
+Command effect: Executed Airlift order, moving 25 units from 4c to 4c
+Command effect: executed
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+{Order(Deploy) Order(Advance) }
+{Order(Deploy) Order(Bomb) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 3 units to the territory 4c
+Command effect: Executed Deploy order, adding 6 units to the territory 5c
+Command effect: executed
+Command effect: executed
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+{Order(Deploy) Order(Airlift) }
+{Order(Deploy) Order(Bomb) }
+{Order(Deploy) Order(Airlift) Order(Bomb) }
+{Order(Deploy) Order(Bomb) Order(Advance) }
+{Order(Deploy) Order(Airlift) Order(Bomb) Order(Advance) }
+{Order(Deploy) Order(Bomb) Order(Advance) Order(Bomb) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 3 units to the territory 4c
+Command effect: Executed Deploy order, adding 6 units to the territory 3c
+Command effect: Executed Airlift order, moving 1 units from 4c to 4c
+Command effect: executed
+Command effect: executed
+Command effect: Advance cannot be executed
+Command effect: executed
+Command effect: executed
+The state has transitioned to assignreinforcement
+The state has transitioned to assignreinforcement
+The state has transitioned to issueorders
+{Order(Deploy) }
+{Order(Deploy) }
+{Order(Deploy) Order(Advance) }
+{Order(Deploy) Order(Advance) }
+{Order(Deploy) Order(Advance) Order(Bomb) }
+{Order(Deploy) Order(Advance) Order(Advance) }
+{Order(Deploy) Order(Advance) Order(Bomb) Order(Airlift) }
+{Order(Deploy) Order(Advance) Order(Advance) Order(Bomb) }
+{Order(Deploy) Order(Advance) Order(Bomb) Order(Airlift) Order(Airlift) }
+{Order(Deploy) Order(Advance) Order(Advance) Order(Bomb) Order(Advance) }
+The state has transitioned to executeorders
+Command effect: Executed Deploy order, adding 3 units to the territory 4c
+Command effect: Executed Deploy order, adding 6 units to the territory 5c
 Command effect: executed
 Command effect: executed
 The state has transitioned to win
