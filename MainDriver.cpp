@@ -35,9 +35,9 @@ int main(int argc, char *argv[])
     // Part 2
     // testStatUpPhase(commandLineArg);
     // Part 3
-    testMainGameLoop();
+    // testMainGameLoop();
     // Part 4
-    //testOrderExecution();
+    // testOrderExecution();
     // Part 5
-    //testLoggingObserver(commandLineArg);
+    testLoggingObserver(commandLineArg);
 }

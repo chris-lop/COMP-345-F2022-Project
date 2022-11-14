@@ -75,8 +75,17 @@ void testOrderExecution() {
     advT5->execute();
     //cout << "# Executing an advance order that results in an attack #\n";
     //advT1->execute();
-    cout << "Current State of territories after execution of advance orders:" << endl;
+    cout << "Current State of territories after execution of advance order (from t2->t4, 2 units):" << endl;
     cout << "Territory 1: " << *territory1 << " Territory 2: " << *territory2 << " Territory 3: " << *territory3 << " Territory 4: " << *territory4 <<  "\n";
+
+    cout << "#### Checking that territory ownership changes when territory is conquered #####\n";
+    territory2->setArmy(new int(1));
+    cout << "Territory 1: " << *territory1 << " Territory 2: " << *territory2 << "\n";
+    cout << "Executing advance 1 (from territory1 to territory 2, Chris moves 5 units)\n";
+    advT1->execute();
+    cout << "Territory 1: " << *territory1 << " Territory 2: " << *territory2 << "\n";
+
+
 
    cout << "------- Testing Airlift Order -------\n";
    Territory *t3 = new Territory(new string("t3"), new string("cont1"), vector<Territory*>{t2}, p, new int(5));
@@ -103,12 +112,12 @@ void testOrderExecution() {
    
     cout << "------- Testing Bomb Order -------" <<"\n";
     Bomb *bmbT1 = new Bomb(territory1, player1);
-    Bomb *bmbT2 = new Bomb(territory4, player1);
+    Bomb *bmbT2 = new Bomb(territory2, player1);
     Bomb *bmbT3 = new Bomb(territory1, player2);
 
     cout << "# Verifying that bomb order checks ownership of target territory #\n";
     cout << "Bomb 1 valid (Chris bombs territory1): " << bmbT1->validate() << "\n";
-    cout << "Bomb 2 valid (Chris bombs territory4): " << bmbT2->validate() << "\n";
+    cout << "Bomb 2 valid (Chris bombs territory2): " << bmbT2->validate() << "\n";
 
     cout << "# Verifying that bomb order checks adjacency of territories #\n";
     cout << "Bomb 3 (Marc bombs territory1): " << bmbT3->validate() << "\n";
@@ -138,37 +147,39 @@ void testOrderExecution() {
    cout << "#### Checking Negotiate with Advance ####\n";
    Advance *advance1 = new Advance(t1, t2, p, 1);
    cout << "Checking that advance order between territories owned by player 1 and player 2 is valid\n";
-   cout << "advance1->validate(): " << advance1->validate() << endl;
+   cout << "advance1 valid (territory 1 and 2): " << advance1->validate() << endl;
    Negotiate *n1 = new Negotiate(p, other);
    n1->execute();
    cout << "# Checking that negotiation blocks an advance order #\n";
-   cout << "Now, a negotiation has been created betweent the players\n";
-   cout << "advance1->validate(): " << advance1->validate() << endl;
+   cout << "Now, a negotiation has been created betweent the players: " << n1->getEffect() << "\n";
+   cout << "advance1 valid: " << advance1->validate() << endl;
    cout << "# Checking that a new turn starting stops the negotiation #\n";
    p->set_armyUnit(p->get_armyUnit() + 3);
    other->set_armyUnit(other->get_armyUnit() + 3);
-   cout << "advance1->validate(): " << advance1->validate() << endl;
+   cout << "advance1 valid: " << advance1->validate() << endl;
 
    cout << "#### Checking Negotiate with Bomb ####\n";
    Bomb *bomb1 = new Bomb(t2, p);
    cout << "Seeing that created bomb order is valid\n";
-   cout << "bomb1->validate(): " << bomb1->validate() << endl;
+   cout << "bomb1 validate (t2): " << bomb1->validate() << endl;
    cout << "# Checking that Negotiate blocks a Bomb order #\n";
+   delete n1;
+   n1 = new Negotiate(p, other);
    n1->execute();
-   cout << "bomb1->validate(): " << bomb1->validate() << endl;
-   //cout << "n1->stringToLog(): " << n1->stringToLog() << endl;
+   cout << "Negotiation: " << n1->getEffect() << "\n";
+   cout << " bomb1 valid: " << bomb1->validate() << endl;
    cout << "# Checking that a new turn starting stops the negotiation #\n";
    p->set_armyUnit(p->get_armyUnit() + 3);
    other->set_armyUnit(other->get_armyUnit() + 3);
-   cout << "bomb1->validate(): " << bomb1->validate() << endl;
+   cout << "bomb1 valid: " << bomb1->validate() << endl;
    
    cout << "#### Checking Negotiate valid() method ####\n";
    Negotiate *n2 = new Negotiate(p, p);
    Negotiate *n3 = new Negotiate(p, other);
    cout << "Seeing that a negotiate order from a player to themselves is invalid\n";
-   cout << "n2->validate(): " << n2->validate() << endl;
+   cout << "n2 valid (between p1 and p1): " << n2->validate() << endl;
    cout << "Seeing that a negotiate order b/w two different players is valid\n";
-   cout << "n3->validate(): " << n3->validate() << endl;
+   cout << "n3 valid (between p1 and p2): " << n3->validate() << endl;
    
    
 
