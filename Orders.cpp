@@ -113,14 +113,6 @@ int OrdersList::getIndex(Order * order){
 
 //Output stream
 std::ostream& operator<<(std::ostream &strm, const OrdersList &ol){
-    // strm << "Order List: ";
-    // for (int i = 0; i < ol.orderList.size(); i++) {
-    //     // Order& orderRef = *(ol.orderList.at(i));
-    //     strm << *(ol->getOrder().at(i));
-    //     if (i < ol.orderList.size() - 1) {
-    //         strm << ", ";
-    //     }
-    // }
     strm<<"{";
     for(Order* o: ol.orderList){
         strm<<*o<<" ";
@@ -316,12 +308,12 @@ Order* Deploy::clone(){
 
 //class Advance
 //Advance default constructor
-Advance::Advance(): target(nullptr), source(nullptr), player(nullptr), numberUnits(0) {
+Advance::Advance(): Order("Advance"), target(nullptr), source(nullptr), player(nullptr), numberUnits(0) {
     type = "Advance";
 }
 
 Advance::Advance(Territory *source, Territory *target, Player *player, int numberUnits): 
-    source(source), target(target), player(player), numberUnits(numberUnits) {
+    Order("Advance"), source(source), target(target), player(player), numberUnits(numberUnits) {
 }
 
 //Advance destructor
@@ -803,12 +795,6 @@ Airlift& Airlift::operator=(const Airlift& ai){
 std::ostream& operator<<(std::ostream &strm, const Airlift &Airlift){
     return strm << "Airlift order of " << Airlift.numToMove <<  " armies from territory "
      << *Airlift.source << " to " << *Airlift.target;
-    /*if(!Airlift.hasExecuted){
-        return strm << "Airlift(" << Airlift.type << ")";
-    }
-    else{
-        return strm << "Airlift(" << Airlift.type << "," << Airlift.effect << ")";
-    }*/
 }
 
 //clone method

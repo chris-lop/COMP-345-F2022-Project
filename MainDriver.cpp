@@ -17,41 +17,27 @@ int main(int argc, char *argv[])
     for (int i = 1; i < argc; i++)
     {
         std::cout << argv[i] << endl;
-        commandLineArg = commandLineArg + argv[i] + "\t";
+        if (argv[i][0] == '-') {
+            // If there's a dash, do not add it to commandLineArg
+            commandLineArg = commandLineArg + (argv[i] + 1) + "\t";
+        } else {
+            commandLineArg = commandLineArg + argv[i] + "\t";
+        }
     }
-    if (commandLineArg.find("console") != 0 && commandLineArg.find("file") != 0)
+    if (commandLineArg.find("console") == string::npos && commandLineArg.find("file") == string::npos)
     {
         std::cout << "Invalid command argument" << endl;
         exit(1);
     }
-    // add validationg
-
-    // Part 1: Map
-    // testLoadMaps();
-
-    // removed testPlayer() from A1 and commented out all test functions from A1- HL
-
-    // Part 3: Orders List
-    // testOrderExecution();
-    // Part 4: Cards
-    // testCards();
-    // Part 5: Game Engine
-    //  testGameStates();
-
-    // A2 Part 3
-    //  testMainGameLoop();
-
-    // Part 3: Orders List
-    //  testOrderExecution();
-    // Part 4: Cards
-    // testCards();
-    // Part 5: Game Engine
-    //  testGameStates();
-
-    // A2 Part 3
+    
+    // Part 1
     // testCommandProcessor(commandLineArg);
-    // TESTED working
+    // Part 2
     // testStatUpPhase(commandLineArg);
-    testLoggingObserver(commandLineArg);
-    // testMainGameLoop();
+    // Part 3
+    testMainGameLoop();
+    // Part 4
+    //testOrderExecution();
+    // Part 5
+    //testLoggingObserver(commandLineArg);
 }
