@@ -1,0 +1,5 @@
+The effect saved is testing from the command loadmap
+The command and its effect saved are loadmap and testing
+Command effect: Executed Deploy order, adding 1 units to the territory t1
+{Order(Deploy,Executed Deploy order, adding 1 units to the territory t1) }
+The state has transitioned to maploaded

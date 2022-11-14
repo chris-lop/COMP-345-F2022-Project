@@ -6,50 +6,50 @@
 #include "Player.h"
 #include "Map.h"
 #include "CommandProcessor.h"
+#include "LoggingObserver.h"
 #include <string>
 #include "cards.h"
 class Order;
+class ILoggable;
+class Subject;
 
-class GameEngine
+class GameEngine : public ILoggable, public Subject
 {
 private:
     string state;
-    Map* gameMap;
-    Deck* d;
+    Map *gameMap;
+    Deck *d;
 
-    //active game players
-    vector <Player*> gamePlayers;
-    //players without territories removed from the game
-    vector <Player*> removedPlayers;
+    // active game players
+    vector<Player *> gamePlayers;
+    // players without territories removed from the game
+    vector<Player *> removedPlayers;
 
 public:
     // constructor
     GameEngine();
-    GameEngine(Map* gameMap, vector<Player*> gamePlayers);
-    //destructor
-   ~GameEngine();
-  
-    //stream operators
-    friend std::ostream& operator << (std::ostream& strm, const GameEngine& g);
-    friend std::istream& operator >> (std::istream& in, GameEngine& g);
-    
-    //setters
-    void setState(string state);
-    void setMap(Map* gameMap);
-    void setDeck(Deck* gameDeck);
-    void setPlayers(vector <Player*> gamePlayers);
-    
-    //getters
-    string getState();
-    Map* getMap();
-    Deck* getDeck();
-    vector<Player*> getPlayers();
-    vector<Player*> getRemovedPlayers();
+    GameEngine(Map *gameMap, vector<Player *> gamePlayers);
+    GameEngine(Map *gameMap, vector<Player *> gamePlayers, vector<Player *> removedPlayers);
+    // destructor
+    ~GameEngine();
 
     // stream operators
     friend std::ostream &operator<<(std::ostream &strm, const GameEngine &g);
     friend std::istream &operator>>(std::istream &in, GameEngine &g);
 
+    // setters
+    void setState(string state);
+    void setMap(Map *gameMap);
+    void setDeck(Deck *gameDeck);
+    void setPlayers(vector<Player *> gamePlayers);
+    void setRemovedPlayers(vector<Player *> removedPlayers);
+
+    // getters
+    string getState();
+    Map *getMap();
+    Deck *getDeck();
+    vector<Player *> getPlayers();
+    vector<Player *> getRemovedPlayers();
 
     // takes commands as input and passes through states accordingly
     void handleInput(std::string line);
@@ -65,11 +65,11 @@ public:
 
     // prints out reinforcement is aasigned
     void assignReinforcement();
-    
-    //takes order as input and creates an order
+
+    // takes order as input and creates an order
     string issueOrders();
-    
-    //prints out orders are executed
+
+    // prints out orders are executed
     void executeOrders();
 
     // prints out win
@@ -81,26 +81,30 @@ public:
     // boolean checks whether last state has been reached or not
     bool finished();
 
-    //A2 functions
-    //function for GameLogObserver
+    // A2 functions
+    // function for GameLogObserver
     void transition();
-    
-    //main game play loop
-    bool mainGameLoop(std::vector <Player*> players, Map* graph);
 
-    //reinforcement phase
-    void reinforcementPhase(Player* player, Map* graph);
+    // main game play loop
+    bool mainGameLoop(std::vector<Player *> players, Map *graph);
 
-    //issue orders phase
-    void issueOrdersPhase(vector<Player*> player);
+    // reinforcement phase
+    void reinforcementPhase(Player *player, Map *graph);
 
-    //execute orders phase
+    // issue orders phase
+    void issueOrdersPhase(vector<Player *> player);
+
+    // execute orders phase
     bool executeOrdersPhase();
 
-    vector<char *> directory();
+    // Startup phase
+    void startupPhase(CommandProcessor *cp, string choice);
 
-    // startup phase
-    void startupPhase(CommandProcessor *cp);
+    // ILoggable method
+    std::string stringToLog();
+
+    // Lists directories
+    vector<string> directory();
 
 }; // end of class GameEngine
 
@@ -110,4 +114,4 @@ void testGameStates();
 // A2 free function
 void testMainGameLoop();
 
-void testGameEngine();
+void testStatUpPhase(string command);

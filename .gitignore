@@ -2,3 +2,4 @@
 *.out
 .vscode/*
 maploader_log.txt
+gamelog.txt

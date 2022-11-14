@@ -1,16 +1,92 @@
-
 #include "CommandProcessor.h"
+#include "LoggingObserver.h"
 #include <iostream>
 #include <vector>
-#include <string>
+#include <fstream>
+#include <sstream>
+using std::cin;
+using std::cout;
+using std::endl;
+using std::ifstream;
 using std::string;
 using std::vector;
+
+// ----Command Class ---------
+
+// constructors
+Command::Command()
+{
+    this->command = {};
+    this->effect = {};
+}
+
+Command::Command(string command, string effect)
+{
+    this->command = command;
+    this->effect = effect;
+}
+
+// destructor
+Command::~Command()
+{
+}
+
+// stream operators
+std::ostream &operator<<(std::ostream &strm, const Command &c)
+{
+    strm << "The  command and its effect are " << c.command << " and " << c.effect << endl;
+    return strm;
+}
+
+//copy constructor
+Command::Command(const Command &c1)
+{
+    this->command = c1.command;
+    this->effect = c1.effect;
+}
+
+//assignment operator
+Command &Command::operator=(const Command &c1)
+{
+    this->command = c1.command;
+    this->effect = c1.effect;
+    return *this;
+}
+
+
+//getters
+string Command::getCommand()
+{
+    return this->command;
+}
+
+string Command::getEffect()
+{
+    return this->effect;
+}
+
+// saves effect of the command to the vector of strings
+void Command::saveEffect(string eff)
+{
+    this->effect = eff;
+    notify(this);
+}
+
+// Method providing the string to log
+string Command::stringToLog()
+{
+    string s = "The effect saved is ";
+    return (s).append(this->effect).append(" from the command ").append(this->command);
+}
+
+// ----CommandProcessor Class ---------
 
 // constructor
 CommandProcessor::CommandProcessor()
 {
     state = "start";
-    c = new Command();
+    vector<Command *> commands;
+    this->commands = commands;
     done = false;
     valid = false;
 }
@@ -18,119 +94,299 @@ CommandProcessor::CommandProcessor()
 // destructor
 CommandProcessor::~CommandProcessor()
 {
-    delete c;
+    for (int i = 0; i < this->commands.size(); i++)
+    {
+        delete this->commands.at(i);
+    }
 }
 
-// validates the user's commands and if invalid saves the error message to a vector of strings
-// returns a string of the effect resulting from the command passed to it
-string CommandProcessor::validate(string command)
+//copy constructor
+CommandProcessor::CommandProcessor(const CommandProcessor &cp)
 {
+    commands = vector<Command *>();
+    for (Command *c : cp.commands)
+    {
+        commands.push_back(new Command(*c));
+    }
+    this->state = cp.state;
+    this->done = cp.done;
+    this->valid = cp.valid;
+}
+
+//assignment operator
+CommandProcessor &CommandProcessor::operator=(const CommandProcessor &cp)
+{
+    commands = vector<Command *>();
+    for (Command *c : cp.commands)
+    {
+        commands.push_back(new Command(*c));
+    }
+    this->state = cp.state;
+    this->done = cp.done;
+    this->valid = cp.valid;
+    return *this;
+}
+
+//stream insertion operator
+std::ostream &operator<<(std::ostream &strm, const CommandProcessor &cp)
+{
+   strm<<"The commands are: "<<endl;
+  for(Command* c:cp.commands)
+  strm<<*c;
+  return strm;
+}
+
+
+// validates the user's commands and then saves the effect that it results in
+bool CommandProcessor::validate(Command *c)
+{
+    string command = c->getCommand();
 
     if (state == "start")
     {
-        if (command.substr(0, 8) == "loadmap<" && command.substr(command.length() - 1) == ">")
+        if (command.find("loadmap") == 0)
         {
-            valid = true;
-            return "Now in map loaded state. Valid input: loadmap<mapfile>, validatemap.";
+            c->saveEffect("in map loaded state");
+            return true;
         }
         else
         {
-            valid = false;
-            c->effect.push_back(new string("invalid command, the valid command is loadmap<mapfile>."));
-            return "invalid command, the valid command is loadmap<mapfile>.";
+            c->saveEffect("invalid command");
+            return false;
         }
     }
     else if (state == "maploaded")
     {
-        if (command.substr(0, 8) == "loadmap<" && command.substr(command.length() - 1) == ">")
+        if (command.find("loadmap") == 0)
         {
-            valid = true;
-            return "Now in map loaded state. Valid input: loadmap<mapfile>, validatemap.";
+            c->saveEffect("in map loaded state");
+            return true;
         }
         else if (command == "validatemap")
         {
-            valid = true;
-            return "Map now validated, you are in validated state. Valid input: addplayer<playername>.";
+            c->saveEffect("in validated state");
+            return true;
         }
         else
         {
-            valid = false;
-            c->effect.push_back(new string("invalid command, valid commands are loadmap<mapfile>, validatemap."));
-            return "invalid command, valid commands are loadmap<mapfile>, validatemap.";
+            c->saveEffect("invalid command");
+            return false;
         }
     }
     else if (state == "mapvalidated")
     {
-        if (command.substr(0, 10) == "addplayer<" && command.substr(command.length() - 1) == ">")
+        if (command.find("addplayer") == 0)
         {
-            valid = true;
-            return "you are now in players added state. Valid input: addplayer<playername>, gamestart.";
+            c->saveEffect("in players added state");
+            return true;
         }
         else
         {
-            valid = false;
-            c->effect.push_back(new string("invalid command, the valid command is addplayer<playername>."));
-            return "invalid command, the valid command is addplayer<playername>.";
+            c->saveEffect("invalid command");
+            return false;
         }
     }
     else if (state == "playersadded")
     {
-        if (command.substr(0, 10) == "addplayer<" && command.substr(command.length() - 1) == ">")
+        if (command.find("addplayer") == 0)
         {
-            valid = true;
-            return "you are now in players added state. Valid input: addplayer<playername>, gamestart.";
+            c->saveEffect("in players added state");
+            return true;
         }
 
         if (command == "gamestart")
         {
-            valid = true;
-            return "starting the game... Valid input: replay, quit.";
+            c->saveEffect("in game start state");
+            return true;
         }
         else
         {
-            valid = false;
-            c->effect.push_back(new string("invalid command, valid commands are addplayer<playername>, gamestart."));
-            return "invalid command, valid commands are addplayer<playername>, gamestart.";
+            c->saveEffect("invalid command");
+            return false;
         }
     }
     else if (state == "win")
     {
         if (command == "quit")
         {
-            valid = true;
-            return "game ended.";
+            c->saveEffect("in game ended state");
+            return true;
         }
         else if (command == "replay")
         {
-            valid = true;
-            return "Now in start state. Valid input: loadmap<mapfile>";
+            c->saveEffect("in start state");
+            return true;
         }
         else
         {
-            valid = false;
-            c->effect.push_back(new string("invalid command, valid commands are quit or replay."));
-            return "invalid command, valid commands are quit or replay.";
+            c->saveEffect("invalid command");
+            return false;
         }
     }
     else
-        return "";
+    {
+        c->saveEffect("invalid command");
+        return false;
+    }
 }
 
-// this method saves the command
-void CommandProcessor::saveCommand(string command)
+// this method saves the command object to the vector of commands
+void CommandProcessor::saveCommand(Command *command)
 {
+    this->commands.push_back(command);
+    notify(this);
+}
 
-    c->command.push_back(new string(command));
+// read's user's commands as strings and then creates command object and returns it
+Command *CommandProcessor::readCommand()
+{
+    string yourCommand;
+    getline(cin, yourCommand);
+    Command *c = new Command(yourCommand, "");
+    return c;
+}
+
+//getters
+bool CommandProcessor::getvalid()
+{
+    return this->valid;
+}
+
+string CommandProcessor::get_state()
+{
+    return this->state;
+}
+
+vector<Command *> CommandProcessor::getterCommands()
+{
+    return this->commands;
+}
+
+// setter
+void CommandProcessor::set_state(string line)
+{
+    this->state = line;
+}
+
+// keeps on taking user's command until the end of game
+void CommandProcessor::start()
+{
+    startMessage();
+    while (done == false)
+    {
+        playegame(getCommand());
+    }
+}
+
+// prints out a start message
+void CommandProcessor::startMessage()
+{
+    cout << "Now in start state. Valid input: loadmap<mapfile>" << endl;
+}
+
+// creates command object, saves and returns a pointer to it
+Command *CommandProcessor::getCommand()
+{
+    Command *c = new Command(*readCommand());
+    saveCommand(c);
+    return c;
+}
+
+//------ FileLineReader Class ------
+
+// returns a string of the commands read from the file
+vector<string *> FileLineReader::readLineFromFile(string fname)
+{
+    string text;
+    vector<string *> co = {};
+    ifstream readFile(fname);
+    while (getline(readFile, text))
+    {
+
+        // reads text from the file and saves it to a string of commands
+        co.push_back(new string(text));
+    }
+
+    readFile.close();
+    return co;
+}
+
+// Method providing the string to log
+string CommandProcessor::stringToLog()
+{
+    string str = "";
+    string s = "The command and its effect saved are ";
+    str.append(s).append(commands.at(commands.size() - 1)->command).append(" and ").append(commands.at(commands.size() - 1)->effect);
+
+    return str;
+}
+
+//-------FileCommandProcessorAdapter Class------
+
+// constructor
+FileCommandProcessorAdapter::FileCommandProcessorAdapter() : CommandProcessor(), f_name(""), f(new FileLineReader()), lineNum(0)
+{
+}
+
+//copy constructor
+FileCommandProcessorAdapter::FileCommandProcessorAdapter(const FileCommandProcessorAdapter &fcp)
+{
+    f=new FileLineReader();
+    *f=*fcp.f;
+    this->f_name = fcp.f_name;
+    this->lineNum = fcp.lineNum;
+    
+}
+
+//assignment operator
+FileCommandProcessorAdapter &FileCommandProcessorAdapter::operator=(const FileCommandProcessorAdapter &fcp)
+{
+   f=new FileLineReader();
+   *f=*fcp.f;
+    this->f_name = fcp.f_name;
+    this->lineNum = fcp.lineNum;
+    return *this;
+}
+
+//stream insertion operator
+std::ostream &operator<<(std::ostream &strm, const FileCommandProcessorAdapter &fcp)
+{
+   strm<<"The name of the file and the line number are: "<<fcp.f_name<<", "<<fcp.lineNum<<endl;
+  return strm;
+}
+
+// destructor
+FileCommandProcessorAdapter::~FileCommandProcessorAdapter()
+{
+    delete f;
+}
+
+// setter
+void FileCommandProcessorAdapter::set_f_name(string name)
+{
+    f_name = name;
+}
+
+// overriding the readCommand() method from the base class
+Command *FileCommandProcessorAdapter::readCommand()
+{
+    // read the commands from a file
+    vector<string *> commands = f->readLineFromFile(f_name);
+    string command = *commands.at(lineNum);
+    lineNum = lineNum + 1;
+    Command *c = new Command(command, "");
+    return c;
 }
 
 // handles the user's commands and passes through the stages of the game
-bool CommandProcessor::playegame(string line)
+bool CommandProcessor::playegame(Command *command)
 {
+    validate(command);
     if (state == "start")
     {
         // State: start
         // valid inputs: loadmap
-        if (line.find("loadmap") == 0)
+        if ((command->getCommand()).find("loadmap") == 0)
         {
             // loadMap();
             cout << "Now in map loaded state. Valid input: loadmap, validatemap" << endl;
@@ -147,14 +403,14 @@ bool CommandProcessor::playegame(string line)
     {
         // State: map loaded
         // Valid inputs: loadmap, validatemap
-        if (line.find("loadmap") == 0)
+        if ((command->getCommand()).find("loadmap") == 0)
         {
             // loadMap();
             cout << "Now in map loaded state. Valid input: loadmap, validatemap" << endl;
             state = "maploaded";
             return true;
         }
-        else if (line == "validatemap")
+        else if (command->getCommand() == "validatemap")
         {
             // validateMap();
             cout << "Map now validated, you are in validated state. Valid input: addplayer" << endl;
@@ -171,7 +427,7 @@ bool CommandProcessor::playegame(string line)
     {
         // State: map validated
         // Valid input: addplayer
-        if (line.find("addplayer") == 0)
+        if ((command->getCommand()).find("addplayer") == 0)
         {
             // addPlayers();
             cout << "you are now in players added state. Valid input: addplayer, gamestart." << endl;
@@ -190,7 +446,7 @@ bool CommandProcessor::playegame(string line)
     {
         // state: players added
         // valid input: addplayer, assigncountries
-        if (line.find("addplayer") == 0)
+        if ((command->getCommand()).find("addplayer") == 0)
         {
             // addPlayers();
             cout << "you are now in players added state. Valid input: addplayer, gamestart." << endl;
@@ -198,7 +454,7 @@ bool CommandProcessor::playegame(string line)
             state = "playersadded";
             return true;
         }
-        else if (line == "gamestart")
+        else if (command->getCommand() == "gamestart")
         {
 
             cout << "starting the game... Valid input: replay, quit." << endl;
@@ -225,14 +481,14 @@ bool CommandProcessor::playegame(string line)
         if (state == "win")
     {
 
-        if (line == "replay")
+        if (command->getCommand() == "replay")
         {
 
             startMessage();
             state = "start";
             return true;
         }
-        else if (line == "quit")
+        else if (command->getCommand() == "quit")
         {
             cout << "game ended." << endl;
             done = true;
@@ -243,67 +499,4 @@ bool CommandProcessor::playegame(string line)
         return false;
     }
     return true; // added by marc
-}
-
-// read's user's commands, saves and validates them, then saves the effects of the commands
-void CommandProcessor::readCommand()
-{
-    string ycommand;
-    string yourCommand;
-    cin >> yourCommand;
-    saveCommand(yourCommand);
-    // validates the command which will return a string of the effect and save invalid commands' effects
-    ycommand = validate(yourCommand);
-    // saves the effect of the command if the command is valid
-    if (valid == true)
-        c->saveEffect(ycommand);
-
-    {
-        // this will handle the user's input to pass through stages of the game
-        playegame(yourCommand);
-    }
-}
-
-// getters
-Command *CommandProcessor::get_c()
-{
-    return c;
-}
-
-bool CommandProcessor::getvalid()
-{
-    return valid;
-}
-
-string CommandProcessor::get_state()
-{
-    return state;
-}
-
-// setter
-void CommandProcessor::set_state(string line)
-{
-    state = line;
-}
-
-// keeps on taking user's command until the end of game
-void CommandProcessor::start()
-{
-    startMessage();
-    while (done == false)
-    {
-        readCommand();
-    }
-}
-
-// prints out a start message
-void CommandProcessor::startMessage()
-{
-    cout << "Now in start state. Valid input: loadmap<mapfile>" << endl;
-}
-
-// returns a vector of strings which are the commands that the user entered
-vector<string *> CommandProcessor::getCommand()
-{
-    return c->command;
 }
