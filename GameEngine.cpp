@@ -431,7 +431,8 @@ void GameEngine::reinforcementPhase(Player *p, Map *graph)
     this->setState("playersadded");
     this->transition();
 
-    std::cout << "Player " << p->get_name() << "'s total army units: " << p->get_armyUnit() << std::endl;
+    std::cout << "Player " << p->get_name() << "'s current army units in the pool: " << p->get_armyUnit() << std::endl;
+    std::cout << "Player " << p->get_name() << "'s number of owned territories: " << p->get_trt().size() << std::endl;
 
     // For each player, # army units = (# territories owned)/3, and min. 3 units
     if (std::floor(p->get_trt().size() / 3) <= 3)
@@ -498,8 +499,9 @@ void GameEngine::reinforcementPhase(Player *p, Map *graph)
             // find the bonus value corresponding to the continent
             auto it = continent_bonus.find(continents[i]);
             int bonus = it->second;
+            cout << "Player owns all territories of the continent "<<continents[i]<<".\nContinent with bonus value of " << bonus <<" added to the pool." << std::endl;
             p->set_armyUnit(p->get_armyUnit() + bonus);
-            cout << "Continent bonus added: " << bonus << std::endl;
+            
         }
         // else, continue the verification with the next continent
         else
@@ -508,8 +510,7 @@ void GameEngine::reinforcementPhase(Player *p, Map *graph)
         }
     }
 
-    std::cout << "Player " << p->get_name() << "'s total army units: " << p->get_armyUnit() << std::endl;
-    std::cout << "Player " << p->get_name() << "'s number of owned territories: " << p->get_trt().size() << std::endl;
+    std::cout << "Player " << p->get_name() << "'s new total army units in the pool: " << p->get_armyUnit() << std::endl;
 }
 
 // issueOrdersPhase(): each player issue orders
