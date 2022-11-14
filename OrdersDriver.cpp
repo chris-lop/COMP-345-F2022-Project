@@ -8,6 +8,8 @@
 using std::cout;
 using std::endl;
 
+void resetOwnership(Territory *territory1, Territory *territory2, Territory *territory3, Territory *territory4, Player *player1, Player *player2);
+
 void testOrderExecution() {
     Territory *t1 = new Territory(new string("t1"), new string("cont1"), vector<Territory*>{}, nullptr, new int(5));
     Territory *t2 = new Territory(new string("t2"), new string("cont1"), vector<Territory*>{t1}, nullptr, new int(5));
@@ -200,19 +202,37 @@ void testOrderExecution() {
     OrdersList *o1 = new OrdersList(), *o2 = new OrdersList();
     player1 = new Player("Chris", {territory1, territory3}, hand1, o1);
     player2 = new Player("Marc", {territory2, territory4}, hand2, o2);
-    player1->set_armyUnit(3); player2->set_armyUnit(3);
-    territory1->setTerritoryOwner(player1);
-    territory2->setTerritoryOwner(player2);
-    territory3->setTerritoryOwner(player1);
-    territory4->setTerritoryOwner(player2);
+    player1->set_armyUnit(1); player2->set_armyUnit(1);
+    resetOwnership(territory1, territory2, territory3, territory4, player1, player2);
     
     Map *map = new Map();
     map->territories = vector<Territory*> {territory1, territory2, territory3, territory4};
     GameEngine *engine = new GameEngine(map, vector<Player*> {player1, player2});
-    cout << "------ Testing Deploy ------\n";
+    engine->setDeck(new Deck());
+    cout << "------ Testing Deploy and Advance ------\n";
     engine->issueOrdersPhase(vector<Player*>{player1, player2});
     engine->executeOrdersPhase();
 
+    cout << "------ Testing Airlift, Bomb, Negotiate ------\n";
+    for (int i = 0; i < 3; i++) {
+        hand1->addCard(new Card("Airlift")); hand2->addCard(new Card("Airlift"));
+        hand1->addCard(new Card("Bomb")); hand2->addCard(new Card("Bomb"));
+        hand1->addCard(new Card("Diplomacy")); hand2->addCard(new Card("Diplomacy"));
+    }
+    for (int i = 0; i < 4; i++) {
+        engine->issueOrdersPhase(vector<Player*>{player1, player2});
+        engine->executeOrdersPhase();
+        resetOwnership(territory1, territory2, territory3, territory4, player1, player2);
+    }
 
     delete player1; delete player2;
+}
+
+void resetOwnership(Territory *territory1, Territory *territory2, Territory *territory3, Territory *territory4, Player *player1, Player *player2) {
+    territory1->setTerritoryOwner(player1);
+    territory2->setTerritoryOwner(player2);
+    territory3->setTerritoryOwner(player1);
+    territory4->setTerritoryOwner(player2);
+    player1->set_Trt(vector<Territory*> {territory1, territory3});
+    player2->set_Trt(vector<Territory*> {territory2, territory4});
 }

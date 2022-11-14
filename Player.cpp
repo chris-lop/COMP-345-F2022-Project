@@ -359,18 +359,18 @@ void Player::issueOrder()
             // player options for further orders
             int order_option = 1;
             
-            // If player has airlift card, player has 15% chance to use it during a turn
+            // If player has airlift card, player has 50% chance to use it during a turn
             if (hasAirlift)
             {
-                if ((rand() % 100) < 15)
+                if ((rand() % 100) < 50)
                 {
                     order_option = 2;
                 }
             }
-            // If player has bomb card, player has 15% chance to use it during a turn
+            // If player has bomb card, player has 50% chance to use it during a turn
             if (hasBomb)
             {
-                if ((rand() % 100) < 20)
+                if ((rand() % 100) < 50)
                 {
                     order_option = 3;
                 }
@@ -383,10 +383,10 @@ void Player::issueOrder()
                     order_option = 4;
                 }
             }
-            // If player has diplomacy card, player has 15% chance to use it during a turn
+            // If player has diplomacy card, player has 50% chance to use it during a turn
             if (hasdiplomacy)
             {
-                if ((rand() % 100) < 15)
+                if ((rand() % 100) < 50)
                 {
                     order_option = 5;
                 }

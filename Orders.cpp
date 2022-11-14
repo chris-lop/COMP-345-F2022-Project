@@ -532,7 +532,7 @@ void Advance::execute(){
                 this->target->setArmy(&attackerNb);
             }
         }
-        cout << "Deploy has executed" << endl;
+        // cout << "Deploy has executed" << endl;
     }
     else{
         this->hasExecuted = false;
