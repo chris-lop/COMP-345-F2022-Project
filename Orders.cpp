@@ -244,7 +244,7 @@ Deploy::~Deploy(){
 
 //Deploy copy constructor
 Deploy::Deploy(const Deploy& d1):
-    Order(d1.type, d1.effect), target(d1.target), player(player), numberUnits(d1.numberUnits) {
+    Order(d1.type, d1.effect), target(d1.target), player(d1.player), numberUnits(d1.numberUnits) {
 }
 
 //Deploy assignment operator
@@ -323,7 +323,7 @@ Advance::~Advance(){
 
 //Advance copy constructor
 Advance::Advance(const Advance& ad1):
-    Order(ad1.type, ad1.effect), source(ad1.source), target(ad1.target), player(player), numberUnits(ad1.numberUnits){
+    Order(ad1.type, ad1.effect), source(ad1.source), target(ad1.target), player(ad1.player), numberUnits(ad1.numberUnits){
 }
 
 //Advance assignment operator
@@ -559,7 +559,7 @@ Bomb::~Bomb(){
 
 //Bomb copy constructor
 Bomb::Bomb(const Bomb& b1):
-    Order(b1.type, b1.effect), target(b1.target), player(player) {
+    Order(b1.type, b1.effect), target(b1.target), player(b1.player) {
 }
 
 //Bomb assignment operator
@@ -819,7 +819,7 @@ Negotiate::~Negotiate(){
 }
 
 //Negotiate copy constructor
-Negotiate::Negotiate(const Negotiate& n1): Order(n1.type), source(source), target(target) {
+Negotiate::Negotiate(const Negotiate& n1): Order(n1.type), source(n1.source), target(n1.target) {
 }
 
 //Negotiate assignment operator
