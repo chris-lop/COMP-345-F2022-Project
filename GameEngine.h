@@ -8,7 +8,7 @@
 #include "CommandProcessor.h"
 #include "LoggingObserver.h"
 #include <string>
-#include "cards.h"
+#include "Cards.h"
 class Order;
 class ILoggable;
 class Subject;
