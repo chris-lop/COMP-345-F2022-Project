@@ -4,6 +4,7 @@
 #include <vector>
 #include <string>
 #include "Orders.h"
+#include "Player-Strategy/PlayerStrategy.h"
 class OrdersList;
 class Order;
 class Territory;
@@ -26,6 +27,8 @@ private:
     // Reset when army units added to the reinforcement
     // pool, at the start of the turn
     std::vector<Player*> negotiatedPlayers;
+
+    PlayerStrategy *ps;
 
 public:
     //default constructor
@@ -52,6 +55,7 @@ public:
     OrdersList* get_olst();
     Hand* get_Phand();
     int get_armyUnit();
+    PlayerStrategy* get_strategy();
 
     //setter functions
     void set_Pname(std::string name);
@@ -59,6 +63,7 @@ public:
     void set_Olst(OrdersList* olst);
     void set_Player_Hand(Hand* h);
     void set_armyUnit(int army_unit);
+    void set_strategy(PlayerStrategy *ps);
     
     //methods to implement for assignment 1
     //issue a list of territories to be defended by the player based on the player owned territories

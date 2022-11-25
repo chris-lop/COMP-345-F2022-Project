@@ -19,6 +19,8 @@
                 "${workspaceFolder}\\CommandProcessor.cpp",
                 "${workspaceFolder}\\CommandProcessingDriver.cpp",
                 "${workspaceFolder}\\LoggingObserverDriver.cpp",
+                "${workspaceFolder}\\Player-Strategy\\Cheater.cpp",
+                "${workspaceFolder}\\Player-Strategy\\PlayerStrategy.cpp",
                 "-o",
                 "${workspaceFolder}\\Project.exe"
             ],

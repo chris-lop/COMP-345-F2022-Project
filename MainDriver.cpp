@@ -31,13 +31,13 @@ int main(int argc, char *argv[])
     }
     
     // Part 1
-    testCommandProcessor(commandLineArg);
+    //testCommandProcessor(commandLineArg);
     // Part 2
-    testStatUpPhase(commandLineArg);
+    //testStatUpPhase(commandLineArg);
     // Part 3
     testMainGameLoop();
     // Part 4
-    testOrderExecution();
+    //testOrderExecution();
     // Part 5
-    testLoggingObserver(commandLineArg);
+    //testLoggingObserver(commandLineArg);
 }
