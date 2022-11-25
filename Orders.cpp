@@ -685,7 +685,21 @@ bool Blockade::validate(){
     // Check if target territory belongs to player
     bool ownsTarget = any_of(playerTerritories.begin(), playerTerritories.end(), [this](Territory *t){return t == this->target;});
 
-    return ownsTarget;
+    // Check if target issued blockade on his last territory
+    int blockade_ctr = 0;
+    for (Order* o : player->get_olst()->getOrder())
+    {
+        // If this order is of type Deploy
+        if (o->getType() == "Blockade" || o->getType() == "blockade")
+        {
+            // Increment blockade ctr
+            blockade_ctr++;
+        }
+    }
+
+    bool enoughTerritories = !((blockade_ctr+1)>=playerTerritories.size());
+
+    return ownsTarget && enoughTerritories;
 }
 
 //execute order

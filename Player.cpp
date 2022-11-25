@@ -334,10 +334,10 @@ void Player::issueOrder()
                     std::cout<<"Using player's Bomb card.\n";
                 }
             }
-            // If player has blockade card, player has 15% chance to use it during a turn
+            // If player has blockade card, player has 50% chance to use it during a turn
             if (hasBlockade)
             {
-                if (((rand() % 100) < 0) && this->get_trt().size()>1)
+                if (((rand() % 100) < 50) && this->get_trt().size()>1)
                 {
                     order_option = 4;
                     std::cout<<"Using player's Blockade card.\n";
