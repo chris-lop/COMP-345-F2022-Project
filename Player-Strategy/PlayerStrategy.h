@@ -14,3 +14,23 @@ public:
     virtual std::vector <Territory*> toAttack() = 0;
     virtual std::vector <Territory*> toDefend() = 0;
 };
+
+class AggressivePlayerStrategy : public PlayerStrategy {
+public:
+    AggressivePlayerStrategy(Player* p);
+    virtual ~AggressivePlayerStrategy();
+
+    virtual void issueOrder();
+    virtual std::vector <Territory*> toAttack();
+    virtual std::vector <Territory*> toDefend();
+};
+
+class NeutralPlayerStrategy : public PlayerStrategy {
+public:
+    NeutralPlayerStrategy(Player* p);
+    virtual ~NeutralPlayerStrategy();
+
+    virtual void issueOrder();
+    virtual std::vector <Territory*> toAttack();
+    virtual std::vector <Territory*> toDefend();
+};
