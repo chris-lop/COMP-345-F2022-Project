@@ -4,6 +4,8 @@
 using std::vector;
 #include <algorithm>
 using std::find;
+#include <iostream>
+using std::cout; using std::endl;
 
 Cheater::Cheater(Player* p): PlayerStrategy(p) {}
 Cheater::~Cheater() {}
@@ -12,17 +14,37 @@ void Cheater::issueOrder() {
     // The cheater straight up conquers adjacent territories
     vector <Territory*> result_attack = toAttack();
     for (Territory* t: result_attack) {
+        cout << "Taking territory " << *t << endl;
         Player *oldOwner = t->getTerritoryOwner();
         // Make ourselves owner
         t->setTerritoryOwner(p);
-        p->get_trt().push_back(t);
+
+        vector<Territory*> ownedTerritories = p->get_trt();
+        ownedTerritories.push_back(t);
+        p->set_Trt(ownedTerritories);
+        
         // Remove ownership from other player
-        for (auto it = oldOwner->get_trt().begin(); it < oldOwner->get_trt().end(); ++it) {
+        vector<Territory*> oldOwnerTerritories = oldOwner->get_trt();
+        cout << "OLD TERRITORIES\n";
+        for (auto t: oldOwnerTerritories) {
+            cout << *(t->getTerritoryName()) << " ";
+        }
+        cout << endl;
+
+        for (auto it = oldOwnerTerritories.begin(); it < oldOwnerTerritories.end(); ++it) {
             if (*it == t) {
-                oldOwner->get_trt().erase(it);
+                oldOwnerTerritories.erase(it);
                 break;
             }
         }
+
+        cout << "NEW TERRITORIES\n";
+        for (auto t: oldOwnerTerritories) {
+            cout << *(t->getTerritoryName()) << " ";
+        }
+        cout << endl;
+        
+        oldOwner->set_Trt(oldOwnerTerritories);
     }
 }
 

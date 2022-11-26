@@ -247,6 +247,8 @@ void Player::issueOrder()
 {
     // Use player strategy, if it has one
     if (ps) {
+        // issueOrder Starting Message
+        cout << this->get_name() << "'s Turn to play:" << endl;
         ps->issueOrder();
         return;
     }
