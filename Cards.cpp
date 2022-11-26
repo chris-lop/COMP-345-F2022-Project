@@ -173,6 +173,18 @@ void Hand::addCard(Card* card) {
     cards.push_back(card);
 }
 
+// Accessor
+vector<Card*> Hand::getCards()
+{
+    return this->cards;
+}
+
+// Mutator
+void Hand::setCards(vector<Card*> newCards)
+{
+    this->cards = newCards;
+}
+
 // Returns a const reference to the cards the Hand holds
 const vector<Card*>& Hand::cardList() {
     return cards;

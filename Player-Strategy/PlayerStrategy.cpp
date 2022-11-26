@@ -103,7 +103,6 @@ std::vector <Territory*> AggressivePlayerStrategy::toDefend()
 void AggressivePlayerStrategy::issueOrder()
 {
     // issueOrder Starting Message
-    cout << this->p->get_name() << "'s Turn to play:" << endl;
     cout << "Issued Orders:" << endl;
 
     // Variable to keep track of reinforcement

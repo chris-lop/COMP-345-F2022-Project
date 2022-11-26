@@ -21,8 +21,8 @@ void testPlayerStrategies()
     // assign 2 to players
     Hand *h1 = new Hand();
     h1->addCard(new Card("Airlift"));
+    h1->addCard(new Card("Bomb"));
     Hand *h2 = new Hand();
-    h2->addCard(new Card("Bomb"));
 
     player1->set_Player_Hand(h1);
     player2->set_Player_Hand(h2);
@@ -38,6 +38,8 @@ void testPlayerStrategies()
     // While player1 hasn't won
     while (player1->get_trt().size() != 4)
     {
+        cout << "TURN BEGINNING" << endl;
+
         // Player 1 issues orders
         player1->issueOrder();
 
@@ -45,13 +47,38 @@ void testPlayerStrategies()
         vector<Order*> p1_olist = player1->get_olst()->getOrder();
 
         // Execute all orders in order list
-        for (auto it : p1_olist)
+        cout << "Executing Orders..." << endl;
+        while (p1_olist.size() != 0)
         {
-            it->execute();
+            // Execute and remove player order
+            p1_olist[0]->execute();
+            p1_olist.erase(p1_olist.begin());
+
+            OrdersList* new_olst = player1->get_olst();
+            new_olst->setOrder(p1_olist);
+
+            // Remove card from player hand
+            vector<Card*> p1_hand = player1->get_Phand()->cardList();
+
+            for (int i = 0; i < p1_hand.size() ; i++)
+            {
+                if (p1_hand[i]->getType() == p1_olist[0]->getType())
+                {
+                    p1_hand.erase(p1_hand.begin()+i);
+                }
+            }
+
+            Hand* newHand = new Hand();
+            newHand->setCards(p1_hand);
+            player1->set_Player_Hand(newHand);
         }
 
-        // Print territory 4
-        cout << "Territory 4's owner: " << territory4->getTerritoryOwner()->get_name() << endl;
-        
+        cout << endl;
+        cout << "END OF THIS TURN" << endl;
+        cout << "-----------------------------------" << endl;
+    }
+    if (player1->get_trt().size() == 4)
+    {
+        cout << "\nPlayer 1 has conquered all the territories and won the game!";
     }
 }
