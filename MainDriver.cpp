@@ -8,11 +8,11 @@
 #include "Orders.h"
 #include "GameEngine.h"
 #include "CommandProcessor.h"
+#include "Player-Strategy/PlayerStrategy.h"
 
 // The main driver function that will run all the test driver functions
 int main(int argc, char *argv[])
 {
-
     string commandLineArg = "";
     for (int i = 1; i < argc; i++)
     {
@@ -29,15 +29,17 @@ int main(int argc, char *argv[])
         std::cout << "Invalid command argument" << endl;
         exit(1);
     }
-    
     // Part 1
     //testCommandProcessor(commandLineArg);
     // Part 2
     //testStatUpPhase(commandLineArg);
     // Part 3
-    testMainGameLoop();
+    //testMainGameLoop();
     // Part 4
     //testOrderExecution();
     // Part 5
     //testLoggingObserver(commandLineArg);
+
+    // Assignment #3
+    testPlayerStrategies();
 }

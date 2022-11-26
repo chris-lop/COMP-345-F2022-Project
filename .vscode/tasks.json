@@ -21,6 +21,7 @@
                 "${workspaceFolder}\\LoggingObserverDriver.cpp",
                 "${workspaceFolder}\\Player-Strategy\\Cheater.cpp",
                 "${workspaceFolder}\\Player-Strategy\\PlayerStrategy.cpp",
+                "${workspaceFolder}\\Player-Strategy\\PlayerStrategiesDriver.cpp",
                 "-o",
                 "${workspaceFolder}\\Project.exe"
             ],

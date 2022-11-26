@@ -34,3 +34,6 @@ public:
     virtual std::vector <Territory*> toAttack();
     virtual std::vector <Territory*> toDefend();
 };
+
+// A3 free function
+void testPlayerStrategies();
