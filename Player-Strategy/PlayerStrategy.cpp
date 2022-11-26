@@ -95,6 +95,8 @@ std::vector <Territory*> AggressivePlayerStrategy::toDefend()
             }
         }
     }
+
+    return result_defend;
 }
 
 // issueOrder (How does an aggressive player decide which order to issue)
