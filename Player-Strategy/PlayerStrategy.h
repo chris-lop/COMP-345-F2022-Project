@@ -55,6 +55,8 @@ public:
     virtual void issueOrder();
     virtual std::vector <Territory*> toAttack();
     virtual std::vector <Territory*> toDefend();
+    // Variable to keep track of reinforcement
+    int deployed_unit = 0;
 };
 
 // A3 free function

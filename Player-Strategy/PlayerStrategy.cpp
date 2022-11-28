@@ -1089,4 +1089,125 @@ void HumanPlayerStrategy::issueOrder() {
     }
 }
 
+//-----------------------------------//
+// BENEVOLENT PLAYER IMPLEMENTATION  //
+//-----------------------------------//
+
+// Constructor
+BenevolentPlayerStrategy::BenevolentPlayerStrategy(Player* p): PlayerStrategy(p) {}
+
+// Destructor
+BenevolentPlayerStrategy::~BenevolentPlayerStrategy() {}
+
+// toAttack 
+// Benevolent players never issue any orders to enemy countries, thus, we do not need a list of territories to be attacked
+std::vector <Territory*> BenevolentPlayerStrategy::toAttack()
+{
+    return vector<Territory*>{};
+}
+
+// toDefend 
+// Benevolent players needs to know which territories to defend to issue orders
+std::vector <Territory*> BenevolentPlayerStrategy::toDefend()
+{
+    vector<Territory*> trt = this->p->get_trt();
+    
+    //new vector of Territory to be returned as result
+    std::vector <Territory*> result_defend; 
+
+    for (Territory* t : trt){
+        
+        //traverse the list of adjacent territories for each t 
+        for(Territory* t_adj: t->getAdjTerritories()){
+            //verify if each territory in the adjacent territories list is in the list of territories owned
+            
+            //The adjacent territory was found in the list of owned territories
+            //We don't need to defend the territory t           
+            if ((std::find(trt.begin(), trt.end(), t_adj)) != trt.end()){
+                continue;
+            }
+
+            //The adjacent territory was not found, thus, the territory t must be defended
+            else{
+                //if the territory to defend was already added, skip
+                if((std::find(result_defend.begin(),result_defend.end(), t)) != result_defend.end()){
+                    continue;
+                }
+                //if not, add to the result vector
+                else{result_defend.push_back(t);}
+            }
+        }
+    }
+
+    return result_defend;
+}
+
+// issueOrder (How does a neutral player decide which order to issue)
+void BenevolentPlayerStrategy::issueOrder() { 
+
+    //List of territories to be defended
+    vector <Territory*> defend = p->toDefend();
+    
+    //storing army units deployed in each territory to be defended
+    vector <int> def_army;
+    for(Territory* t: defend){
+        def_army.push_back(*t->getArmy());
+    }
+
+    //Variable to store orders to be displayed
+    vector <string> issued_orders;
+
+    //Issue Deploy order
+    bool deploy = false;
+    if(this->deployed_unit == p->get_armyUnit()){
+        deploy = true;
+    }
+    else{
+        int max;
+        max = *max_element(def_army.begin(), def_army.end());
+        //if all territory have 0 army units select the territory to issue deploy order randomly
+        if(max == 0){
+            int idx = rand()%def_army.size();
+            int army = 1 + rand()%(p->get_armyUnit() - (this->deployed_unit) - 1);
+            def_army.at(idx) = army;
+            Deploy* d = new Deploy(defend.at(idx), this->p, army);
+            this->deployed_unit = this->deployed_unit + army;
+            this->p->get_olst()->addOrder(d);
+            issued_orders.push_back("Deploy | To: " + *defend.at(idx)->getTerritoryName() + " | " + to_string(army) + " units");
+        }
+
+        //if some territories have army units, determine the ones that have the least
+        if(max > 0){
+
+            int min = *min_element(def_army.begin(), def_army.end());
+                
+            //find the indexes of territories with the lowest army unit number
+            vector <int> idx_arr;
+            for(int i = 0; i<def_army.size(); i++){
+                if(min == def_army.at(i)){
+                    idx_arr.push_back(i);
+                }
+            }
+
+            //randomly select from the indexes of territories with lowest army units to deploy armies
+            int idx = rand()%idx_arr.size();
+            int army = 1 + rand()%(p->get_armyUnit() - 1);
+            def_army.at(idx_arr.at(idx)) = army;
+            Deploy* d = new Deploy(defend.at(idx_arr.at(idx)), this->p, army);
+            this->deployed_unit = this->deployed_unit + army;
+            this->p->get_olst()->addOrder(d);
+            issued_orders.push_back("Deploy | To: " + *defend.at(idx_arr.at(idx))->getTerritoryName() + " | " + to_string(army) + " units");
+        }
+    }
+    //end of while case Deploy order
+
+    //Issue Advance order
+    // if(deploy){
+
+    // }
+    for(string s:issued_orders){
+        cout<<s<<endl;
+    }
+}
+
 
