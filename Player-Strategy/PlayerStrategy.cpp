@@ -1,4 +1,4 @@
-#pragma once
+
 #include "PlayerStrategy.h"
 #include "../Player.h"
 #include <iostream>
@@ -581,4 +581,512 @@ std::vector <Territory*> NeutralPlayerStrategy::toDefend()
 {
     return vector<Territory*>{};
 }
+
+
+//-----------------------------------//
+//  HUMAN PLAYER IMPLEMENTATION    //
+//-----------------------------------//
+
+// Constructor
+HumanPlayerStrategy::HumanPlayerStrategy(Player* p): PlayerStrategy(p) {}
+
+//Destructor
+HumanPlayerStrategy::~HumanPlayerStrategy() {}
+
+
+// toAttack 
+// All adjacent territories not belonging to the human player can be attacked
+std::vector <Territory*> HumanPlayerStrategy::toAttack()
+{
+    vector<Territory*> trt = this->p->get_trt();
+
+    //vector territory to be returned as result
+    std::vector <Territory*> result_attack;
+ 
+    for (Territory* t : trt){
+        //traverse the list of adjacent territories for each territory t
+        for(Territory* t_adj: t->getAdjTerritories()){
+            
+            //The adjacent territory was found in the list of owned territories
+            //We don't need to attack the territory t_adj
+            if ((find(trt.begin(), trt.end(), t_adj)) != trt.end()){
+                continue;
+            }
+
+            //The adjacent territory was not found in owned territories, thus, the territory t_adj can be attacked
+            else{
+                //if the territory to attack was already added, skip
+                if((find(result_attack.begin(),result_attack.end(), t_adj)) != result_attack.end()){
+                    continue;
+                }
+                //if not, add to the result vector
+                else{result_attack.push_back(t_adj);}
+            }
+        }
+    }
+
+    return result_attack;
+}
+
+// toDefend 
+// All territories with adjacent enemy territories must be defended
+std::vector <Territory*> HumanPlayerStrategy::toDefend()
+{
+    vector<Territory*> trt = this->p->get_trt();
+    
+    //new vector of Territory to be returned as result
+    std::vector <Territory*> result_defend; 
+
+    for (Territory* t : trt){
+        
+        //traverse the list of adjacent territories for each t 
+        for(Territory* t_adj: t->getAdjTerritories()){
+            //verify if each territory in the adjacent territories list is in the list of territories owned
+            
+            //The adjacent territory was found in the list of owned territories
+            //We don't need to defend the territory t           
+            if ((std::find(trt.begin(), trt.end(), t_adj)) != trt.end()){
+                continue;
+            }
+
+            //The adjacent territory was not found, thus, the territory t must be defended
+            else{
+                //if the territory to defend was already added, skip
+                if((std::find(result_defend.begin(),result_defend.end(), t)) != result_defend.end()){
+                    continue;
+                }
+                //if not, add to the result vector
+                else{result_defend.push_back(t);}
+            }
+        }
+    }
+
+    return result_defend;
+}
+
+
+// issueOrder 
+// For each order, ask user input
+void HumanPlayerStrategy::issueOrder() { 
+
+    //Bool variables to determine player's cards
+    bool hasAirlift = false;
+    bool hasBomb= false;
+    bool hasBlockade= false;
+    bool hasDiplomacy= false;
+
+    // Check through a player's hand and check if he has order cards
+    for (Card* c : this->p->get_Phand()->cardList())
+    {
+        // If player has airlift card, save it in boolean variable
+        if (c->getType() == "Airlift" || c->getType() == "airlift")
+        {
+            hasAirlift = true;
+        }
+        // If player has bomb card, save it in boolean variable 
+        if (c->getType() == "Bomb" || c->getType() == "bomb")
+        {
+            hasBomb = true;
+        }
+        // If player has blockade card, save it in boolean variable
+        if (c->getType() == "Blockade" || c->getType() == "blockade")
+        {
+            hasBlockade = true;
+        }
+        // If player has diplomacy card, save it in boolean variable 
+        if (c->getType() == "Diplomacy" || c->getType() == "diplomacy")
+        {
+            hasDiplomacy = true;
+        }
+    }
+
+    // Variable to keep track of the user input
+    int orderNumber;
+    bool done = false;
+    // Vector to keep track of issued orders
+    vector <string> issued_orders;
+
+    while(!done){
+        // issueOrder Starting Message
+        cout<<"Please enter the order type (enter the number): \n";
+        cout<<"1) Deploy\n2) Advance\n3) Bomb\n4) Blockade\n5) Airlift\n6) Negotiate\n";
+        cin>>orderNumber;
+        int option, army, t_option;
+        bool input = true;
+        bool input1 = true;
+        bool input2 = true;
+
+        switch(orderNumber){    
+            //Deploy order case
+            case 1:
+                // Variable to keep track of the user input
+                if(this->deployed_unit == p->get_armyUnit()){
+                    cout<<"No more army units left in the pool, please select another order type.\n";
+                    done = false;
+                }
+                else{
+                    cout<<"Issuing Deploy Order\n";
+                    cout<<"Please enter the territory you wish to deploy army units \n(select the number from your list of territories to defend): \n";
+                    vector <Territory*> defend = p->toDefend();
+                    for(int i = 1; i<=defend.size();i++){
+                        cout<<i<<") "<<*defend.at(i-1)->getTerritoryName()<<" ";
+                    }
+                    
+                    // validate user input for territory selection
+                    while(input1){
+                        cout<<"\nEnter your selection: ";
+                        cin>>option;
+                        if(option<=defend.size()){
+                            input1=false;
+                        }
+                        else{
+                            cout<<"Please select the correct option from the list";
+                        }
+                    }
+                    cout<<"How many army units to deploy to "<<*defend.at(option-1)->getTerritoryName()<<"?";
+                    //validate user input for army units to deploy
+                    
+                    while(input2){
+                        cout<<"\nEnter your selection: ";
+                        cin>>army;
+                        if(army <= p->get_armyUnit()-this->deployed_unit){
+                            input2=false;
+                        }
+                        else{
+                            cout<<"Please select the correct number\n";
+                            cout<<"Current army units in the pool: "<<p->get_armyUnit()-this->deployed_unit;
+                        }
+                    }
+                    //update number of army units deployed to keep track
+                    this->deployed_unit = this->deployed_unit+army;
+                    Deploy* d = new Deploy(defend.at(option-1), this->p, army);
+                    Territory* t = defend.at(option-1);
+                    this->p->get_olst()->addOrder(d);
+                    issued_orders.push_back("Deploy | To: " + *t->getTerritoryName() + " | " + to_string(army) + " units");
+                    done = true;
+                }
+                break;//end of case Deploy
+            
+            //case of Advance order
+            case 2:
+                //verifying if all army units have been deployed
+                if(this->deployed_unit < p->get_armyUnit()){
+                    cout<<"Need to deploy all army units in the pool before issueing other orders.\n";
+                    done = false;
+                    break;
+                }
+                int adjNum;
+                cout<<"Issuing Advance order\n";
+                cout<<"Select Advance order type:\n";
+                while(input){
+                    cout<<"1) Attack 2) Defend\n";
+                    int selection;
+                    cin>>selection;
+
+                    //Advance to attack enemy territory
+                    if(selection == 1){
+                        input = false;
+                        vector <Territory*> attack = p->toAttack();
+                        cout<<"Please enter the territory you wish to advance army units \n(select the number from your list of territories to attack): \n";
+                        for(int i = 1; i<=attack.size();i++){
+                            cout<<i<<") "<<*attack.at(i-1)->getTerritoryName()<<" ";
+                        }
+                        cin>>t_option;
+                        cout<<"How many army units to advance to "<<*attack.at(t_option-1)->getTerritoryName()<<"?";
+                        cout<<"\nEnter your selection: ";
+                        cin>>army;
+                        //Find territories from where the player can advance army units to the selected territory
+                        vector <Territory*> adj = attack.at(t_option-1)->getAdjTerritories();
+                        vector <Territory*> select;
+                        for(Territory* t: adj){
+                            if((std::find(p->get_trt().begin(), p->get_trt().end(), t)) != p->get_trt().end()){
+                                select.push_back(t);
+                            }
+                            else{
+                                continue;
+                            }
+                        }
+                        //If more than one adjacent territories owned by the player, ask from which territory to advance army units
+                        if(select.size()>1){
+            
+                            cout<<"From which territory do you wish to advance the units ?\n";
+                            for(int i = 1; i<=select.size();i++){
+                                cout<<i<<") "<<*select.at(i-1)->getTerritoryName()<<" ";
+                            }
+                            while(input2){
+                                cout<<"\nEnter your selection: ";
+                                cin>>adjNum;
+                                if(adjNum>select.size()){
+                                    cout<<"Please select the correct option\n";
+                                }
+                                else{
+                                    input2=false;
+                                    Advance* a = new Advance(attack.at(t_option-1), select.at(adjNum-1),this->p,army);
+                                    this->p->get_olst()->addOrder(a);
+                                    issued_orders.push_back("Advance(Attack) | To: "+*attack.at(t_option-1)->getTerritoryName() + " | From: "+*select.at(adjNum-1)->getTerritoryName() + "| "+ to_string(army)+" units");
+                                    done = true;
+                                }
+                            }
+                        }
+                        //if only one adjacent territory is owned by the player, automatically issue advance order from the adjacent territory
+                        else{
+                            Advance* a = new Advance(attack.at(t_option-1), select.at(0),this->p,army);
+                            this->p->get_olst()->addOrder(a);
+                            issued_orders.push_back("Advance(Attack) | To: "+*attack.at(t_option-1)->getTerritoryName() + " | From: "+*select.at(0)->getTerritoryName() + "| "+ to_string(army)+" units");
+                            done = true;
+                        }
+                    }
+
+                    //Advance to defend territory
+                    else if(selection == 2){
+                        input = false;
+                        vector <Territory*> defend = p->toDefend();
+                        cout<<"Please enter the territory you wish to advance army units \n(select the number from your list of territories to defend): \n";
+                        for(int i = 1; i<=defend.size();i++){
+                            cout<<i<<") "<<*defend.at(i-1)->getTerritoryName()<<" ";
+                        }
+                        cin>>t_option;
+                        cout<<"How many army units to advance to "<<*defend.at(t_option-1)->getTerritoryName()<<"?";
+                        cout<<"\nEnter your selection: ";
+                        cin>>army;
+                        //Find territories from where the player can advance army units to the selected territory
+                        vector <Territory*> adj = defend.at(t_option-1)->getAdjTerritories();
+                        vector <Territory*> select;
+                        for(Territory* t: adj){
+                            if((std::find(p->get_trt().begin(), p->get_trt().end(), t)) != p->get_trt().end()){
+                                select.push_back(t);
+                            }
+                            else{
+                                continue;
+                            }
+                        }
+                        //If more than one adjacent territories owned by the player, ask from which territory to advance army units
+                        if(select.size()>1){
+                            bool input2 = true;
+                            
+                            cout<<"From which territory do you wish to advance the units ?\n";
+                            for(int i = 1; i<=select.size();i++){
+                                cout<<i<<") "<<*select.at(i-1)->getTerritoryName()<<" ";
+                            }
+                            while(input2){
+                                cout<<"\nEnter your selection: ";
+                                cin>>adjNum;
+                                if(adjNum>select.size()){
+                                    cout<<"Please select the correct option\n";
+                                }
+                                else{
+                                    input2=false;
+                                    Advance* a = new Advance(defend.at(t_option-1), select.at(adjNum-1),this->p,army);
+                                    this->p->get_olst()->addOrder(a);
+                                    issued_orders.push_back("Advance(Attack) | To: "+*defend.at(t_option-1)->getTerritoryName() + " | From: "+*select.at(adjNum-1)->getTerritoryName() + "| "+ to_string(army)+" units");
+                                    done = true;
+                                }
+                            }
+                        }
+                        //if only one adjacent territory is owned by the player, automatically issue advance order from the adjacent territory
+                        else{
+                            Advance* a = new Advance(defend.at(t_option-1), select.at(0),this->p,army);
+                            this->p->get_olst()->addOrder(a);
+                            issued_orders.push_back("Advance(Attack) | To: "+*defend.at(t_option-1)->getTerritoryName() + " | From: "+*select.at(0)->getTerritoryName() + "| "+ to_string(army)+" units");
+                            done = true;
+                        }
+                    }
+                    else{
+                        cout<<"Please select the correct option\n";
+                    }
+                }
+
+                break;//end of case Advance
+            
+            //case for Bomb order
+            case 3:
+                //verifying if all army units have been deployed
+                if(this->deployed_unit < p->get_armyUnit()){
+                    cout<<"Need to deploy all army units in the pool before issueing other orders.\n";
+                    done = false;
+                    break;
+                }
+                //if player has a bomb card, issue bomb order
+                if(hasBomb){
+                    cout<<"Issuing Bomb order\n";
+                    vector <Territory*> attack = p->toAttack();
+                        cout<<"Please select the target territory \n(select the number from your list of territories to attack): \n";
+                        for(int i = 1; i<=attack.size();i++){
+                            cout<<i<<") "<<*attack.at(i-1)->getTerritoryName()<<" ";
+                        }
+                    cout<<"\nEnter your selection: ";
+                    cin>>option;
+
+                    Bomb* b = new Bomb(attack.at(option-1), this->p);
+                    this->p->get_olst()->addOrder(b);
+                    issued_orders.push_back("Bomb | To: " + *attack.at(option-1)->getTerritoryName());
+                    done=true;
+                }
+                //if player does not have a bomb card, return to previous selection
+                else{
+                    cout<<"Player does not have the right card to issue selected order.\nPlease select another option\n";
+                    done = false;
+                    break;
+                }
+                break;
+            case 4:
+                //verifying if all army units have been deployed
+                if(this->deployed_unit < p->get_armyUnit()){
+                    cout<<"Need to deploy all army units in the pool before issueing other orders.\n";
+                    done = false;
+                    break;
+                }
+                //if player has a blockade card, issue blockade order
+                if(hasBlockade){
+                    cout<<"Issuing Blockade order\n";
+                    vector <Territory*> attack = p->toAttack();
+                        cout<<"Please select the target territory \n(select the number from your list of territories to attack): \n";
+                        for(int i = 1; i<=attack.size();i++){
+                            cout<<i<<") "<<*attack.at(i-1)->getTerritoryName()<<" ";
+                        }
+                    cout<<"\nEnter your selection: ";
+                    cin>>option;
+
+                    Blockade* b = new Blockade(attack.at(option-1), this->p);
+                    this->p->get_olst()->addOrder(b);
+                    issued_orders.push_back("Blockade | To: " + *attack.at(option-1)->getTerritoryName());
+                    done=true;
+                }
+                //if player does not have a blockade card, return to previous selection
+                else{
+                    cout<<"Player does not have the right card to issue selected order.\nPlease select another option\n";
+                    done = false;
+                    break;
+                }
+                break;
+            case 5:
+                //verifying if all army units have been deployed
+                if(this->deployed_unit < p->get_armyUnit()){
+                    cout<<"Need to deploy all army units in the pool before issueing other orders.\n";
+                    done = false;
+                    break;
+                }
+                //if player has a airlift card, issue airlift order
+                if(hasAirlift){
+                    cout<<"Issuing Airlift order\n";
+                    vector <Territory*> owned = p->get_trt();
+                    cout<<"Please select the source territory \n(select the number from your list of territories): \n";
+                    for(int i = 1; i<=owned.size();i++){
+                        cout<<i<<") "<<*owned.at(i-1)->getTerritoryName()<<" ";
+                    }
+                    while(input1){
+                        cout<<"\nEnter your selection: ";
+                        cin>>option;
+                        if(option>owned.size()){
+                            cout<<"Please select the correct option\n";
+                        }
+                        else{
+                            input1 = false;
+                        }
+                    }
+
+                    cout<<"Please select the target territory:\n";
+                    vector<Territory*> attack = p->toAttack();
+                    vector<Territory*> defend = p->toAttack();
+                    for(int i=1; i<=attack.size();i++){
+                        cout<<i<<") "<<*attack.at(i-1)->getTerritoryName()<<" ";
+                    }
+                    cout<<endl;
+                    for(int j=1; j<=defend.size();j++){
+                        cout<<attack.size()+j<<") "<<*defend.at(j-1)->getTerritoryName()<<" ";
+                    }
+                    while(input2){
+                        cout<<"\nEnter your selection: ";
+                        cin>>t_option;
+                        if(t_option > attack.size()+defend.size()){
+                            cout<<"Please select the correct option\n";
+                        }
+                        else{
+                            input2 = false;
+                        }
+                    }
+                    //determine target territory based on user input
+                    Territory* target;
+                    if(t_option <= attack.size()){
+                        target = attack.at(t_option-1);
+                    }
+                    if(t_option > attack.size()){
+                        target = defend.at(t_option-1);
+                    }
+
+                    cout<<"How many army units to airlift to "<<*target->getTerritoryName()<<"?";
+                    cout<<"\nEnter your selection: ";
+                    cin>>army;
+                    Airlift* a = new Airlift(owned.at(option-1), target, this->p,army);
+                    this->p->get_olst()->addOrder(a);
+                    issued_orders.push_back("Airlift | From: " + *owned.at(option-1)->getTerritoryName() + " | To: "+*target->getTerritoryName()+" | " + to_string(army)+" units");
+                    done=true;
+                }
+                //if player does not have a Airliftcard, return to previous selection
+                else{
+                    cout<<"Player does not have the right card to issue selected order.\nPlease select another option\n";
+                    done = false;
+                    break;
+                }
+                break;
+            case 6:
+                //verifying if all army units have been deployed
+                if(this->deployed_unit < p->get_armyUnit()){
+                    cout<<"Need to deploy all army units in the pool before issueing other orders.\n";
+                    done = false;
+                    break;
+                }
+                //if player has a diplomacy card, issue negotiate order
+                if(hasDiplomacy){
+                    cout<<"Issuing Negotiate order\n";
+                    vector <Territory*> attack = p->toAttack();
+                    vector <Player*> temp;
+                    for (Territory* t: attack){
+                        Player* p = t->getTerritoryOwner();
+                        if((std::find(temp.begin(),temp.end(), p)) != temp.end()){
+                            continue;
+                        }
+                        else{
+                            temp.push_back(t->getTerritoryOwner());
+                        }
+                    }
+                    
+                    cout<<"Please select the target player \n(select the number the list of players): \n";
+                    for(int i = 1; i<=temp.size();i++){
+                        cout<<i<<") "<<temp.at(i-1)->get_name()<<" ";
+                    }
+                    while(input){
+                        cout<<"\nEnter your selection: ";
+                        cin>>option;
+                        if(option > temp.size()){
+                            cout<<"Please select the correct option";
+                        }
+                        else{
+                            input = false;
+                        }
+                    }
+                    
+                    Player* target = temp.at(option-1);
+                    Negotiate* n = new Negotiate(this->p, target);
+                    this->p->get_olst()->addOrder(n);
+                    issued_orders.push_back("Negotiate| Target: " + target->get_name());
+                    done=true;
+                }
+                //if player does not have a blockade card, return to previous selection
+                else{
+                    cout<<"Player does not have the right card to issue selected order.\nPlease select another option\n";
+                    done = false;
+                    break;
+                }
+                break;
+        }//end of switch
+    }//end of while
+    
+
+    cout << "Issued Orders:" << endl;
+    for (string order:issued_orders){
+        cout<<order<<endl;
+    }
+}
+
 

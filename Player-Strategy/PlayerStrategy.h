@@ -35,5 +35,27 @@ public:
     virtual std::vector <Territory*> toDefend();
 };
 
+class HumanPlayerStrategy : public PlayerStrategy {
+public:
+    HumanPlayerStrategy(Player* p);
+    virtual ~HumanPlayerStrategy();
+
+    virtual void issueOrder();
+    virtual std::vector <Territory*> toAttack();
+    virtual std::vector <Territory*> toDefend();
+    // Variable to keep track of reinforcement
+    int deployed_unit = 0;
+};
+
+class BenevolentPlayerStrategy : public PlayerStrategy {
+public:
+    BenevolentPlayerStrategy(Player* p);
+    virtual ~BenevolentPlayerStrategy();
+
+    virtual void issueOrder();
+    virtual std::vector <Territory*> toAttack();
+    virtual std::vector <Territory*> toDefend();
+};
+
 // A3 free function
 void testPlayerStrategies();
