@@ -9,8 +9,6 @@ using std::string;
 #include "GameEngine.h"
 #include "Player.h"
 #include "Cards.h"
-#include "Player-Strategy/PlayerStrategy.h"
-#include "Player-Strategy/Cheater.h"
 
 void testStatUpPhase(string commandChoice)
 {
@@ -44,9 +42,6 @@ void testMainGameLoop()
     vector<Player *> removedPlayers;
     Player *p1 = new Player("Player1");
     Player *p2 = new Player("Player2");
-    // Make player 2 a cheater
-    /*PlayerStrategy* cheaterStrat = new Cheater(p2);
-    p2->set_strategy(cheaterStrat);*/
 
     gamePlayers.push_back(p1);
     gamePlayers.push_back(p2);
