@@ -45,7 +45,6 @@
                 "-fdiagnostics-color=always",
                 "-g",
                 "${workspaceFolder}/*.cpp",
-                "${workspaceFolder}/Player-Strategy/*.cpp",
                 "-o",
                 "${workspaceFolder}/Project.out"
             ],

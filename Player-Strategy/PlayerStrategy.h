@@ -35,15 +35,5 @@ public:
     virtual std::vector <Territory*> toDefend();
 };
 
-class Cheater: public PlayerStrategy {
-public:
-    Cheater(Player* p);
-    virtual ~Cheater();
-
-    virtual void issueOrder();
-    virtual std::vector <Territory*> toAttack();
-    virtual std::vector <Territory*> toDefend();
-};
-
 // A3 free function
 void testPlayerStrategies();

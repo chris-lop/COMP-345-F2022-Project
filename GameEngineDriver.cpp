@@ -10,6 +10,7 @@ using std::string;
 #include "Player.h"
 #include "Cards.h"
 #include "Player-Strategy/PlayerStrategy.h"
+#include "Player-Strategy/Cheater.h"
 
 void testStatUpPhase(string commandChoice)
 {
