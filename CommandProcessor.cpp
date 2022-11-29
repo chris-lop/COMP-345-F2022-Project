@@ -1,5 +1,6 @@
 #include "CommandProcessor.h"
 #include "LoggingObserver.h"
+#include "GameEngine.h"
 #include <iostream>
 #include <vector>
 #include <fstream>
@@ -18,6 +19,7 @@ Command::Command()
 {
     this->command = {};
     this->effect = {};
+   
 }
 
 Command::Command(string command, string effect)
@@ -84,11 +86,11 @@ string Command::stringToLog()
 // constructor
 CommandProcessor::CommandProcessor()
 {
-    state = "start";
+   
     vector<Command *> commands;
     this->commands = commands;
-    done = false;
     valid = false;
+    g=new GameEngine();
 }
 
 // destructor
@@ -108,8 +110,8 @@ CommandProcessor::CommandProcessor(const CommandProcessor &cp)
     {
         commands.push_back(new Command(*c));
     }
-    this->state = cp.state;
-    this->done = cp.done;
+    
+ this->g = new GameEngine(*cp.g);
     this->valid = cp.valid;
 }
 
@@ -121,8 +123,7 @@ CommandProcessor &CommandProcessor::operator=(const CommandProcessor &cp)
     {
         commands.push_back(new Command(*c));
     }
-    this->state = cp.state;
-    this->done = cp.done;
+  this->g = new GameEngine(*cp.g);
     this->valid = cp.valid;
     return *this;
 }
@@ -142,7 +143,7 @@ bool CommandProcessor::validate(Command *c)
 {
     string command = c->getCommand();
 
-    if (state == "start")
+    if (g->getState() == "start")
     {
         if (command.find("loadmap") == 0)
         {
@@ -155,7 +156,7 @@ bool CommandProcessor::validate(Command *c)
             return false;
         }
     }
-    else if (state == "maploaded")
+    else if (g->getState() == "maploaded")
     {
         if (command.find("loadmap") == 0)
         {
@@ -173,7 +174,7 @@ bool CommandProcessor::validate(Command *c)
             return false;
         }
     }
-    else if (state == "mapvalidated")
+    else if (g->getState() == "mapvalidated")
     {
         if (command.find("addplayer") == 0)
         {
@@ -186,7 +187,7 @@ bool CommandProcessor::validate(Command *c)
             return false;
         }
     }
-    else if (state == "playersadded")
+    else if (g->getState() == "playersadded")
     {
         if (command.find("addplayer") == 0)
         {
@@ -205,7 +206,7 @@ bool CommandProcessor::validate(Command *c)
             return false;
         }
     }
-    else if (state == "win")
+    else if (g->getState() == "win")
     {
         if (command == "quit")
         {
@@ -252,29 +253,24 @@ bool CommandProcessor::getvalid()
     return this->valid;
 }
 
-string CommandProcessor::get_state()
-{
-    return this->state;
-}
+
 
 vector<Command *> CommandProcessor::getterCommands()
 {
     return this->commands;
 }
 
-// setter
-void CommandProcessor::set_state(string line)
-{
-    this->state = line;
-}
+
 
 // keeps on taking user's command until the end of game
 void CommandProcessor::start()
 {
-    startMessage();
-    while (done == false)
+    g->startMessage();
+    while (g->getDone() == false)
     {
-        playegame(getCommand());
+       Command* command=getCommand();
+        validate(command);
+        g->playegame(command);
     }
 }
 
@@ -378,125 +374,3 @@ Command *FileCommandProcessorAdapter::readCommand()
     return c;
 }
 
-// handles the user's commands and passes through the stages of the game
-bool CommandProcessor::playegame(Command *command)
-{
-    validate(command);
-    if (state == "start")
-    {
-        // State: start
-        // valid inputs: loadmap
-        if ((command->getCommand()).find("loadmap") == 0)
-        {
-            // loadMap();
-            cout << "Now in map loaded state. Valid input: loadmap, validatemap" << endl;
-            state = "maploaded";
-            return true;
-        }
-        else
-        {
-            cout << "Invalid command. Valid commands: loadmap" << endl;
-            return false;
-        }
-    }
-    else if (state == "maploaded")
-    {
-        // State: map loaded
-        // Valid inputs: loadmap, validatemap
-        if ((command->getCommand()).find("loadmap") == 0)
-        {
-            // loadMap();
-            cout << "Now in map loaded state. Valid input: loadmap, validatemap" << endl;
-            state = "maploaded";
-            return true;
-        }
-        else if (command->getCommand() == "validatemap")
-        {
-            // validateMap();
-            cout << "Map now validated, you are in validated state. Valid input: addplayer" << endl;
-            state = "mapvalidated";
-            return true;
-        }
-        else
-        {
-            cout << "Invalid command. Valid commands: loadmap, validatemap." << endl;
-            return false;
-        }
-    }
-    else if (state == "mapvalidated")
-    {
-        // State: map validated
-        // Valid input: addplayer
-        if ((command->getCommand()).find("addplayer") == 0)
-        {
-            // addPlayers();
-            cout << "you are now in players added state. Valid input: addplayer, gamestart." << endl;
-
-            state = "playersadded";
-            return true;
-        }
-        else
-        {
-            cout << "Invalid command. Valid command: addplayer." << endl;
-            return false;
-        }
-    }
-    // players added state
-    else if (state == "playersadded")
-    {
-        // state: players added
-        // valid input: addplayer, assigncountries
-        if ((command->getCommand()).find("addplayer") == 0)
-        {
-            // addPlayers();
-            cout << "you are now in players added state. Valid input: addplayer, gamestart." << endl;
-
-            state = "playersadded";
-            return true;
-        }
-        else if (command->getCommand() == "gamestart")
-        {
-
-            cout << "starting the game... Valid input: replay, quit." << endl;
-
-            // here game should be played automatically
-            cout << "assigning reinforcement." << endl;
-            cout << "issuing orders." << endl;
-            cout << "executing orders." << endl;
-            cout << "enter replay or quit." << endl;
-            // then jump to state win
-            state = "win";
-
-            // here game should be played automatically
-            // then jump to state win
-            state = "win";
-            return true;
-        }
-        else
-            cout << "Invalid command. Valid commands: addplayer, gamestart." << endl;
-        return false;
-    }
-    else
-
-        if (state == "win")
-    {
-
-        if (command->getCommand() == "replay")
-        {
-
-            startMessage();
-            state = "start";
-            return true;
-        }
-        else if (command->getCommand() == "quit")
-        {
-            cout << "game ended." << endl;
-            done = true;
-            return true;
-        }
-        else
-            cout << "invalid command, valid commands are replay, quit." << endl;
-        return false;
-    }
-    return true; // added by marc
-}
