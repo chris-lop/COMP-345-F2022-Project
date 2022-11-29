@@ -1226,7 +1226,7 @@ void CheaterPlayerStrategy::issueOrder() {
     // The CheaterPlayerStrategy straight up conquers adjacent territories
     vector <Territory*> result_attack = toAttack();
     for (Territory* t: result_attack) {
-        cout << "Taking territory " << *t << endl;
+        cout << "Taking territory " << *(t->getTerritoryName()) << endl;
         Player *oldOwner = t->getTerritoryOwner();
         // Make ourselves owner
         t->setTerritoryOwner(p);
