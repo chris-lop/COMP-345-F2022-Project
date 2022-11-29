@@ -30,6 +30,7 @@ void GameEngine::startMessage()
 GameEngine::GameEngine()
 {
     this->state = "start";
+    this->done=false;
     this->gameMap = new Map();
     this->gamePlayers = {};
     this->removedPlayers = {};
@@ -38,6 +39,7 @@ GameEngine::GameEngine()
 GameEngine::GameEngine(Map *gameMap, vector<Player *> gamePlayers)
 {
     this->state = "start";
+    this->done=false;
     this->gameMap = gameMap;
     this->gamePlayers = gamePlayers;
     this->removedPlayers = {};
@@ -46,6 +48,7 @@ GameEngine::GameEngine(Map *gameMap, vector<Player *> gamePlayers)
 GameEngine::GameEngine(Map *gameMap, vector<Player *> gamePlayers, vector<Player *> removedPlayers)
 {
     this->state = "start";
+    this->done=false;
     this->gameMap = gameMap;
     this->gamePlayers = gamePlayers;
     this->removedPlayers = removedPlayers;
@@ -55,6 +58,7 @@ GameEngine::GameEngine(Map *gameMap, vector<Player *> gamePlayers, vector<Player
 GameEngine::~GameEngine()
 {
     delete gameMap;
+    
     for (Player *p : gamePlayers)
     {
         delete p;
@@ -188,6 +192,132 @@ void GameEngine::win()
     std::cout << "you win." << endl;
 }
 
+bool GameEngine::getDone(){
+    return done;
+}
+
+// handles the user's commands and passes through the stages of the game
+bool GameEngine::playegame(Command *command)
+{
+    
+    if (state == "start")
+    {
+        // State: start
+        // valid inputs: loadmap
+        if ((command->getCommand()).find("loadmap") == 0)
+        {
+            // loadMap();
+            cout << "Now in map loaded state. Valid input: loadmap, validatemap" << endl;
+            state = "maploaded";
+            return true;
+        }
+        else
+        {
+            cout << "Invalid command. Valid commands: loadmap" << endl;
+            return false;
+        }
+    }
+    else if (state == "maploaded")
+    {
+        // State: map loaded
+        // Valid inputs: loadmap, validatemap
+        if ((command->getCommand()).find("loadmap") == 0)
+        {
+            // loadMap();
+            cout << "Now in map loaded state. Valid input: loadmap, validatemap" << endl;
+            state = "maploaded";
+            return true;
+        }
+        else if (command->getCommand() == "validatemap")
+        {
+            // validateMap();
+            cout << "Map now validated, you are in validated state. Valid input: addplayer" << endl;
+            state = "mapvalidated";
+            return true;
+        }
+        else
+        {
+            cout << "Invalid command. Valid commands: loadmap, validatemap." << endl;
+            return false;
+        }
+    }
+    else if (state == "mapvalidated")
+    {
+        // State: map validated
+        // Valid input: addplayer
+        if ((command->getCommand()).find("addplayer") == 0)
+        {
+            // addPlayers();
+            cout << "you are now in players added state. Valid input: addplayer, gamestart." << endl;
+
+            state = "playersadded";
+            return true;
+        }
+        else
+        {
+            cout << "Invalid command. Valid command: addplayer." << endl;
+            return false;
+        }
+    }
+    // players added state
+    else if (state == "playersadded")
+    {
+        // state: players added
+        // valid input: addplayer, assigncountries
+        if ((command->getCommand()).find("addplayer") == 0)
+        {
+            // addPlayers();
+            cout << "you are now in players added state. Valid input: addplayer, gamestart." << endl;
+
+            state = "playersadded";
+            return true;
+        }
+        else if (command->getCommand() == "gamestart")
+        {
+
+            cout << "starting the game... Valid input: replay, quit." << endl;
+
+            // here game should be played automatically
+            cout << "assigning reinforcement." << endl;
+            cout << "issuing orders." << endl;
+            cout << "executing orders." << endl;
+            cout << "enter replay or quit." << endl;
+            // then jump to state win
+            state = "win";
+
+            // here game should be played automatically
+            // then jump to state win
+            state = "win";
+            return true;
+        }
+        else
+            cout << "Invalid command. Valid commands: addplayer, gamestart." << endl;
+        return false;
+    }
+    else
+
+        if (state == "win")
+    {
+
+        if (command->getCommand() == "replay")
+        {
+
+            startMessage();
+            state = "start";
+            return true;
+        }
+        else if (command->getCommand() == "quit")
+        {
+            cout << "game ended." << endl;
+            done = true;
+            return true;
+        }
+        else
+            cout << "invalid command, valid commands are replay, quit." << endl;
+        return false;
+    }
+    return true; // added by marc
+}
 // moves through the states depending on the user's command which will be passed to the function as a parameter
 void GameEngine::handleInput(std::string line)
 {
@@ -359,13 +489,16 @@ void GameEngine::handleInput(std::string line)
 }
 
 // checks whether the final state has been reached or not
+
 bool GameEngine::finished()
 {
     return state == "end";
 }
 
+
 // A2 functions
 // Set the game engine to the correct state when called
+
 void GameEngine::transition()
 {
     string current = this->getState();
@@ -416,6 +549,7 @@ void GameEngine::transition()
         notify(this);
     }
 }
+
 
 // Method providing the string to log
 string GameEngine::stringToLog()
@@ -751,6 +885,7 @@ bool GameEngine::executeOrdersPhase()
     return winner;
 }
 
+
 // mainGameLoop(): calling 3 phases
 bool GameEngine::mainGameLoop(std::vector<Player *> players, Map *graph)
 {
@@ -920,7 +1055,7 @@ void GameEngine::startupPhase(CommandProcessor *cp, string choice)
                 if (command.find(name) != std::string::npos)
                 {
                     Command *c = new Command(command, "");
-                    cp->playegame(c);
+                   playegame(c);
                     mapthName = mapPath + name;
                     nameMapSaver = nameMapSaver + name;
                     truemap = true;
@@ -937,12 +1072,12 @@ void GameEngine::startupPhase(CommandProcessor *cp, string choice)
             if (truemap == false)
             {
                 std::cout << "\nInvalid Map name \n";
-                cp->set_state("start");
+               setstate("start");
             }
             std::cout << "\n";
         }
         // if the command validates the map, then check if we are at the right state
-        else if (command == "validatemap" && cp->get_state() == "maploaded")
+        else if (command == "validatemap" && getState() == "maploaded")
         {
             mapPath = mapPath + nameMapSaver;
             gameMap = loader->loadMap(mapPath);
@@ -954,14 +1089,14 @@ void GameEngine::startupPhase(CommandProcessor *cp, string choice)
                           << endl;
                 command = "";
                 std::cout << "\nValid commands: loadmap\n " << endl;
-                cp->set_state("start");
+               setstate("start");
             }
             else
             // if the map is valid change the state
             {
                 std::cout << "\n";
                 Command *c = new Command(command, "");
-                cp->playegame(c);
+               playegame(c);
                 command = "";
                 break;
             }
@@ -969,7 +1104,7 @@ void GameEngine::startupPhase(CommandProcessor *cp, string choice)
         else
         {
             Command *c = new Command(command, "");
-            cp->playegame(c);
+           playegame(c);
         }
     }
     std::shuffle(gameMap->territories.begin(), gameMap->territories.end(), std::random_device());
@@ -993,7 +1128,7 @@ void GameEngine::startupPhase(CommandProcessor *cp, string choice)
         if (command.find("addplayer") != std::string::npos)
         {
             Command *c = new Command(command, "");
-            cp->playegame(c);
+            playegame(c);
             // parsing the command to get players name
             std::stringstream ss(command);
             std::istream_iterator<std::string> begin(ss);
@@ -1019,7 +1154,7 @@ void GameEngine::startupPhase(CommandProcessor *cp, string choice)
         }
         else
         {
-            cp->playegame(commands);
+           playegame(commands);
             command = "";
         }
     }
