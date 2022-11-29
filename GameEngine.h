@@ -1,3 +1,4 @@
+
 #pragma once
 
 #include <string>
@@ -12,13 +13,16 @@
 class Order;
 class ILoggable;
 class Subject;
-
+class Command;
+class CommandProcessor;
 class GameEngine : public ILoggable, public Subject
 {
 private:
     string state;
+    bool done;
     Map *gameMap;
     Deck *d;
+    
 
     // active game players
     vector<Player *> gamePlayers;
@@ -50,7 +54,7 @@ public:
     Deck *getDeck();
     vector<Player *> getPlayers();
     vector<Player *> getRemovedPlayers();
-
+     bool getDone();
     // takes commands as input and passes through states accordingly
     void handleInput(std::string line);
 
@@ -77,6 +81,10 @@ public:
 
     // prints out message at start of the game
     void startMessage();
+
+//passes through states depending on commands 
+ bool playegame(Command *command);
+
 
     // boolean checks whether last state has been reached or not
     bool finished();
