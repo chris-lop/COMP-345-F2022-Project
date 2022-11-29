@@ -5,6 +5,7 @@
 #include <vector>
 #include <fstream>
 #include "LoggingObserver.h"
+#include "GameEngine.h"
 using std::string;
 using std::vector;
 
@@ -23,6 +24,7 @@ public:
   // attributes
   string command;
   string effect;
+ 
 
   // private method that saves the effect of the command object
   void saveEffect(string effect);
@@ -52,14 +54,13 @@ public:
   // ILoggable method
   string stringToLog();
 };
-
+class GameEngine;
 class CommandProcessor : public ILoggable, public Subject
 {
 private:
   // attributes
   vector<Command *> commands;
-  string state;
-  bool done;
+   GameEngine* g;
   bool valid;
 
   // declared virtual so that inheritance applies to it
@@ -70,12 +71,12 @@ public:
   Command *getCommand();
   void start();
   void startMessage();
-  bool playegame(Command *command);
+  //bool playegame(Command *command);
 
   // getters
   bool getvalid();
   vector<Command *> getterCommands();
-  string get_state();
+  
 
   // copy constructor
   CommandProcessor(const CommandProcessor &cp);
@@ -87,7 +88,7 @@ public:
   friend std::ostream &operator<<(std::ostream &strm, const CommandProcessor &cp);
 
   // setters
-  void set_state(string line);
+ 
   bool validate(Command *c);
   void saveCommand(Command *command);
 
