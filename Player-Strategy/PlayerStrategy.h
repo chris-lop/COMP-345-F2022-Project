@@ -59,10 +59,10 @@ public:
     int deployed_unit = 0;
 };
 
-class Cheater: public PlayerStrategy {
+class CheaterPlayerStrategy: public PlayerStrategy {
 public:
-    Cheater(Player* p);
-    virtual ~Cheater();
+    CheaterPlayerStrategy(Player* p);
+    virtual ~CheaterPlayerStrategy();
 
     virtual void issueOrder();
     virtual std::vector <Territory*> toAttack();

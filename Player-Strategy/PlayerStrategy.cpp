@@ -1215,15 +1215,15 @@ void BenevolentPlayerStrategy::issueOrder() {
 
 
 //-----------------------------------//
-// CHEATER PLAYER IMPLEMENTATION     //
+// CheaterPlayerStrategy PLAYER IMPLEMENTATION     //
 //-----------------------------------//
 
 
-Cheater::Cheater(Player* p): PlayerStrategy(p) {}
-Cheater::~Cheater() {}
+CheaterPlayerStrategy::CheaterPlayerStrategy(Player* p): PlayerStrategy(p) {}
+CheaterPlayerStrategy::~CheaterPlayerStrategy() {}
 
-void Cheater::issueOrder() {
-    // The cheater straight up conquers adjacent territories
+void CheaterPlayerStrategy::issueOrder() {
+    // The CheaterPlayerStrategy straight up conquers adjacent territories
     vector <Territory*> result_attack = toAttack();
     for (Territory* t: result_attack) {
         cout << "Taking territory " << *t << endl;
@@ -1261,7 +1261,7 @@ void Cheater::issueOrder() {
 }
 
 
-std::vector <Territory*> Cheater::toAttack() {
+std::vector <Territory*> CheaterPlayerStrategy::toAttack() {
     vector <Territory*> result_attack;
     vector<Territory*> trt = p->get_trt();
 
@@ -1291,7 +1291,7 @@ std::vector <Territory*> Cheater::toAttack() {
     return result_attack;
 }
 
-// The cheater never defends, so this is not needed
-std::vector <Territory*> Cheater::toDefend() {
+// The CheaterPlayerStrategy never defends, so this is not needed
+std::vector <Territory*> CheaterPlayerStrategy::toDefend() {
     return vector<Territory*>{};
 }
