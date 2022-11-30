@@ -100,7 +100,7 @@ std::vector <Territory*> AggressivePlayerStrategy::toDefend()
 }
 
 // issueOrder (How does an aggressive player decide which order to issue)
-void AggressivePlayerStrategy::issueOrder()
+bool AggressivePlayerStrategy::issueOrder()
 {
     // issueOrder Starting Message
     cout << "Issued Orders:" << endl;
@@ -554,6 +554,7 @@ void AggressivePlayerStrategy::issueOrder()
         cout << endl;
         break;
     }
+    return (rand() % 100) < 60;
 }
 
 //-----------------------------------//
@@ -566,7 +567,9 @@ NeutralPlayerStrategy::~NeutralPlayerStrategy() {}
 
 // issueOrder (How does a neutral player decide which order to issue)
 // Neutral players never issue any orders or issue any cards, therefore they never will issueOrder()
-void NeutralPlayerStrategy::issueOrder() { }
+bool NeutralPlayerStrategy::issueOrder() {
+    return false;
+ }
 
 // toAttack (How does a neutral player decide which territories to attack)
 // Neutral players never issue any orders or issue any cards, therefore they never will never attack
@@ -667,7 +670,7 @@ std::vector <Territory*> HumanPlayerStrategy::toDefend()
 
 // issueOrder 
 // For each order, ask user input
-void HumanPlayerStrategy::issueOrder() { 
+bool HumanPlayerStrategy::issueOrder() { 
 
     //Bool variables to determine player's cards
     bool hasAirlift = false;
@@ -1087,6 +1090,10 @@ void HumanPlayerStrategy::issueOrder() {
     for (string order:issued_orders){
         cout<<order<<endl;
     }
+    // Since it currently allows the human to select multiple orders
+    // this will return false, that it does not need to issue another
+    // order.
+    return false;
 }
 
 //-----------------------------------//
@@ -1143,7 +1150,7 @@ std::vector <Territory*> BenevolentPlayerStrategy::toDefend()
 }
 
 // issueOrder (How does a neutral player decide which order to issue)
-void BenevolentPlayerStrategy::issueOrder() { 
+bool BenevolentPlayerStrategy::issueOrder() { 
 
     //List of territories to be defended
     vector <Territory*> defend = p->toDefend();
@@ -1208,6 +1215,7 @@ void BenevolentPlayerStrategy::issueOrder() {
     for(string s:issued_orders){
         cout<<s<<endl;
     }
+    return (rand() % 100) < 60;
 }
 
 
@@ -1219,10 +1227,21 @@ void BenevolentPlayerStrategy::issueOrder() {
 //-----------------------------------//
 
 
-CheaterPlayerStrategy::CheaterPlayerStrategy(Player* p): PlayerStrategy(p) {}
+CheaterPlayerStrategy::CheaterPlayerStrategy(Player* p): PlayerStrategy(p), previousArmyNumber(0) {}
 CheaterPlayerStrategy::~CheaterPlayerStrategy() {}
 
-void CheaterPlayerStrategy::issueOrder() {
+bool CheaterPlayerStrategy::issueOrder() {
+    // CHECK if the turn has started by using the reinforcement phase
+    if (p->get_armyUnit() > previousArmyNumber) {
+        // If the player has more armies, then store the new
+        // amount and continue with the 'order' (ie cheat)
+        previousArmyNumber = p->get_armyUnit();
+    } else {
+        // If a new turn hasn't started yet, do not issue
+        // an 'order' (ie cheat)
+        return false;
+    }
+
     // The CheaterPlayerStrategy straight up conquers adjacent territories
     vector <Territory*> result_attack = toAttack();
     for (Territory* t: result_attack) {
@@ -1258,6 +1277,8 @@ void CheaterPlayerStrategy::issueOrder() {
         
         oldOwner->set_Trt(oldOwnerTerritories);
     }
+    // The cheater player only takes territory once per turn
+    return false;
 }
 
 

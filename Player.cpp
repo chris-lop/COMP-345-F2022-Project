@@ -243,14 +243,13 @@ std::vector <Territory*> Player::toAttack(){
 }
 
 //add a new order input by user to the existing list
-void Player::issueOrder()
+bool Player::issueOrder()
 {
     // Use player strategy, if it has one
     if (ps) {
         // issueOrder Starting Message
         cout << this->get_name() << "'s Turn to play:" << endl;
-        ps->issueOrder();
-        return;
+        return ps->issueOrder();
     }
 
     // issueOrder Starting Message
@@ -646,4 +645,6 @@ void Player::issueOrder()
             break;
         // }
     }
+
+    return (rand() % 100) < 60;
 }

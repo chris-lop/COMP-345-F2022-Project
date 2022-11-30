@@ -71,7 +71,7 @@ public:
     //issue a list of territories that can be attacked by the player based on the player owned territories
     std::vector <Territory*> toAttack();
     //add a new order input by user to the existing list
-    void issueOrder();
+    bool issueOrder();
 
     // Other methods
     // Adds player to the list of negotiated players

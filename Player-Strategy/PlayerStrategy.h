@@ -10,7 +10,7 @@ protected:
 public:
     PlayerStrategy(Player* p);
     virtual ~PlayerStrategy();
-    virtual void issueOrder() = 0;
+    virtual bool issueOrder() = 0;
     virtual std::vector <Territory*> toAttack() = 0;
     virtual std::vector <Territory*> toDefend() = 0;
 };
@@ -20,7 +20,7 @@ public:
     AggressivePlayerStrategy(Player* p);
     virtual ~AggressivePlayerStrategy();
 
-    virtual void issueOrder();
+    virtual bool issueOrder();
     virtual std::vector <Territory*> toAttack();
     virtual std::vector <Territory*> toDefend();
 };
@@ -30,7 +30,7 @@ public:
     NeutralPlayerStrategy(Player* p);
     virtual ~NeutralPlayerStrategy();
 
-    virtual void issueOrder();
+    virtual bool issueOrder();
     virtual std::vector <Territory*> toAttack();
     virtual std::vector <Territory*> toDefend();
 };
@@ -40,7 +40,7 @@ public:
     HumanPlayerStrategy(Player* p);
     virtual ~HumanPlayerStrategy();
 
-    virtual void issueOrder();
+    virtual bool issueOrder();
     virtual std::vector <Territory*> toAttack();
     virtual std::vector <Territory*> toDefend();
     // Variable to keep track of reinforcement
@@ -52,7 +52,7 @@ public:
     BenevolentPlayerStrategy(Player* p);
     virtual ~BenevolentPlayerStrategy();
 
-    virtual void issueOrder();
+    virtual bool issueOrder();
     virtual std::vector <Territory*> toAttack();
     virtual std::vector <Territory*> toDefend();
     // Variable to keep track of reinforcement
@@ -64,9 +64,11 @@ public:
     CheaterPlayerStrategy(Player* p);
     virtual ~CheaterPlayerStrategy();
 
-    virtual void issueOrder();
+    virtual bool issueOrder();
     virtual std::vector <Territory*> toAttack();
     virtual std::vector <Territory*> toDefend();
+private:
+    int previousArmyNumber;
 };
 
 // A3 free function

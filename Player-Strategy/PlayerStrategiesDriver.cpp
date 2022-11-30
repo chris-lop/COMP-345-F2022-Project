@@ -86,8 +86,10 @@ void testPlayerStrategies()
     }
     delete player1; delete player2;
 
+    cout << "###############################################################" << endl;
+    cout << "#### Testing the cheater player against the Neutral player ####" << endl;
+    cout << "###############################################################" << endl;
     
-    cout << "#### Testing the cheater player against the Neutral player ####\n";
     player1 = new Player("Marc");
     player2 = new Player("William");
     PlayerStrategy *ps1 = new CheaterPlayerStrategy(player1);
