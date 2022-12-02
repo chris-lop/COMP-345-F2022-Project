@@ -1068,3 +1068,136 @@ void GameEngine::startupPhase(CommandProcessor *cp, string choice)
     gameMap = gameMap;
     gamePlayers = playersMap;
 }
+
+void GameEngine::tournament(Command* command){
+    string strCommand = command->getCommand();
+    vector <string> c; 
+    string s;
+    stringstream x(strCommand);
+    while(getline(x, s, ' ')){
+        c.push_back(s);
+        // cout<<s<<endl;
+    }
+    c.erase(c.begin());
+    vector <string> maps;
+    vector <string> players;
+    int numGames;
+    int numTurns;
+    int count = 0;
+    for(auto item: c){
+        if(item == "-M"){
+           for(int i = count+1; i<c.size() ; i++){
+                if(c[i]== "-P" || c[i]== "-G" || c[i]== "-D"){
+                    break;
+                }
+                if(c[i]!= "-P" && c[i]!= "-G" && c[i]!= "-D"){
+                    maps.push_back(c[i]);
+                }
+           }
+        }
+        if(item == "-P"){
+           for(int i = count+1; i<c.size() ; i++){
+                if(c[i]== "-M" || c[i]== "-G" || c[i]== "-D"){
+                    break;
+                }
+                if(c[i]!= "-M" && c[i]!= "-G" && c[i]!= "-D"){
+                    players.push_back(c[i]);
+                }
+           }
+        }
+        if(item == "-G"){
+           numGames = stoi(c[count+1]);
+        }
+         if(item == "-D"){
+           numTurns = stoi(c[count+1]);
+        }
+        count++;
+    }
+    vector <string> existingMaps = directory();
+    for(auto a: existingMaps){
+        cout<<a<<endl;
+    }
+    bool exist = false;
+    int mapCount = 0;
+
+    vector <int> indexesM;
+    for(auto map: maps){
+        exist = false;
+        for(auto existingMap: existingMaps){
+            if(map == existingMap){
+                exist = true;
+                break;
+            }
+        }
+
+        if(!exist){
+            cout <<map << " does not exist, so it will be erased and not loaded."<<endl;
+            indexesM.push_back(mapCount);
+        }
+        mapCount++;
+    }
+    for(int i = indexesM.size()-1; i>=0; i--){
+        maps.erase(maps.begin()+indexesM[i]);
+
+    }
+
+
+    vector <string> existingPlayers;
+    existingPlayers.push_back("Aggressive");
+    existingPlayers.push_back("Benevolent");
+    existingPlayers.push_back("Neutral");
+    existingPlayers.push_back("Cheater");
+
+        cout<<"\n\n\n\nTHE PLAYERS"<<endl;
+
+    for(auto a: players ){
+        cout<<a<<endl;
+    }
+    int playerCount =0;
+    vector <int> indexesP;
+
+    for(auto player: players){
+        exist = false;
+        for(auto existingPlayer: existingPlayers){
+            if(player == existingPlayer){
+                exist = true;
+                break;
+            }
+        }
+
+        if(!exist){
+            cout <<player << " is not valid, so it will be erased and not loaded."<<endl;
+            indexesP.push_back(playerCount);
+        }
+        playerCount++;
+    }
+    for(int i = indexesP.size()-1; i>=0; i--){
+        players.erase(players.begin()+indexesP[i]);
+
+    }
+    // for(string map: maps){
+    //     string mapPath = "./maps/";
+    //     string mapthName = "";
+    //     MapLoader *loader = new MapLoader();
+
+    // }
+    cout<<"\n\n\n\nTHE MAPS"<<endl;
+    for(auto a: maps ){
+        cout<<a<<endl;
+    }
+        cout<<"\n\n\n\nTHE PLAYERS"<<endl;
+
+    for(auto a: players ){
+        cout<<a<<endl;
+    }
+            // cout<<"\n\n\n\nTHE KHARAS"<<endl;
+
+    // cout<<numTurns << endl << numGames<<"\n\n\n\n\n\n"<<endl;
+    // for(auto a: c ){
+    //     cout<<a<<endl;
+    // }
+            
+
+
+
+}

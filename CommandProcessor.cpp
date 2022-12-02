@@ -1,5 +1,6 @@
 #include "CommandProcessor.h"
 #include "LoggingObserver.h"
+#include "GameEngine.h"
 #include <iostream>
 #include <vector>
 #include <fstream>
@@ -149,6 +150,16 @@ bool CommandProcessor::validate(Command *c)
             c->saveEffect("in map loaded state");
             return true;
         }
+        else if (command.find("tournament") != string::npos 
+        && command.find("-M") != string::npos
+        && command.find("-P") != string::npos
+        && command.find("-G") != string::npos 
+        && command.find("-D") != string::npos)
+        {
+
+            c->saveEffect("tournament started");
+            return true;
+        }
         else
         {
             c->saveEffect("invalid command");
@@ -281,7 +292,7 @@ void CommandProcessor::start()
 // prints out a start message
 void CommandProcessor::startMessage()
 {
-    cout << "Now in start state. Valid input: loadmap<mapfile>" << endl;
+    cout << "Now in start state. Valid input: loadmap<mapfile>, tournament -M <listofmapfiles> -P <listofplayerstrategies> -G <numberofgames> -D <maxnumberofturns>" << endl;
 }
 
 // creates command object, saves and returns a pointer to it
@@ -391,6 +402,19 @@ bool CommandProcessor::playegame(Command *command)
             // loadMap();
             cout << "Now in map loaded state. Valid input: loadmap, validatemap" << endl;
             state = "maploaded";
+            return true;
+        }
+        else if ((command->getCommand()).find("tournament") != string::npos 
+        && (command->getCommand()).find("-M") != string::npos
+        && (command->getCommand()).find("-P") != string::npos
+        && (command->getCommand()).find("-G") != string::npos 
+        && (command->getCommand()).find("-D") != string::npos)
+        {
+
+            cout << "Tournament started." << endl;
+            state = "start";            
+            GameEngine* g = new GameEngine();
+            g->tournament(command);
             return true;
         }
         else
