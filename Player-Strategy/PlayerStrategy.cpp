@@ -328,7 +328,7 @@ bool AggressivePlayerStrategy::issueOrder()
 
                     // Iterate through visited vector and find farthest node that has army units
                     int maxDistance = -1;
-                    int territory_index;
+                    int territory_index = -1;
 
                     for (int i = 0; i < visited.size(); i++)
                     {
@@ -339,14 +339,18 @@ bool AggressivePlayerStrategy::issueOrder()
                         }
                     }
 
-                    // Create airlift order on this node to move its units to strongest territory
-                    Airlift* a = new Airlift(trt_defend[territory_index], trt_defend[highestArmyIndex], this->p , *trt_defend[territory_index]->getArmy());
+                    // If no node has army units, do not issue airlift
+                    if (territory_index != -1) {
+                        // Create airlift order on this node to move its units to strongest territory
+                        Airlift* a = new Airlift(trt_defend[territory_index], trt_defend[highestArmyIndex], this->p , *trt_defend[territory_index]->getArmy());
 
-                    // Add Airlift order to player's order list
-                    this->p->get_olst()->addOrder(a);
+                        // Add Airlift order to player's order list
+                        this->p->get_olst()->addOrder(a);
 
-                    // Add to issed orders vector for display later
-                    issued_orders.push_back("Airlift | From: "+*trt_defend[territory_index]->getTerritoryName()+" | To: "+*trt_defend[highestArmyIndex]->getTerritoryName()+" | "+to_string(*trt_defend[territory_index]->getArmy())+" units");
+                        // Add to issed orders vector for display later
+                        issued_orders.push_back("Airlift | From: "+*trt_defend[territory_index]->getTerritoryName()+" | To: "+*trt_defend[highestArmyIndex]->getTerritoryName()+" | "+to_string(*trt_defend[territory_index]->getArmy())+" units");
+                    }
+
                 }
                 // Else, move units to strongest territory using advance
                 else
@@ -431,7 +435,7 @@ bool AggressivePlayerStrategy::issueOrder()
 
                     // Iterate through visited vector and find farthest node that has army units
                     int maxDistance = -1;
-                    int territory_index;
+                    int territory_index = -1;
 
                     for (int i = 0; i < visited.size(); i++)
                     {
@@ -440,6 +444,10 @@ bool AggressivePlayerStrategy::issueOrder()
                             maxDistance = visited[i];
                             territory_index = i;
                         }
+                    }
+                    // If no territories have any army units, bail out
+                    if (territory_index == -1) {
+                        break;
                     }
 
                     // Search through this territory's adjacent territories
@@ -1223,7 +1231,7 @@ bool BenevolentPlayerStrategy::issueOrder() {
 
 
 //-----------------------------------//
-// CheaterPlayerStrategy PLAYER IMPLEMENTATION     //
+// Cheater PLAYER IMPLEMENTATION     //
 //-----------------------------------//
 
 

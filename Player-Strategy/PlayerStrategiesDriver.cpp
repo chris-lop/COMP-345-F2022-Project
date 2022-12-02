@@ -86,14 +86,14 @@ void testPlayerStrategies()
     }
     delete player1; delete player2;
 
-    cout << "###############################################################" << endl;
-    cout << "#### Testing the cheater player against the Neutral player ####" << endl;
-    cout << "###############################################################" << endl;
+    cout << "##################################################################" << endl;
+    cout << "#### Testing the cheater player against the Aggressive player ####" << endl;
+    cout << "##################################################################" << endl;
     
     player1 = new Player("Marc");
     player2 = new Player("William");
     PlayerStrategy *ps1 = new CheaterPlayerStrategy(player1);
-    PlayerStrategy *ps2 = new NeutralPlayerStrategy(player2);
+    PlayerStrategy *ps2 = new AggressivePlayerStrategy(player2);
     player1->set_strategy(ps1);
     player2->set_strategy(ps2);
     runGameLoop(player1, player2);
