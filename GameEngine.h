@@ -55,8 +55,6 @@ public:
     vector<Player *> getPlayers();
     vector<Player *> getRemovedPlayers();
      bool getDone();
-    // takes commands as input and passes through states accordingly
-    void handleInput(std::string line);
 
     // prints out map is loaded
     void loadMap();
@@ -85,13 +83,9 @@ public:
 //passes through states depending on commands 
  bool playegame(Command *command);
 
-
-    // boolean checks whether last state has been reached or not
-    bool finished();
-
     // A2 functions
     // function for GameLogObserver
-    void transition();
+  
 
     // main game play loop
     bool mainGameLoop(std::vector<Player *> players, Map *graph);
