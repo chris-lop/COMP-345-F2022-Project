@@ -439,7 +439,11 @@ void GameEngine::reinforcementPhase(Player *p, Map *graph)
 
     std::cout << "Player " << p->get_name() << "'s current army units in the pool: " << p->get_armyUnit() << std::endl;
     std::cout << "Player " << p->get_name() << "'s number of owned territories: " << p->get_trt().size() << std::endl;
-
+//----------PRINTING-----------
+    for (Territory* t: p->get_trt()){
+        std::cout<<*t->getTerritoryName()<<" ";
+    }
+    std::cout << std::endl;
     // For each player, # army units = (# territories owned)/3, and min. 3 units
     if (std::floor(p->get_trt().size() / 3) <= 3)
     {
@@ -566,7 +570,6 @@ bool GameEngine::executeOrdersPhase()
 
     while (gameplay)
     {
-        cout << "\n\n\n\nFUCKKKKKKKKKKKKKKKK" << endl;
 
         // for each player, execute one order
         for (int i = 0; i < this->getPlayers().size(); i++)
@@ -790,6 +793,9 @@ bool GameEngine::mainGameLoop(std::vector<Player *> players, Map *graph, int tur
     if(turn == 0){
         tournament = false;
     }
+    else{
+        tournament = true;
+    }
 
     // verify if any player owns all territories
     for (Player *p : this->gamePlayers)
@@ -852,7 +858,6 @@ bool GameEngine::mainGameLoop(std::vector<Player *> players, Map *graph, int tur
 
         // Phase 3: execute Orders --> call executeOrdersPhase() in round-robin
         finished = executeOrdersPhase();
-        cout << "\n\n\n\nFUCKKKKKKKKKKKKKKKK" << endl;
 
         // to test if everything's working
         // TO REMOVE when Phase 3 is complete to test the loop
@@ -862,7 +867,7 @@ bool GameEngine::mainGameLoop(std::vector<Player *> players, Map *graph, int tur
     else if (tournament == true){
         int count_turn = 0;
 
-        while(count_turn != turn && winner == false){
+        while(count_turn < turn && winner == false){
             
             // Phase 1: Reinforcement --> call reinforcementPhase() in round-robin
             std::cout << "#";
@@ -885,6 +890,9 @@ bool GameEngine::mainGameLoop(std::vector<Player *> players, Map *graph, int tur
 
             // Phase 3: execute Orders --> call executeOrdersPhase() in round-robin
             winner = executeOrdersPhase();
+        // ofstream logFile("test.txt", std::ios::app);
+        // logFile <<count_turn << endl;
+        // logFile.close();
 
             count_turn++;
         }
@@ -1336,16 +1344,15 @@ void GameEngine::tournament(Command *command)
             this->gamePlayers = playersObjects;
             int j = 0;
 
-            while (j <= numGames)
+            while (j < numGames)
             {
 
                 bool finished = false;
                 while (!finished)
                 {
-
                     setMap(gameMap);
                     setPlayers(playersObjects);
-                    finished = mainGameLoop(playersObjects, gameMap);
+                    finished = mainGameLoop(playersObjects, gameMap, numTurns);
                 }
 
                 j++;
@@ -1365,6 +1372,8 @@ void GameEngine::tournament(Command *command)
                         hand->addCard(card);
                     }
                     player->set_Player_Hand(hand);
+                    AggressivePlayerStrategy* ap = new AggressivePlayerStrategy(player);
+                    player->set_strategy(ap);
                 }
 
                 vector<Territory *> empty;
