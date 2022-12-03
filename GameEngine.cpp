@@ -822,7 +822,7 @@ bool GameEngine::mainGameLoop(std::vector<Player *> players, Map *graph)
 
         // to test if everything's working
         // TO REMOVE when Phase 3 is complete to test the loop
-        finished = true;
+        // finished = true;
     }
 
     // once removed, replace finished with winner so main game loop is finished when there is a winner
@@ -1238,12 +1238,44 @@ void GameEngine::tournament(Command* command){
             this->gameMap = gameMap;
             this->gamePlayers = playersObjects;
             int j = 0;
+            GameEngine* ge = new GameEngine();
 
-            while(j <= 1){
-                        
-               mainGameLoop(playersObjects, gameMap);
+            while(j <= numGames){
+                
+                      
+                bool finished = false;
+                while (!finished)
+                {
+                    
+                    ge->setMap(gameMap);
+                    ge->setPlayers(playersObjects);
+                    finished = ge->mainGameLoop(playersObjects, gameMap);
+                    
+                }  
+            //    mainGameLoop(playersObjects, gameMap);
                
                 j++;
+                 vector <Territory *> empty;
+        for(auto player: playersObjects){
+            player->set_Trt(empty);
+        }
+                        int countx = 0;
+        for (auto terr : gameMap->territories)
+        {
+            if (countx == playersObjects.size())
+            {
+                countx = 0;
+            }
+            // adding territories owned territoires to players and adding the corresponding owner to that territory
+            vector<Territory *> tempPlayer = playersObjects[countP]->get_trt();
+            tempPlayer.push_back(terr);
+            playersObjects[countx]->set_Trt(tempPlayer);
+
+            terr->territoryOwner = playersObjects[countx];
+            terr->armyAmount = new int(50);
+
+            countx++;
+        }
             }
             cout<<"\n\n\n\n\n\n\n\n"<<j<<endl;
         }
