@@ -528,19 +528,24 @@ void GameEngine::issueOrdersPhase(vector<Player *> players)
     // Execute issueOrder in a round-robin fashion
     while (true)
     {
+        bool continueIssuing = false;
         for (Player *p : players)
         {
             if (p->get_name() == "Neutral Player")
             {
                 continue;
             }
-            p->issueOrder();
+            // Issue the player's order, but only if it has
+            // territory (this is necessary because the Cheater
+            // can steal territory when it issues an order)
+            if (p->get_trt().size() > 0) {
+                // If one player wants to issue another
+                // order, continue 
+                continueIssuing |= p->issueOrder();
+            }
         }
 
-        // Ask if players want to issue more orders
-        bool issueMoreOrders = (rand() % 100) < 60;
-
-        if (!issueMoreOrders)
+        if (!continueIssuing)
         {
             cout << "Players have decided not to issue more orders" << endl;
             break;

@@ -1,13 +1,14 @@
 
 #include <iostream>
-#include "GameEngine.h"
-#include "Player.h"
-#include "Cards.h"
-#include <string>
 using std::cin;
 using std::cout;
 using std::endl;
+#include <string>
 using std::string;
+
+#include "GameEngine.h"
+#include "Player.h"
+#include "Cards.h"
 
 void testStatUpPhase(string commandChoice)
 {
@@ -41,6 +42,7 @@ void testMainGameLoop()
     vector<Player *> removedPlayers;
     Player *p1 = new Player("Player1");
     Player *p2 = new Player("Player2");
+
     gamePlayers.push_back(p1);
     gamePlayers.push_back(p2);
 
@@ -117,5 +119,5 @@ void testMainGameLoop()
     }
     // change state from 'win' to 'quit'
     gameEngine->setState("quit");
-    gameEngine->transition();
+    gameEngine->transition(); 
 }

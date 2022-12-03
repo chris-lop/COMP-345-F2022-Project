@@ -79,6 +79,11 @@ public:
     // Stream insertion operator
     friend std::ostream& operator<<(std::ostream& strm, const Hand& deck);
 
+    // Accessor
+    vector<Card*> getCards();
+    // Mutator
+    void setCards(vector<Card*>);
+    
     // Adds a card
     void addCard(Card* card);
     // Returns a card to the provided deck

@@ -129,6 +129,7 @@ public:
     // Clone method, required for the copy constructor
     virtual Order* clone();
 
+    Territory* getTarget();
     int getNumberUnits();
 
 private:

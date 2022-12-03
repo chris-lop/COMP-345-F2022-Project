@@ -5,6 +5,7 @@
 #include "Map.h"
 #include "Cards.h"
 #include "Player.h"
+#include "Player-Strategy/PlayerStrategy.h"
 
 using std::vector;
 
@@ -18,6 +19,7 @@ Player::Player() {
     this->h = new Hand();
     this->olst = new OrdersList();
     this->army_unit = 0;
+    ps = nullptr;
 }
 //Constructor with name parameter
 Player::Player(std::string name){
@@ -26,6 +28,7 @@ Player::Player(std::string name){
     this->h = new Hand();
     this->olst = new OrdersList();
     this->army_unit = 0;
+    ps = nullptr;
 }
 //Constructor without reinforcement pool
 
@@ -35,6 +38,7 @@ Player::Player(std::string name, std::vector<Territory*> trt, Hand* h, OrdersLis
     this->h = h;
     this->olst = olst;
     this->army_unit = 0;
+    ps = nullptr;
 }
 //Constructor with all parameters 
 Player::Player(std::string name, std::vector<Territory*> trt, Hand* h, OrdersList* olst, int army_unit){
@@ -43,6 +47,7 @@ Player::Player(std::string name, std::vector<Territory*> trt, Hand* h, OrdersLis
     this->h = h;
     this->olst = olst;
     this->army_unit = army_unit;
+    ps = nullptr;
 }
 
 //Destructor
@@ -55,6 +60,9 @@ Player::~Player() {
     }
     if (olst) {
         delete olst;
+    }
+    if (ps) {
+        delete ps;
     }
 }
 
@@ -92,6 +100,10 @@ Hand* Player::get_Phand(){
 int Player::get_armyUnit(){
     return this->army_unit;
 }
+// Getter for player strategy
+PlayerStrategy * Player::get_strategy() {
+    return ps;
+}
 
 // Checks if this player has a negotiation with the other
 bool Player::hasNegotiationWith(Player *o) {
@@ -124,6 +136,11 @@ void Player::set_armyUnit(int army_unit){
     this->army_unit = army_unit;
 }
 
+// Sets player strategy
+void Player::set_strategy(PlayerStrategy *ps) {
+    this->ps = ps;
+}
+
 void Player::addNegotiatedPlayer(Player *p) {
     negotiatedPlayers.push_back(p);
 }
@@ -154,6 +171,10 @@ std::istream& operator >> (std::istream& in, Player& p){
 //toDefend() 
 //issue a list of territories to be defended by the player based on the player owned territories
 std::vector <Territory*> Player::toDefend() {
+    // Use player strategy, if it has one
+    if (ps) {
+        return ps->toDefend();
+    }
     
     //new vector of Territory to be returned as result
     std::vector <Territory*> result_defend; 
@@ -187,6 +208,11 @@ std::vector <Territory*> Player::toDefend() {
 //toAttack()
 //issue a list of territories that can be attacked by the player based on the player owned territories
 std::vector <Territory*> Player::toAttack(){
+    // Use player strategy, if it has one
+    if (ps) {
+        return ps->toAttack();
+    }
+
     //vector territory to be returned as result
     std::vector <Territory*> result_attack;
  
@@ -217,8 +243,15 @@ std::vector <Territory*> Player::toAttack(){
 }
 
 //add a new order input by user to the existing list
-void Player::issueOrder()
+bool Player::issueOrder()
 {
+    // Use player strategy, if it has one
+    if (ps) {
+        // issueOrder Starting Message
+        cout << this->get_name() << "'s Turn to play:" << endl;
+        return ps->issueOrder();
+    }
+
     // issueOrder Starting Message
     cout << this->get_name() << "'s Turn to play:" << endl;
     cout << "Issued Orders:" << endl;
@@ -612,4 +645,6 @@ void Player::issueOrder()
             break;
         // }
     }
+
+    return (rand() % 100) < 60;
 }
