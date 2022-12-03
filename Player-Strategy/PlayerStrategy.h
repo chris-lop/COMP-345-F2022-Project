@@ -43,8 +43,6 @@ public:
     virtual bool issueOrder();
     virtual std::vector <Territory*> toAttack();
     virtual std::vector <Territory*> toDefend();
-    // Variable to keep track of reinforcement
-    int deployed_unit = 0;
 };
 
 class BenevolentPlayerStrategy : public PlayerStrategy {
@@ -55,8 +53,6 @@ public:
     virtual bool issueOrder();
     virtual std::vector <Territory*> toAttack();
     virtual std::vector <Territory*> toDefend();
-    // Variable to keep track of reinforcement
-    int deployed_unit = 0;
 };
 
 class CheaterPlayerStrategy: public PlayerStrategy {

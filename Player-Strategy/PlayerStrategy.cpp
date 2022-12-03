@@ -726,52 +726,67 @@ bool HumanPlayerStrategy::issueOrder() {
         bool input = true;
         bool input1 = true;
         bool input2 = true;
+        
+        // keep track of units deployed previously
+        int deployed_unit = 0;
+
+        for (Order* o : this->p->get_olst()->getOrder())
+        {
+            // If this order is of type Deploy
+            if (o->getType() == "Deploy" || o->getType() == "deploy")
+            {
+                // Increment deployed_units var
+                Deploy *d = (Deploy *) o;
+                
+                int new_num = d->getNumberUnits();
+                deployed_unit = deployed_unit + new_num;
+            }
+        }
 
         switch(orderNumber){    
             //Deploy order case
             case 1:
                 // Variable to keep track of the user input
-                if(this->deployed_unit == p->get_armyUnit()){
+                if(deployed_unit == this->p->get_armyUnit()){
                     cout<<"No more army units left in the pool, please select another order type.\n";
                     done = false;
                 }
                 else{
                     cout<<"Issuing Deploy Order\n";
-                    cout<<"Please enter the territory you wish to deploy army units \n(select the number from your list of territories to defend): \n";
-                    vector <Territory*> defend = p->toDefend();
-                    for(int i = 1; i<=defend.size();i++){
-                        cout<<i<<") "<<*defend.at(i-1)->getTerritoryName()<<" ";
+                    cout<<"Please enter the territory you wish to deploy army units \n(select the number from your list of owned territories): \n";
+                    vector <Territory*> defend = this->p->toDefend();
+                    for(int i = 1; i<=p->get_trt().size();i++){
+                        cout<<i<<") "<<*p->get_trt().at(i-1)->getTerritoryName()<<" ";
                     }
                     
                     // validate user input for territory selection
                     while(input1){
                         cout<<"\nEnter your selection: ";
                         cin>>option;
-                        if(option<=defend.size()){
+                        if(option<=p->get_trt().size()){
                             input1=false;
                         }
                         else{
                             cout<<"Please select the correct option from the list";
                         }
                     }
-                    cout<<"How many army units to deploy to "<<*defend.at(option-1)->getTerritoryName()<<"?";
+                    cout<<"How many army units to deploy to "<<*p->get_trt().at(option-1)->getTerritoryName()<<"?";
                     //validate user input for army units to deploy
                     
                     while(input2){
                         cout<<"\nEnter your selection: ";
                         cin>>army;
-                        if(army <= p->get_armyUnit()-this->deployed_unit){
+                        if(army <= this->p->get_armyUnit()-deployed_unit){
                             input2=false;
                         }
                         else{
                             cout<<"Please select the correct number\n";
-                            cout<<"Current army units in the pool: "<<p->get_armyUnit()-this->deployed_unit;
+                            cout<<"Current army units in the pool: "<<this->p->get_armyUnit()-deployed_unit;
                         }
                     }
-                    //update number of army units deployed to keep track
-                    this->deployed_unit = this->deployed_unit+army;
-                    Deploy* d = new Deploy(defend.at(option-1), this->p, army);
-                    Territory* t = defend.at(option-1);
+
+                    Deploy* d = new Deploy(p->get_trt().at(option-1), this->p, army);
+                    Territory* t = p->get_trt().at(option-1);
                     this->p->get_olst()->addOrder(d);
                     issued_orders.push_back("Deploy | To: " + *t->getTerritoryName() + " | " + to_string(army) + " units");
                     done = true;
@@ -781,7 +796,7 @@ bool HumanPlayerStrategy::issueOrder() {
             //case of Advance order
             case 2:
                 //verifying if all army units have been deployed
-                if(this->deployed_unit < p->get_armyUnit()){
+                if(deployed_unit < this->p->get_armyUnit()){
                     cout<<"Need to deploy all army units in the pool before issueing other orders.\n";
                     done = false;
                     break;
@@ -797,20 +812,23 @@ bool HumanPlayerStrategy::issueOrder() {
                     //Advance to attack enemy territory
                     if(selection == 1){
                         input = false;
-                        vector <Territory*> attack = p->toAttack();
-                        cout<<"Please enter the territory you wish to advance army units \n(select the number from your list of territories to attack): \n";
+                        vector <Territory*> attack = this->p->toAttack();
+                        
+                
+                        cout<<"Please enter the territory you wish to advance army units to\n(select the number from your list of territories to attack): \n";
                         for(int i = 1; i<=attack.size();i++){
                             cout<<i<<") "<<*attack.at(i-1)->getTerritoryName()<<" ";
                         }
                         cin>>t_option;
+       
                         cout<<"How many army units to advance to "<<*attack.at(t_option-1)->getTerritoryName()<<"?";
-                        cout<<"\nEnter your selection: ";
+                        cout<<"\nEnter your selection: \n";
                         cin>>army;
                         //Find territories from where the player can advance army units to the selected territory
                         vector <Territory*> adj = attack.at(t_option-1)->getAdjTerritories();
                         vector <Territory*> select;
                         for(Territory* t: adj){
-                            if((std::find(p->get_trt().begin(), p->get_trt().end(), t)) != p->get_trt().end()){
+                            if((std::find(this->p->get_trt().begin(), this->p->get_trt().end(), t)) != this->p->get_trt().end()){
                                 select.push_back(t);
                             }
                             else{
@@ -851,7 +869,7 @@ bool HumanPlayerStrategy::issueOrder() {
                     //Advance to defend territory
                     else if(selection == 2){
                         input = false;
-                        vector <Territory*> defend = p->toDefend();
+                        vector <Territory*> defend = this->p->toDefend();
                         cout<<"Please enter the territory you wish to advance army units \n(select the number from your list of territories to defend): \n";
                         for(int i = 1; i<=defend.size();i++){
                             cout<<i<<") "<<*defend.at(i-1)->getTerritoryName()<<" ";
@@ -864,7 +882,7 @@ bool HumanPlayerStrategy::issueOrder() {
                         vector <Territory*> adj = defend.at(t_option-1)->getAdjTerritories();
                         vector <Territory*> select;
                         for(Territory* t: adj){
-                            if((std::find(p->get_trt().begin(), p->get_trt().end(), t)) != p->get_trt().end()){
+                            if((std::find(this->p->get_trt().begin(), this->p->get_trt().end(), t)) != this->p->get_trt().end()){
                                 select.push_back(t);
                             }
                             else{
@@ -912,7 +930,7 @@ bool HumanPlayerStrategy::issueOrder() {
             //case for Bomb order
             case 3:
                 //verifying if all army units have been deployed
-                if(this->deployed_unit < p->get_armyUnit()){
+                if(deployed_unit < this->p->get_armyUnit()){
                     cout<<"Need to deploy all army units in the pool before issueing other orders.\n";
                     done = false;
                     break;
@@ -920,7 +938,7 @@ bool HumanPlayerStrategy::issueOrder() {
                 //if player has a bomb card, issue bomb order
                 if(hasBomb){
                     cout<<"Issuing Bomb order\n";
-                    vector <Territory*> attack = p->toAttack();
+                    vector <Territory*> attack = this->p->toAttack();
                         cout<<"Please select the target territory \n(select the number from your list of territories to attack): \n";
                         for(int i = 1; i<=attack.size();i++){
                             cout<<i<<") "<<*attack.at(i-1)->getTerritoryName()<<" ";
@@ -942,7 +960,7 @@ bool HumanPlayerStrategy::issueOrder() {
                 break;
             case 4:
                 //verifying if all army units have been deployed
-                if(this->deployed_unit < p->get_armyUnit()){
+                if(deployed_unit < this->p->get_armyUnit()){
                     cout<<"Need to deploy all army units in the pool before issueing other orders.\n";
                     done = false;
                     break;
@@ -950,7 +968,7 @@ bool HumanPlayerStrategy::issueOrder() {
                 //if player has a blockade card, issue blockade order
                 if(hasBlockade){
                     cout<<"Issuing Blockade order\n";
-                    vector <Territory*> attack = p->toAttack();
+                    vector <Territory*> attack = this->p->toAttack();
                         cout<<"Please select the target territory \n(select the number from your list of territories to attack): \n";
                         for(int i = 1; i<=attack.size();i++){
                             cout<<i<<") "<<*attack.at(i-1)->getTerritoryName()<<" ";
@@ -972,7 +990,7 @@ bool HumanPlayerStrategy::issueOrder() {
                 break;
             case 5:
                 //verifying if all army units have been deployed
-                if(this->deployed_unit < p->get_armyUnit()){
+                if(deployed_unit < this->p->get_armyUnit()){
                     cout<<"Need to deploy all army units in the pool before issueing other orders.\n";
                     done = false;
                     break;
@@ -980,7 +998,7 @@ bool HumanPlayerStrategy::issueOrder() {
                 //if player has a airlift card, issue airlift order
                 if(hasAirlift){
                     cout<<"Issuing Airlift order\n";
-                    vector <Territory*> owned = p->get_trt();
+                    vector <Territory*> owned = this->p->get_trt();
                     cout<<"Please select the source territory \n(select the number from your list of territories): \n";
                     for(int i = 1; i<=owned.size();i++){
                         cout<<i<<") "<<*owned.at(i-1)->getTerritoryName()<<" ";
@@ -997,8 +1015,8 @@ bool HumanPlayerStrategy::issueOrder() {
                     }
 
                     cout<<"Please select the target territory:\n";
-                    vector<Territory*> attack = p->toAttack();
-                    vector<Territory*> defend = p->toAttack();
+                    vector<Territory*> attack = this->p->toAttack();
+                    vector<Territory*> defend = this->p->toAttack();
                     for(int i=1; i<=attack.size();i++){
                         cout<<i<<") "<<*attack.at(i-1)->getTerritoryName()<<" ";
                     }
@@ -1042,7 +1060,7 @@ bool HumanPlayerStrategy::issueOrder() {
                 break;
             case 6:
                 //verifying if all army units have been deployed
-                if(this->deployed_unit < p->get_armyUnit()){
+                if(deployed_unit < this->p->get_armyUnit()){
                     cout<<"Need to deploy all army units in the pool before issueing other orders.\n";
                     done = false;
                     break;
@@ -1098,10 +1116,20 @@ bool HumanPlayerStrategy::issueOrder() {
     for (string order:issued_orders){
         cout<<order<<endl;
     }
-    // Since it currently allows the human to select multiple orders
-    // this will return false, that it does not need to issue another
-    // order.
-    return false;
+    
+    string yn;
+    cout<<"Do you wish to issue more orders? (Y/N)\n";
+    cin>>yn;
+    if(yn == "Y" || yn == "y"){
+        return true;
+    }
+    else if(yn == "N" || yn == "n"){
+        return false;
+    }
+    else{
+        cout<<"Wrong input. Will issue order on the next turn\n";
+        return true;
+    }
 }
 
 //-----------------------------------//
@@ -1174,7 +1202,23 @@ bool BenevolentPlayerStrategy::issueOrder() {
 
     //Issue Deploy order
     bool deploy = false;
-    if(this->deployed_unit == p->get_armyUnit()){
+
+    // keep track of units deployed previously
+    int deployed_unit = 0;
+
+    for (Order* o : this->p->get_olst()->getOrder())
+    {
+        // If this order is of type Deploy
+        if (o->getType() == "Deploy" || o->getType() == "deploy")
+        {
+            // Increment deployed_units var
+            Deploy *d = (Deploy *) o;
+            deployed_unit = deployed_unit+d->getNumberUnits();
+        }
+    }
+
+    //deploy = true => done issuing Deploy order
+    if(deployed_unit == p->get_armyUnit()){
         deploy = true;
     }
     else{
@@ -1183,10 +1227,9 @@ bool BenevolentPlayerStrategy::issueOrder() {
         //if all territory have 0 army units select the territory to issue deploy order randomly
         if(max == 0){
             int idx = rand()%def_army.size();
-            int army = 1 + rand()%(p->get_armyUnit() - (this->deployed_unit) - 1);
+            int army = 1 + rand()%(p->get_armyUnit() - deployed_unit - 1);
             def_army.at(idx) = army;
             Deploy* d = new Deploy(defend.at(idx), this->p, army);
-            this->deployed_unit = this->deployed_unit + army;
             this->p->get_olst()->addOrder(d);
             issued_orders.push_back("Deploy | To: " + *defend.at(idx)->getTerritoryName() + " | " + to_string(army) + " units");
         }
@@ -1209,7 +1252,6 @@ bool BenevolentPlayerStrategy::issueOrder() {
             int army = 1 + rand()%(p->get_armyUnit() - 1);
             def_army.at(idx_arr.at(idx)) = army;
             Deploy* d = new Deploy(defend.at(idx_arr.at(idx)), this->p, army);
-            this->deployed_unit = this->deployed_unit + army;
             this->p->get_olst()->addOrder(d);
             issued_orders.push_back("Deploy | To: " + *defend.at(idx_arr.at(idx))->getTerritoryName() + " | " + to_string(army) + " units");
         }
@@ -1217,12 +1259,70 @@ bool BenevolentPlayerStrategy::issueOrder() {
     //end of while case Deploy order
 
     //Issue Advance order
-    // if(deploy){
+    //Weakest territory = territory with the lowest army units in the list of territories to be defended
+    if(deploy){
+        //get the number of units currently in each territory to be defended 
+        vector <int> unitInTrt;
+        vector <string> trt_name;
+        for (Territory* t: p->toDefend()){
+            unitInTrt.push_back(*t->getArmy());
+            trt_name.push_back(*t->getTerritoryName());
+        }
 
-    // }
+        //add the number of units deployed in the current order list
+        for (Order* o : this->p->get_olst()->getOrder()){
+            //
+            if (o->getType() == "Deploy" || o->getType() == "deploy")
+            {
+                Deploy *d = (Deploy *) o;
+                string tg = *d->getTarget()->getTerritoryName();
+
+                //find the index of the territory that was targetted for deploy order
+                int idx;
+                for(int i = 0; i<trt_name.size(); i++){
+                    if (trt_name.at(i) == tg){
+                        idx = i;
+                        break;
+                    }
+                }
+                
+                //locally change the number of units associated for target territory
+                unitInTrt.at(idx) = unitInTrt.at(idx) + d->getNumberUnits();
+            }
+        }
+
+        //find the min army units associated with each territories
+        int minArmy = *min_element(unitInTrt.begin(), unitInTrt.end());
+        int maxArmy = *max_element(unitInTrt.begin(), unitInTrt.end());
+
+        //find the indexes of territories with the lowest army unit number
+        vector <int> idx_min;
+        for(int i = 0; i<unitInTrt.size(); i++){
+            if(minArmy == unitInTrt.at(i)){
+                idx_min.push_back(i);
+            }
+        }
+
+        //randomly select from the indexes of territories with lowest army units to deploy armies
+        int j = rand()%idx_min.size();
+
+        //randomly select a source territory
+        int k = rand()%p->get_trt().size();
+
+        //randomly select from the army units to dispatch based on the max army units in current list of territories
+        int army = 1 + rand()%(maxArmy - 1);
+        
+        Advance* a = new Advance(p->get_trt().at(k), p->toDefend().at(j), p, army);
+        this->p->get_olst()->addOrder(a);
+        issued_orders.push_back("Advance | To: " + *p->toDefend().at(j)->getTerritoryName() + " | " + to_string(army) + " units");
+
+    }
+
+    //print out the order issued
     for(string s:issued_orders){
         cout<<s<<endl;
     }
+
     return (rand() % 100) < 60;
 }
 

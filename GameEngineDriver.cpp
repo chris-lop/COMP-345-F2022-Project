@@ -119,5 +119,5 @@ void testMainGameLoop()
     }
     // change state from 'win' to 'quit'
     gameEngine->setState("quit");
-    gameEngine->transition();
+    gameEngine->transition(); 
 }

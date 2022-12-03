@@ -3,6 +3,7 @@
 #include "../GameEngine.h"
 
 void runGameLoop(Player* p1, Player* p2);
+void runGameLoopHuman(Player* p1, Player* p2);
 
 void testPlayerStrategies()
 {
@@ -97,6 +98,19 @@ void testPlayerStrategies()
     player1->set_strategy(ps1);
     player2->set_strategy(ps2);
     runGameLoop(player1, player2);
+
+
+    // cout << "##################################################################" << endl;
+    // cout << "#### Testing the human player against the Benevolent player ####" << endl;
+    // cout << "##################################################################" << endl;
+
+    // Player* playerh = new Player("Human");
+    // Player* playerb = new Player("Benevolent");
+    // PlayerStrategy *ps1 = new HumanPlayerStrategy(playerh);
+    // PlayerStrategy *ps2 = new BenevolentPlayerStrategy(playerb);
+    // playerh->set_strategy(ps1);
+    // playerb->set_strategy(ps2);
+    // runGameLoopHuman(playerh, playerb);
 }
 
 void runGameLoop(Player* p1, Player* p2) {
@@ -146,6 +160,97 @@ void runGameLoop(Player* p1, Player* p2) {
     }
     // gameMap->territories.size()
     for (int i = rdm_trt_num; i < gameMap->territories.size(); i++)
+    {
+        Territory *t = gameMap->territories.at(i);
+        t->setTerritoryOwner(p2);
+        p2_trt.push_back(t);
+    }
+
+    p1->set_Trt(p1_trt);
+    p1->set_armyUnit(50);
+    p2->set_Trt(p2_trt);
+    p2->set_armyUnit(50);
+
+    // change state from 'mapvalidated' to 'playersadded'
+    gameEngine->setState("playersadded");
+
+    std::cout << "Player1 owns:" << std::endl;
+    for (Territory *t : p1_trt)
+    {
+        std::cout << *(t->getTerritoryName)() << "\t";
+    }
+    std::cout << "\nPlayer1's hand of cards:\n";
+    std::cout << *h1;
+    std::cout << "\n";
+    std::cout << "\nPlayer2 owns:" << std::endl;
+    for (Territory *t : p2_trt)
+    {
+        std::cout << *(t->getTerritoryName)() << "\t";
+    }
+    std::cout << "\nPlayer2's hand of cards:\n";
+    std::cout << *h2;
+
+    std::cout << "\n\n##Starting Main Game Loop##\n\n";
+    gameEngine->setMap(gameMap);
+    gameEngine->setPlayers(gamePlayers);
+    gameEngine->setRemovedPlayers(removedPlayers);
+
+    bool finished = false;
+    while (!finished)
+    {
+        finished = gameEngine->mainGameLoop(gamePlayers, gameMap);
+    }
+    // change state from 'win' to 'quit'
+    gameEngine->setState("quit");
+}
+
+
+void runGameLoopHuman(Player* p1, Player* p2) {
+    // Prepare game play
+    GameEngine *gameEngine = new GameEngine();
+    gameEngine->setState("start");
+    MapLoader *loader = new MapLoader();
+    Map *gameMap = loader->loadMap("./maps/3D.map");
+    // change state from 'start' to 'maploaded'
+    gameEngine->setState("maploaded");
+    // change state from 'maploaded' to 'mapvalidated'
+    gameEngine->setState("mapValidated");
+    vector<Player *> gamePlayers;
+    vector<Player *> removedPlayers;
+    // Players are given in function arguments
+    gamePlayers.push_back(p1);
+    gamePlayers.push_back(p2);
+
+    // assign 2 cards from deck to players
+    Deck *d = new Deck();
+    gameEngine->setDeck(d);
+    Hand *h1 = new Hand();
+    for (int i = 0; i < 2; i++)
+    {
+        h1->addCard(d->draw());
+    }
+    Hand *h2 = new Hand();
+    for (int i = 0; i < 2; i++)
+    {
+        h2->addCard(d->draw());
+    }
+
+    p1->set_Player_Hand(h1);
+    p2->set_Player_Hand(h2);
+
+    // assign territories to player
+    vector<Territory *> p1_trt;
+    vector<Territory *> p2_trt;
+
+    // assign random number of territories each time
+    for (int i = 0; i < 11; i++)
+    {
+        Territory *t = gameMap->territories.at(i);
+        t->setTerritoryOwner(p1);
+        p1_trt.push_back(t);
+    }
+    // gameMap->territories.size()
+    for (int i = 11; i < gameMap->territories.size(); i++)
     {
         Territory *t = gameMap->territories.at(i);
         t->setTerritoryOwner(p2);

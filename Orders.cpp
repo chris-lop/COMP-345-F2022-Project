@@ -271,6 +271,10 @@ int Deploy::getNumberUnits()
     return this->numberUnits;
 }
 
+Territory* Deploy::getTarget(){
+    return this->target;
+}
+
 //Validate if the order is valid
 bool Deploy::validate(){
     vector<Territory*> trt = player->get_trt();
