@@ -87,6 +87,7 @@ std::ostream &operator<<(std::ostream &strm, const GameEngine &g)
 void GameEngine::setState(string st)
 {
     this->state = st;
+    notify(this);
 }
 
 void GameEngine::setDeck(Deck *gameDeck)
