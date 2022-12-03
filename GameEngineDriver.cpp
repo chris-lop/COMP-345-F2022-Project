@@ -115,7 +115,7 @@ void testMainGameLoop()
     bool finished = false;
     while (!finished)
     {
-        finished = gameEngine->mainGameLoop(gamePlayers, gameMap);
+        finished = gameEngine->mainGameLoop(gamePlayers, gameMap,0);
     }
     // change state from 'win' to 'quit'
     gameEngine->setState("quit");

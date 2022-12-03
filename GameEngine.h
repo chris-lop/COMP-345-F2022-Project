@@ -86,7 +86,7 @@ public:
     void transition();
 
     // main game play loop
-    bool mainGameLoop(std::vector<Player *> players, Map *graph);
+    bool mainGameLoop(std::vector<Player *> players, Map *graph, int turn);
 
     // reinforcement phase
     void reinforcementPhase(Player *player, Map *graph);
