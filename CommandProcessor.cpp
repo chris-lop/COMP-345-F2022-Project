@@ -414,12 +414,75 @@ bool CommandProcessor::playegame(Command *command)
             cout << "Tournament started." << endl;
             state = "start";            
             GameEngine* g = new GameEngine();
+             vector <string> c; 
+            string s;
+            stringstream x(command->getCommand());
+            while(getline(x, s, ' ')){
+                c.push_back(s);
+                // cout<<s<<endl;
+            }
+            c.erase(c.begin());
+            vector <string> maps;
+            vector <string> players;
+            int numGames;
+            int numTurns;
+            int count = 0;
+            for(auto item: c){
+                if(item == "-M"){
+                for(int i = count+1; i<c.size() ; i++){
+                        if(c[i]== "-P" || c[i]== "-G" || c[i]== "-D"){
+                            break;
+                        }
+                        if(c[i]!= "-P" && c[i]!= "-G" && c[i]!= "-D"){
+                            maps.push_back(c[i]);
+                        }
+                }
+                }
+                if(item == "-P"){
+                for(int i = count+1; i<c.size() ; i++){
+                        if(c[i]== "-M" || c[i]== "-G" || c[i]== "-D"){
+                            break;
+                        }
+                        if(c[i]!= "-M" && c[i]!= "-G" && c[i]!= "-D"){
+                            players.push_back(c[i]);
+                        }
+                }
+                }
+                if(item == "-G"){
+                numGames = stoi(c[count+1]);
+                }
+                if(item == "-D"){
+                numTurns = stoi(c[count+1]);
+                }
+                count++;
+            }
+            bool valid = false;
+            if(maps.size() < 1 || maps.size()>5){
+                cout << "Invalid number of maps. Valid numbers: between 1 and 5" << endl;
+                return false;
+            }
+
+            else if(players.size() < 2 || players.size() > 4){
+                cout << "Invalid number of players. Valid numbers: between 2 and 4" << endl;
+                return false;
+            }
+
+            else if(numGames < 1 || numGames > 5){
+                 cout << "Invalid number of games. Valid numbers: between 1 and 5" << endl;
+                return false;
+            }
+
+            else if(numTurns < 10 || numTurns > 50){
+                cout << "Invalid number of turned. Valid numbers: between 10 and 50" << endl;
+                return false;
+            }
+
             g->tournament(command);
             return true;
         }
         else
         {
-            cout << "Invalid command. Valid commands: loadmap" << endl;
+            cout << "Invalid command. Valid commands: loadmap, tournament -M <listofmapfiles> -P <listofplayerstrategies> -G <numberofgames> -D <maxnumberofturns>" << endl;
             return false;
         }
     }
