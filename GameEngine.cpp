@@ -765,6 +765,19 @@ bool GameEngine::mainGameLoop(std::vector<Player *> players, Map *graph)
     int num_trt = this->gameMap->territories.size();
     bool winner = false;
     string winPlayer;
+    // Verify if any player doesn't own any territory
+    int numPlayers = gamePlayers.size();
+    // This outer loop is necessary since vector::erase invalidates
+    // the iterator
+    for (int i = 0 ; i < gamePlayers.size(); i++) {
+        for (auto it = gamePlayers.begin(); it < gamePlayers.end(); ++it) {
+            if ((**it).get_trt().size() == 0) {
+                // This player has no land, remove them
+                gamePlayers.erase(it);
+                break;
+            }
+        }
+    }
 
     // verify if any player owns all territories
     for (Player *p : this->gamePlayers)
@@ -806,6 +819,11 @@ bool GameEngine::mainGameLoop(std::vector<Player *> players, Map *graph)
         assignReinforcement();
         for (Player *p : this->gamePlayers)
         {
+            // show owned territories
+            /*cout << "Territories owned by " << p->get_name() << endl;
+            for (Territory* t: p->get_trt()) {
+                cout << *t;
+            }*/
             if (p->get_name() == "Neutral Player")
             {
                 continue;
@@ -1313,7 +1331,7 @@ void GameEngine::tournament(Command *command)
                         countx = 0;
                     }
                     // adding territories owned territoires to players and adding the corresponding owner to that territory
-                    vector<Territory *> tempPlayer = playersObjects[countP]->get_trt();
+                    vector<Territory *> tempPlayer = playersObjects[countx]->get_trt();
                     tempPlayer.push_back(terr);
                     playersObjects[countx]->set_Trt(tempPlayer);
 
