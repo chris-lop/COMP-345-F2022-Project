@@ -39,6 +39,10 @@ void testPlayerStrategies()
     player1->set_strategy(aggrp1);
     player2->set_strategy(neutralp1);
 
+    cout << "##################################################################" << endl;
+    cout << "#### Testing the aggressive player against the neutral player ####" << endl;
+    cout << "##################################################################" << endl;
+
     // While player1 hasn't won
     while (player1->get_trt().size() != 4)
     {

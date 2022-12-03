@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <vector>
 #include <sstream>
+#include <typeinfo>
 #include "Orders.h"
 #include "Map.h"
 #include "Player.h"
@@ -443,6 +444,14 @@ void Advance::execute(){
         // If player does not own target, attack target
         else
         {
+            // If target is a neutral player, change its strategy to aggressive
+            if (typeid(this->target->getTerritoryOwner()->get_strategy()).name()=="NeutralPlayerStrategy")
+            {
+                PlayerStrategy *newStrategy = new AggressivePlayerStrategy(this->target->getTerritoryOwner());
+
+                this->target->getTerritoryOwner()->set_strategy(newStrategy);
+            }
+
             // Decrement source territory with army amount
             int newSourceArmy = (*(source->getArmy())-this->numberUnits);
             int* ptrSourceArmy = &newSourceArmy;
