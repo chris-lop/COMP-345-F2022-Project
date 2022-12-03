@@ -1,13 +1,13 @@
 
 #include "PlayerStrategy.h"
-#include "../Player.h"
+#include "Player.h"
 #include <iostream>
 #include <string.h>
 #include <vector>
 #include <list>
 #include <map>
 #include <algorithm>
-#include "../Cards.h"
+#include "Cards.h"
 using namespace std;
 
 PlayerStrategy::PlayerStrategy(Player* p): p(p){}

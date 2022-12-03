@@ -1,6 +1,6 @@
 #include "PlayerStrategy.h"
-#include "../Cards.h"
-#include "../GameEngine.h"
+#include "Cards.h"
+#include "GameEngine.h"
 
 void runGameLoop(Player* p1, Player* p2);
 void runGameLoopHuman(Player* p1, Player* p2);

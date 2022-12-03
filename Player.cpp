@@ -5,7 +5,7 @@
 #include "Map.h"
 #include "Cards.h"
 #include "Player.h"
-#include "Player-Strategy/PlayerStrategy.h"
+#include "PlayerStrategy.h"
 
 using std::vector;
 
