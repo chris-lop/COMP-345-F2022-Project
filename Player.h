@@ -4,7 +4,7 @@
 #include <vector>
 #include <string>
 #include "Orders.h"
-#include "Player-Strategy/PlayerStrategy.h"
+#include "PlayerStrategy.h"
 class OrdersList;
 class Order;
 class Territory;

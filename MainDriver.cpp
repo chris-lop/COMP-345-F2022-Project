@@ -8,7 +8,7 @@
 #include "Orders.h"
 #include "GameEngine.h"
 #include "CommandProcessor.h"
-#include "Player-Strategy/PlayerStrategy.h"
+#include "PlayerStrategy.h"
 
 // The main driver function that will run all the test driver functions
 int main(int argc, char *argv[])
