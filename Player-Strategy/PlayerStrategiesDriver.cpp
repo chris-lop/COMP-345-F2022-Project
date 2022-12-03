@@ -106,9 +106,9 @@ void runGameLoop(Player* p1, Player* p2) {
     MapLoader *loader = new MapLoader();
     Map *gameMap = loader->loadMap("./maps/3D.map");
     // change state from 'start' to 'maploaded'
-    gameEngine->transition();
+    gameEngine->setState("maploaded");
     // change state from 'maploaded' to 'mapvalidated'
-    gameEngine->transition();
+    gameEngine->setState("mapValidated");
     vector<Player *> gamePlayers;
     vector<Player *> removedPlayers;
     // Players are given in function arguments
@@ -158,7 +158,7 @@ void runGameLoop(Player* p1, Player* p2) {
     p2->set_armyUnit(50);
 
     // change state from 'mapvalidated' to 'playersadded'
-    gameEngine->transition();
+    gameEngine->setState("playersadded");
 
     std::cout << "Player1 owns:" << std::endl;
     for (Territory *t : p1_trt)
@@ -188,5 +188,4 @@ void runGameLoop(Player* p1, Player* p2) {
     }
     // change state from 'win' to 'quit'
     gameEngine->setState("quit");
-    gameEngine->transition();
 }

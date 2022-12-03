@@ -1264,11 +1264,6 @@ bool CheaterPlayerStrategy::issueOrder() {
         
         // Remove ownership from other player
         vector<Territory*> oldOwnerTerritories = oldOwner->get_trt();
-        cout << "OLD TERRITORIES\n";
-        for (auto t: oldOwnerTerritories) {
-            cout << *(t->getTerritoryName()) << " ";
-        }
-        cout << endl;
 
         for (auto it = oldOwnerTerritories.begin(); it < oldOwnerTerritories.end(); ++it) {
             if (*it == t) {
@@ -1276,12 +1271,6 @@ bool CheaterPlayerStrategy::issueOrder() {
                 break;
             }
         }
-
-        cout << "NEW TERRITORIES\n";
-        for (auto t: oldOwnerTerritories) {
-            cout << *(t->getTerritoryName()) << " ";
-        }
-        cout << endl;
         
         oldOwner->set_Trt(oldOwnerTerritories);
     }
