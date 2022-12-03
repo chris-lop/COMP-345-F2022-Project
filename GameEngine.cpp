@@ -33,6 +33,7 @@ GameEngine::GameEngine()
     this->gameMap = new Map();
     this->gamePlayers = {};
     this->removedPlayers = {};
+    this->d = nullptr;
 }
 
 GameEngine::GameEngine(Map *gameMap, vector<Player *> gamePlayers)
@@ -41,6 +42,7 @@ GameEngine::GameEngine(Map *gameMap, vector<Player *> gamePlayers)
     this->gameMap = gameMap;
     this->gamePlayers = gamePlayers;
     this->removedPlayers = {};
+    this->d = nullptr;
 }
 
 GameEngine::GameEngine(Map *gameMap, vector<Player *> gamePlayers, vector<Player *> removedPlayers)
@@ -49,6 +51,7 @@ GameEngine::GameEngine(Map *gameMap, vector<Player *> gamePlayers, vector<Player
     this->gameMap = gameMap;
     this->gamePlayers = gamePlayers;
     this->removedPlayers = removedPlayers;
+    this->d = nullptr;
 }
 
 // GameEngine destructor
@@ -87,6 +90,9 @@ void GameEngine::setState(string st)
 
 void GameEngine::setDeck(Deck *gameDeck)
 {
+    if (!d) {
+        delete d;
+    }
     this->d = gameDeck;
 }
 
@@ -1202,7 +1208,8 @@ void GameEngine::tournament(Command *command)
     string mapPath;
     string mapthName;
     vector<Player *> playersObjects;
-    Deck *deck = new Deck();
+    // init deck
+    setDeck(new Deck());
     for (auto player : players)
     {
         Player *p = new Player(player);
@@ -1210,7 +1217,7 @@ void GameEngine::tournament(Command *command)
         Hand *hand = new Hand();
         for (int i = 0; i < 2; i++)
         {
-            Card *card = deck->draw();
+            Card *card = d->draw();
             hand->addCard(card);
         }
         p->set_Player_Hand(hand);
@@ -1261,7 +1268,6 @@ void GameEngine::tournament(Command *command)
             this->gameMap = gameMap;
             this->gamePlayers = playersObjects;
             int j = 0;
-            GameEngine *ge = new GameEngine();
 
             while (j <= numGames)
             {
@@ -1270,12 +1276,13 @@ void GameEngine::tournament(Command *command)
                 while (!finished)
                 {
 
-                    ge->setMap(gameMap);
-                    ge->setPlayers(playersObjects);
-                    finished = ge->mainGameLoop(playersObjects, gameMap);
+                    setMap(gameMap);
+                    setPlayers(playersObjects);
+                    finished = mainGameLoop(playersObjects, gameMap);
                 }
 
                 j++;
+                setDeck(new Deck());
                 Hand *emptycard;
                 for (auto player : playersObjects)
                 {
@@ -1287,7 +1294,7 @@ void GameEngine::tournament(Command *command)
                     Hand *hand = new Hand();
                     for (int i = 0; i < 2; i++)
                     {
-                        Card *card = deck->draw();
+                        Card *card = d->draw();
                         hand->addCard(card);
                     }
                     player->set_Player_Hand(hand);

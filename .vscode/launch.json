@@ -8,6 +8,7 @@
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "launchCompleteCommand": "exec-run",
+            "args": ["-console"],
             "linux": {
                 "MIMode": "gdb",
                 "miDebuggerPath": "/usr/bin/gdb",
