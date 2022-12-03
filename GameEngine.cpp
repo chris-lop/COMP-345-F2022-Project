@@ -757,12 +757,19 @@ bool GameEngine::executeOrdersPhase()
 }
 
 // mainGameLoop(): calling 3 phases
-bool GameEngine::mainGameLoop(std::vector<Player *> players, Map *graph)
+bool GameEngine::mainGameLoop(std::vector<Player *> players, Map *graph, int turn)
 {
     bool finished = false;
     int num_trt = graph->territories.size();
     bool winner = false;
     string winPlayer;
+
+    bool tournament;
+
+    //check if tournament is using the mainGameLoop
+    if(turn == 0){
+        tournament = false;
+    }
 
     // verify if any player owns all territories
     for (Player *p : players)
@@ -796,7 +803,7 @@ bool GameEngine::mainGameLoop(std::vector<Player *> players, Map *graph)
         finished = true;
     }
 
-    else
+    else if (tournament == false)
     {
 
         // Phase 1: Reinforcement --> call reinforcementPhase() in round-robin
@@ -823,11 +830,48 @@ bool GameEngine::mainGameLoop(std::vector<Player *> players, Map *graph)
 
         // to test if everything's working
         // TO REMOVE when Phase 3 is complete to test the loop
-        finished = true;
+        // finished = true;
     }
 
-    // once removed, replace finished with winner so main game loop is finished when there is a winner
-    return winner;
+    else if (tournament == true){
+        int count_turn = 0;
+
+        while(count_turn != turn && winner == false){
+            
+            // Phase 1: Reinforcement --> call reinforcementPhase() in round-robin
+            std::cout << "#";
+            assignReinforcement();
+            for (Player *p : players)
+            {
+                if (p->get_name() == "Neutral Player")
+                {
+                    continue;
+                }
+                std::cout << "\nCurrent turn: " << p->get_name() << std::endl;
+                reinforcementPhase(p, graph);
+            }
+            std::cout << "\n<<<reinforcement phase complete...>>>\n";
+
+            // Phase 2: issue Orders --> call issueOrdersPhase() in round-robin
+            std::cout << "\n#issueing orders...\n";
+            issueOrdersPhase(gamePlayers);
+            std::cout << "\n<<<issue order phase complete>>>\n";
+
+            // Phase 3: execute Orders --> call executeOrdersPhase() in round-robin
+            winner = executeOrdersPhase();
+
+            count_turn++;
+        }
+        finished = true;
+ 
+    }
+
+    // // once removed, replace finished with winner so main game loop is finished when there is a winner
+    // return winner;
+
+    //main loop finished (finished = true) when we finish the number of turns input, or if there is a winner
+    return finished;
+
 }
 
 vector<string> GameEngine::directory()

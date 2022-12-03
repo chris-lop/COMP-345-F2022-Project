@@ -202,7 +202,7 @@ void runGameLoop(Player* p1, Player* p2) {
     bool finished = false;
     while (!finished)
     {
-        finished = gameEngine->mainGameLoop(gamePlayers, gameMap);
+        finished = gameEngine->mainGameLoop(gamePlayers, gameMap, 0);
     }
     // change state from 'win' to 'quit'
     gameEngine->setState("quit");
@@ -293,7 +293,7 @@ void runGameLoopHuman(Player* p1, Player* p2) {
     bool finished = false;
     while (!finished)
     {
-        finished = gameEngine->mainGameLoop(gamePlayers, gameMap);
+        finished = gameEngine->mainGameLoop(gamePlayers, gameMap, 0);
     }
     // change state from 'win' to 'quit'
     gameEngine->setState("quit");
