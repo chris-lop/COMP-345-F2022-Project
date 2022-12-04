@@ -104,17 +104,17 @@ void testPlayerStrategies()
     runGameLoop(player1, player2);
 
 
-    // cout << "##################################################################" << endl;
-    // cout << "#### Testing the human player against the Benevolent player ####" << endl;
-    // cout << "##################################################################" << endl;
+    cout << "##################################################################" << endl;
+    cout << "#### Testing the human player against the Benevolent player ####" << endl;
+    cout << "##################################################################" << endl;
 
-    // Player* playerh = new Player("Human");
-    // Player* playerb = new Player("Benevolent");
-    // PlayerStrategy *ps1 = new HumanPlayerStrategy(playerh);
-    // PlayerStrategy *ps2 = new BenevolentPlayerStrategy(playerb);
-    // playerh->set_strategy(ps1);
-    // playerb->set_strategy(ps2);
-    // runGameLoopHuman(playerh, playerb);
+    Player* playerh = new Player("Human");
+    Player* playerb = new Player("Benevolent");
+    PlayerStrategy *psb = new BenevolentPlayerStrategy(playerb);
+    PlayerStrategy *psh = new HumanPlayerStrategy(playerh);
+    playerb->set_strategy(psb);
+    playerh->set_strategy(psh);
+    runGameLoopHuman(playerb, playerh);
 }
 
 void runGameLoop(Player* p1, Player* p2) {
@@ -234,11 +234,9 @@ void runGameLoopHuman(Player* p1, Player* p2) {
         h1->addCard(d->draw());
     }
     Hand *h2 = new Hand();
-    for (int i = 0; i < 2; i++)
-    {
-        h2->addCard(d->draw());
-    }
-
+    h2->addCard(new Card("Airlift"));
+    h2->addCard(new Card("Bomb"));
+    
     p1->set_Player_Hand(h1);
     p2->set_Player_Hand(h2);
 
@@ -247,14 +245,14 @@ void runGameLoopHuman(Player* p1, Player* p2) {
     vector<Territory *> p2_trt;
 
     // assign random number of territories each time
-    for (int i = 0; i < 11; i++)
+    for (int i = 0; i < 2; i++)
     {
         Territory *t = gameMap->territories.at(i);
         t->setTerritoryOwner(p1);
         p1_trt.push_back(t);
     }
     // gameMap->territories.size()
-    for (int i = 11; i < gameMap->territories.size(); i++)
+    for (int i = 2; i < gameMap->territories.size(); i++)
     {
         Territory *t = gameMap->territories.at(i);
         t->setTerritoryOwner(p2);
@@ -272,15 +270,15 @@ void runGameLoopHuman(Player* p1, Player* p2) {
     std::cout << "Player1 owns:" << std::endl;
     for (Territory *t : p1_trt)
     {
-        std::cout << *(t->getTerritoryName)() << "\t";
+        std::cout << *t->getTerritoryName() << "\t";
     }
     std::cout << "\nPlayer1's hand of cards:\n";
     std::cout << *h1;
     std::cout << "\n";
     std::cout << "\nPlayer2 owns:" << std::endl;
-    for (Territory *t : p2_trt)
+    for (Territory *t : p2->get_trt())
     {
-        std::cout << *(t->getTerritoryName)() << "\t";
+        std::cout << *t->getTerritoryName() << "\t";
     }
     std::cout << "\nPlayer2's hand of cards:\n";
     std::cout << *h2;

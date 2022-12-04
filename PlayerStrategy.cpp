@@ -720,7 +720,7 @@ bool HumanPlayerStrategy::issueOrder() {
     while(!done){
         // issueOrder Starting Message
         cout<<"Please enter the order type (enter the number): \n";
-        cout<<"1) Deploy\n2) Advance\n3) Bomb\n4) Blockade\n5) Airlift\n6) Negotiate\n";
+        cout<<"1) Deploy\n2) Advance\n3) Bomb\n4) Blockade\n5) Airlift\n6) Negotiate\n7) Skip turn\n";
         cin>>orderNumber;
         int option, army, t_option;
         bool input = true;
@@ -819,6 +819,7 @@ bool HumanPlayerStrategy::issueOrder() {
                         for(int i = 1; i<=attack.size();i++){
                             cout<<i<<") "<<*attack.at(i-1)->getTerritoryName()<<" ";
                         }
+                        cout<<endl;
                         cin>>t_option;
        
                         cout<<"How many army units to advance to "<<*attack.at(t_option-1)->getTerritoryName()<<"?";
@@ -827,16 +828,19 @@ bool HumanPlayerStrategy::issueOrder() {
                         //Find territories from where the player can advance army units to the selected territory
                         vector <Territory*> adj = attack.at(t_option-1)->getAdjTerritories();
                         vector <Territory*> select;
+                        // vector <int> idx;
                         for(Territory* t: adj){
                             if((std::find(this->p->get_trt().begin(), this->p->get_trt().end(), t)) != this->p->get_trt().end()){
                                 select.push_back(t);
+                            //     auto it = std::find(this->p->get_trt().begin(), this->p->get_trt().end(), t);
+                            //     idx.push_back(it - p->get_trt().begin());
                             }
                             else{
                                 continue;
                             }
                         }
                         //If more than one adjacent territories owned by the player, ask from which territory to advance army units
-                        if(select.size()>1){
+                        if(select.size()>0){
             
                             cout<<"From which territory do you wish to advance the units ?\n";
                             for(int i = 1; i<=select.size();i++){
@@ -850,9 +854,9 @@ bool HumanPlayerStrategy::issueOrder() {
                                 }
                                 else{
                                     input2=false;
-                                    Advance* a = new Advance(attack.at(t_option-1), select.at(adjNum-1),this->p,army);
+                                    Advance* a = new Advance(select.at(adjNum-1),attack.at(t_option-1),this->p,army);
                                     this->p->get_olst()->addOrder(a);
-                                    issued_orders.push_back("Advance(Attack) | To: "+*attack.at(t_option-1)->getTerritoryName() + " | From: "+*select.at(adjNum-1)->getTerritoryName() + "| "+ to_string(army)+" units");
+                                    issued_orders.push_back("Advance(Attack) | To: "+*attack.at(t_option-1)->getTerritoryName() + " | From: "+ *select.at(adjNum-1)->getTerritoryName() + "| "+ to_string(army)+" units");
                                     done = true;
                                 }
                             }
@@ -1108,28 +1112,38 @@ bool HumanPlayerStrategy::issueOrder() {
                     break;
                 }
                 break;
+
+            case 7:
+                done = true;
         }//end of switch
     }//end of while
     
+    bool issueMore = false;
+    if(orderNumber == 7){
+        cout<<"No order issued this turn.\n";
+    }
 
-    cout << "Issued Orders:" << endl;
-    for (string order:issued_orders){
-        cout<<order<<endl;
-    }
-    
-    string yn;
-    cout<<"Do you wish to issue more orders? (Y/N)\n";
-    cin>>yn;
-    if(yn == "Y" || yn == "y"){
-        return true;
-    }
-    else if(yn == "N" || yn == "n"){
-        return false;
-    }
     else{
-        cout<<"Wrong input. Will issue order on the next turn\n";
-        return true;
+        cout << "Issued Orders:" << endl;
+        for (string order:issued_orders){
+            cout<<order<<endl;
+        }
+        string yn;
+        cout<<"Do you wish to issue more orders? (Y/N)\n";
+        cin>>yn;
+        if(yn == "Y" || yn == "y"){
+            issueMore = true;
+        }
+        else if(yn == "N" || yn == "n"){
+            issueMore = false;
+        }
+        else{
+            cout<<"Wrong input. Will issue order on the next turn\n";
+            issueMore = true;
+        }
     }
+
+    return issueMore;
 }
 
 //-----------------------------------//
@@ -1214,11 +1228,14 @@ bool BenevolentPlayerStrategy::issueOrder() {
             // Increment deployed_units var
             Deploy *d = (Deploy *) o;
             deployed_unit = deployed_unit+d->getNumberUnits();
+            auto it = std::find(defend.begin(), defend.end(), d->getTarget());
+            int iDef = it - defend.begin();
+            def_army.at(iDef) = d->getNumberUnits();
         }
     }
 
     //deploy = true => done issuing Deploy order
-    if(deployed_unit == p->get_armyUnit()){
+    if(deployed_unit >= p->get_armyUnit()){
         deploy = true;
     }
     else{

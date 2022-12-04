@@ -531,7 +531,7 @@ void GameEngine::issueOrdersPhase(vector<Player *> players)
     // change state from 'assignreinforcement' to 'issueorders'
     this->setState("assignreinforcement");
     this->transition();
-
+    
     // Execute issueOrder in a round-robin fashion
     while (true)
     {
@@ -906,7 +906,6 @@ bool GameEngine::mainGameLoop(std::vector<Player *> players, Map *graph, int tur
 
             // Phase 3: execute Orders --> call executeOrdersPhase() in round-robin
             winner = executeOrdersPhase();
-
             count_turn++;
 
             if (winner)
