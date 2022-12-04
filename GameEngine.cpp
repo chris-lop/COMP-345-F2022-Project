@@ -741,6 +741,9 @@ bool GameEngine::executeOrdersPhase()
                 winner = true;
                 gameplay = false;
                 std::cout << "\nPlayer " << this->getPlayers().at(0)->get_name() << " now owns all the territories of the game map.\n\n";
+                setState("executeorders");
+                transition();
+                std::cout << "Player " << this->getPlayers().at(0)->get_name() << " has won!";
                 break;
             }
             // if the player does not own all the territories of the map after executing order, continue to the next player
@@ -878,7 +881,7 @@ bool GameEngine::mainGameLoop(std::vector<Player *> players, Map *graph, int tur
 
     else if (tournament == true)
     {
-        int count_turn = 0;
+        int count_turn = 1;
 
         while(count_turn != turn && winner == false)
         {
@@ -895,12 +898,8 @@ bool GameEngine::mainGameLoop(std::vector<Player *> players, Map *graph, int tur
                 std::cout << "\nCurrent turn: " << p->get_name() << std::endl;
                 reinforcementPhase(p, gameMap);
             }
-            std::cout << "\n<<<issue order phase complete>>>\n";
             std::cout << "\n<<<reinforcement phase complete...>>>\n";
-            std::cout << "\n<<<NAMMMMMEEEEEE>>>\n";
-            std::cout << gamePlayers[0]->get_trt().size() << endl;
-            std::cout << gamePlayers[1]->get_trt().size() << endl;
-
+            
             // Phase 2: issue Orders --> call issueOrdersPhase() in round-robin
             std::cout << "\n#issueing orders...\n";
             issueOrdersPhase(gamePlayers);
@@ -908,15 +907,15 @@ bool GameEngine::mainGameLoop(std::vector<Player *> players, Map *graph, int tur
             // Phase 3: execute Orders --> call executeOrdersPhase() in round-robin
             winner = executeOrdersPhase();
 
+            count_turn++;
+
             if (winner)
             {
                 return true;
             }
-            ofstream logFile("test.txt", std::ios::app);
-        logFile << count_turn << endl;
-        logFile.close();
-
-            count_turn++;
+        }
+        if (!winner) {
+            cout << "Game was a draw" << endl;
         }
         finished = true;
     }
@@ -1391,6 +1390,9 @@ void GameEngine::tournament(Command *command)
 
             while (j < numGames)
             {
+                cout << "\n######################" << endl;
+                cout << "Starting game number " << (j+1) << endl;
+                cout << "######################" << endl;
 
                 bool finished = false;
                 while (!finished)
@@ -1450,28 +1452,5 @@ void GameEngine::tournament(Command *command)
             cout << "Invalid Map" << endl;
         }
     }
-
-    int range = 0;
-
-    for (auto i : playersObjects)
-    {
-        std::cout << "Player " << range << ' ';
-        std::cout << "Name: " << ' ';
-        std::cout << i->get_name() << ' ';
-        std::cout << "ArmyUnit: " << ' ';
-        std::cout << i->get_armyUnit() << ' ';
-        std::cout << *i->get_Phand() << '\n';
-        std::cout << "Territories: " << '\n';
-        std::cout << "{" << '\n';
-        auto territories = i->get_trt();
-        for (auto x : territories)
-        {
-            std::cout << *x << ',';
-        }
-        std::cout << "}" << '\n'
-                  << endl;
-        range++;
-    }
-
     exit(0);
 }
