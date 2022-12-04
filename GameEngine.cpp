@@ -840,6 +840,7 @@ bool GameEngine::mainGameLoop(std::vector<Player *> players, Map *graph, int tur
 
     else if (tournament == false)
     {
+        cout << "HAHSHDJDKDJSJKK" << endl;
 
         // Phase 1: Reinforcement --> call reinforcementPhase() in round-robin
         std::cout << "#";
@@ -873,11 +874,11 @@ bool GameEngine::mainGameLoop(std::vector<Player *> players, Map *graph, int tur
         // finished = true;
     }
 
-    else if (tournament == true && winner == false)
+    else if (tournament == true)
     {
         int count_turn = 0;
 
-        while (count_turn < turn && winner == false)
+        while (count_turn < turn)
         {
 
             // Phase 1: Reinforcement --> call reinforcementPhase() in round-robin
@@ -905,27 +906,10 @@ bool GameEngine::mainGameLoop(std::vector<Player *> players, Map *graph, int tur
             // Phase 3: execute Orders --> call executeOrdersPhase() in round-robin
             winner = executeOrdersPhase();
 
-            // std::cout << "\n<<<reinforcement phase complete...>>>\n";
-            // std::cout << "\n<<<NAMMMMMEEEEEE>>>\n";
-            // std::cout << gamePlayers[0]->get_trt().size() << endl;
-            // std::cout << gamePlayers[1]->get_trt().size() << endl;
-            // for (auto c : gamePlayers[0]->get_trt())
-            // {
-            //     std::cout << *c->getTerritoryName();
-            // }
-            // for (auto c : gamePlayers[1]->get_trt())
-            // {
-            //     std::cout << "HELLO" << endl;
-            //     std::cout << *c->getTerritoryName();
-            // }
-            // for (auto c : players)
-            // {
-            //     if (c->get_trt().size() == 0)
-            //     {
-            //         finished = true;
-            //         return finished;
-            //     }
-            // }
+            if (winner)
+            {
+                return true;
+            }
 
             count_turn++;
         }
