@@ -1,0 +1,322 @@
+[Map]
+image=Mongol Empire 1294.bmp
+wrap=no
+scroll=horizontal
+author=Don Morris
+warn=yes
+
+[Continents]
+Arabia=6
+Austronesian tribes=5
+Balkan States=7
+Baltic States=3
+Byzantine Empire=6
+Chagatai Khanate=15
+Delhi Sultanate=9
+Golden Horde=18
+Himalayan Kingdoms=6
+Holy Roman Empire=18
+Hungary=6
+Ilkanate=21
+Indian States=9
+Japan=5
+Mameluke Dynasty=5
+Mediterannean States=6
+Moorish kingdoms=4
+Novgorod=10
+PaleoSiberian tribes=21
+Poland=4
+Rum Sultanate=4
+Russian Principalities=10
+Scandinavia=7
+South East Asia=8
+Upper Nile states=4
+White Horde=8
+Yuan China=15
+Yuan Mongolia=11
+Yuan Tibet=4
+
+[Territories]
+Empty Quarter,623,748,Arabia,Nejd,Usfurid Bedouins,Oman,Yemen,Pandya
+Nefud desert,509,605,Arabia,Nejd,Damascus,Al-Jazira,Baghdad,Usfurid Bedouins,Aleppo,Hijaz,Khuzestan
+Nejd,558,690,Arabia,Empty Quarter,Nefud desert,Usfurid Bedouins,Hijaz,Yemen
+Oman,676,688,Arabia,Empty Quarter,Usfurid Bedouins,Kerman,Gujarat
+Usfurid Bedouins,587,653,Arabia,Empty Quarter,Nefud desert,Nejd,Oman,Khuzestan
+Yemen,546,788,Arabia,Empty Quarter,Nejd,Hijaz,Ethiopia
+
+Borneo,1318,910,Austronesian tribes,Mindanao,Champa,Sukhothai
+Formosan tribes,1320,662,Austronesian tribes,Saikaido,Jiangzhe,Hainan,Luzon barangays
+Luzon barangays,1343,769,Austronesian tribes,Visayas,Formosan tribes,Hainan
+Mindanao,1403,878,Austronesian tribes,Visayas,Borneo
+Visayas,1378,843,Austronesian tribes,Luzon barangays,Mindanao
+
+Achaia,317,504,Balkan States,Epirus,Crete,Thessaly,Ephesus
+Bulgaria,340,436,Balkan States,Constantinople,Thessalonika,Pest,Wallachia,Servia
+Epirus,295,468,Balkan States,Achaia,Thessalonika,Thessaly,Servia,Naples
+Servia,288,437,Balkan States,Bulgaria,Epirus,Thessalonika,Bosnia,Pest,Croatia & Slavonia
+Thessaly,311,477,Balkan States,Epirus,Thessalonika,Achaia
+Wallachia,359,403,Balkan States,Bulgaria,Pest,Transylvania,Black Cumania,White Cumania
+
+Lithuania,333,281,Baltic States,Polotsk,Galicia-Volhynia,Prussia,Livonia
+Livonia,342,253,Baltic States,Estland,Lithuania,Pskov,Polotsk
+Prussia,300,294,Baltic States,Lithuania,Pomerania,Galicia-Volhynia,Krakow,Masovia & Sandomir,Greater Poland,Gotaland
+
+Constantinople,359,455,Byzantine Empire,Bulgaria,Thessalonika,Nicaea,Nicomedia,Crimea
+Ephesus,372,497,Byzantine Empire,Nicaea,Achaia,Angora,Konya,Crete
+Nicaea,370,476,Byzantine Empire,Constantinople,Nicomedia,Angora,Ephesus
+Nicomedia,395,464,Byzantine Empire,Constantinople,Nicaea,Angora,Sinop
+Thessalonika,326,456,Byzantine Empire,Bulgaria,Epirus,Servia,Thessaly,Constantinople
+Trebizond,467,466,Byzantine Empire,Sinop,Cappadocia,Armenia,Georgia
+
+Almaliq,875,410,Chagatai Khanate,Balasagun,Jungaria,Kashgar,Uighur lands,Beshbalik
+Balasagun,802,407,Chagatai Khanate,Almaliq,Jungaria,Kashgar,Betpak-Dala desert,Tashkent,Kyzylkum desert
+Balkh,795,492,Chagatai Khanate,Khotan,Ghazni,Pamirs,Samarkand,Kashgar,Tashkent
+Beshbalik,922,386,Chagatai Khanate,Almaliq,Kerait lands,Naimans,Jungaria,Uighur lands
+Bukhara,730,466,Chagatai Khanate,Maveranahr,Samarkand,Urgench,Karakum desert,Tashkent
+Ghazni,772,533,Chagatai Khanate,Balkh,Sistan,Pamirs,Samarkand,Multan,Karakum desert,Herat
+Jungaria,865,364,Chagatai Khanate,Almaliq,Balasagun,Beshbalik,Naimans,Kirghiz lands,Sayarqa,Kulunda steppe
+Kashgar,825,445,Chagatai Khanate,Almaliq,Balasagun,Balkh,Khotan,Tashkent,Uighur lands
+Khotan,848,483,Chagatai Khanate,Balkh,Kashgar,Taklamakan desert,Pamirs,Ladakh,Uighur lands
+Maveranahr,710,441,Chagatai Khanate,Bukhara,Urgench,Ustyurt plateau,Tashkent,Kyzylkum desert
+Samarkand,751,485,Chagatai Khanate,Balkh,Bukhara,Ghazni,Karakum desert,Tashkent
+Taklamakan desert,913,480,Chagatai Khanate,Khotan,Turfan,Ngari,Ladakh,Uighur lands
+Tashkent,772,448,Chagatai Khanate,Balasagun,Balkh,Bukhara,Kashgar,Maveranahr,Samarkand,Kyzylkum desert
+Turfan,965,452,Chagatai Khanate,Taklamakan desert,Tangut,Ngari,Amdo,Uighur lands
+Uighur lands,902,438,Chagatai Khanate,Almaliq,Beshbalik,Kashgar,Khotan,Taklamakan desert,Turfan,Kerait lands,Tangut
+
+Bengal,996,678,Delhi Sultanate,Assam,Arakan,Pagan,Jharkand,Bihar,Eastern Gangas
+Bihar,956,652,Delhi Sultanate,Delhi,Bengal,Gondwana,Assam,Nepal,Jharkand
+Delhi,861,619,Delhi Sultanate,Bihar,Uttarakhand,Rajputs,Kashmir,Multan,Gondwana,Uch,Malwa,Nepal
+Gondwana,904,675,Delhi Sultanate,Delhi,Bihar,Seuna Yadavas,Malwa,Jharkand,Garha-Mandla
+Jharkand,956,673,Delhi Sultanate,Bengal,Bihar,Gondwana,Eastern Gangas,Garha-Mandla
+Malwa,861,676,Delhi Sultanate,Delhi,Gondwana,Gujarat,Rajputs,Seuna Yadavas
+Multan,806,570,Delhi Sultanate,Ghazni,Delhi,Kashmir,Uch,Sistan,Pamirs
+Sind,785,649,Delhi Sultanate,Gujarat,Makran,Rajputs,Uch
+Uch,800,614,Delhi Sultanate,Delhi,Multan,Sind,Rajputs,Sistan,Makran
+
+Alania,484,398,Golden Horde,Circassia,Sarai Batu,Sarai,Crimea,Western Kipchak lands
+Bashkir lands,593,277,Golden Horde,Pontic steppe,Mansis lands,Udmurt lands,Volga Bulgaria
+Black Cumania,364,369,Golden Horde,Wallachia,Keiv,Transylvania,Galicia-Volhynia,White Cumania
+Circassia,500,423,Golden Horde,Alania,Lekia,Georgia,Sarai Batu
+Crimea,424,407,Golden Horde,Alania,Western Kipchak lands,Sinop,Constantinople
+Eastern Kipchak lands,495,323,Golden Horde,Pontic steppe,Murom Ryazan,Sarai,Western Kipchak lands,Ukek,Mordvin lands,Volga Bulgaria
+Kimak lands,597,368,Golden Horde,Oghuz lands,Pontic steppe,Ukek,Sarai Batu
+Lekia,544,437,Golden Horde,Circassia,Shirvan,Georgia,Sarai Batu
+Mari lands,508,248,Golden Horde,Khylnov,Udmurt lands,Vologda,Vladimir Suzdal,Mordvin lands,Volga Bulgaria
+Mordvin lands,498,285,Golden Horde,Eastern Kipchak lands,Mari lands,Murom Ryazan,Vladimir Suzdal,Volga Bulgaria
+Pontic steppe,602,325,Golden Horde,Bashkir lands,Eastern Kipchak lands,Kimak lands,Oghuz lands,Western steppe,Mansis lands,Ukek,Volga Bulgaria
+Sarai,524,366,Golden Horde,Alania,Eastern Kipchak lands,Sarai Batu,Western Kipchak lands,Ukek
+Sarai Batu,544,393,Golden Horde,Alania,Circassia,Kimak lands,Lekia,Sarai,Ukek
+Udmurt lands,568,243,Golden Horde,Bashkir lands,Mari lands,Mansis lands,Khylnov,Volga Bulgaria,Khant lands
+Ukek,552,343,Golden Horde,Eastern Kipchak lands,Pontic steppe,Sarai,Sarai Batu,Kimak lands
+Volga Bulgaria,549,281,Golden Horde,Bashkir lands,Eastern Kipchak lands,Mari lands,Mordvin lands,Pontic steppe,Udmurt lands
+Western Kipchak lands,453,362,Golden Horde,Crimea,Alania,Eastern Kipchak lands,Sarai,Murom Ryazan,Novgorod-Severski,Chernigov,White Cumania,Pereyaslav
+White Cumania,403,372,Golden Horde,Wallachia,Black Cumania,Western Kipchak lands,Keiv,Pereyaslav
+
+Assam,1028,636,Himalayan Kingdoms,Bengal,Bihar,Nepal,U-Tsang,Pagan,Kham,Yunnan
+Kashmir,859,559,Himalayan Kingdoms,Delhi,Multan,Uttarakhand,Pamirs,Ladakh
+Ladakh,878,538,Himalayan Kingdoms,Khotan,Ngari,Kashmir,Uttarakhand,Pamirs,Taklamakan desert
+Nepal,949,628,Himalayan Kingdoms,Bihar,Assam,Uttarakhand,Delhi,U-Tsang,Ngari
+Pamirs,832,516,Himalayan Kingdoms,Balkh,Ghazni,Khotan,Kashmir,Ladakh,Multan
+Uttarakhand,899,593,Himalayan Kingdoms,Kashmir,Ladakh,Nepal,Delhi,Ngari
+
+Austria,251,377,Holy Roman Empire,Bavaria,Slovak lands,Verona,Bohemia & Moravia,Buda,Croatia & Slavonia
+Bavaria,222,370,Holy Roman Empire,Swabia,Austria,Franconia,Verona,Lombardy,Brandenburg,Bohemia & Moravia
+Bohemia & Moravia,246,349,Holy Roman Empire,Bavaria,Austria,Brandenburg,Slovak lands,Silesia
+Brandenburg,233,320,Holy Roman Empire,Pomerania,Holstein,Saxony,Franconia,Bavaria,Bohemia & Moravia,Silesia,Greater Poland
+Burgundy-Arles,165,400,Holy Roman Empire,Lombardy,Swabia,Lorraine,Majorca
+Corsica,189,448,Holy Roman Empire,Sardinia,Tuscany,Lombardy
+Franconia,200,341,Holy Roman Empire,Bavaria,Brandenburg,Swabia,Saxony,Lorraine
+Holland & Friesland,169,318,Holy Roman Empire,Saxony,Lorraine
+Holstein,210,298,Holy Roman Empire,Pomerania,Brandenburg,Saxony,Denmark
+Lombardy,192,403,Holy Roman Empire,Tuscany,Corsica,Verona,Bavaria,Swabia,Burgundy-Arles
+Lorraine,172,348,Holy Roman Empire,Swabia,Franconia,Holland & Friesland,Saxony,Burgundy-Arles
+Papal States,221,432,Holy Roman Empire,Tuscany,Verona,Naples
+Pomerania,249,303,Holy Roman Empire,Brandenburg,Holstein,Prussia,Greater Poland
+Sardinia,187,474,Holy Roman Empire,Corsica,Sicily,Majorca,Ifriqiya
+Saxony,198,317,Holy Roman Empire,Franconia,Brandenburg,Holstein,Holland & Friesland,Lorraine
+Swabia,193,373,Holy Roman Empire,Bavaria,Franconia,Lombardy,Burgundy-Arles,Lorraine
+Tuscany,205,424,Holy Roman Empire,Verona,Lombardy,Corsica,Papal States
+Verona,229,391,Holy Roman Empire,Bavaria,Lombardy,Tuscany,Austria,Papal States,Venice,Croatia & Slavonia
+
+Bosnia,270,424,Hungary,Croatia & Slavonia,Servia
+Buda,272,390,Hungary,Pest,Croatia & Slavonia,Slovak lands,Austria
+Croatia & Slavonia,264,410,Hungary,Bosnia,Buda,Pest,Venice,Servia,Verona,Austria
+Pest,299,398,Hungary,Bulgaria,Wallachia,Buda,Transylvania,Slovak lands,Servia,Croatia & Slavonia
+Slovak lands,290,364,Hungary,Buda,Pest,Krakow,Transylvania,Silesia,Galicia-Volhynia,Masovia & Sandomir,Austria,Bohemia & Moravia
+Transylvania,328,393,Hungary,Pest,Slovak lands,Wallachia,Black Cumania,Galicia-Volhynia
+
+Al-Jazira,520,547,Ilkanate,Nefud desert,Iraq Ajami,Kurdistan,Baghdad,Aleppo,Lorestan
+Armenia,498,477,Ilkanate,Trebizond,Shirvan,Georgia,Kurdistan,Azerbaijan,Cappadocia
+Azerbaijan,537,492,Ilkanate,Armenia,Shirvan,Iraq Ajami,Kurdistan,Tabaristan
+Baghdad,543,576,Ilkanate,Nefud desert,Al-Jazira,Lorestan,Khuzestan
+Fars,620,601,Ilkanate,Kerman,Khorasan,Isfahan,Khuzestan
+Georgia,511,448,Ilkanate,Circassia,Lekia,Armenia,Shirvan,Trebizond
+Herat,718,551,Ilkanate,Ghazni,Sistan,Khorasan,Karakum desert
+Iraq Ajami,556,530,Ilkanate,Al-Jazira,Azerbaijan,Kurdistan,Isfahan,Tabaristan,Lorestan
+Isfahan,607,552,Ilkanate,Fars,Iraq Ajami,Tabaristan,Lorestan,Khuzestan,Khorasan
+Karakum desert,697,506,Ilkanate,Bukhara,Ghazni,Samarkand,Herat,Khorasan,Seljuk lands,Urgench
+Kerman,663,613,Ilkanate,Oman,Fars,Makran,Khorasan,Sistan
+Khorasan,668,554,Ilkanate,Seljuk lands,Fars,Herat,Kerman,Sistan,Isfahan,Tabaristan,Karakum desert
+Khuzestan,584,585,Ilkanate,Nefud desert,Usfurid Bedouins,Baghdad,Fars,Isfahan,Lorestan
+Kurdistan,496,513,Ilkanate,Al-Jazira,Armenia,Azerbaijan,Iraq Ajami,Cilicia,Aleppo,Cappadocia
+Lorestan,565,557,Ilkanate,Al-Jazira,Baghdad,Iraq Ajami,Isfahan,Khuzestan
+Makran,725,643,Ilkanate,Sistan,Kerman,Sind,Uch
+Seljuk lands,625,485,Ilkanate,Karakum desert,Urgench,Khorasan,Tabaristan,Ustyurt plateau
+Shirvan,557,463,Ilkanate,Lekia,Armenia,Azerbaijan,Georgia,Tabaristan
+Sistan,734,596,Ilkanate,Makran,Ghazni,Kerman,Herat,Khorasan,Uch,Multan
+Tabaristan,583,515,Ilkanate,Azerbaijan,Iraq Ajami,Isfahan,Khorasan,Shirvan,Seljuk lands
+Urgench,659,465,Ilkanate,Maveranahr,Karakum desert,Bukhara,Seljuk lands,Ustyurt plateau
+
+Eastern Gangas,960,712,Indian States,Bengal,Jharkand,Garha-Mandla,Kakatiya Dynasty
+Garha-Mandla,929,703,Indian States,Gondwana,Jharkand,Eastern Gangas,Seuna Yadavas,Kakatiya Dynasty
+Gujarat,818,690,Indian States,Oman,Malwa,Sind,Rajputs,Seuna Yadavas
+Hoysala Empire,887,816,Indian States,Pandya,Seuna Yadavas,Kakatiya Dynasty
+Kakatiya Dynasty,920,754,Indian States,Eastern Gangas,Garha-Mandla,Pandya,Seuna Yadavas,Hoysala Empire
+Lanka,933,884,Indian States,Pandya,Sukhothai,Mon Dynasty
+Pandya,906,842,Indian States,Hoysala Empire,Kakatiya Dynasty,Lanka,Empty Quarter
+Rajputs,829,646,Indian States,Delhi,Malwa,Sind,Uch,Gujarat
+Seuna Yadavas,866,729,Indian States,Gondwana,Malwa,Garha-Mandla,Gujarat,Hoysala Empire,Kakatiya Dynasty
+
+Nankaido,1405,519,Japan,San'in-San'Yo,Tosando,Saikaido,Tokaido
+Saikaido,1381,535,Japan,Nankaido,San'in-San'Yo,Formosan tribes,Henan-Jiangbei
+San'in-San'Yo,1401,501,Japan,Nankaido,Saikaido,Tosando,Zhendong
+Tokaido,1446,490,Japan,Tosando,Nankaido
+Tosando,1435,466,Japan,Nankaido,Tokaido,San'in-San'Yo,Ainu lands
+
+Aleppo,463,529,Mameluke Dynasty,Nefud desert,Al-Jazira,Kurdistan,Cilicia,Damascus,Cyprus
+Barka,319,587,Mameluke Dynasty,Egypt,Ifriqiya,Crete
+Damascus,456,562,Mameluke Dynasty,Nefud desert,Aleppo,Egypt,Hijaz
+Egypt,397,612,Mameluke Dynasty,Barka,Damascus,Hijaz,Cyprus,Beja tribes,Makuria
+Hijaz,488,676,Mameluke Dynasty,Egypt,Yemen,Nefud desert,Nejd,Damascus,Beja tribes
+
+Cilicia,445,507,Mediterannean States,Kurdistan,Aleppo,Cappadocia,Konya,Cyprus
+Crete,341,536,Mediterannean States,Sicily,Achaia,Cyprus,Ephesus,Barka
+Cyprus,420,538,Mediterannean States,Aleppo,Cilicia,Crete,Egypt
+Majorca,128,479,Mediterannean States,Sardinia,Granada,Burgundy-Arles
+Naples,253,466,Mediterannean States,Sicily,Papal States,Epirus
+Sicily,236,506,Mediterannean States,Naples,Crete,Sardinia,Ifriqiya
+Venice,237,405,Mediterannean States,Verona,Croatia & Slavonia
+
+Abdalwadid,107,541,Moorish kingdoms,Ifriqiya,Morocco
+Granada,67,508,Moorish kingdoms,Morocco,Majorca
+Ifriqiya,199,570,Moorish kingdoms,Abdalwadid,Barka,Sicily,Sardinia
+Morocco,42,562,Moorish kingdoms,Abdalwadid,Granada
+
+Ingria,382,228,Novgorod,Estland,Karelia,Novgorod,Pskov
+Karelia,401,175,Novgorod,Novgorod,Ingria,Osterland,Kholmogory,Kola Lapland,Norrland
+Kholmogory,454,168,Novgorod,Karelia,Komi lands,Vologda,Kola Lapland
+Khylnov,557,210,Novgorod,Mari lands,Udmurt lands,Khant lands,Komi lands,Vologda
+Kola Lapland,405,121,Novgorod,Karelia,Kholmogory,Norrland,Norway
+Komi lands,549,154,Novgorod,Kholmogory,Khylnov,Vologda,Khant lands,Nenet lands
+Novgorod,405,231,Novgorod,Karelia,Ingria,Pskov,Smolensk,Vladimir Suzdal,Tver,Vologda
+Pskov,372,247,Novgorod,Estland,Livonia,Ingria,Novgorod,Polotsk,Smolensk
+Tver,424,244,Novgorod,Novgorod,Chernigov,Smolensk,Vladimir Suzdal
+Vologda,477,202,Novgorod,Novgorod,Mari lands,Kholmogory,Khylnov,Komi lands,Vladimir Suzdal
+
+Ainu lands,1417,385,PaleoSiberian tribes,Tosando,Itelmen lands,Sakhalin Ainu,Orochi lands
+Buryat lands,1038,235,PaleoSiberian tribes,Western Evenk lands,Merkit lands,Eastern Evenk lands,Ket lands,Oirat lands
+Chukchi lands,1334,82,PaleoSiberian tribes,Yukaghir lands,Koryak lands,Eastern Evens lands
+Eastern Evenk lands,1182,207,PaleoSiberian tribes,Buryat lands,Yukaghir lands,Western Evenk lands,Southern Evenk lands,Merkit lands,Eastern Evens lands
+Eastern Evens lands,1303,135,PaleoSiberian tribes,Chukchi lands,Eastern Evenk lands,Yukaghir lands,Koryak lands
+Enets lands,790,89,PaleoSiberian tribes,Northern Evens lands,Nganasan lands,Nenet lands,Ket lands,Selkup lands
+Itelmen lands,1429,224,PaleoSiberian tribes,Ainu lands,Koryak lands,Nivkh lands
+Ket lands,915,197,PaleoSiberian tribes,Buryat lands,Enets lands,Western Evenk lands,Northern Evens lands,Yakut lands,Selkup lands,Oirat lands,Kirghiz lands
+Khakass lands,789,253,PaleoSiberian tribes,Kirghiz lands,Mansis lands,Kulunda steppe,Yakut lands,Khant lands,Selkup lands,Western steppe
+Khant lands,675,204,PaleoSiberian tribes,Khylnov,Komi lands,Mansis lands,Nenet lands,Khakass lands,Selkup lands,Udmurt lands
+Koryak lands,1400,156,PaleoSiberian tribes,Chukchi lands,Eastern Evens lands,Itelmen lands
+Mansis lands,669,251,PaleoSiberian tribes,Bashkir lands,Pontic steppe,Udmurt lands,Khakass lands,Khant lands,Western steppe
+Nenet lands,716,133,PaleoSiberian tribes,Enets lands,Khant lands,Selkup lands,Nganasan lands,Komi lands
+Nganasan lands,802,26,PaleoSiberian tribes,Enets lands,Nenet lands,Northern Evens lands
+Nivkh lands,1345,278,PaleoSiberian tribes,Itelmen lands,Sakhalin Ainu,Southern Evenk lands
+Northern Evens lands,916,87,PaleoSiberian tribes,Enets lands,Ket lands,Nganasan lands,Western Evenk lands,Yukaghir lands
+Sakhalin Ainu,1369,312,PaleoSiberian tribes,Ainu lands,Nivkh lands,Orochi lands
+Selkup lands,782,172,PaleoSiberian tribes,Nenet lands,Yakut lands,Enets lands,Ket lands,Khant lands,Khakass lands
+Western Evenk lands,1037,147,PaleoSiberian tribes,Buryat lands,Eastern Evenk lands,Yukaghir lands,Ket lands,Northern Evens lands
+Yakut lands,847,230,PaleoSiberian tribes,Ket lands,Khakass lands,Selkup lands,Kirghiz lands
+Yukaghir lands,1139,85,PaleoSiberian tribes,Chukchi lands,Eastern Evenk lands,Eastern Evens lands,Western Evenk lands,Northern Evens lands
+
+Greater Poland,271,313,Poland,Prussia,Silesia,Krakow,Pomerania,Brandenburg
+Krakow,286,326,Poland,Prussia,Slovak lands,Greater Poland,Silesia,Masovia & Sandomir
+Masovia & Sandomir,306,326,Poland,Prussia,Krakow,Galicia-Volhynia,Slovak lands
+Silesia,263,331,Poland,Greater Poland,Krakow,Brandenburg,Slovak lands,Bohemia & Moravia
+
+Angora,404,478,Rum Sultanate,Nicaea,Nicomedia,Sinop,Cappadocia,Konya,Ephesus
+Cappadocia,445,482,Rum Sultanate,Angora,Trebizond,Armenia,Kurdistan,Cilicia,Sinop,Konya
+Konya,407,502,Rum Sultanate,Angora,Ephesus,Cilicia,Cappadocia
+Sinop,429,459,Rum Sultanate,Angora,Nicomedia,Trebizond,Cappadocia,Crimea
+
+Chernigov,421,292,Russian Principalities,Western Kipchak lands,Tver,Keiv,Murom Ryazan,Novgorod-Severski,Turov Pinsk,Polotsk,Smolensk,Vladimir Suzdal,Pereyaslav
+Galicia-Volhynia,331,334,Russian Principalities,Lithuania,Prussia,Black Cumania,Masovia & Sandomir,Keiv,Polotsk,Turov Pinsk,Slovak lands,Transylvania
+Keiv,374,340,Russian Principalities,Black Cumania,White Cumania,Chernigov,Turov Pinsk,Galicia-Volhynia,Pereyaslav
+Murom Ryazan,466,289,Russian Principalities,Eastern Kipchak lands,Mordvin lands,Western Kipchak lands,Chernigov,Vladimir Suzdal
+Novgorod-Severski,431,322,Russian Principalities,Western Kipchak lands,Chernigov,Pereyaslav
+Pereyaslav,417,346,Russian Principalities,Western Kipchak lands,White Cumania,Chernigov,Keiv,Novgorod-Severski
+Polotsk,367,284,Russian Principalities,Lithuania,Livonia,Pskov,Chernigov,Turov Pinsk,Galicia-Volhynia,Smolensk
+Smolensk,398,271,Russian Principalities,Novgorod,Pskov,Tver,Chernigov,Polotsk
+Turov Pinsk,364,314,Russian Principalities,Chernigov,Keiv,Polotsk,Galicia-Volhynia
+Vladimir Suzdal,453,244,Russian Principalities,Mari lands,Mordvin lands,Novgorod,Tver,Vologda,Chernigov,Murom Ryazan
+
+Denmark,203,272,Scandinavia,Norway,Gotaland,Holstein
+Estland,342,231,Scandinavia,Pskov,Ingria,Livonia,Osterland
+Gotaland,247,253,Scandinavia,Svealand,Denmark,Norway,Prussia
+Norrland,306,136,Scandinavia,Osterland,Svealand,Norway,Kola Lapland,Karelia
+Norway,213,200,Scandinavia,Denmark,Gotaland,Svealand,Norrland,Kola Lapland
+Osterland,344,187,Scandinavia,Estland,Svealand,Norrland,Karelia
+Svealand,255,212,Scandinavia,Gotaland,Norrland,Osterland,Norway
+
+Annam,1168,716,South East Asia,Sukhothai,Lanna & Phayao,Huguang,Yunnan,Kambuja,Champa,Hainan
+Arakan,1047,708,South East Asia,Bengal,Mon Dynasty,Pagan
+Champa,1220,805,South East Asia,Annam,Kambuja,Borneo
+Kambuja,1183,812,South East Asia,Annam,Champa,Sukhothai
+Lanna & Phayao,1125,720,South East Asia,Annam,Sukhothai,Yunnan,Mon Dynasty
+Mon Dynasty,1082,757,South East Asia,Arakan,Lanna & Phayao,Sukhothai,Pagan,Yunnan,Lanka
+Pagan,1065,704,South East Asia,Assam,Arakan,Mon Dynasty,Bengal,Yunnan
+Sukhothai,1131,789,South East Asia,Annam,Kambuja,Lanna & Phayao,Mon Dynasty,Lanka,Borneo
+
+Alodia,418,761,Upper Nile states,Makuria,Beja tribes,Ethiopia
+Beja tribes,451,721,Upper Nile states,Egypt,Makuria,Alodia,Ethiopia,Hijaz
+Ethiopia,472,818,Upper Nile states,Alodia,Beja tribes,Yemen
+Makuria,404,711,Upper Nile states,Alodia,Beja tribes,Egypt
+
+Betpak-Dala desert,748,375,White Horde,Balasagun,Sayarqa,Kirghiz steppe,Kyzylkum desert
+Kirghiz steppe,720,336,White Horde,Betpak-Dala desert,Oghuz lands,Western steppe,Sayarqa,Kulunda steppe,Kyzylkum desert
+Kulunda steppe,833,317,White Horde,Jungaria,Khakass lands,Kirghiz steppe,Western steppe,Kirghiz lands,Sayarqa
+Kyzylkum desert,698,396,White Horde,Balasagun,Ustyurt plateau,Betpak-Dala desert,Maveranahr,Tashkent,Kirghiz steppe,Oghuz lands
+Oghuz lands,645,370,White Horde,Kimak lands,Pontic steppe,Kirghiz steppe,Kyzylkum desert,Western steppe,Ustyurt plateau
+Sayarqa,799,344,White Horde,Jungaria,Betpak-Dala desert,Kirghiz steppe,Kulunda steppe
+Ustyurt plateau,622,426,White Horde,Maveranahr,Urgench,Kyzylkum desert,Seljuk lands,Oghuz lands
+Western steppe,699,288,White Horde,Pontic steppe,Mansis lands,Khakass lands,Kirghiz steppe,Kulunda steppe,Oghuz lands
+
+Gansu,1083,480,Yuan China,Amdo,Zongshusheng,Shaanxi,Tangut,Gobi desert
+Hainan,1218,728,Yuan China,Huguang,Annam,Luzon barangays,Formosan tribes
+Henan-Jiangbei,1219,553,Yuan China,Zongshusheng,Huguang,Shaanxi,Jiangxi,Jiangzhe,Sichuan,Saikaido
+Huguang,1191,641,Yuan China,Annam,Hainan,Sichuan,Yunnan,Jiangxi,Henan-Jiangbei
+Jiangxi,1242,644,Yuan China,Henan-Jiangbei,Huguang,Jiangzhe
+Jiangzhe,1284,608,Yuan China,Henan-Jiangbei,Jiangxi,Formosan tribes
+Jurchen lands,1270,361,Yuan China,Tatar lands,Liaoyang,Orochi lands,Southern Evenk lands
+Khanbaligh,1216,466,Yuan China,Zongshusheng,Liaoyang
+Liaoyang,1260,410,Yuan China,Khanbaligh,Zongshusheng,Zhendong,Jurchen lands,Tatar lands
+Orochi lands,1327,339,Yuan China,Ainu lands,Sakhalin Ainu,Jurchen lands,Southern Evenk lands
+Shaanxi,1138,516,Yuan China,Gansu,Sichuan,Zongshusheng,Henan-Jiangbei,Kham,Amdo
+Sichuan,1130,594,Yuan China,Kham,Shaanxi,Yunnan,Huguang,Henan-Jiangbei
+Yunnan,1113,663,Yuan China,Annam,Lanna & Phayao,Kham,Huguang,Sichuan,Assam,Pagan,Mon Dynasty
+Zhendong,1323,475,Yuan China,Zongshusheng,Liaoyang,San'in-San'Yo
+Zongshusheng,1185,460,Yuan China,Liaoyang,Shaanxi,Gansu,Tatar lands,Henan-Jiangbei,Gobi desert,Khanbaligh,Zhendong
+
+Gobi desert,1112,402,Yuan Mongolia,Zongshusheng,Karakorum,Gansu,Kerait lands,Tatar lands,Mongol lands,Tangut
+Karakorum,1031,349,Yuan Mongolia,Mongol lands,Kerait lands,Merkit lands,Naimans,Oirat lands,Gobi desert
+Kerait lands,1002,402,Yuan Mongolia,Beshbalik,Uighur lands,Gobi desert,Naimans,Tangut,Karakorum
+Kirghiz lands,897,292,Yuan Mongolia,Jungaria,Khakass lands,Yakut lands,Kulunda steppe,Naimans,Oirat lands,Ket lands
+Merkit lands,1099,286,Yuan Mongolia,Tatar lands,Buryat lands,Eastern Evenk lands,Mongol lands,Karakorum,Southern Evenk lands
+Mongol lands,1101,344,Yuan Mongolia,Karakorum,Gobi desert,Tatar lands,Merkit lands
+Naimans,953,357,Yuan Mongolia,Beshbalik,Jungaria,Kerait lands,Kirghiz lands,Karakorum,Oirat lands
+Oirat lands,980,299,Yuan Mongolia,Naimans,Buryat lands,Kirghiz lands,Karakorum,Ket lands
+Southern Evenk lands,1243,273,Yuan Mongolia,Tatar lands,Eastern Evenk lands,Merkit lands,Jurchen lands,Orochi lands,Nivkh lands
+Tangut,1014,447,Yuan Mongolia,Turfan,Amdo,Gobi desert,Kerait lands,Gansu,Uighur lands
+Tatar lands,1192,343,Yuan Mongolia,Zongshusheng,Gobi desert,Jurchen lands,Liaoyang,Mongol lands,Southern Evenk lands,Merkit lands
+
+Amdo,1026,523,Yuan Tibet,Ngari,Kham,U-Tsang,Turfan,Gansu,Tangut,Shaanxi
+Kham,1075,586,Yuan Tibet,Assam,Amdo,Sichuan,Yunnan,U-Tsang,Shaanxi
+Ngari,949,552,Yuan Tibet,U-Tsang,Turfan,Ladakh,Amdo,Uttarakhand,Nepal,Taklamakan desert
+U-Tsang,1017,588,Yuan Tibet,Ngari,Assam,Nepal,Amdo,Kham

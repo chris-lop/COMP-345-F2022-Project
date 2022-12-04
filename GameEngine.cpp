@@ -90,7 +90,8 @@ void GameEngine::setState(string st)
 
 void GameEngine::setDeck(Deck *gameDeck)
 {
-    if (!d) {
+    if (!d)
+    {
         delete d;
     }
     this->d = gameDeck;
@@ -439,9 +440,10 @@ void GameEngine::reinforcementPhase(Player *p, Map *graph)
 
     std::cout << "Player " << p->get_name() << "'s current army units in the pool: " << p->get_armyUnit() << std::endl;
     std::cout << "Player " << p->get_name() << "'s number of owned territories: " << p->get_trt().size() << std::endl;
-//----------PRINTING-----------
-    for (Territory* t: p->get_trt()){
-        std::cout<<*t->getTerritoryName()<<" ";
+    //----------PRINTING-----------
+    for (Territory *t : p->get_trt())
+    {
+        std::cout << *t->getTerritoryName() << " ";
     }
     std::cout << std::endl;
     // For each player, # army units = (# territories owned)/3, and min. 3 units
@@ -542,9 +544,10 @@ void GameEngine::issueOrdersPhase(vector<Player *> players)
             // Issue the player's order, but only if it has
             // territory (this is necessary because the Cheater
             // can steal territory when it issues an order)
-            if (p->get_trt().size() > 0) {
+            if (p->get_trt().size() > 0)
+            {
                 // If one player wants to issue another
-                // order, continue 
+                // order, continue
                 continueIssuing |= p->issueOrder();
             }
         }
@@ -777,9 +780,12 @@ bool GameEngine::mainGameLoop(std::vector<Player *> players, Map *graph, int tur
     int numPlayers = gamePlayers.size();
     // This outer loop is necessary since vector::erase invalidates
     // the iterator
-    for (int i = 0 ; i < gamePlayers.size(); i++) {
-        for (auto it = gamePlayers.begin(); it < gamePlayers.end(); ++it) {
-            if ((**it).get_trt().size() == 0) {
+    for (int i = 0; i < gamePlayers.size(); i++)
+    {
+        for (auto it = gamePlayers.begin(); it < gamePlayers.end(); ++it)
+        {
+            if ((**it).get_trt().size() == 0)
+            {
                 // This player has no land, remove them
                 gamePlayers.erase(it);
                 break;
@@ -789,11 +795,13 @@ bool GameEngine::mainGameLoop(std::vector<Player *> players, Map *graph, int tur
 
     bool tournament;
 
-    //check if tournament is using the mainGameLoop
-    if(turn == 0){
+    // check if tournament is using the mainGameLoop
+    if (turn == 0)
+    {
         tournament = false;
     }
-    else{
+    else
+    {
         tournament = true;
     }
 
@@ -864,48 +872,70 @@ bool GameEngine::mainGameLoop(std::vector<Player *> players, Map *graph, int tur
         // finished = true;
     }
 
-    else if (tournament == true){
+    else if (tournament == true && winner == false)
+    {
         int count_turn = 0;
 
-        while(count_turn < turn && winner == false){
-            
+        while (count_turn < turn && winner == false)
+        {
+
             // Phase 1: Reinforcement --> call reinforcementPhase() in round-robin
             std::cout << "#";
             assignReinforcement();
-            for (Player *p : players)
+            for (Player *p : gamePlayers)
             {
                 if (p->get_name() == "Neutral Player")
                 {
                     continue;
                 }
                 std::cout << "\nCurrent turn: " << p->get_name() << std::endl;
-                reinforcementPhase(p, graph);
+                reinforcementPhase(p, gameMap);
             }
+            std::cout << "\n<<<issue order phase complete>>>\n";
             std::cout << "\n<<<reinforcement phase complete...>>>\n";
+            std::cout << "\n<<<NAMMMMMEEEEEE>>>\n";
+            std::cout << gamePlayers[0]->get_trt().size() << endl;
+            std::cout << gamePlayers[1]->get_trt().size() << endl;
 
             // Phase 2: issue Orders --> call issueOrdersPhase() in round-robin
             std::cout << "\n#issueing orders...\n";
             issueOrdersPhase(gamePlayers);
-            std::cout << "\n<<<issue order phase complete>>>\n";
 
             // Phase 3: execute Orders --> call executeOrdersPhase() in round-robin
             winner = executeOrdersPhase();
-        // ofstream logFile("test.txt", std::ios::app);
-        // logFile <<count_turn << endl;
-        // logFile.close();
+
+            // std::cout << "\n<<<reinforcement phase complete...>>>\n";
+            // std::cout << "\n<<<NAMMMMMEEEEEE>>>\n";
+            // std::cout << gamePlayers[0]->get_trt().size() << endl;
+            // std::cout << gamePlayers[1]->get_trt().size() << endl;
+            // for (auto c : gamePlayers[0]->get_trt())
+            // {
+            //     std::cout << *c->getTerritoryName();
+            // }
+            // for (auto c : gamePlayers[1]->get_trt())
+            // {
+            //     std::cout << "HELLO" << endl;
+            //     std::cout << *c->getTerritoryName();
+            // }
+            // for (auto c : players)
+            // {
+            //     if (c->get_trt().size() == 0)
+            //     {
+            //         finished = true;
+            //         return finished;
+            //     }
+            // }
 
             count_turn++;
         }
         finished = true;
- 
     }
 
     // // once removed, replace finished with winner so main game loop is finished when there is a winner
     // return winner;
 
-    //main loop finished (finished = true) when we finish the number of turns input, or if there is a winner
+    // main loop finished (finished = true) when we finish the number of turns input, or if there is a winner
     return finished;
-
 }
 
 vector<string> GameEngine::directory()
@@ -1247,6 +1277,7 @@ void GameEngine::tournament(Command *command)
     existingPlayers.push_back("Benevolent");
     existingPlayers.push_back("Neutral");
     existingPlayers.push_back("Cheater");
+    existingPlayers.push_back("Human");
 
     cout << "\n\n\n\nTHE PLAYERS" << endl;
 
@@ -1288,6 +1319,22 @@ void GameEngine::tournament(Command *command)
     for (auto player : players)
     {
         Player *p = new Player(player);
+        if (player == "Aggressive")
+        {
+            PlayerStrategy *newStrategy = new AggressivePlayerStrategy();
+        }
+        if (player == "Benevolent")
+        {
+        }
+        if (player == "Neutral")
+        {
+        }
+        if (player == "Cheater")
+        {
+        }
+        if (player == "Human")
+        {
+        }
         p->set_armyUnit(50);
         Hand *hand = new Hand();
         for (int i = 0; i < 2; i++)
@@ -1372,7 +1419,7 @@ void GameEngine::tournament(Command *command)
                         hand->addCard(card);
                     }
                     player->set_Player_Hand(hand);
-                    AggressivePlayerStrategy* ap = new AggressivePlayerStrategy(player);
+                    AggressivePlayerStrategy *ap = new AggressivePlayerStrategy(player);
                     player->set_strategy(ap);
                 }
 
