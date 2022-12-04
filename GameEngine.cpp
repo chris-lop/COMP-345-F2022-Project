@@ -1321,7 +1321,7 @@ void GameEngine::tournament(Command *command)
         Player *p = new Player(player);
         if (player == "Aggressive")
         {
-            PlayerStrategy *newStrategy = new AggressivePlayerStrategy();
+            // PlayerStrategy *newStrategy=new AggressivePlayerStrategy();
         }
         if (player == "Benevolent")
         {
