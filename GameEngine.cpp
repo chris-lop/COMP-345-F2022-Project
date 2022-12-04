@@ -17,6 +17,7 @@
 #include "Cards.h"
 #include "Orders.h"
 #include "CommandProcessor.h"
+#include "PlayerStrategy.h"
 using namespace std;
 
 // GameEngine class
@@ -1321,19 +1322,28 @@ void GameEngine::tournament(Command *command)
         Player *p = new Player(player);
         if (player == "Aggressive")
         {
-            // PlayerStrategy *newStrategy=new AggressivePlayerStrategy();
+            AggressivePlayerStrategy *aggrp1 = new AggressivePlayerStrategy(p);
+            p->set_strategy(aggrp1);
         }
         if (player == "Benevolent")
         {
+            BenevolentPlayerStrategy *ben = new BenevolentPlayerStrategy(p);
+            p->set_strategy(ben);
         }
         if (player == "Neutral")
         {
+            NeutralPlayerStrategy *neut = new NeutralPlayerStrategy(p);
+            p->set_strategy(neut);
         }
         if (player == "Cheater")
         {
+            CheaterPlayerStrategy *cheat = new CheaterPlayerStrategy(p);
+            p->set_strategy(cheat);
         }
         if (player == "Human")
         {
+            HumanPlayerStrategy *hum = new HumanPlayerStrategy(p);
+            p->set_strategy(hum);
         }
         p->set_armyUnit(50);
         Hand *hand = new Hand();
@@ -1476,9 +1486,6 @@ void GameEngine::tournament(Command *command)
                   << endl;
         range++;
     }
-    // for(auto a: c ){
-    //     cout<<a<<endl;
-    // }
 
     exit(0);
 }
