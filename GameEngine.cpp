@@ -835,6 +835,8 @@ bool GameEngine::mainGameLoop(std::vector<Player *> players, Map *graph, int tur
     if (winner)
     {
         std::cout << "Player " << winPlayer << " conquered all territories of the map and won the game." << std::endl;
+        this->setState("executeorders");
+        this->transition();
         finished = true;
     }
 
@@ -878,7 +880,7 @@ bool GameEngine::mainGameLoop(std::vector<Player *> players, Map *graph, int tur
     {
         int count_turn = 0;
 
-        while (count_turn < turn)
+        while(count_turn != turn && winner == false)
         {
 
             // Phase 1: Reinforcement --> call reinforcementPhase() in round-robin
@@ -910,6 +912,9 @@ bool GameEngine::mainGameLoop(std::vector<Player *> players, Map *graph, int tur
             {
                 return true;
             }
+            ofstream logFile("test.txt", std::ios::app);
+        logFile << count_turn << endl;
+        logFile.close();
 
             count_turn++;
         }
@@ -1176,7 +1181,6 @@ void GameEngine::tournament(Command *command)
     while (getline(x, s, ' '))
     {
         c.push_back(s);
-        // cout<<s<<endl;
     }
     c.erase(c.begin());
     vector<string> maps;
@@ -1262,7 +1266,7 @@ void GameEngine::tournament(Command *command)
     existingPlayers.push_back("Benevolent");
     existingPlayers.push_back("Neutral");
     existingPlayers.push_back("Cheater");
-    existingPlayers.push_back("Human");
+    // existingPlayers.push_back("Human");
 
     cout << "\n\n\n\nTHE PLAYERS" << endl;
 
@@ -1324,11 +1328,11 @@ void GameEngine::tournament(Command *command)
             CheaterPlayerStrategy *cheat = new CheaterPlayerStrategy(p);
             p->set_strategy(cheat);
         }
-        if (player == "Human")
-        {
-            HumanPlayerStrategy *hum = new HumanPlayerStrategy(p);
-            p->set_strategy(hum);
-        }
+        // if (player == "Human")
+        // {
+        //     HumanPlayerStrategy *hum = new HumanPlayerStrategy(p);
+        //     p->set_strategy(hum);
+        // }
         p->set_armyUnit(50);
         Hand *hand = new Hand();
         for (int i = 0; i < 2; i++)
