@@ -110,10 +110,10 @@ void testPlayerStrategies()
 
     Player* playerh = new Player("Human");
     Player* playerb = new Player("Benevolent");
-    PlayerStrategy *ps1 = new BenevolentPlayerStrategy(playerb);
-    PlayerStrategy *ps2 = new HumanPlayerStrategy(playerh);
-    playerb->set_strategy(ps1);
-    playerh->set_strategy(ps2);
+    PlayerStrategy *psb = new BenevolentPlayerStrategy(playerb);
+    PlayerStrategy *psh = new HumanPlayerStrategy(playerh);
+    playerb->set_strategy(psb);
+    playerh->set_strategy(psh);
     runGameLoopHuman(playerb, playerh);
 }
 
@@ -234,11 +234,6 @@ void runGameLoopHuman(Player* p1, Player* p2) {
         h1->addCard(d->draw());
     }
     Hand *h2 = new Hand();
-    // for (int i = 0; i < 2; i++)
-    // {
-    //     h2->addCard(d->draw());
-    // }
-
     h2->addCard(new Card("Airlift"));
     h2->addCard(new Card("Bomb"));
     
@@ -250,14 +245,14 @@ void runGameLoopHuman(Player* p1, Player* p2) {
     vector<Territory *> p2_trt;
 
     // assign random number of territories each time
-    for (int i = 0; i < 1; i++)
+    for (int i = 0; i < 2; i++)
     {
         Territory *t = gameMap->territories.at(i);
         t->setTerritoryOwner(p1);
         p1_trt.push_back(t);
     }
     // gameMap->territories.size()
-    for (int i = 1; i < gameMap->territories.size(); i++)
+    for (int i = 2; i < gameMap->territories.size(); i++)
     {
         Territory *t = gameMap->territories.at(i);
         t->setTerritoryOwner(p2);
