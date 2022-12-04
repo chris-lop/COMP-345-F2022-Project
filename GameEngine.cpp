@@ -1429,8 +1429,6 @@ void GameEngine::tournament(Command *command)
                         hand->addCard(card);
                     }
                     player->set_Player_Hand(hand);
-                    AggressivePlayerStrategy *ap = new AggressivePlayerStrategy(player);
-                    player->set_strategy(ap);
                 }
 
                 vector<Territory *> empty;
