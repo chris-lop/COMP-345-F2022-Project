@@ -383,6 +383,26 @@ bool Advance::validate()
     // Check if source territory possesses enough troops for request
     bool enoughTroops = this->numberUnits <= *source->armyAmount;
 
+    if (!ownsSource)
+    {
+       cout << "Player does not own source territory" << endl; 
+    }
+
+    if (!isTargetAdjacent)
+    {
+       cout << "Target territory is not adjacent" << endl; 
+    }
+
+    if (!enoughTroops)
+    {
+       cout << "Source territory does not have enough troops for order" << endl; 
+    }
+
+    if (negotiationBlocks)
+    {
+       cout << "A negotiation order is blocking the advance order" << endl; 
+    }
+    
     return ownsSource && isTargetAdjacent && enoughTroops && !negotiationBlocks;
 }
 

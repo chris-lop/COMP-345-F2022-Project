@@ -433,7 +433,10 @@ void GameEngine::reinforcementPhase(Player *p, Map *graph)
 
     std::cout << "Player " << p->get_name() << "'s current army units in the pool: " << p->get_armyUnit() << std::endl;
     std::cout << "Player " << p->get_name() << "'s number of owned territories: " << p->get_trt().size() << std::endl;
-
+    for (Territory* t: p->get_trt()){
+        std::cout<<*t->getTerritoryName()<<" ";
+    }
+    std::cout << std::endl;
     // For each player, # army units = (# territories owned)/3, and min. 3 units
     if (std::floor(p->get_trt().size() / 3) <= 3)
     {
@@ -519,7 +522,7 @@ void GameEngine::issueOrdersPhase(vector<Player *> players)
     // change state from 'assignreinforcement' to 'issueorders'
     this->setState("assignreinforcement");
     this->transition();
-
+    
     // Execute issueOrder in a round-robin fashion
     while (true)
     {
@@ -770,6 +773,9 @@ bool GameEngine::mainGameLoop(std::vector<Player *> players, Map *graph, int tur
     if(turn == 0){
         tournament = false;
     }
+    else{
+        tournament = true;
+    }
 
     // verify if any player owns all territories
     for (Player *p : players)
@@ -859,11 +865,9 @@ bool GameEngine::mainGameLoop(std::vector<Player *> players, Map *graph, int tur
 
             // Phase 3: execute Orders --> call executeOrdersPhase() in round-robin
             winner = executeOrdersPhase();
-
             count_turn++;
         }
         finished = true;
- 
     }
 
     // // once removed, replace finished with winner so main game loop is finished when there is a winner
