@@ -30,16 +30,7 @@ int main(int argc, char *argv[])
         exit(1);
     }
     // Part 1
-    //testCommandProcessor(commandLineArg);
+    // testPlayerStrategies();
     // Part 2
-    //testStatUpPhase(commandLineArg);
-    // Part 3
-    //testMainGameLoop();
-    // Part 4
-    //testOrderExecution();
-    // Part 5
-    //testLoggingObserver(commandLineArg);
-
-    // Assignment #3
-    testPlayerStrategies();
+    testCommandProcessor(commandLineArg);
 }

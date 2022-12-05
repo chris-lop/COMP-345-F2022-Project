@@ -465,12 +465,15 @@ void Advance::execute(){
         else
         {
             // If target is a neutral player, change its strategy to aggressive
-            string strategyType = typeid(*this->target->getTerritoryOwner()->get_strategy()).name();
-            if (strategyType.find("Neutral") != string::npos)
-            {
-                PlayerStrategy *newStrategy = new AggressivePlayerStrategy(this->target->getTerritoryOwner());
+            if(this->target->getTerritoryOwner()->get_strategy() != NULL){
 
-                this->target->getTerritoryOwner()->set_strategy(newStrategy);
+                string strategyType = typeid(*this->target->getTerritoryOwner()->get_strategy()).name();
+                if (strategyType.find("Neutral") != string::npos)
+                {
+                    PlayerStrategy *newStrategy = new AggressivePlayerStrategy(this->target->getTerritoryOwner());
+
+                    this->target->getTerritoryOwner()->set_strategy(newStrategy);
+                }
             }
 
             // Decrement source territory with army amount
@@ -653,12 +656,14 @@ void Bomb::execute(){
         effect = "executed";
 
         // If target is a neutral player, change its strategy to aggressive
-        string strategyType = typeid(*this->target->getTerritoryOwner()->get_strategy()).name();
-        if (strategyType.find("Neutral") != string::npos)
-        {
-            PlayerStrategy *newStrategy = new AggressivePlayerStrategy(this->target->getTerritoryOwner());
+        if(this->target->getTerritoryOwner()->get_strategy() != NULL){
+            string strategyType = typeid(*this->target->getTerritoryOwner()->get_strategy()).name();
+            if (strategyType.find("Neutral") != string::npos)
+            {
+                PlayerStrategy *newStrategy = new AggressivePlayerStrategy(this->target->getTerritoryOwner());
 
-            this->target->getTerritoryOwner()->set_strategy(newStrategy);
+                this->target->getTerritoryOwner()->set_strategy(newStrategy);
+            }
         }
 
         // Remove half of the army units from target territory

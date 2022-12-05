@@ -1,5 +1,6 @@
 #include "CommandProcessor.h"
 #include "LoggingObserver.h"
+#include "GameEngine.h"
 #include <iostream>
 #include <vector>
 #include <fstream>
@@ -149,6 +150,16 @@ bool CommandProcessor::validate(Command *c)
             c->saveEffect("in map loaded state");
             return true;
         }
+        else if (command.find("tournament") != string::npos 
+        && command.find("-M") != string::npos
+        && command.find("-P") != string::npos
+        && command.find("-G") != string::npos 
+        && command.find("-D") != string::npos)
+        {
+
+            c->saveEffect("tournament started");
+            return true;
+        }
         else
         {
             c->saveEffect("invalid command");
@@ -281,7 +292,7 @@ void CommandProcessor::start()
 // prints out a start message
 void CommandProcessor::startMessage()
 {
-    cout << "Now in start state. Valid input: loadmap<mapfile>" << endl;
+    cout << "Now in start state. Valid input: loadmap<mapfile>, tournament -M <listofmapfiles> -P <listofplayerstrategies> -G <numberofgames> -D <maxnumberofturns>" << endl;
 }
 
 // creates command object, saves and returns a pointer to it
@@ -393,9 +404,85 @@ bool CommandProcessor::playegame(Command *command)
             state = "maploaded";
             return true;
         }
+        else if ((command->getCommand()).find("tournament") != string::npos 
+        && (command->getCommand()).find("-M") != string::npos
+        && (command->getCommand()).find("-P") != string::npos
+        && (command->getCommand()).find("-G") != string::npos 
+        && (command->getCommand()).find("-D") != string::npos)
+        {
+
+            cout << "Tournament started." << endl;
+            state = "start";            
+            GameEngine* g = new GameEngine();
+             vector <string> c; 
+            string s;
+            stringstream x(command->getCommand());
+            while(getline(x, s, ' ')){
+                c.push_back(s);
+                // cout<<s<<endl;
+            }
+            c.erase(c.begin());
+            vector <string> maps;
+            vector <string> players;
+            int numGames;
+            int numTurns;
+            int count = 0;
+            for(auto item: c){
+                if(item == "-M"){
+                for(int i = count+1; i<c.size() ; i++){
+                        if(c[i]== "-P" || c[i]== "-G" || c[i]== "-D"){
+                            break;
+                        }
+                        if(c[i]!= "-P" && c[i]!= "-G" && c[i]!= "-D"){
+                            maps.push_back(c[i]);
+                        }
+                }
+                }
+                if(item == "-P"){
+                for(int i = count+1; i<c.size() ; i++){
+                        if(c[i]== "-M" || c[i]== "-G" || c[i]== "-D"){
+                            break;
+                        }
+                        if(c[i]!= "-M" && c[i]!= "-G" && c[i]!= "-D"){
+                            players.push_back(c[i]);
+                        }
+                }
+                }
+                if(item == "-G"){
+                numGames = stoi(c[count+1]);
+                }
+                if(item == "-D"){
+                numTurns = stoi(c[count+1]);
+                }
+                count++;
+            }
+            bool valid = false;
+            if(maps.size() < 1 || maps.size()>5){
+                cout << "Invalid number of maps. Valid numbers: between 1 and 5" << endl;
+                return false;
+            }
+
+            else if(players.size() < 2 || players.size() > 4){
+                cout << "Invalid number of players. Valid numbers: between 2 and 4" << endl;
+                return false;
+            }
+
+            else if(numGames < 1 || numGames > 5){
+                 cout << "Invalid number of games. Valid numbers: between 1 and 5" << endl;
+                return false;
+            }
+
+            else if(numTurns < 10 || numTurns > 50){
+                cout << "Invalid number of turned. Valid numbers: between 10 and 50" << endl;
+                return false;
+            }
+
+            g->tournament(command);
+            return true;
+        }
         else
         {
-            cout << "Invalid command. Valid commands: loadmap" << endl;
+            cout << "Invalid command. Valid commands: loadmap, tournament -M <listofmapfiles> -P <listofplayerstrategies> -G <numberofgames> -D <maxnumberofturns>" << endl;
             return false;
         }
     }

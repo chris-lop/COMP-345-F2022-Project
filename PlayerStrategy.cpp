@@ -1357,7 +1357,7 @@ CheaterPlayerStrategy::~CheaterPlayerStrategy() {}
 
 bool CheaterPlayerStrategy::issueOrder() {
     // CHECK if the turn has started by using the reinforcement phase
-    if (p->get_armyUnit() > previousArmyNumber) {
+    if (p->get_armyUnit() != previousArmyNumber) {
         // If the player has more armies, then store the new
         // amount and continue with the 'order' (ie cheat)
         previousArmyNumber = p->get_armyUnit();

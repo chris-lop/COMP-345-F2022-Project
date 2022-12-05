@@ -70,6 +70,10 @@ Card& Card::operator=(const Card &rightSide) {
 
 // Picks the top card, removes from the deck, and returns it
 Card* Deck::draw() {
+    // cerr << "cards size: " << cards.size() << endl;
+    if (cards.size() == 0) {
+        return nullptr;
+    }
     Card* card = cards.back();
     cards.pop_back();
     return card;

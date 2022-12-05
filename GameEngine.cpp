@@ -17,6 +17,7 @@
 #include "Cards.h"
 #include "Orders.h"
 #include "CommandProcessor.h"
+#include "PlayerStrategy.h"
 using namespace std;
 
 // GameEngine class
@@ -33,6 +34,7 @@ GameEngine::GameEngine()
     this->gameMap = new Map();
     this->gamePlayers = {};
     this->removedPlayers = {};
+    this->d = nullptr;
 }
 
 GameEngine::GameEngine(Map *gameMap, vector<Player *> gamePlayers)
@@ -41,6 +43,7 @@ GameEngine::GameEngine(Map *gameMap, vector<Player *> gamePlayers)
     this->gameMap = gameMap;
     this->gamePlayers = gamePlayers;
     this->removedPlayers = {};
+    this->d = nullptr;
 }
 
 GameEngine::GameEngine(Map *gameMap, vector<Player *> gamePlayers, vector<Player *> removedPlayers)
@@ -49,6 +52,7 @@ GameEngine::GameEngine(Map *gameMap, vector<Player *> gamePlayers, vector<Player
     this->gameMap = gameMap;
     this->gamePlayers = gamePlayers;
     this->removedPlayers = removedPlayers;
+    this->d = nullptr;
 }
 
 // GameEngine destructor
@@ -87,6 +91,10 @@ void GameEngine::setState(string st)
 
 void GameEngine::setDeck(Deck *gameDeck)
 {
+    if (!d)
+    {
+        delete d;
+    }
     this->d = gameDeck;
 }
 
@@ -433,8 +441,10 @@ void GameEngine::reinforcementPhase(Player *p, Map *graph)
 
     std::cout << "Player " << p->get_name() << "'s current army units in the pool: " << p->get_armyUnit() << std::endl;
     std::cout << "Player " << p->get_name() << "'s number of owned territories: " << p->get_trt().size() << std::endl;
-    for (Territory* t: p->get_trt()){
-        std::cout<<*t->getTerritoryName()<<" ";
+    //----------PRINTING-----------
+    for (Territory *t : p->get_trt())
+    {
+        std::cout << *t->getTerritoryName() << " ";
     }
     std::cout << std::endl;
     // For each player, # army units = (# territories owned)/3, and min. 3 units
@@ -502,9 +512,8 @@ void GameEngine::reinforcementPhase(Player *p, Map *graph)
             // find the bonus value corresponding to the continent
             auto it = continent_bonus.find(continents[i]);
             int bonus = it->second;
-            cout << "Player owns all territories of the continent "<<continents[i]<<".\nContinent with bonus value of " << bonus <<" added to the pool." << std::endl;
+            cout << "Player owns all territories of the continent " << continents[i] << ".\nContinent with bonus value of " << bonus << " added to the pool." << std::endl;
             p->set_armyUnit(p->get_armyUnit() + bonus);
-            
         }
         // else, continue the verification with the next continent
         else
@@ -522,7 +531,7 @@ void GameEngine::issueOrdersPhase(vector<Player *> players)
     // change state from 'assignreinforcement' to 'issueorders'
     this->setState("assignreinforcement");
     this->transition();
-    
+
     // Execute issueOrder in a round-robin fashion
     while (true)
     {
@@ -536,9 +545,10 @@ void GameEngine::issueOrdersPhase(vector<Player *> players)
             // Issue the player's order, but only if it has
             // territory (this is necessary because the Cheater
             // can steal territory when it issues an order)
-            if (p->get_trt().size() > 0) {
+            if (p->get_trt().size() > 0)
+            {
                 // If one player wants to issue another
-                // order, continue 
+                // order, continue
                 continueIssuing |= p->issueOrder();
             }
         }
@@ -564,6 +574,7 @@ bool GameEngine::executeOrdersPhase()
 
     while (gameplay)
     {
+
         // for each player, execute one order
         for (int i = 0; i < this->getPlayers().size(); i++)
         {
@@ -730,6 +741,9 @@ bool GameEngine::executeOrdersPhase()
                 winner = true;
                 gameplay = false;
                 std::cout << "\nPlayer " << this->getPlayers().at(0)->get_name() << " now owns all the territories of the game map.\n\n";
+                setState("executeorders");
+                transition();
+                std::cout << "Player " << this->getPlayers().at(0)->get_name() << " has won!\n\n" << endl;
                 break;
             }
             // if the player does not own all the territories of the map after executing order, continue to the next player
@@ -763,22 +777,40 @@ bool GameEngine::executeOrdersPhase()
 bool GameEngine::mainGameLoop(std::vector<Player *> players, Map *graph, int turn)
 {
     bool finished = false;
-    int num_trt = graph->territories.size();
+    int num_trt = this->gameMap->territories.size();
     bool winner = false;
     string winPlayer;
+    // Verify if any player doesn't own any territory
+    int numPlayers = gamePlayers.size();
+    // This outer loop is necessary since vector::erase invalidates
+    // the iterator
+    for (int i = 0; i < gamePlayers.size(); i++)
+    {
+        for (auto it = gamePlayers.begin(); it < gamePlayers.end(); ++it)
+        {
+            if ((**it).get_trt().size() == 0)
+            {
+                // This player has no land, remove them
+                gamePlayers.erase(it);
+                break;
+            }
+        }
+    }
 
     bool tournament;
 
-    //check if tournament is using the mainGameLoop
-    if(turn == 0){
+    // check if tournament is using the mainGameLoop
+    if (turn == 0)
+    {
         tournament = false;
     }
-    else{
+    else
+    {
         tournament = true;
     }
 
     // verify if any player owns all territories
-    for (Player *p : players)
+    for (Player *p : this->gamePlayers)
     {
         // player owns all territories of the map
         if (p->get_trt().size() == num_trt)
@@ -806,23 +838,29 @@ bool GameEngine::mainGameLoop(std::vector<Player *> players, Map *graph, int tur
     if (winner)
     {
         std::cout << "Player " << winPlayer << " conquered all territories of the map and won the game." << std::endl;
+        this->setState("executeorders");
+        this->transition();
         finished = true;
     }
 
     else if (tournament == false)
     {
-
         // Phase 1: Reinforcement --> call reinforcementPhase() in round-robin
         std::cout << "#";
         assignReinforcement();
-        for (Player *p : players)
+        for (Player *p : this->gamePlayers)
         {
+            // show owned territories
+            /*cout << "Territories owned by " << p->get_name() << endl;
+            for (Territory* t: p->get_trt()) {
+                cout << *t;
+            }*/
             if (p->get_name() == "Neutral Player")
             {
                 continue;
             }
             std::cout << "\nCurrent turn: " << p->get_name() << std::endl;
-            reinforcementPhase(p, graph);
+            reinforcementPhase(p, this->gameMap);
         }
         std::cout << "\n<<<reinforcement phase complete...>>>\n";
 
@@ -839,33 +877,43 @@ bool GameEngine::mainGameLoop(std::vector<Player *> players, Map *graph, int tur
         // finished = true;
     }
 
-    else if (tournament == true){
-        int count_turn = 0;
+    else if (tournament == true)
+    {
+        int count_turn = 1;
 
-        while(count_turn != turn && winner == false){
-            
+        while (count_turn != turn && winner == false)
+        {
+
             // Phase 1: Reinforcement --> call reinforcementPhase() in round-robin
             std::cout << "#";
             assignReinforcement();
-            for (Player *p : players)
+            for (Player *p : gamePlayers)
             {
                 if (p->get_name() == "Neutral Player")
                 {
                     continue;
                 }
                 std::cout << "\nCurrent turn: " << p->get_name() << std::endl;
-                reinforcementPhase(p, graph);
+                reinforcementPhase(p, gameMap);
             }
             std::cout << "\n<<<reinforcement phase complete...>>>\n";
 
             // Phase 2: issue Orders --> call issueOrdersPhase() in round-robin
             std::cout << "\n#issueing orders...\n";
             issueOrdersPhase(gamePlayers);
-            std::cout << "\n<<<issue order phase complete>>>\n";
 
             // Phase 3: execute Orders --> call executeOrdersPhase() in round-robin
             winner = executeOrdersPhase();
             count_turn++;
+
+            if (winner)
+            {
+                return true;
+            }
+        }
+        if (!winner)
+        {
+            cout << "Game was a draw" << endl;
         }
         finished = true;
     }
@@ -873,9 +921,8 @@ bool GameEngine::mainGameLoop(std::vector<Player *> players, Map *graph, int tur
     // // once removed, replace finished with winner so main game loop is finished when there is a winner
     // return winner;
 
-    //main loop finished (finished = true) when we finish the number of turns input, or if there is a winner
+    // main loop finished (finished = true) when we finish the number of turns input, or if there is a winner
     return finished;
-
 }
 
 vector<string> GameEngine::directory()
@@ -907,7 +954,7 @@ void GameEngine::startupPhase(CommandProcessor *cp, string choice)
 {
     // this is a variable that tracks commands in the command txt file
     int commandTracker = 0;
-    
+
     std::cout << choice << endl;
     vector<string *> commandsOfFile;
     // checking if the choice contains the word file
@@ -1120,4 +1167,283 @@ void GameEngine::startupPhase(CommandProcessor *cp, string choice)
     }
     gameMap = gameMap;
     gamePlayers = playersMap;
+}
+
+void GameEngine::tournament(Command *command)
+{
+    string strCommand = command->getCommand();
+    vector<string> c;
+    string s;
+    stringstream x(strCommand);
+    // seperating the command that the user input to extract the inputs
+    while (getline(x, s, ' '))
+    {
+        c.push_back(s);
+    }
+    c.erase(c.begin());
+    // creating vectors to store maps and player string vector
+    vector<string> maps;
+    vector<string> players;
+    int numGames;
+    int numTurns;
+    int count = 0;
+    // this loop stores all inputs by user in the appropriate variable
+    for (auto item : c)
+    {
+        // this if statement  stores maps inputed by user
+
+        if (item == "-M")
+        {
+            for (int i = count + 1; i < c.size(); i++)
+            {
+                if (c[i] == "-P" || c[i] == "-G" || c[i] == "-D")
+                {
+                    break;
+                }
+                if (c[i] != "-P" && c[i] != "-G" && c[i] != "-D")
+                {
+                    maps.push_back(c[i]);
+                }
+            }
+        }
+        // this if statement  strategies  inputed by user
+
+        if (item == "-P")
+        {
+            for (int i = count + 1; i < c.size(); i++)
+            {
+                if (c[i] == "-M" || c[i] == "-G" || c[i] == "-D")
+                {
+                    break;
+                }
+                if (c[i] != "-M" && c[i] != "-G" && c[i] != "-D")
+                {
+                    players.push_back(c[i]);
+                }
+            }
+        }
+        // this if statement  stores game number inputed by user
+
+        if (item == "-G")
+        {
+            numGames = stoi(c[count + 1]);
+        }
+        // this if statement  stores game turns inputed by user
+
+        if (item == "-D")
+        {
+            numTurns = stoi(c[count + 1]);
+        }
+        count++;
+    }
+    // loading the name of exciting maps into a vector
+    vector<string> existingMaps = directory();
+    bool exist = false;
+    int mapCount = 0;
+
+    vector<int> indexesM;
+    // checking if the map inputed by user exists is not remove it
+    for (auto map : maps)
+    {
+        exist = false;
+        for (auto existingMap : existingMaps)
+        {
+            if (map == existingMap)
+            {
+                exist = true;
+                break;
+            }
+        }
+
+        if (!exist)
+        {
+            cout << map << " does not exist, so it will be erased and not loaded." << endl;
+            indexesM.push_back(mapCount);
+        }
+        mapCount++;
+    }
+    // remove invalid maps
+    for (int i = indexesM.size() - 1; i >= 0; i--)
+    {
+        maps.erase(maps.begin() + indexesM[i]);
+    }
+
+    vector<string> existingPlayers;
+    existingPlayers.push_back("Aggressive");
+    existingPlayers.push_back("Benevolent");
+    existingPlayers.push_back("Neutral");
+    existingPlayers.push_back("Cheater");
+
+    int playerCount = 0;
+    vector<int> indexesP;
+    // checking the player strategies that the user input and remove invalid ones
+    for (auto player : players)
+    {
+        exist = false;
+        for (auto existingPlayer : existingPlayers)
+        {
+            if (player == existingPlayer)
+            {
+                exist = true;
+                break;
+            }
+        }
+
+        if (!exist)
+        {
+            cout << player << " is not valid, so it will be erased and not loaded." << endl;
+            indexesP.push_back(playerCount);
+        }
+        playerCount++;
+    }
+    // removing invalid startegies
+    for (int i = indexesP.size() - 1; i >= 0; i--)
+    {
+        players.erase(players.begin() + indexesP[i]);
+    }
+    string mapPath;
+    string mapthName;
+    vector<Player *> playersObjects;
+    // init deck
+    setDeck(new Deck());
+    // this loop creates the players for the game depending on the strategies
+    for (auto player : players)
+    {
+        Player *p = new Player(player);
+        if (player == "Aggressive")
+        {
+            AggressivePlayerStrategy *aggrp1 = new AggressivePlayerStrategy(p);
+            p->set_strategy(aggrp1);
+        }
+        if (player == "Benevolent")
+        {
+            BenevolentPlayerStrategy *ben = new BenevolentPlayerStrategy(p);
+            p->set_strategy(ben);
+        }
+        if (player == "Neutral")
+        {
+            NeutralPlayerStrategy *neut = new NeutralPlayerStrategy(p);
+            p->set_strategy(neut);
+        }
+        if (player == "Cheater")
+        {
+            CheaterPlayerStrategy *cheat = new CheaterPlayerStrategy(p);
+            p->set_strategy(cheat);
+        }
+        p->set_armyUnit(50);
+        Hand *hand = new Hand();
+        for (int i = 0; i < 2; i++)
+        {
+            Card *card = d->draw();
+            hand->addCard(card);
+        }
+        p->set_Player_Hand(hand);
+        playersObjects.push_back(p);
+    }
+    // this loop  loads the map
+    for (string map : maps)
+    {
+        mapPath = "./maps/";
+        mapthName = "";
+        mapthName = mapPath + map;
+        MapLoader *loader = new MapLoader();
+        int i = 0;
+        Map *m = new Map();
+        Map *gameMap = new Map();
+        gameMap = loader->loadMap(mapthName);
+        vector<Territory *> empty;
+        for (auto player : playersObjects)
+        {
+            player->set_Trt(empty);
+        }
+        // this loop  assign territories to players
+        int countP = 0;
+        for (auto terr : gameMap->territories)
+        {
+            if (countP == playersObjects.size())
+            {
+                countP = 0;
+            }
+            // adding territories owned territoires to players and adding the corresponding owner to that territory
+            vector<Territory *> tempPlayer = playersObjects[countP]->get_trt();
+            tempPlayer.push_back(terr);
+            playersObjects[countP]->set_Trt(tempPlayer);
+
+            terr->territoryOwner = playersObjects[countP];
+            terr->armyAmount = new int(50);
+
+            countP++;
+        }
+        // check if map is valid before starting the game
+        if (m->validate(gameMap->territories))
+        {
+            // setting game engine variables
+            this->gameMap = gameMap;
+            this->gamePlayers = playersObjects;
+            int j = 0;
+            // loop that plays num of games
+            while (j < numGames)
+            {
+                cout << "\n######################" << endl;
+                cout << "Starting game number " << (j + 1) << endl;
+                cout << "######################" << endl;
+
+                bool finished = false;
+                while (!finished)
+                {
+                    setMap(gameMap);
+                    setPlayers(playersObjects);
+                    finished = mainGameLoop(playersObjects, gameMap, numTurns);
+                }
+
+                j++;
+                setDeck(new Deck());
+                Hand *emptycard;
+                // reassigning armys and hands to the players
+                for (auto player : playersObjects)
+                {
+                    player->set_Player_Hand(emptycard);
+                }
+                for (auto player : playersObjects)
+                {
+                    player->set_armyUnit(50);
+                    Hand *hand = new Hand();
+                    for (int i = 0; i < 2; i++)
+                    {
+                        Card *card = d->draw();
+                        hand->addCard(card);
+                    }
+                    player->set_Player_Hand(hand);
+                }
+                // reassigning territories to the players
+                vector<Territory *> empty;
+                for (auto player : playersObjects)
+                {
+                    player->set_Trt(empty);
+                }
+                int countx = 0;
+                for (auto terr : gameMap->territories)
+                {
+                    if (countx == playersObjects.size())
+                    {
+                        countx = 0;
+                    }
+                    // adding territories owned territoires to players and adding the corresponding owner to that territory
+                    vector<Territory *> tempPlayer = playersObjects[countx]->get_trt();
+                    tempPlayer.push_back(terr);
+                    playersObjects[countx]->set_Trt(tempPlayer);
+
+                    terr->territoryOwner = playersObjects[countx];
+                    terr->armyAmount = new int(50);
+
+                    countx++;
+                }
+            }
+        }
+        else
+        {
+            cout << "Invalid Map" << endl;
+        }
+    }
+    exit(0);
 }

@@ -106,6 +106,8 @@ public:
     // Lists directories
     vector<string> directory();
 
+    void tournament(Command* command);
+
 }; // end of class GameEngine
 
 // free function
