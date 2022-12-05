@@ -743,7 +743,7 @@ bool GameEngine::executeOrdersPhase()
                 std::cout << "\nPlayer " << this->getPlayers().at(0)->get_name() << " now owns all the territories of the game map.\n\n";
                 setState("executeorders");
                 transition();
-                std::cout << "Player " << this->getPlayers().at(0)->get_name() << " has won!";
+                std::cout << "Player " << this->getPlayers().at(0)->get_name() << " has won!\n\n" << endl;
                 break;
             }
             // if the player does not own all the territories of the map after executing order, continue to the next player
@@ -845,8 +845,6 @@ bool GameEngine::mainGameLoop(std::vector<Player *> players, Map *graph, int tur
 
     else if (tournament == false)
     {
-        cout << "HAHSHDJDKDJSJKK" << endl;
-
         // Phase 1: Reinforcement --> call reinforcementPhase() in round-robin
         std::cout << "#";
         assignReinforcement();
@@ -1240,10 +1238,6 @@ void GameEngine::tournament(Command *command)
     }
     // loading the name of exciting maps into a vector
     vector<string> existingMaps = directory();
-    for (auto a : existingMaps)
-    {
-        cout << a << endl;
-    }
     bool exist = false;
     int mapCount = 0;
 
@@ -1279,14 +1273,7 @@ void GameEngine::tournament(Command *command)
     existingPlayers.push_back("Benevolent");
     existingPlayers.push_back("Neutral");
     existingPlayers.push_back("Cheater");
-    // existingPlayers.push_back("Human");
 
-    cout << "\n\n\n\nTHE PLAYERS" << endl;
-
-    for (auto a : players)
-    {
-        cout << a << endl;
-    }
     int playerCount = 0;
     vector<int> indexesP;
     // checking the player strategies that the user input and remove invalid ones
@@ -1353,23 +1340,17 @@ void GameEngine::tournament(Command *command)
         p->set_Player_Hand(hand);
         playersObjects.push_back(p);
     }
-    cout << "\n\n\n\n"
-         << playersObjects.size() << endl;
     // this loop  loads the map
     for (string map : maps)
     {
         mapPath = "./maps/";
         mapthName = "";
         mapthName = mapPath + map;
-        cout << "\n\n\n"
-             << mapthName << endl;
         MapLoader *loader = new MapLoader();
         int i = 0;
         Map *m = new Map();
         Map *gameMap = new Map();
         gameMap = loader->loadMap(mapthName);
-        cout << "\n\n\n"
-             << gameMap->territories.size() << endl;
         vector<Territory *> empty;
         for (auto player : playersObjects)
         {
@@ -1458,8 +1439,6 @@ void GameEngine::tournament(Command *command)
                     countx++;
                 }
             }
-            cout << "\n\n\n\n\n\n\n\n"
-                 << j << endl;
         }
         else
         {

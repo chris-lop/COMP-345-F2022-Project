@@ -80,7 +80,11 @@ void testPlayerStrategies()
             newHand->setCards(p1_hand);
             player1->set_Player_Hand(newHand);
         }
-
+        cout << endl;
+        cout << "Player 1 Strategy after order execution" << endl;
+        cout << typeid(*player1->get_strategy()).name() << endl;
+        cout << "Player 2 Strategy after order execution" << endl;
+        cout << typeid(*player2->get_strategy()).name() << endl;
         cout << endl;
         cout << "END OF THIS TURN" << endl;
         cout << "-----------------------------------" << endl;
@@ -104,7 +108,7 @@ void testPlayerStrategies()
     runGameLoop(player1, player2);
 
 
-    cout << "##################################################################" << endl;
+    cout << "\n##################################################################" << endl;
     cout << "#### Testing the human player against the Benevolent player ####" << endl;
     cout << "##################################################################" << endl;
 
@@ -245,14 +249,14 @@ void runGameLoopHuman(Player* p1, Player* p2) {
     vector<Territory *> p2_trt;
 
     // assign random number of territories each time
-    for (int i = 0; i < 2; i++)
+    for (int i = 0; i < 1; i++)
     {
         Territory *t = gameMap->territories.at(i);
         t->setTerritoryOwner(p1);
         p1_trt.push_back(t);
     }
     // gameMap->territories.size()
-    for (int i = 2; i < gameMap->territories.size(); i++)
+    for (int i = 1; i < gameMap->territories.size(); i++)
     {
         Territory *t = gameMap->territories.at(i);
         t->setTerritoryOwner(p2);
