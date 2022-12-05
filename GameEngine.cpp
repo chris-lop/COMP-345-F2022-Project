@@ -531,7 +531,7 @@ void GameEngine::issueOrdersPhase(vector<Player *> players)
     // change state from 'assignreinforcement' to 'issueorders'
     this->setState("assignreinforcement");
     this->transition();
-    
+
     // Execute issueOrder in a round-robin fashion
     while (true)
     {
@@ -883,7 +883,7 @@ bool GameEngine::mainGameLoop(std::vector<Player *> players, Map *graph, int tur
     {
         int count_turn = 1;
 
-        while(count_turn != turn && winner == false)
+        while (count_turn != turn && winner == false)
         {
 
             // Phase 1: Reinforcement --> call reinforcementPhase() in round-robin
@@ -899,7 +899,7 @@ bool GameEngine::mainGameLoop(std::vector<Player *> players, Map *graph, int tur
                 reinforcementPhase(p, gameMap);
             }
             std::cout << "\n<<<reinforcement phase complete...>>>\n";
-            
+
             // Phase 2: issue Orders --> call issueOrdersPhase() in round-robin
             std::cout << "\n#issueing orders...\n";
             issueOrdersPhase(gamePlayers);
@@ -913,7 +913,8 @@ bool GameEngine::mainGameLoop(std::vector<Player *> players, Map *graph, int tur
                 return true;
             }
         }
-        if (!winner) {
+        if (!winner)
+        {
             cout << "Game was a draw" << endl;
         }
         finished = true;
@@ -1176,18 +1177,23 @@ void GameEngine::tournament(Command *command)
     vector<string> c;
     string s;
     stringstream x(strCommand);
+    // seperating the command that the user input to extract the inputs
     while (getline(x, s, ' '))
     {
         c.push_back(s);
     }
     c.erase(c.begin());
+    // creating vectors to store maps and player string vector
     vector<string> maps;
     vector<string> players;
     int numGames;
     int numTurns;
     int count = 0;
+    // this loop stores all inputs by user in the appropriate variable
     for (auto item : c)
     {
+        // this if statement  stores maps inputed by user
+
         if (item == "-M")
         {
             for (int i = count + 1; i < c.size(); i++)
@@ -1202,6 +1208,8 @@ void GameEngine::tournament(Command *command)
                 }
             }
         }
+        // this if statement  strategies  inputed by user
+
         if (item == "-P")
         {
             for (int i = count + 1; i < c.size(); i++)
@@ -1216,16 +1224,21 @@ void GameEngine::tournament(Command *command)
                 }
             }
         }
+        // this if statement  stores game number inputed by user
+
         if (item == "-G")
         {
             numGames = stoi(c[count + 1]);
         }
+        // this if statement  stores game turns inputed by user
+
         if (item == "-D")
         {
             numTurns = stoi(c[count + 1]);
         }
         count++;
     }
+    // loading the name of exciting maps into a vector
     vector<string> existingMaps = directory();
     for (auto a : existingMaps)
     {
@@ -1235,6 +1248,7 @@ void GameEngine::tournament(Command *command)
     int mapCount = 0;
 
     vector<int> indexesM;
+    // checking if the map inputed by user exists is not remove it
     for (auto map : maps)
     {
         exist = false;
@@ -1254,6 +1268,7 @@ void GameEngine::tournament(Command *command)
         }
         mapCount++;
     }
+    // remove invalid maps
     for (int i = indexesM.size() - 1; i >= 0; i--)
     {
         maps.erase(maps.begin() + indexesM[i]);
@@ -1274,7 +1289,7 @@ void GameEngine::tournament(Command *command)
     }
     int playerCount = 0;
     vector<int> indexesP;
-
+    // checking the player strategies that the user input and remove invalid ones
     for (auto player : players)
     {
         exist = false;
@@ -1294,6 +1309,7 @@ void GameEngine::tournament(Command *command)
         }
         playerCount++;
     }
+    // removing invalid startegies
     for (int i = indexesP.size() - 1; i >= 0; i--)
     {
         players.erase(players.begin() + indexesP[i]);
@@ -1303,6 +1319,7 @@ void GameEngine::tournament(Command *command)
     vector<Player *> playersObjects;
     // init deck
     setDeck(new Deck());
+    // this loop creates the players for the game depending on the strategies
     for (auto player : players)
     {
         Player *p = new Player(player);
@@ -1326,11 +1343,6 @@ void GameEngine::tournament(Command *command)
             CheaterPlayerStrategy *cheat = new CheaterPlayerStrategy(p);
             p->set_strategy(cheat);
         }
-        // if (player == "Human")
-        // {
-        //     HumanPlayerStrategy *hum = new HumanPlayerStrategy(p);
-        //     p->set_strategy(hum);
-        // }
         p->set_armyUnit(50);
         Hand *hand = new Hand();
         for (int i = 0; i < 2; i++)
@@ -1343,6 +1355,7 @@ void GameEngine::tournament(Command *command)
     }
     cout << "\n\n\n\n"
          << playersObjects.size() << endl;
+    // this loop  loads the map
     for (string map : maps)
     {
         mapPath = "./maps/";
@@ -1362,7 +1375,7 @@ void GameEngine::tournament(Command *command)
         {
             player->set_Trt(empty);
         }
-
+        // this loop  assign territories to players
         int countP = 0;
         for (auto terr : gameMap->territories)
         {
@@ -1380,17 +1393,18 @@ void GameEngine::tournament(Command *command)
 
             countP++;
         }
-
+        // check if map is valid before starting the game
         if (m->validate(gameMap->territories))
         {
+            // setting game engine variables
             this->gameMap = gameMap;
             this->gamePlayers = playersObjects;
             int j = 0;
-
+            // loop that plays num of games
             while (j < numGames)
             {
                 cout << "\n######################" << endl;
-                cout << "Starting game number " << (j+1) << endl;
+                cout << "Starting game number " << (j + 1) << endl;
                 cout << "######################" << endl;
 
                 bool finished = false;
@@ -1404,6 +1418,7 @@ void GameEngine::tournament(Command *command)
                 j++;
                 setDeck(new Deck());
                 Hand *emptycard;
+                // reassigning armys and hands to the players
                 for (auto player : playersObjects)
                 {
                     player->set_Player_Hand(emptycard);
@@ -1419,7 +1434,7 @@ void GameEngine::tournament(Command *command)
                     }
                     player->set_Player_Hand(hand);
                 }
-
+                // reassigning territories to the players
                 vector<Territory *> empty;
                 for (auto player : playersObjects)
                 {
